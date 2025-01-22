@@ -54,6 +54,12 @@
 @import shared_preferences_foundation;
 #endif
 
+#if __has_include(<sms_autofill/SmsAutoFillPlugin.h>)
+#import <sms_autofill/SmsAutoFillPlugin.h>
+#else
+@import sms_autofill;
+#endif
+
 #if __has_include(<sqflite_darwin/SqflitePlugin.h>)
 #import <sqflite_darwin/SqflitePlugin.h>
 #else
@@ -71,6 +77,7 @@
   [PhotoManagerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PhotoManagerPlugin"]];
   [PusherChannelsFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"PusherChannelsFlutterPlugin"]];
   [SharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"SharedPreferencesPlugin"]];
+  [SmsAutoFillPlugin registerWithRegistrar:[registry registrarForPlugin:@"SmsAutoFillPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
 }
 
