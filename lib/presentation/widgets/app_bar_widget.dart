@@ -1,12 +1,36 @@
 import 'package:flutter/material.dart';
 
-class AppbarWidget extends StatelessWidget {
+class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppbarWidget({super.key});
+
+  @override
+  Size get preferredSize => throw UnimplementedError();
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        // title: ,
-        );
+      centerTitle: false,
+      title: Text('Logic'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            //TODO:
+          },
+          icon: Icon(Icons.chat),
+        ),
+        IconButton(
+          onPressed: () {
+            //TODO:
+          },
+          icon: Icon(Icons.notifications),
+        ),
+        // IconButton(
+        //   onPressed: () {
+        //     //TODO:
+        //   },
+        //   icon: Icon(Icons),
+        // ),
+      ],
+    );
   }
 }
