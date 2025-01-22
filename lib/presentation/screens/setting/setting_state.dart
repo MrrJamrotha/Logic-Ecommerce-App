@@ -1,4 +1,6 @@
-class SettingState {
+import 'package:equatable/equatable.dart';
+
+class SettingState extends Equatable {
   final bool isLoading;
   final String? error;
   final bool lightMode;
@@ -24,4 +26,7 @@ class SettingState {
       currentIndex: currentIndex ?? this.currentIndex,
     );
   }
+
+  @override
+  List<Object?> get props => [];
 }
