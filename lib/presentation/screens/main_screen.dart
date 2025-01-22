@@ -41,11 +41,7 @@ class _MainScreenState extends State<MainScreen> {
           bottomNavigationBar: NavigationBar(
             onDestinationSelected: (index) {
               context.read<SettingCubit>().onPageChanged(index);
-              _pageController.animateToPage(
-                index,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.easeOut,
-              );
+              _pageController.jumpToPage(index);
             },
             selectedIndex: state.currentIndex,
             destinations: [
