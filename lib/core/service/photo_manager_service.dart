@@ -23,7 +23,7 @@ class PhotoManagerService {
   }
 
   /// Fetch albums (folders) and their assets
-  Future<List<AssetPathEntity>> getAlbums() async {
+  Future<List<AssetPathEntity>> getAssetPathList() async {
     // Fetching albums (folders) from the gallery
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
       type: RequestType.image, // You can specify image, video, or audio

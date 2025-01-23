@@ -7,5 +7,6 @@ final di = GetIt.instance;
 void setup() {
   di.registerLazySingleton<http.Client>(() => http.Client());
   di.registerLazySingleton<ApiClient>(() => ApiClient(http.Client()));
-  di.registerSingleton(PhotoManagerService);
+  di.registerLazySingleton<PhotoManagerService>(
+      () => PhotoManagerService.instance);
 }
