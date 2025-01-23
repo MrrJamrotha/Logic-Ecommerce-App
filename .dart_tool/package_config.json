@@ -314,12 +314,6 @@
       "languageVersion": "3.0"
     },
     {
-      "name": "js",
-      "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/js-0.7.1",
-      "packageUri": "lib/",
-      "languageVersion": "3.1"
-    },
-    {
       "name": "leak_tracker",
       "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/leak_tracker-10.0.7",
       "packageUri": "lib/",
@@ -528,12 +522,6 @@
       "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/provider-6.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
-    },
-    {
-      "name": "pusher_channels_flutter",
-      "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/pusher_channels_flutter-2.5.0",
-      "packageUri": "lib/",
-      "languageVersion": "3.5"
     },
     {
       "name": "rxdart",
@@ -746,7 +734,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-01-23T03:24:17.296251Z",
+  "generated": "2025-01-23T07:19:06.866960Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///Users/macbook/development/flutter",

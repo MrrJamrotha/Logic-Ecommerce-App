@@ -4,13 +4,13 @@ import 'package:photo_manager/photo_manager.dart';
 class HomeState extends Equatable {
   final bool isLoading;
   final String? error;
-  final List<AssetPathEntity>? assetPathList;
-  final List<AssetEntity>? albumsFolders;
+  final List<AssetPathEntity> assetPathList;
+  final List<AssetEntity> albumsFolders;
   const HomeState({
     this.isLoading = false,
     this.error,
-    this.assetPathList,
-    this.albumsFolders,
+    this.assetPathList = const [],
+    this.albumsFolders = const [],
   });
 
   HomeState copyWith({
@@ -48,8 +48,8 @@ class HomeState extends Equatable {
     return HomeState(
       isLoading: json['isLoading'] ?? false,
       error: json['error'],
-      assetPathList: json['assetPathList'] ?? [],
-      albumsFolders: json['albumsFolders'] ?? [],
+      assetPathList: json['assetPathList'],
+      albumsFolders: json['albumsFolders'],
     );
   }
 }

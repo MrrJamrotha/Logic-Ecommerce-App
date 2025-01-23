@@ -1,13 +1,10 @@
-import 'dart:isolate';
-
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/service/photo_manager_service.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
-import 'package:photo_manager/photo_manager.dart';
 
-class HomeCubit extends HydratedCubit<HomeState> {
+class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState(isLoading: true));
   final photoManagerService = di.get<PhotoManagerService>();
 
@@ -16,15 +13,8 @@ class HomeCubit extends HydratedCubit<HomeState> {
       emit(state.copyWith(isLoading: true));
       final result = await photoManagerService.checkPermissions();
       if (result) {
-        final paths = await getAssetPathList();
-        logger.i(paths);
-        final photos = await getAlbumsFolders();
-
-        logger.i(photos);
-        emit(state.copyWith(
-          albumsFolders: photos ?? [],
-          assetPathList: paths ?? [],
-        ));
+        await getAssetPathList();
+        await getAlbumsFolders();
       }
       emit(state.copyWith(isLoading: false));
     } catch (error) {
@@ -33,34 +23,21 @@ class HomeCubit extends HydratedCubit<HomeState> {
     }
   }
 
-  Future<List<AssetPathEntity>?> getAssetPathList() async {
+  Future<void> getAssetPathList() async {
     try {
-      final result = await photoManagerService.checkPermissions();
-      if (result) {
-        final listAlbumsFolders = await photoManagerService.getAssetPathList();
-        final data = await Isolate.run(() {
-          return listAlbumsFolders.toList();
-        });
-
-        return data;
-      }
+      final listAlbumsFolders = await photoManagerService.getAssetPathList();
+      emit(state.copyWith(assetPathList: listAlbumsFolders));
     } catch (error) {
       addError(error);
-      return [];
     }
-    return [];
   }
 
-  Future<List<AssetEntity>?> getAlbumsFolders() async {
+  Future<void> getAlbumsFolders() async {
     try {
       final listAlbumsFolders = await photoManagerService.getAlbumsFolders();
-      final data = await Isolate.run(() {
-        return listAlbumsFolders.toList();
-      });
-      return data;
+      emit(state.copyWith(albumsFolders: listAlbumsFolders));
     } catch (error) {
       addError(error);
-      return [];
     }
   }
 
@@ -70,23 +47,23 @@ class HomeCubit extends HydratedCubit<HomeState> {
     super.addError(error, stackTrace);
   }
 
-  @override
-  HomeState? fromJson(Map<String, dynamic> json) {
-    try {
-      return HomeState.fromJson(json);
-    } catch (error) {
-      addError(error);
-      return null;
-    }
-  }
+  // @override
+  // HomeState? fromJson(Map<String, dynamic> json) {
+  //   try {
+  //     return HomeState.fromJson(json);
+  //   } catch (error) {
+  //     addError(error);
+  //     return null;
+  //   }
+  // }
 
-  @override
-  Map<String, dynamic>? toJson(HomeState state) {
-    try {
-      return state.toJson();
-    } catch (error) {
-      addError(error);
-      return null;
-    }
-  }
+  // @override
+  // Map<String, dynamic>? toJson(HomeState state) {
+  //   try {
+  //     return state.toJson();
+  //   } catch (error) {
+  //     addError(error);
+  //     return null;
+  //   }
+  // }
 }
