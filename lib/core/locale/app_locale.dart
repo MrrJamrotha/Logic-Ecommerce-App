@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:logic_app/core/locale/app_en.dart';
+import 'package:logic_app/core/locale/app_km.dart';
 import 'package:logic_app/core/locale/locale_manager.dart';
 
 class AppLocale {
@@ -9,15 +11,9 @@ class AppLocale {
     return Localizations.of<AppLocale>(context, AppLocale);
   }
 
-  static const Map<String, Map<String, String>> _localizedValues = {
-    'en': {
-      'hello': 'Hello',
-      'welcome': 'Welcome',
-    },
-    'km': {
-      'hello': 'សួស្តី',
-      'welcome': 'ស្វាគមន៍',
-    },
+  static final Map<String, Map<String, String>> _localizedValues = {
+    'en': en,
+    'km': km,
   };
 
   static List<String> languages() => _localizedValues.keys.toList();

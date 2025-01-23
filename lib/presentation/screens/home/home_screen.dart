@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
-import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,7 +22,7 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(),
+      // appBar: AppbarWidget(),
       body: BlocConsumer<HomeCubit, HomeState>(
         bloc: screenCubit,
         listener: (BuildContext context, HomeState state) {
