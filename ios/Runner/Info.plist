@@ -49,6 +49,8 @@
 	<!-- https://pub.dev/packages/photo_manager -->
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>In order to access your photo library</string>
+	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
+	<true/>
 	
 </dict>
 </plist>
