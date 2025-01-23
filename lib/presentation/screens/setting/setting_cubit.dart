@@ -1,8 +1,8 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/setting/setting_state.dart';
 
-class SettingCubit extends Cubit<SettingState> with HydratedMixin {
+class SettingCubit extends HydratedCubit<SettingState> {
   SettingCubit() : super(SettingState(isLoading: true));
 
   Future<void> loadInitialData() async {
@@ -25,13 +25,22 @@ class SettingCubit extends Cubit<SettingState> with HydratedMixin {
 
   @override
   SettingState? fromJson(Map<String, dynamic> json) {
-    // TODO: implement fromJson
-    throw UnimplementedError();
+    return SettingState.fromJson(json);
   }
 
   @override
   Map<String, dynamic>? toJson(SettingState state) {
-    // TODO: implement toJson
-    throw UnimplementedError();
+    try {
+      return state.toJson();
+    } catch (error) {
+      addError(error);
+      return null;
+    }
+  }
+
+  @override
+  void addError(Object error, [StackTrace? stackTrace]) {
+    logger.e(error, stackTrace: stackTrace);
+    super.addError(error, stackTrace);
   }
 }

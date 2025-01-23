@@ -1,13 +1,10 @@
-import 'dart:isolate';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/service/photo_manager_service.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:photo_manager/photo_manager.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,32 +15,15 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   final screenCubit = HomeCubit();
-  final photoManagerService = di.get<PhotoManagerService>();
-  final GlobalKey _bottomSheetKey = GlobalKey();
 
   @override
   void initState() {
-    screenCubit.loadInitialData();
+    screenCubit.checkPermissions();
     super.initState();
   }
 
-  Future<List<AssetPathEntity>?> getAssetPathList() async {
-    try {
-      final result = await photoManagerService.checkPermissions();
-      if (result) {
-        final listAlbumsFolders = await photoManagerService.getAssetPathList();
-        final data = await Isolate.run(() {
-          return listAlbumsFolders.toList();
-        });
-        return data;
-      }
-    } catch (e) {
-      debugPrint('error ${e.toString()}');
-      return [];
-    }
-  }
-
-  showModalDialog() {
+  showModalDialog(HomeState state) {
+    final records = state.albumsFolders ?? [];
     showModalBottomSheet(
       // showDragHandle: true,
       shape: RoundedRectangleBorder(
@@ -59,17 +39,50 @@ class HomeScreenState extends State<HomeScreen> {
           expand: false,
           snap: true,
           builder: (context, scrollController) {
-            return SingleChildScrollView(
-              controller: scrollController,
-              child: Column(
-                children: [
-                  //
-                  //
-                  SizedBox(
-                    height: 80,
-                  )
-                ],
-              ),
+            return Column(
+              children: [
+                Expanded(
+                  child: MasonryGridView.count(
+                    controller: scrollController,
+                    shrinkWrap: true,
+                    itemCount: records.length,
+                    crossAxisCount: 3,
+                    itemBuilder: (context, index) {
+                      final file = records[index];
+                      // return Image.file(file);
+                      return Text('data ${file.id}');
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 60.h,
+                  child: ListView(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(10).w,
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          //
+                        },
+                        icon: Icon(Icons.photo_album),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          //
+                        },
+                        icon: Icon(Icons.photo_album),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          //
+                        },
+                        icon: Icon(Icons.photo_album),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             );
           },
         );
@@ -106,8 +119,7 @@ class HomeScreenState extends State<HomeScreen> {
 
         ElevatedButton(
           onPressed: () {
-            // getAssetPathList();
-            showModalDialog();
+            showModalDialog(state);
           },
           child: Text('get photo'),
         ),
