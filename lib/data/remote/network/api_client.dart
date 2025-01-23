@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:logic_app/core/common/base_response.dart';
+import 'package:logic_app/core/error/error_handler.dart';
 import 'package:logic_app/core/error/error_messages.dart';
 import 'package:logic_app/core/error/exceptions.dart';
 import 'package:logic_app/data/remote/network/api.dart';
@@ -15,40 +16,48 @@ class ApiClient implements Api {
 
   @override
   Future<BaseResponse> login({Map<String, dynamic>? parameters}) async {
-    final response = await _client.post(
-      Uri.parse(ApiEndpoints.login),
-      body: jsonEncode(parameters),
-      headers: ApiInterceptor.modifyHeaders(),
-    );
-    if (response.statusCode != 200) {
-      throw ServerException();
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.login),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
     }
-    final body = jsonDecode(response.body);
-    return BaseResponse(
-      statusCode: response.statusCode,
-      status: body['status'],
-      message: body['message'],
-      data: body['records'],
-    );
   }
 
   @override
   Future<BaseResponse> register({Map<String, dynamic>? parameters}) async {
-    final response = await _client.post(
-      Uri.parse(ApiEndpoints.register),
-      body: jsonEncode(parameters),
-      headers: ApiInterceptor.modifyHeaders(),
-    );
-    if (response.statusCode != 200) {
-      throw ServerException();
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.register),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
     }
-    final body = jsonDecode(response.body);
-    return BaseResponse(
-      statusCode: response.statusCode,
-      status: body['status'],
-      message: body['message'],
-      data: body['records'],
-    );
   }
 
   @override
@@ -69,35 +78,31 @@ class ApiClient implements Api {
         message: body['message'],
         data: body['records'],
       );
-    } catch (error) {
-      if (error is ServerException) {
-        throw ServerException('Server error occurred: ${error.toString()}');
-      } else if (error is FormatException) {
-        throw ServerException('Invalid JSON format: ${error.message}');
-      } else if (error is SocketException) {
-        throw ServerException(ErrorMessages.networkError);
-      } else {
-        throw ServerException('Unexpected error occurred: ${error.toString()}');
-      }
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
     }
   }
 
   @override
   Future<BaseResponse> updateUser({Map<String, dynamic>? parameters}) async {
-    final response = await _client.post(
-      Uri.parse(ApiEndpoints.updateUserProfile),
-      body: jsonEncode(parameters),
-      headers: ApiInterceptor.modifyHeaders(),
-    );
-    if (response.statusCode != 200) {
-      throw ServerException();
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.updateUserProfile),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
     }
-    final body = jsonDecode(response.body);
-    return BaseResponse(
-      statusCode: response.statusCode,
-      status: body['status'],
-      message: body['message'],
-      data: body['records'],
-    );
   }
 }
