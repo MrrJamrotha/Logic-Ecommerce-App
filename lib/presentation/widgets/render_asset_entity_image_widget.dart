@@ -10,7 +10,7 @@ class RenderAssetEntityImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AssetEntityImage(
       width: 150.w,
-      height: 150.h,
+      height: 100.h,
       entity,
       isOriginal: false,
       thumbnailSize: const ThumbnailSize.square(250),
