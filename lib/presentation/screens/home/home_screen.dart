@@ -41,6 +41,7 @@ class HomeScreenState extends State<HomeScreen> {
       debugPrint('error ${e.toString()}');
       return [];
     }
+    return null;
   }
 
   showModalDialog() {
