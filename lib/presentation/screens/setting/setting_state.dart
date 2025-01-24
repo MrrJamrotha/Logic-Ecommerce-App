@@ -28,5 +28,28 @@ class SettingState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        isLoading,
+        error,
+        lightMode,
+        currentIndex,
+      ];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'isLoading': isLoading,
+      'error': error,
+      'lightMode': lightMode,
+      'currentIndex': currentIndex,
+    };
+  }
+
+  static SettingState fromJson(Map<String, dynamic> json) {
+    return SettingState(
+      isLoading: json['isLoading'],
+      error: json['error'],
+      lightMode: json['lightMode'],
+      currentIndex: json['currentIndex'],
+    );
+  }
 }

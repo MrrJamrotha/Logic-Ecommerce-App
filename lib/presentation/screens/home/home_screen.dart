@@ -1,13 +1,14 @@
-import 'dart:isolate';
-
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/service/photo_manager_service.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
+import 'package:logic_app/presentation/screens/camera/take_picture_screen.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:photo_manager/photo_manager.dart';
+import 'package:logic_app/presentation/widgets/render_asset_entity_image_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,59 +19,96 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   final screenCubit = HomeCubit();
-  final photoManagerService = di.get<PhotoManagerService>();
-  final GlobalKey _bottomSheetKey = GlobalKey();
-
+  late List<CameraDescription> cameras;
   @override
   void initState() {
-    screenCubit.loadInitialData();
+    initializedAvailableCameras();
+    screenCubit.checkPermissions();
     super.initState();
   }
 
-  Future<List<AssetPathEntity>?> getAssetPathList() async {
-    try {
-      final result = await photoManagerService.checkPermissions();
-      if (result) {
-        final listAlbumsFolders = await photoManagerService.getAssetPathList();
-        final data = await Isolate.run(() {
-          return listAlbumsFolders.toList();
-        });
-        return data;
-      }
-    } catch (e) {
-      debugPrint('error ${e.toString()}');
-      return [];
-    }
-    return null;
+  void initializedAvailableCameras() async {
+    cameras = await availableCameras();
   }
 
-  showModalDialog() {
+  showModalDialog(HomeState state) {
+    final records = state.albumsFolders;
     showModalBottomSheet(
       // showDragHandle: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
+      showDragHandle: true,
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
       builder: (context) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.7,
+          initialChildSize: 0.6,
           minChildSize: 0.5,
           expand: false,
           snap: true,
           builder: (context, scrollController) {
-            return SingleChildScrollView(
-              controller: scrollController,
-              child: Column(
-                children: [
-                  //
-                  //
-                  SizedBox(
-                    height: 80,
-                  )
-                ],
-              ),
+            return Column(
+              children: [
+                Expanded(
+                  child: MasonryGridView.count(
+                    padding: EdgeInsets.all(5).w,
+                    controller: scrollController,
+                    shrinkWrap: true,
+                    itemCount: records.length + 1,
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 5.sp,
+                    crossAxisSpacing: 5.sp,
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return GestureDetector(
+                          onTap: () => context.goNamed(
+                            TakePictureScreen.routeName,
+                            extra: cameras.first,
+                          ),
+                          child: SizedBox(
+                            width: 150.w,
+                            height: 100.h,
+                            child: Icon(Icons.camera),
+                          ),
+                        );
+                      }
+                      return RenderAssetEntityImageWidget(
+                        entity: records[index - 1],
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 60.h,
+                  child: ListView(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(10).w,
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          //
+                        },
+                        icon: Icon(Icons.photo_album),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          //
+                        },
+                        icon: Icon(Icons.photo_album),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          //
+                        },
+                        icon: Icon(Icons.photo_album),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             );
           },
         );
@@ -107,8 +145,7 @@ class HomeScreenState extends State<HomeScreen> {
 
         ElevatedButton(
           onPressed: () {
-            // getAssetPathList();
-            showModalDialog();
+            showModalDialog(state);
           },
           child: Text('get photo'),
         ),
