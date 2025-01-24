@@ -5,6 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
+import 'package:logic_app/presentation/widgets/render_asset_entity_image_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,12 +24,13 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   showModalDialog(HomeState state) {
-    final records = state.albumsFolders ?? [];
+    final records = state.albumsFolders;
     showModalBottomSheet(
       // showDragHandle: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
+      showDragHandle: true,
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
@@ -43,14 +45,17 @@ class HomeScreenState extends State<HomeScreen> {
               children: [
                 Expanded(
                   child: MasonryGridView.count(
+                    padding: EdgeInsets.all(5).w,
                     controller: scrollController,
                     shrinkWrap: true,
                     itemCount: records.length,
                     crossAxisCount: 3,
+                    mainAxisSpacing: 5.sp,
+                    crossAxisSpacing: 5.sp,
                     itemBuilder: (context, index) {
-                      final file = records[index];
-                      // return Image.file(file);
-                      return Text('data ${file.id}');
+                      return RenderAssetEntityImageWidget(
+                        entity: records[index],
+                      );
                     },
                   ),
                 ),

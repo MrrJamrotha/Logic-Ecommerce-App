@@ -494,6 +494,12 @@
       "languageVersion": "2.13"
     },
     {
+      "name": "photo_manager_image_provider",
+      "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/photo_manager_image_provider-2.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.13"
+    },
+    {
       "name": "pin_input_text_field",
       "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/pin_input_text_field-4.5.2",
       "packageUri": "lib/",
@@ -734,7 +740,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-01-23T07:19:06.866960Z",
+  "generated": "2025-01-24T01:38:01.206281Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///Users/macbook/development/flutter",
