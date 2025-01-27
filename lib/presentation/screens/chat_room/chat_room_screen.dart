@@ -1,16 +1,15 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/camera/take_picture_screen.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_cubit.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_state.dart';
+import 'package:logic_app/presentation/screens/chat_room/components/albmus_image_grid.dart';
+import 'package:logic_app/presentation/screens/chat_room/components/preview_image.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
-import 'package:logic_app/presentation/widgets/render_asset_entity_image_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class ChatRoomScreen extends StatefulWidget {
@@ -184,30 +183,15 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                         ],
                       ),
                       Expanded(
-                        child: MasonryGridView.count(
-                          padding: EdgeInsets.all(5.scale),
-                          controller: scrollController,
-                          shrinkWrap: true,
-                          itemCount: records.length + 1,
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 5.scale,
-                          crossAxisSpacing: 5.scale,
-                          itemBuilder: (context, index) {
-                            if (index == 0) {
-                              return GestureDetector(
-                                onTap: () => context.goNamed(
-                                  TakePictureScreen.routeName,
-                                  extra: cameras.first,
-                                ),
-                                child: SizedBox(
-                                  width: 150.scale,
-                                  height: 180.scale,
-                                  child: Icon(Icons.camera),
-                                ),
-                              );
-                            }
-                            return RenderAssetEntityImageWidget(
-                              entity: records[index - 1],
+                        child: AlbmusImageGrid(
+                          records: records,
+                          scrollController: scrollController,
+                          cameras: cameras,
+                          onTap: () {
+                            context.pop();
+                            context.goNamed(
+                              PreviewImage.routeName,
+                              extra: records,
                             );
                           },
                         ),

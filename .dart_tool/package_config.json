@@ -524,6 +524,12 @@
       "languageVersion": "2.13"
     },
     {
+      "name": "photo_view",
+      "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/photo_view-0.15.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "pin_input_text_field",
       "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/pin_input_text_field-4.5.2",
       "packageUri": "lib/",
@@ -770,7 +776,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-01-27T01:22:05.558801Z",
+  "generated": "2025-01-27T08:37:33.664721Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///Users/macbook/development/flutter",
