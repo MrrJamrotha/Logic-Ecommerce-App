@@ -122,12 +122,12 @@ class HomeScreenState extends State<HomeScreen>
             return NotificationListener(
               onNotification: (notification) {
                 if (notification is ScrollMetricsNotification) {
-                  if (notification.metrics.pixels >= 1.0) {
-                    _animationController.reverse();
-                    _isVisible.value = true;
-                  } else {
+                  if (notification.metrics.pixels == 0.0) {
                     _animationController.forward();
                     _isVisible.value = false;
+                  } else {
+                    _animationController.reverse();
+                    _isVisible.value = true;
                   }
                 }
                 return true;
