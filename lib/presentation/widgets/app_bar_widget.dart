@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:logic_app/presentation/screens/chat_room/chat_room_screen.dart';
 
 class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppbarWidget({super.key});
@@ -15,12 +17,13 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           onPressed: () {
             //TODO:
+            context.goNamed(ChatRoomScreen.routeName);
           },
           icon: Icon(Icons.chat),
         ),
         IconButton(
           onPressed: () {
-            //TODO:
+            // context.goNamed(ChatRoomScreen.routeName);
           },
           icon: Icon(Icons.notifications),
         ),
