@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/camera/take_picture_screen.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
@@ -19,18 +21,59 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   final screenCubit = HomeCubit();
   late List<CameraDescription> cameras;
+
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
+  bool _isVisible = false; // Track if the view is visible
+
   @override
   void initState() {
+    // Initialize the AnimationController
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 200), // Duration of the slide animation
+    );
+
+    // Define the slide animation (slide from bottom to top)
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0, 1), // Start off-screen (bottom)
+      end: Offset(0, 0), // End on-screen
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+
     initializedAvailableCameras();
     screenCubit.checkPermissions();
+
     super.initState();
   }
 
   void initializedAvailableCameras() async {
     cameras = await availableCameras();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _animationController.dispose();
+
+    super.dispose();
+  }
+
+  void _toggleView() {
+    setState(() {
+      if (_isVisible) {
+        _animationController.reverse(); // Slide down (hide)
+      } else {
+        _animationController.forward(); // Slide up (show)
+      }
+      _isVisible = !_isVisible; // Toggle visibility
+    });
   }
 
   @override
@@ -56,17 +99,13 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildBody(HomeState state) {
-    return ListView(
-      children: [
-        // TODO your code here
-
-        ElevatedButton(
-          onPressed: () {
-            showModalDialog(state);
-          },
-          child: Text('get photo'),
-        ),
-      ],
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          showModalDialog(state);
+        },
+        child: Text('get photo'),
+      ),
     );
   }
 
@@ -91,14 +130,11 @@ class HomeScreenState extends State<HomeScreen> {
             return NotificationListener(
               onNotification: (notification) {
                 if (notification is ScrollMetricsNotification) {
-                  final offset = notification.metrics.pixels;
-                  print(notification.metrics.viewportDimension);
-
-                  // if (offset >= 1.0) {
-                  //   print('Offset reached 1.0 or more: $offset');
-                  // } else {
-                  //   print('Offset is less than 1.0: $offset');
-                  // }
+                  if (notification.metrics.extentInside <= 800) {
+                    _animationController.forward();
+                  } else {
+                    _animationController.reverse();
+                  }
                 }
                 return true;
               },
@@ -122,7 +158,7 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                             child: SizedBox(
                               width: 150.scale,
-                              height: 100.scale,
+                              height: 180.scale,
                               child: Icon(Icons.camera),
                             ),
                           );
@@ -133,22 +169,36 @@ class HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ),
-                  // AnimatedSwitcher(
-                  //   duration: Duration(milliseconds: 300),
-                  //   child: SizedBox(
-                  //     height: 60.h,
-                  //     child: ListView(
-                  //       shrinkWrap: true,
-                  //       padding: EdgeInsets.all(10).w,
-                  //       scrollDirection: Axis.horizontal,
-                  //       children: [
-                  //         _buildBoxIcon(assetName: albumsSvg, name: 'albums'.tr),
-                  //         _buildBoxIcon(assetName: fileSvg, name: 'file'.tr),
-                  //         _buildBoxIcon(assetName: musicSvg, name: 'music'.tr),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // )
+                  SlideTransition(
+                    position: _slideAnimation,
+                    child: Container(
+                      height: 130.scale,
+                      decoration: BoxDecoration(
+                        color: appWhite,
+                        boxShadow: [
+                          BoxShadow(
+                            color: appBlack.withOpacity(0.2),
+                            spreadRadius: 1.0,
+                            offset: Offset(1, 0),
+                          )
+                        ],
+                      ),
+                      child: ListView(
+                        padding: EdgeInsets.all(10.scale),
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          _buildBoxIcon(
+                              assetName: albumsSvg, name: 'albums'.tr),
+                          _buildBoxIcon(assetName: fileSvg, name: 'file'.tr),
+                          _buildBoxIcon(assetName: musicSvg, name: 'music'.tr),
+                          _buildBoxIcon(
+                              assetName: locationSvg, name: 'location'.tr),
+                          _buildBoxIcon(
+                              assetName: contactSvg, name: 'contact'.tr),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             );
@@ -159,19 +209,38 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBoxIcon({required String assetName, required String name}) {
-    return Padding(
-      padding: EdgeInsets.only(right: 8.scale),
-      child: ElevatedButton.icon(
-        onPressed: () {
-          //
-        },
-        icon: IconWidget(
-          assetName: assetName,
-          width: 24.scale,
-          height: 24.scale,
+    // return Padding(
+    //   padding: EdgeInsets.only(right: 10.scale),
+    //   child: ElevatedButton.icon(
+    //     onPressed: () {
+    //       //
+    //     },
+    //     icon: IconWidget(
+    //       assetName: assetName,
+    //       width: 24.scale,
+    //       height: 24.scale,
+    //     ),
+    //     label: TextWidget(text: name),
+    //   ),
+    // );
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(20.scale),
+          margin: EdgeInsets.symmetric(horizontal: 20.scale),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: primary,
+          ),
+          child: IconWidget(
+            assetName: assetName,
+            width: 40.scale,
+            height: 40.scale,
+            colorFilter: ColorFilter.mode(appWhite, BlendMode.srcIn),
+          ),
         ),
-        label: TextWidget(text: name),
-      ),
+        TextWidget(text: name),
+      ],
     );
   }
 }
