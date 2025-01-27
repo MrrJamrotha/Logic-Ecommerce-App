@@ -36,13 +36,19 @@ class PhotoManagerService {
   }
 
   /// Fetch assets (photos/videos) from a specific album
-  Future<List<AssetEntity>> getAlbumsFolders() async {
+  Future<List<AssetEntity>> getAlbumsFolders({String? relativePath}) async {
     final int count = await PhotoManager.getAssetCount();
     final entities = await PhotoManager.getAssetListPaged(
       page: 0,
       pageCount: count,
       type: RequestType.image,
     );
+    if (relativePath != null && relativePath.isNotEmpty) {
+      return entities
+          .where((asset) => asset.relativePath?.contains(relativePath) ?? false)
+          .toList();
+    }
+
     return entities;
   }
 }

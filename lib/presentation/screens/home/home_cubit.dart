@@ -14,7 +14,7 @@ class HomeCubit extends Cubit<HomeState> {
       final result = await photoManagerService.checkPermissions();
       if (result) {
         await getAssetPathList();
-        await getAlbumsFolders();
+        await getAlbumsFolders(relativePath: state.assetPathList.last.name);
       }
       emit(state.copyWith(isLoading: false));
     } catch (error) {
@@ -32,9 +32,13 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  Future<void> getAlbumsFolders() async {
+  Future<void> getAlbumsFolders({String? relativePath}) async {
     try {
-      final listAlbumsFolders = await photoManagerService.getAlbumsFolders();
+      final listAlbumsFolders = await photoManagerService.getAlbumsFolders(
+        relativePath: relativePath,
+      );
+      print('dd ${listAlbumsFolders.length}');
+
       emit(state.copyWith(albumsFolders: listAlbumsFolders));
     } catch (error) {
       addError(error);

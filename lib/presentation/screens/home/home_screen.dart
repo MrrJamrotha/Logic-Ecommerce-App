@@ -28,7 +28,9 @@ class HomeScreenState extends State<HomeScreen>
 
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
-  bool _isVisible = false; // Track if the view is visible
+
+  final _pathValue = ValueNotifier<String>("");
+  final _isVisible = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -50,6 +52,8 @@ class HomeScreenState extends State<HomeScreen>
     initializedAvailableCameras();
     screenCubit.checkPermissions();
 
+    // _pathValue.value = screenCubit.state.assetPathList.first.name;
+
     super.initState();
   }
 
@@ -63,17 +67,6 @@ class HomeScreenState extends State<HomeScreen>
     _animationController.dispose();
 
     super.dispose();
-  }
-
-  void _toggleView() {
-    setState(() {
-      if (_isVisible) {
-        _animationController.reverse(); // Slide down (hide)
-      } else {
-        _animationController.forward(); // Slide up (show)
-      }
-      _isVisible = !_isVisible; // Toggle visibility
-    });
   }
 
   @override
@@ -102,17 +95,15 @@ class HomeScreenState extends State<HomeScreen>
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          showModalDialog(state);
+          showModalDialog();
         },
         child: Text('get photo'),
       ),
     );
   }
 
-  showModalDialog(HomeState state) {
-    final records = state.albumsFolders;
+  showModalDialog() {
     showModalBottomSheet(
-      // showDragHandle: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
@@ -127,79 +118,152 @@ class HomeScreenState extends State<HomeScreen>
           expand: false,
           snap: true,
           builder: (context, scrollController) {
+            // print(_draggableScrollableController.sizeToPixels(1));
             return NotificationListener(
               onNotification: (notification) {
                 if (notification is ScrollMetricsNotification) {
-                  if (notification.metrics.extentInside <= 800) {
-                    _animationController.forward();
-                  } else {
+                  if (notification.metrics.pixels >= 1.0) {
                     _animationController.reverse();
+                    _isVisible.value = true;
+                  } else {
+                    _animationController.forward();
+                    _isVisible.value = false;
                   }
                 }
                 return true;
               },
-              child: Column(
-                children: [
-                  Expanded(
-                    child: MasonryGridView.count(
-                      padding: EdgeInsets.all(5.scale),
-                      controller: scrollController,
-                      shrinkWrap: true,
-                      itemCount: records.length + 1,
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 5.scale,
-                      crossAxisSpacing: 5.scale,
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          return GestureDetector(
-                            onTap: () => context.goNamed(
-                              TakePictureScreen.routeName,
-                              extra: cameras.first,
+              child: BlocBuilder<HomeCubit, HomeState>(
+                bloc: screenCubit,
+                builder: (context, state) {
+                  final records = state.albumsFolders;
+
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8.0.scale),
+                            child: ValueListenableBuilder(
+                              valueListenable: _pathValue,
+                              builder: (context, value, child) {
+                                // Remove duplicates from assetPathList
+                                final uniqueItems = state.assetPathList
+                                    .map((e) => e.name)
+                                    .toSet() // Ensure uniqueness
+                                    .toList();
+
+                                // Validate the selected value
+                                final selectedValue =
+                                    uniqueItems.contains(value)
+                                        ? value
+                                        : (uniqueItems.isNotEmpty
+                                            ? uniqueItems.last
+                                            : null);
+
+                                return DropdownButton<String>(
+                                  underline: SizedBox.shrink(),
+                                  value:
+                                      selectedValue, // Ensure value matches an item
+                                  items: uniqueItems
+                                      .map<DropdownMenuItem<String>>((name) {
+                                    return DropdownMenuItem(
+                                      value: name,
+                                      child: Text(name),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    if (newValue != null) {
+                                      _pathValue.value = newValue;
+                                      screenCubit.getAlbumsFolders(
+                                          relativePath: newValue);
+                                    }
+                                  },
+                                );
+                              },
                             ),
-                            child: SizedBox(
-                              width: 150.scale,
-                              height: 180.scale,
-                              child: Icon(Icons.camera),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: MasonryGridView.count(
+                          padding: EdgeInsets.all(5.scale),
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          itemCount: records.length + 1,
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 5.scale,
+                          crossAxisSpacing: 5.scale,
+                          itemBuilder: (context, index) {
+                            if (index == 0) {
+                              return GestureDetector(
+                                onTap: () => context.goNamed(
+                                  TakePictureScreen.routeName,
+                                  extra: cameras.first,
+                                ),
+                                child: SizedBox(
+                                  width: 150.scale,
+                                  height: 180.scale,
+                                  child: Icon(Icons.camera),
+                                ),
+                              );
+                            }
+                            return RenderAssetEntityImageWidget(
+                              entity: records[index - 1],
+                            );
+                          },
+                        ),
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: _isVisible,
+                        builder: (context, value, child) {
+                          return AnimatedOpacity(
+                            opacity: value ? 0.0 : 1.0,
+                            duration: Duration(milliseconds: 500),
+                            child: SlideTransition(
+                              position: _slideAnimation,
+                              child: value
+                                  ? SizedBox.shrink()
+                                  : Container(
+                                      height: 130.scale,
+                                      decoration: BoxDecoration(
+                                        color: appWhite,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: appBlack.withOpacity(0.2),
+                                            spreadRadius: 1.0,
+                                            offset: Offset(1, 0),
+                                          )
+                                        ],
+                                      ),
+                                      child: ListView(
+                                        padding: EdgeInsets.all(10.scale),
+                                        scrollDirection: Axis.horizontal,
+                                        children: [
+                                          _buildBoxIcon(
+                                              assetName: albumsSvg,
+                                              name: 'albums'.tr),
+                                          _buildBoxIcon(
+                                              assetName: fileSvg,
+                                              name: 'file'.tr),
+                                          _buildBoxIcon(
+                                              assetName: musicSvg,
+                                              name: 'music'.tr),
+                                          _buildBoxIcon(
+                                              assetName: locationSvg,
+                                              name: 'location'.tr),
+                                          _buildBoxIcon(
+                                              assetName: contactSvg,
+                                              name: 'contact'.tr),
+                                        ],
+                                      ),
+                                    ),
                             ),
                           );
-                        }
-                        return RenderAssetEntityImageWidget(
-                          entity: records[index - 1],
-                        );
-                      },
-                    ),
-                  ),
-                  SlideTransition(
-                    position: _slideAnimation,
-                    child: Container(
-                      height: 130.scale,
-                      decoration: BoxDecoration(
-                        color: appWhite,
-                        boxShadow: [
-                          BoxShadow(
-                            color: appBlack.withOpacity(0.2),
-                            spreadRadius: 1.0,
-                            offset: Offset(1, 0),
-                          )
-                        ],
-                      ),
-                      child: ListView(
-                        padding: EdgeInsets.all(10.scale),
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          _buildBoxIcon(
-                              assetName: albumsSvg, name: 'albums'.tr),
-                          _buildBoxIcon(assetName: fileSvg, name: 'file'.tr),
-                          _buildBoxIcon(assetName: musicSvg, name: 'music'.tr),
-                          _buildBoxIcon(
-                              assetName: locationSvg, name: 'location'.tr),
-                          _buildBoxIcon(
-                              assetName: contactSvg, name: 'contact'.tr),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
+                        },
+                      )
+                    ],
+                  );
+                },
               ),
             );
           },

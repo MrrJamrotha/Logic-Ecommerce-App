@@ -69,7 +69,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
             // Attempt to take a picture and get the file `image`
             // where it was saved.
-            final image = await _controller.takePicture();
+            // final image = await _controller.takePicture();
 
             if (!context.mounted) return;
 
@@ -85,7 +85,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             // );
           } catch (e) {
             // If an error occurs, log the error to the console.
-            print(e);
+            // print(e);
           }
         },
         child: const Icon(Icons.camera_alt),
