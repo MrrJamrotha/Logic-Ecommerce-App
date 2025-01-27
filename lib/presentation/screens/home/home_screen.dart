@@ -1,10 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/camera/take_picture_screen.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
@@ -93,28 +91,28 @@ class HomeScreenState extends State<HomeScreen> {
             return NotificationListener(
               onNotification: (notification) {
                 if (notification is ScrollMetricsNotification) {
-                final offset = notification.metrics.pixels;
-                print(notification.metrics.viewportDimension);
-             
-                // if (offset >= 1.0) {
-                //   print('Offset reached 1.0 or more: $offset');
-                // } else {
-                //   print('Offset is less than 1.0: $offset');
-                // }
-              }
+                  final offset = notification.metrics.pixels;
+                  print(notification.metrics.viewportDimension);
+
+                  // if (offset >= 1.0) {
+                  //   print('Offset reached 1.0 or more: $offset');
+                  // } else {
+                  //   print('Offset is less than 1.0: $offset');
+                  // }
+                }
                 return true;
               },
               child: Column(
                 children: [
                   Expanded(
                     child: MasonryGridView.count(
-                      padding: EdgeInsets.all(5).w,
+                      padding: EdgeInsets.all(5.scale),
                       controller: scrollController,
                       shrinkWrap: true,
                       itemCount: records.length + 1,
                       crossAxisCount: 3,
-                      mainAxisSpacing: 5.sp,
-                      crossAxisSpacing: 5.sp,
+                      mainAxisSpacing: 5.scale,
+                      crossAxisSpacing: 5.scale,
                       itemBuilder: (context, index) {
                         if (index == 0) {
                           return GestureDetector(
@@ -123,8 +121,8 @@ class HomeScreenState extends State<HomeScreen> {
                               extra: cameras.first,
                             ),
                             child: SizedBox(
-                              width: 150.w,
-                              height: 100.h,
+                              width: 150.scale,
+                              height: 100.scale,
                               child: Icon(Icons.camera),
                             ),
                           );
@@ -162,15 +160,15 @@ class HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBoxIcon({required String assetName, required String name}) {
     return Padding(
-      padding: EdgeInsets.only(right: 8).w,
+      padding: EdgeInsets.only(right: 8.scale),
       child: ElevatedButton.icon(
         onPressed: () {
           //
         },
         icon: IconWidget(
           assetName: assetName,
-          width: 24.w,
-          height: 24.h,
+          width: 24.scale,
+          height: 24.scale,
         ),
         label: TextWidget(text: name),
       ),
