@@ -7,3 +7,5 @@ enum ThemeType {
   light,
   dark,
 }
+
+enum BubbleType { sendBubble, receiverBubble }
