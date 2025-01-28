@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/locale/locale_delegate.dart';
@@ -15,7 +15,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   setup();
   WidgetsFlutterBinding.ensureInitialized();
-  await ScreenUtil.ensureScreenSize();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web
@@ -39,29 +38,22 @@ class _LogicAppState extends State<LogicApp> {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingCubit, SettingState>(
       builder: (context, state) {
-        return ScreenUtilInit(
-          designSize: Size(360, 690),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return MaterialApp.router(
-              localizationsDelegates: [
-                LocaleDelegate(),
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: [
-                const Locale('en', 'US'),
-                const Locale('km', 'KH'),
-              ],
-              locale: Locale('en', 'US'),
-              routerConfig: router,
-              theme: AppTheme.darkTheme,
-              themeMode: state.lightMode ? ThemeMode.light : ThemeMode.dark,
-              darkTheme: AppTheme.darkTheme,
-            );
-          },
+        return MaterialApp.router(
+          localizationsDelegates: [
+            LocaleDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en', 'US'),
+            const Locale('km', 'KH'),
+          ],
+          locale: Locale('en', 'US'),
+          routerConfig: router,
+          theme: AppTheme.darkTheme,
+          themeMode: state.lightMode ? ThemeMode.light : ThemeMode.dark,
+          darkTheme: AppTheme.darkTheme,
         );
       },
     );

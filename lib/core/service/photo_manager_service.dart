@@ -26,7 +26,7 @@ class PhotoManagerService {
   Future<List<AssetPathEntity>> getAssetPathList() async {
     // Fetching albums (folders) from the gallery
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image, // You can specify image, video, or audio
+      // type: RequestType.image, // You can specify image, video, or audio
       filterOption: FilterOptionGroup(
         containsPathModified: true,
         orders: [OrderOption(type: OrderOptionType.createDate, asc: false)],
@@ -36,13 +36,24 @@ class PhotoManagerService {
   }
 
   /// Fetch assets (photos/videos) from a specific album
-  Future<List<AssetEntity>> getAlbumsFolders() async {
+  Future<List<AssetEntity>> getAlbumsFolders({String? relativePath}) async {
     final int count = await PhotoManager.getAssetCount();
     final entities = await PhotoManager.getAssetListPaged(
       page: 0,
       pageCount: count,
-      type: RequestType.image,
+      // type: RequestType.image,
     );
+    if (relativePath != null &&
+        relativePath.isNotEmpty &&
+        relativePath != "Recent") {
+      return entities
+          .where((asset) => asset.relativePath?.contains(relativePath) ?? false)
+          .toList();
+    }
+    if (relativePath == "Recent") {
+      return entities;
+    }
+
     return entities;
   }
 }
