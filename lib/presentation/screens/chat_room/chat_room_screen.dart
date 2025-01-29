@@ -14,6 +14,7 @@ import 'package:logic_app/presentation/screens/chat_room/components/location_mes
 import 'package:logic_app/presentation/screens/chat_room/components/picture_message_bubble.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/preview_image.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/text_message_bubble.dart';
+import 'package:logic_app/presentation/screens/chat_room/components/voice_message_bubble.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
@@ -128,13 +129,20 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                 padding: EdgeInsets.all(16.scale),
                 controller: scrollController,
                 itemBuilder: (context, index) {
-                  return LocationMessageBubble(
-                    lat: 11.5564,
-                    long: 104.9282,
-                    timestamp: '15:30',
+                  return VoiceMessageBubble(
+                    url:
+                        'https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a',
+                    timestamp: '14:30',
+                    isRead: false,
                     type: BubbleType.sendBubble,
-                    isRead: true,
                   );
+                  // return LocationMessageBubble(
+                  //   lat: 11.5564,
+                  //   long: 104.9282,
+                  //   timestamp: '15:30',
+                  //   type: BubbleType.sendBubble,
+                  //   isRead: true,
+                  // );
                   // return PictureMessageBubble(
                   //   records: [
                   //     {
