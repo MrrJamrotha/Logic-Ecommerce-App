@@ -16,12 +16,9 @@ class _PreviewImageState extends State<PreviewImage>
   final TransformationController _transformationController =
       TransformationController();
   double get _scale => _transformationController.value.row0.x;
-  bool _enablePageView = true;
 
   late final AnimationController _dragAnimationController;
 
-  /// Drag offset animation controller.
-  late Animation<Offset> _dragAnimation;
   Offset? _dragOffset;
   Offset? _previousPosition;
   bool _enableDrag = true;
@@ -35,10 +32,6 @@ class _PreviewImageState extends State<PreviewImage>
     )..addStatusListener((status) {
         _onAnimationEnd(status);
       });
-    _dragAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: Offset.zero,
-    ).animate(_dragAnimationController);
 
     super.initState();
   }
@@ -105,10 +98,6 @@ class _PreviewImageState extends State<PreviewImage>
 
     /// Reset position to center of the screen when the drag is canceled.
     setState(() {
-      _dragAnimation = Tween<Offset>(
-        begin: Offset(0.0, dragOffset.dy),
-        end: const Offset(0.0, 0.0),
-      ).animate(_dragAnimationController);
       _dragOffset = const Offset(0.0, 0.0);
       _dragAnimationController.forward();
     });
@@ -144,10 +133,8 @@ class _PreviewImageState extends State<PreviewImage>
               _onDragUpdate(details);
               if (_scale == 2.5) {
                 _enableDrag = true;
-                _enablePageView = true;
               } else {
                 _enableDrag = false;
-                _enablePageView = false;
               }
               setState(() {});
             },

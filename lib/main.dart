@@ -13,8 +13,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
-  setup();
   WidgetsFlutterBinding.ensureInitialized();
+  setupInjector();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web

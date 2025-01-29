@@ -33,8 +33,18 @@ class TextMessageBubble extends StatelessWidget {
         shadowColor: Colors.grey.shade200,
         child: Padding(
           padding: type == BubbleType.sendBubble
-              ? EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 20)
-              : EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 10),
+              ? EdgeInsets.only(
+                  top: 10.scale,
+                  bottom: 10.scale,
+                  left: 10.scale,
+                  right: 20.scale,
+                )
+              : EdgeInsets.only(
+                  top: 10.scale,
+                  bottom: 10.scale,
+                  left: 20.scale,
+                  right: 10.scale,
+                ),
           child: Column(
             children: [
               TextWidget(
@@ -50,7 +60,7 @@ class TextMessageBubble extends StatelessWidget {
                     color: type == BubbleType.sendBubble ? appWhite : appBlack,
                   ),
                   IconWidget(
-                    assetName: checkReadSvg,
+                    assetName: isRead ? checkReadSvg : checkSvg,
                     colorFilter: ColorFilter.mode(
                       type == BubbleType.sendBubble ? appWhite : appBlack,
                       BlendMode.srcIn,
