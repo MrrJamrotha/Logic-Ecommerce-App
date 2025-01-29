@@ -29,7 +29,7 @@ class PictureMessageBubble extends StatelessWidget {
             type == BubbleType.sendBubble ? primary : appGrey.withOpacity(0.2),
         borderRadius: BorderRadius.circular(5),
       ),
-      child: Column(
+      child: Stack(
         children: [
           GridView.builder(
             shrinkWrap: true,
@@ -51,22 +51,33 @@ class PictureMessageBubble extends StatelessWidget {
               );
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            spacing: 5.scale,
-            children: [
-              TextWidget(
-                text: timestamp,
-                color: type == BubbleType.sendBubble ? appWhite : appBlack,
+          Positioned(
+            bottom: 5.scale,
+            right: 5.scale,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 5.scale),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(107, 30, 30, 30),
+                borderRadius: BorderRadius.circular(20.scale),
               ),
-              IconWidget(
-                assetName: isRead ? checkReadSvg : checkSvg,
-                colorFilter: ColorFilter.mode(
-                  type == BubbleType.sendBubble ? appWhite : appBlack,
-                  BlendMode.srcIn,
-                ),
-              )
-            ],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                spacing: 5.scale,
+                children: [
+                  TextWidget(
+                    text: timestamp,
+                    color: appWhite,
+                  ),
+                  IconWidget(
+                    assetName: isRead ? checkReadSvg : checkSvg,
+                    colorFilter: ColorFilter.mode(
+                      appWhite,
+                      BlendMode.srcIn,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         ],
       ),

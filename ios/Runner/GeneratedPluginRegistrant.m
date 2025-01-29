@@ -30,6 +30,12 @@
 @import image_picker_ios;
 #endif
 
+#if __has_include(<location/LocationPlugin.h>)
+#import <location/LocationPlugin.h>
+#else
+@import location;
+#endif
+
 #if __has_include(<onesignal_flutter/OneSignalPlugin.h>)
 #import <onesignal_flutter/OneSignalPlugin.h>
 #else
@@ -79,6 +85,7 @@
   [CameraPlugin registerWithRegistrar:[registry registrarForPlugin:@"CameraPlugin"]];
   [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
+  [LocationPlugin registerWithRegistrar:[registry registrarForPlugin:@"LocationPlugin"]];
   [OneSignalPlugin registerWithRegistrar:[registry registrarForPlugin:@"OneSignalPlugin"]];
   [PathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"PathProviderPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];

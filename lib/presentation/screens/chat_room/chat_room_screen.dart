@@ -10,6 +10,7 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_cubit.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_state.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/albmus_image_grid.dart';
+import 'package:logic_app/presentation/screens/chat_room/components/location_message_bubble.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/picture_message_bubble.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/preview_image.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/text_message_bubble.dart';
@@ -127,23 +128,45 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                 padding: EdgeInsets.all(16.scale),
                 controller: scrollController,
                 itemBuilder: (context, index) {
-                  return PictureMessageBubble(
-                    records: [
-                      {
-                        'imageUrl':
-                            'https://thumbs.dreamstime.com/b/chameleon-full-body-frame-shot-colorful-aligned-right-blue-background-ai-created-content-chameleon-full-body-frame-323142324.jpg',
-                        'blurHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-                      },
-                      {
-                        'imageUrl':
-                            'https://thumbs.dreamstime.com/b/chameleon-full-body-frame-shot-colorful-aligned-right-blue-background-ai-created-content-chameleon-full-body-frame-323142324.jpg',
-                        'blurHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-                      },
-                    ],
+                  return LocationMessageBubble(
+                    lat: 11.5564,
+                    long: 104.9282,
+                    timestamp: '15:30',
                     type: BubbleType.sendBubble,
                     isRead: true,
-                    timestamp: '15:30',
                   );
+                  // return PictureMessageBubble(
+                  //   records: [
+                  //     {
+                  //       'imageUrl':
+                  //           'https://thumbs.dreamstime.com/b/chameleon-full-body-frame-shot-colorful-aligned-right-blue-background-ai-created-content-chameleon-full-body-frame-323142324.jpg',
+                  //       'blurHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                  //     },
+                  //     {
+                  //       'imageUrl':
+                  //           'https://thumbs.dreamstime.com/b/chameleon-full-body-frame-shot-colorful-aligned-right-blue-background-ai-created-content-chameleon-full-body-frame-323142324.jpg',
+                  //       'blurHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                  //     },
+                  //     {
+                  //       'imageUrl':
+                  //           'https://thumbs.dreamstime.com/b/chameleon-full-body-frame-shot-colorful-aligned-right-blue-background-ai-created-content-chameleon-full-body-frame-323142324.jpg',
+                  //       'blurHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                  //     },
+                  //     {
+                  //       'imageUrl':
+                  //           'https://thumbs.dreamstime.com/b/chameleon-full-body-frame-shot-colorful-aligned-right-blue-background-ai-created-content-chameleon-full-body-frame-323142324.jpg',
+                  //       'blurHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                  //     },
+                  //     {
+                  //       'imageUrl':
+                  //           'https://thumbs.dreamstime.com/b/chameleon-full-body-frame-shot-colorful-aligned-right-blue-background-ai-created-content-chameleon-full-body-frame-323142324.jpg',
+                  //       'blurHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                  //     },
+                  //   ],
+                  //   type: BubbleType.receiverBubble,
+                  //   isRead: true,
+                  //   timestamp: '15:30',
+                  // );
                   // return TextMessageBubble(
                   //   message:
                   //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
