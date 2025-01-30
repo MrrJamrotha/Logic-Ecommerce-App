@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
@@ -32,7 +33,7 @@ class LocationMessageBubble extends StatelessWidget {
           'zoom': '19',
           'size': '700x500',
           'maptype': 'roadmap',
-          'key': 'AIzaSyC3pUau1zh5lLPMEKG8-WanuIKMb8895sg',
+          'key': dotenv.env['GOOGLE_MAP_KEY'].toString(),
           'markers': 'color:red|$lat,$long'
         },
       ).toString();
