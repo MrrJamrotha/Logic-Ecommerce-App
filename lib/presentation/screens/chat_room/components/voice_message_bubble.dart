@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:path_provider/path_provider.dart';
 
 class VoiceMessageBubble extends StatefulWidget {
   const VoiceMessageBubble({
@@ -40,7 +42,7 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
   final _currentDuration = ValueNotifier<int>(0);
   final _currentPosition = ValueNotifier<int>(0);
   final _waveformData = ValueNotifier<List<double>>([]);
-
+  final _isPlaying = ValueNotifier<bool>(false);
   final style = PlayerWaveStyle(
     liveWaveColor: appWhite,
     spacing: 5.scale,
@@ -57,39 +59,56 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
     _cacheAndPrepareAudio();
   }
 
+  Future<String> _getTemporaryPath() async {
+    final tempDir = await getTemporaryDirectory();
+    return tempDir.path;
+  }
+
   void _cacheAndPrepareAudio() async {
-    _streamSubscription = DefaultCacheManager()
-        .getFileStream(widget.url, withProgress: false)
-        .listen((fileResponse) async {
-      if (fileResponse is FileInfo) {
-        _filePath = fileResponse.file.path;
-        final samples =
-            style.getSamplesForWidth((AppSizeConfig.screenWidth * 0.5) / 2);
-        await _playerController.preparePlayer(
-          path: _filePath!,
-          noOfSamples: samples,
-        );
-        _maxDuration.value = _playerController.maxDuration;
-        _isLoading.value = false;
-        _waveformData.value =
-            await _playerController.extractWaveformData(path: _filePath!);
-        print('=====================${_waveformData.value}'); // TODO
-        logger.i(_filePath);
-      }
-    });
+    final tempPath = await _getTemporaryPath();
+    final fileName = widget.url.split('/').last;
+    final newFilePath = '$tempPath/$fileName';
+
+    // Fetch the audio file from cache manager
+    final file = await DefaultCacheManager().getSingleFile(widget.url);
+
+    // Copy the cached file to a temporary directory
+    await file.copy(newFilePath);
+
+    if (File(newFilePath).existsSync()) {
+      _filePath = newFilePath;
+
+      // Prepare the player with the valid file path
+      final samples =
+          style.getSamplesForWidth((AppSizeConfig.screenWidth * 0.5) / 2);
+      await _playerController.preparePlayer(
+          path: _filePath!, noOfSamples: samples);
+      _maxDuration.value = _playerController.maxDuration;
+      _isLoading.value = false;
+      _waveformData.value =
+          await _playerController.extractWaveformData(path: _filePath!);
+
+      print('Waveform Data: ${_waveformData.value}');
+    } else {
+      logger.e("File does not exist at path: $newFilePath");
+    }
   }
 
   void _playPauseAudio() async {
     if (_playerController.playerState.isPlaying) {
       await _playerController.pausePlayer();
+      _isPlaying.value = false;
     } else if (_playerController.playerState.isPaused) {
       await _playerController.seekTo(_currentPosition.value);
       await _playerController.startPlayer();
+      _isPlaying.value = true;
     } else if (_playerController.playerState.isStopped) {
       await _playerController.seekTo(0);
       await _playerController.startPlayer();
+      _isPlaying.value = true;
     } else {
       await _playerController.startPlayer();
+      _isPlaying.value = true;
       _progressSubscription =
           _playerController.onCurrentDurationChanged.listen((duration) {
         _currentPosition.value = duration;
@@ -101,8 +120,8 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
   @override
   void dispose() {
     _playerController.dispose();
-    _streamSubscription!.cancel();
-    _progressSubscription!.cancel();
+    _streamSubscription?.cancel();
+    _progressSubscription?.cancel();
     super.dispose();
   }
 
@@ -127,11 +146,16 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
                   return CircleAvatar(
                     child: value
                         ? CircularProgressIndicator(color: appWhite)
-                        : Icon(
-                            _playerController.playerState.isPlaying
-                                ? Icons.pause_rounded
-                                : Icons.play_arrow_rounded,
-                            color: appWhite,
+                        : ValueListenableBuilder(
+                            valueListenable: _isPlaying,
+                            builder: (context, isPlaying, child) {
+                              return Icon(
+                                isPlaying
+                                    ? Icons.pause_rounded
+                                    : Icons.play_arrow_rounded,
+                                color: appWhite,
+                              );
+                            },
                           ),
                   );
                 },

@@ -10,10 +10,7 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_cubit.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_state.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/albmus_image_grid.dart';
-import 'package:logic_app/presentation/screens/chat_room/components/location_message_bubble.dart';
-import 'package:logic_app/presentation/screens/chat_room/components/picture_message_bubble.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/preview_image.dart';
-import 'package:logic_app/presentation/screens/chat_room/components/text_message_bubble.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/voice_message_bubble.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
@@ -131,7 +128,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                 itemBuilder: (context, index) {
                   return VoiceMessageBubble(
                     url:
-                        'https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a',
+                        'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3',
                     timestamp: '14:30',
                     isRead: false,
                     type: BubbleType.sendBubble,
@@ -186,7 +183,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                 separatorBuilder: (context, index) {
                   return SizedBox(height: 10);
                 },
-                itemCount: 1,
+                itemCount: 10,
               ),
             ),
           ), // <- Chat list view
