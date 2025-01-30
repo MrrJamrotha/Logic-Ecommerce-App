@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/locale/locale_delegate.dart';
-import 'package:logic_app/core/service/notification_service.dart';
+import 'package:logic_app/core/service/onesignal_service.dart';
 import 'package:logic_app/core/theme/app_theme.dart';
 import 'package:logic_app/presentation/routes/router.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
@@ -18,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupInjector();
   await dotenv.load(fileName: ".env");
-  NotificationService().initPlatformState();
+  OnesignalService().initPlatformState();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web
@@ -43,6 +44,7 @@ class _LogicAppState extends State<LogicApp> {
     return BlocBuilder<SettingCubit, SettingState>(
       builder: (context, state) {
         return MaterialApp.router(
+          scaffoldMessengerKey: scaffoldMessengerKey,
           localizationsDelegates: [
             LocaleDelegate(),
             GlobalMaterialLocalizations.delegate,
