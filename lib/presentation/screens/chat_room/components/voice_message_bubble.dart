@@ -8,6 +8,7 @@ import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
+import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/audio_processor.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/utils/app_format.dart';
@@ -72,7 +73,7 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
     final newFilePath = '$tempPath/$fileName';
 
     // Fetch the audio file from cache manager
-    final file = await DefaultCacheManager().getSingleFile(widget.url);
+    final file = await di.get<BaseCacheManager>().getSingleFile(widget.url);
 
     // Copy the cached file to a temporary directory
     await file.copy(newFilePath);
