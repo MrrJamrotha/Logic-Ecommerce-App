@@ -9,3 +9,4 @@ const appGreen = Colors.green;
 const appYellow = Colors.yellow;
 const appRedAccent = Colors.redAccent;
 const appBlueAccent = Colors.blueAccent;
+const textColor = Color(0XFF888888);

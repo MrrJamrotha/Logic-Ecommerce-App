@@ -10,7 +10,7 @@ import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
 import 'package:logic_app/presentation/screens/setting/setting_state.dart';
 
 class MainScreen extends StatefulWidget {
-  static const routePath = '/';
+  static const routePath = '/main';
   const MainScreen({super.key});
 
   @override
