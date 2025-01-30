@@ -7,6 +7,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/locale/locale_delegate.dart';
+import 'package:logic_app/core/service/database_service.dart';
 import 'package:logic_app/core/service/onesignal_service.dart';
 import 'package:logic_app/core/theme/app_theme.dart';
 import 'package:logic_app/presentation/routes/router.dart';
@@ -25,7 +26,7 @@ void main() async {
         ? HydratedStorageDirectory.web
         : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
-
+  di.get<DatabaseService>().database;
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (context) => SettingCubit()),
   ], child: LogicApp()));

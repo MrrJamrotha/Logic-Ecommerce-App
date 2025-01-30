@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:logic_app/core/helper/helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -30,15 +31,18 @@ class DatabaseService {
   }
 
   FutureOr<void> _onCreate(Database db, int version) async {
-    // Example: Create a "users" table
-    await db.execute('''
-      CREATE TABLE users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT NOT NULL,
-        password TEXT NOT NULL,
-      )
-    ''');
+    try {
+      await db.execute('''
+    CREATE TABLE users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      password TEXT NOT NULL
+    )
+  ''');
+    } catch (e) {
+      logger.e(e);
+    }
   }
 
   Future<int> insert(String table, Map<String, dynamic> values) async {

@@ -22,3 +22,12 @@ enum OrderColorStatus {
   delivery,
   delivered,
 }
+
+enum MessageType {
+  text,
+  image,
+  video,
+  audio,
+  document,
+  location,
+}
