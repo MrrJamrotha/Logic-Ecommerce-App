@@ -6,6 +6,7 @@ import 'package:logic_app/core/service/secure_storage_service.dart';
 import 'package:logic_app/core/service/shared_preferences_service.dart';
 import 'package:logic_app/data/remote/network/api_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 final di = GetIt.instance;
 void setupInjector() {
@@ -20,4 +21,7 @@ void setupInjector() {
   di.registerLazySingleton<SecureStorageService>(() => SecureStorageService());
   di.registerLazySingleton<SharedPreferencesService>(
       () => SharedPreferencesService.instance);
+
+  di.registerSingleton<PusherChannelsFlutter>(
+      PusherChannelsFlutter.getInstance());
 }
