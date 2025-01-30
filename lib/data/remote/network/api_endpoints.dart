@@ -1,14 +1,16 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class ApiEndpoints {
-  static const String baseUrl = "";
+  static final String baseUrl = dotenv.env['baseUrl'] ?? "";
 
   //Auth
-  static const login = '$baseUrl/login';
-  static const register = '$baseUrl/register';
-  static const forgotPassword = '$baseUrl/forgot-password';
-  static const resetPassword = '$baseUrl/reset-password';
+  static final login = '$baseUrl/login';
+  static final register = '$baseUrl/register';
+  static final forgotPassword = '$baseUrl/forgot-password';
+  static final resetPassword = '$baseUrl/reset-password';
 
   //User
-  static const getUserProfile = '$baseUrl/user/profile';
-  static const updateUserProfile = '$baseUrl/user/profile/update';
-  static const getUserDetails = '$baseUrl/user/details';
+  static final getUserProfile = '$baseUrl/user/profile';
+  static final updateUserProfile = '$baseUrl/user/profile/update';
+  static final getUserDetails = '$baseUrl/user/details';
 }

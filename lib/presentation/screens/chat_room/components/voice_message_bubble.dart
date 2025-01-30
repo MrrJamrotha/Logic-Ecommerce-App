@@ -8,6 +8,7 @@ import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
+import 'package:logic_app/core/helper/audio_processor.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
@@ -35,7 +36,7 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
   late PlayerController _playerController;
   StreamSubscription<FileResponse>? _streamSubscription;
   StreamSubscription<int>? _progressSubscription; // Track progress
-
+  late AudioProcessor _audioProcessor;
   final _isLoading = ValueNotifier<bool>(true);
   String? _filePath;
   final _maxDuration = ValueNotifier<int>(1);
@@ -54,6 +55,7 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
   void initState() {
     super.initState();
     _playerController = PlayerController();
+    _audioProcessor = AudioProcessor();
     _playerController.updateFrequency = UpdateFrequency.high;
 
     _cacheAndPrepareAudio();
@@ -81,6 +83,8 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
       // Prepare the player with the valid file path
       final samples =
           style.getSamplesForWidth((AppSizeConfig.screenWidth * 0.5) / 2);
+
+      //
       await _playerController.preparePlayer(
           path: _filePath!, noOfSamples: samples);
       _maxDuration.value = _playerController.maxDuration;
@@ -89,8 +93,6 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
           await _playerController.extractWaveformData(path: _filePath!);
 
       print('Waveform Data: ${_waveformData.value}');
-    } else {
-      logger.e("File does not exist at path: $newFilePath");
     }
   }
 
@@ -122,6 +124,7 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
     _playerController.dispose();
     _streamSubscription?.cancel();
     _progressSubscription?.cancel();
+    _audioProcessor.dispose();
     super.dispose();
   }
 

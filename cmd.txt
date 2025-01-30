@@ -1,2 +1,4 @@
 arch -x86_64 pod install , intel
 -> https://github.com/CocoaPods/CocoaPods/issues/12635
+
+flutter run --dart-define-from-file=env/dev.json
