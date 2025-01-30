@@ -9,3 +9,16 @@ enum ThemeType {
 }
 
 enum BubbleType { sendBubble, receiverBubble }
+
+enum MessageStatus {
+  success,
+  error,
+  warning,
+}
+
+enum OrderColorStatus {
+  pending,
+  confirm,
+  delivery,
+  delivered,
+}

@@ -5,6 +5,7 @@ const appWhite = Colors.white;
 const appBlack = Colors.black;
 const appBlueGrey = Colors.blueGrey;
 const appGrey = Colors.grey;
+const appGreen = Colors.green;
 const appYellow = Colors.yellow;
 const appRedAccent = Colors.redAccent;
 const appBlueAccent = Colors.blueAccent;
