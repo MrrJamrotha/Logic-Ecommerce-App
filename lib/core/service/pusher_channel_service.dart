@@ -12,7 +12,11 @@ class PusherChannelService {
         apiKey: dotenv.env['PUSHER_APP_KEY'].toString(),
         cluster: dotenv.env['PUSHER_APP_CLUSTER'].toString(),
       );
-      await pusher.subscribe(channelName: 'logic-channel-chat-$userId');
+      await pusher.connect();
+      await pusher.subscribe(
+        channelName: 'logic-channel-chat-$userId',
+        onEvent: onEvent,
+      );
     } catch (e) {
       logger.e(e);
     }
@@ -20,5 +24,9 @@ class PusherChannelService {
 
   void disconnect() async {
     await pusher.disconnect();
+  }
+
+  void onEvent(PusherEvent event) {
+    logger.i(event);
   }
 }
