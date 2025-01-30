@@ -230,6 +230,24 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "flutter_local_notifications",
+      "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/flutter_local_notifications-18.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "flutter_local_notifications_linux",
+      "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/flutter_local_notifications_linux-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "flutter_local_notifications_platform_interface",
+      "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/flutter_local_notifications_platform_interface-8.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "flutter_localizations",
       "rootUri": "file:///Users/macbook/development/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
@@ -830,6 +848,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "timezone",
+      "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/timezone-0.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "typed_data",
       "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/typed_data-1.4.0",
       "packageUri": "lib/",
@@ -908,7 +932,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-01-30T04:19:20.244349Z",
+  "generated": "2025-01-30T04:57:19.820478Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///Users/macbook/development/flutter",

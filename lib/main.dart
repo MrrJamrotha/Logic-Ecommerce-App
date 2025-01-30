@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/locale/locale_delegate.dart';
+import 'package:logic_app/core/service/notification_service.dart';
 import 'package:logic_app/core/theme/app_theme.dart';
 import 'package:logic_app/presentation/routes/router.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
@@ -17,7 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupInjector();
   await dotenv.load(fileName: ".env");
-
+  NotificationService().initPlatformState();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web

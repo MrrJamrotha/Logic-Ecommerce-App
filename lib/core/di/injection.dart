@@ -9,13 +9,14 @@ import 'package:http/http.dart' as http;
 
 final di = GetIt.instance;
 void setupInjector() {
+  di.registerSingleton<DatabaseService>(DatabaseService.instance);
   di.registerLazySingleton<http.Client>(() => http.Client());
   di.registerLazySingleton<ApiClient>(() => ApiClient(http.Client()));
   di.registerLazySingleton<PhotoManagerService>(
       () => PhotoManagerService.instance);
 
   di.registerLazySingleton<BaseCacheManager>(() => DefaultCacheManager());
-  di.registerLazySingleton<DatabaseService>(() => DatabaseService.instance);
+
   di.registerLazySingleton<SecureStorageService>(() => SecureStorageService());
   di.registerLazySingleton<SharedPreferencesService>(
       () => SharedPreferencesService.instance);

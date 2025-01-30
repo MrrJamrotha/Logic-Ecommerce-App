@@ -378,10 +378,10 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                 if (notification is ScrollMetricsNotification) {
                   if (notification.metrics.pixels == 0.0) {
                     _animationController.forward();
-                    _isVisible.value = false;
+                    // _isVisible.value = false;
                   } else {
                     _animationController.reverse();
-                    _isVisible.value = true;
+                    // _isVisible.value = true;
                   }
                 }
                 return true;
@@ -527,18 +527,19 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
     //   ),
     // );
     return Column(
+      spacing: 5.scale,
       children: [
         Container(
-          padding: EdgeInsets.all(20.scale),
-          margin: EdgeInsets.symmetric(horizontal: 20.scale),
+          padding: EdgeInsets.all(15.scale),
+          margin: EdgeInsets.symmetric(horizontal: 14.scale),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: primary,
           ),
           child: IconWidget(
             assetName: assetName,
-            width: 40.scale,
-            height: 40.scale,
+            width: 20.scale,
+            height: 20.scale,
             colorFilter: ColorFilter.mode(appWhite, BlendMode.srcIn),
           ),
         ),
