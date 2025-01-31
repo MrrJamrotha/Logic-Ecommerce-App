@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,13 +25,19 @@ void main() async {
   setupInjector();
   await dotenv.load(fileName: ".env");
 
+  final byteskey = sha256
+      .convert(utf8.encode(dotenv.env['PASSWORD_HYDRATED'].toString()))
+      .bytes;
+
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web
         : HydratedStorageDirectory((await getTemporaryDirectory()).path),
+    encryptionCipher: HydratedAesCipher(byteskey),
   );
   di.get<DatabaseService>().database;
   HttpOverrides.global = MyHttpOverrides();
+  // HydratedBloc.storage = di.get<SecureStorageService>();
   runApp(
     MultiBlocProvider(
       providers: [
