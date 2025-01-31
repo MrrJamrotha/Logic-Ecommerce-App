@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/io_client.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/core/di/injection.dart';
@@ -13,9 +11,10 @@ import 'package:logic_app/core/locale/locale_delegate.dart';
 import 'package:logic_app/core/service/database_service.dart';
 import 'package:logic_app/core/service/onesignal_service.dart';
 import 'package:logic_app/core/theme/app_theme.dart';
+import 'package:logic_app/presentation/global/application/application_cubit.dart';
+import 'package:logic_app/presentation/global/application/application_state.dart';
 import 'package:logic_app/presentation/routes/router.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
-import 'package:logic_app/presentation/screens/setting/setting_state.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -23,7 +22,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupInjector();
   await dotenv.load(fileName: ".env");
-  OnesignalService().initPlatformState();
+
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web
@@ -31,9 +30,17 @@ void main() async {
   );
   di.get<DatabaseService>().database;
   HttpOverrides.global = MyHttpOverrides();
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider(create: (context) => SettingCubit()),
-  ], child: LogicApp()));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ApplicationCubit()..loadInitialData(),
+        ),
+        BlocProvider(create: (context) => SettingCubit()),
+      ],
+      child: LogicApp(),
+    ),
+  );
 }
 
 class LogicApp extends StatefulWidget {
@@ -46,7 +53,9 @@ class LogicApp extends StatefulWidget {
 class _LogicAppState extends State<LogicApp> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingCubit, SettingState>(
+    final router = MainRouter.createRouter(context);
+    OnesignalService(router: router).initPlatformState();
+    return BlocBuilder<ApplicationCubit, ApplicationState>(
       builder: (context, state) {
         return MaterialApp.router(
           scaffoldMessengerKey: scaffoldMessengerKey,
@@ -61,9 +70,10 @@ class _LogicAppState extends State<LogicApp> {
             const Locale('km', 'KH'),
           ],
           locale: Locale('en', 'US'),
-          routerConfig: router,
+          debugShowCheckedModeBanner: false,
+          routerConfig: MainRouter.createRouter(context),
           theme: AppTheme.darkTheme,
-          themeMode: state.lightMode ? ThemeMode.light : ThemeMode.dark,
+          themeMode: state.isDarkModeTheme ? ThemeMode.dark : ThemeMode.light,
           darkTheme: AppTheme.darkTheme,
         );
       },

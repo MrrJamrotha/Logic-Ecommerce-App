@@ -1,35 +1,37 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logic_app/core/constants/app_global_key.dart';
+import 'package:logic_app/presentation/global/application/application_cubit.dart';
 import 'package:logic_app/presentation/screens/camera/take_picture_screen.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_screen.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/preview_image.dart';
 import 'package:logic_app/presentation/screens/main_screen.dart';
+import 'package:logic_app/presentation/screens/not_found/not_found_screen.dart';
 import 'package:logic_app/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-final GoRouter router = GoRouter(routes: [
-  GoRoute(
-      name: OnboardingScreen.routeName,
-      path: '/',
-      builder: (context, state) {
-        return OnboardingScreen();
-      },
+class MainRouter {
+  static GoRouter createRouter(BuildContext context) {
+    return GoRouter(
+      initialLocation: !context.watch<ApplicationCubit>().state.onBoarding
+          ? OnboardingScreen.routePath
+          : MainScreen.routePath,
+      navigatorKey: rootNavigatorKey,
       routes: [
         GoRoute(
+          name: OnboardingScreen.routeName,
+          path: OnboardingScreen.routePath,
+          builder: (context, state) => OnboardingScreen(),
+        ),
+        GoRoute(
           path: MainScreen.routePath,
-          builder: (context, state) {
-            return MainScreen();
-          },
+          builder: (context, state) => MainScreen(),
           routes: [
-            //item detail
             GoRoute(
               name: TakePictureScreen.routeName,
               path: '/take_picture_screen',
-              // builder: (context, state) {
-              //   final cameraName = state.extra! as CameraDescription;
-              //   return TakePictureScreen(camera: cameraName);
-              // },
               pageBuilder: (context, state) {
                 final cameraName = state.extra! as CameraDescription;
                 return CustomTransitionPage(
@@ -44,15 +46,13 @@ final GoRouter router = GoRouter(routes: [
             GoRoute(
               name: ChatRoomScreen.routeName,
               path: '/chat-room',
-              pageBuilder: (context, state) {
-                return CustomTransitionPage(
-                  child: ChatRoomScreen(),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                    return FadeTransition(opacity: animation, child: child);
-                  },
-                );
-              },
+              pageBuilder: (context, state) => CustomTransitionPage(
+                child: ChatRoomScreen(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+              ),
               routes: [
                 GoRoute(
                   name: PreviewImage.routeName,
@@ -72,5 +72,8 @@ final GoRouter router = GoRouter(routes: [
             ),
           ],
         ),
-      ]),
-]);
+      ],
+      errorBuilder: (context, state) => NotFoundScreen(),
+    );
+  }
+}

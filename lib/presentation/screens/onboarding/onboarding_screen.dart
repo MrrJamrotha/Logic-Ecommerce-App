@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/presentation/global/application/application_cubit.dart';
 import 'package:logic_app/presentation/screens/onboarding/onboarding_cubit.dart';
 import 'package:logic_app/presentation/screens/onboarding/onboarding_state.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
@@ -12,13 +13,14 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const routeName = 'onboarding';
-  const OnboardingScreen({Key? key}) : super(key: key);
+  static const routePath = '/';
+  const OnboardingScreen({super.key});
 
   @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  OnboardingScreenState createState() => OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class OnboardingScreenState extends State<OnboardingScreen> {
   final screenCubit = OnboardingCubit();
   final _pageController = PageController();
   final _currentIndex = ValueNotifier<int>(0);
@@ -55,12 +57,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _currentIndex.value = index;
   }
 
-  void onNextPage(int index) {
+  void onNextPage(int index) async {
     _pageController.animateToPage(
       index + 1,
       duration: Duration(milliseconds: 300),
       curve: Curves.ease,
     );
+
+    if (_currentIndex.value == (onboardings.length - 1)) {
+      context.read<ApplicationCubit>().setOnboarding(true);
+    }
   }
 
   @override
@@ -138,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ? "Let’s get started".tr
                     : 'Next'.tr,
               ),
-              // SizedBox.shrink(),
+              SizedBox.shrink(),
               // SizedBox.shrink(),
             ],
           ),
