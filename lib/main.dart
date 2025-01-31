@@ -37,7 +37,7 @@ void main() async {
   );
   di.get<DatabaseService>().database;
   HttpOverrides.global = MyHttpOverrides();
-  // HydratedBloc.storage = di.get<SecureStorageService>();
+
   runApp(
     MultiBlocProvider(
       providers: [
