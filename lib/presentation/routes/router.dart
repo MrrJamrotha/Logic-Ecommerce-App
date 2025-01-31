@@ -15,9 +15,9 @@ import 'package:photo_manager/photo_manager.dart';
 class MainRouter {
   static GoRouter createRouter(BuildContext context) {
     return GoRouter(
-      initialLocation: !context.watch<ApplicationCubit>().state.onBoarding
-          ? OnboardingScreen.routePath
-          : MainScreen.routePath,
+      initialLocation: context.read<ApplicationCubit>().state.onBoarding
+          ? MainScreen.routePath
+          : OnboardingScreen.routePath,
       navigatorKey: rootNavigatorKey,
       routes: [
         GoRoute(

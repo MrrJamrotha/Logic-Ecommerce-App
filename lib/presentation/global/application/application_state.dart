@@ -1,4 +1,6 @@
-class ApplicationState {
+import 'package:equatable/equatable.dart';
+
+class ApplicationState extends Equatable {
   final bool isLoading;
   final String? error;
   final bool onBoarding;
@@ -24,4 +26,30 @@ class ApplicationState {
       isDarkModeTheme: isDarkModeTheme ?? this.isDarkModeTheme,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'isLoading': isLoading,
+      'error': error ?? '',
+      'onBoarding': onBoarding,
+      'isDarkModeTheme': isDarkModeTheme,
+    };
+  }
+
+  static ApplicationState fromJson(Map<String, dynamic> json) {
+    return ApplicationState(
+      isLoading: json['isLoading'] ?? false,
+      error: json['error'] ?? "",
+      onBoarding: json['onBoarding'] ?? false,
+      isDarkModeTheme: json['isDarkModeTheme'] ?? false,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        isLoading,
+        error,
+        onBoarding,
+        isDarkModeTheme,
+      ];
 }
