@@ -134,7 +134,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onPressed: () {
                   onNextPage(currentIndex);
                 },
-                title: 'Next'.tr,
+                title: (currentIndex == onboardings.length - 1)
+                    ? "Let’s get started".tr
+                    : 'Next'.tr,
               ),
               // SizedBox.shrink(),
               // SizedBox.shrink(),
