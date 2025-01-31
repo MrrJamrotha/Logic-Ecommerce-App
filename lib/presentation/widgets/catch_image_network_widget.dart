@@ -24,6 +24,7 @@ class CatchImageNetworkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
+      
       cacheManager: di.get<BaseCacheManager>(),
       imageUrl: imageUrl,
       fit: boxFit,

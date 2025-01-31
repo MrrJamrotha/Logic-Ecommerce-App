@@ -746,6 +746,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "smooth_page_indicator",
+      "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/smooth_page_indicator-1.2.0+3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sms_autofill",
       "rootUri": "file:///Users/macbook/.pub-cache/hosted/pub.dev/sms_autofill-2.4.1",
       "packageUri": "lib/",
@@ -914,7 +920,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-01-30T06:58:57.724473Z",
+  "generated": "2025-01-31T04:53:17.402706Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///Users/macbook/development/flutter",

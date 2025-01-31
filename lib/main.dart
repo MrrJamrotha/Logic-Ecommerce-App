@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/io_client.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logic_app/core/constants/app_global_key.dart';
@@ -27,6 +30,7 @@ void main() async {
         : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
   di.get<DatabaseService>().database;
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (context) => SettingCubit()),
   ], child: LogicApp()));
@@ -64,5 +68,14 @@ class _LogicAppState extends State<LogicApp> {
         );
       },
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
