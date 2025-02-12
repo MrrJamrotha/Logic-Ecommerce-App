@@ -6,6 +6,7 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
+import 'package:logic_app/presentation/widgets/card_brand_widget.dart';
 import 'package:logic_app/presentation/widgets/card_category_widget.dart';
 import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
@@ -56,6 +57,7 @@ class HomeScreenState extends State<HomeScreen>
       builder: (context, state) {
         final slideShowModels = state.slideShowModels ?? [];
         final categoryModels = state.categoryModels ?? [];
+        final brandModels = state.brandModels ?? [];
         return SingleChildScrollView(
           padding: EdgeInsets.all(appPedding.scale),
           child: Column(
@@ -70,62 +72,84 @@ class HomeScreenState extends State<HomeScreen>
                 onTap: () {
                   //TODO: next time
                 },
-              ),
-              SizedBox(
-                height: 100.scale,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categoryModels.length,
-                  itemBuilder: (context, index) {
-                    final record = categoryModels[index];
-                    return CardCategoryWidget(
-                      picture: record.picture,
-                      pictureHash: record.pictureHash,
-                      title: record.name,
-                    );
-                  },
+                child: SizedBox(
+                  height: 100.scale,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: categoryModels.length,
+                    itemBuilder: (context, index) {
+                      final record = categoryModels[index];
+                      return CardCategoryWidget(
+                        picture: record.picture,
+                        pictureHash: record.pictureHash,
+                        title: record.name,
+                      );
+                    },
+                  ),
                 ),
               ),
+
               _buildTitleRow(
-                title: 'today_deals'.tr,
+                title: 'popular_brands'.tr,
                 onTap: () {
                   //TODO: next time
                 },
+                child: SizedBox(
+                  height: 105.scale,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: brandModels.length,
+                    itemBuilder: (context, index) {
+                      final record = brandModels[index];
+                      return CardBrandWidget(
+                        picture: record.picture,
+                        pictureHash: record.pictureHash,
+                        title: record.name,
+                      );
+                    },
+                  ),
+                ),
               ),
-              _buildTitleRow(
-                title: 'today_deals'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-              ),
+              // _buildTitleRow(
+              //   title: 'today_deals'.tr,
+              //   onTap: () {
+              //     //TODO: next time
+              //   },
+              // ),
+              // _buildTitleRow(
+              //   title: 'today_deals'.tr,
+              //   onTap: () {
+              //     //TODO: next time
+              //   },
+              // ),
               CarouselSliderWidget(
                 records: slideShowModels,
                 isLoading: state.isLoadingSlideShow,
               ),
-              _buildTitleRow(
-                title: 'recommend_for_you'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-              ),
-              _buildTitleRow(
-                title: 'bast_seller'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-              ),
-              _buildTitleRow(
-                title: 'new_arrival'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-              ),
-              _buildTitleRow(
-                title: 'spacial_offers'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-              ),
+              // _buildTitleRow(
+              //   title: 'recommend_for_you'.tr,
+              //   onTap: () {
+              //     //TODO: next time
+              //   },
+              // ),
+              // _buildTitleRow(
+              //   title: 'bast_seller'.tr,
+              //   onTap: () {
+              //     //TODO: next time
+              //   },
+              // ),
+              // _buildTitleRow(
+              //   title: 'new_arrival'.tr,
+              //   onTap: () {
+              //     //TODO: next time
+              //   },
+              // ),
+              // _buildTitleRow(
+              //   title: 'spacial_offers'.tr,
+              //   onTap: () {
+              //     //TODO: next time
+              //   },
+              // ),
             ],
           ),
         );
@@ -133,18 +157,27 @@ class HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Row _buildTitleRow({required String title, Function()? onTap}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildTitleRow({
+    required String title,
+    Function()? onTap,
+    required Widget child,
+  }) {
+    return Column(
       children: [
-        TextWidget(text: title),
-        TextButton(
-          onPressed: onTap,
-          child: TextWidget(
-            text: 'view_more'.tr,
-            color: primary,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextWidget(text: title),
+            TextButton(
+              onPressed: onTap,
+              child: TextWidget(
+                text: 'view_more'.tr,
+                color: primary,
+              ),
+            ),
+          ],
         ),
+        child
       ],
     );
   }
