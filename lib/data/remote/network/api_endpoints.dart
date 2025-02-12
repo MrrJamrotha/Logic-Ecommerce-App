@@ -5,6 +5,8 @@ class ApiEndpoints {
 
   //Home
   static final getSlideShow = '$baseUrl/get-slide-show';
+  static final getBrowseCategories = '$baseUrl/get-browse-categories';
+  static final getBrands = '$baseUrl/get-brands';
 
   //Auth
   static final login = '$baseUrl/login';

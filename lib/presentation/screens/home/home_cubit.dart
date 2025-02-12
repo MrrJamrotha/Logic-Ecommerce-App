@@ -4,11 +4,11 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/repositories/home/home_repository_impl.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class HomeCubit extends HydratedCubit<HomeState> {
   HomeCubit() : super(HomeState(isLoading: true));
   final repos = di.get<HomeRepositoryImpl>();
 
-  void getSlideShow({
+  Future<void> getSlideShow({
     Map<String, dynamic>? parameters,
   }) async {
     try {
@@ -23,9 +23,45 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  Future<void> getBrowseCategories() async {
+    try {
+      emit(state.copyWith(isLoadingCategory: true));
+      await repos.getBrowseCategories().then((response) {
+        emit(state.copyWith(categoryModels: response.success));
+      });
+      emit(state.copyWith(isLoadingCategory: false));
+    } catch (e) {
+      emit(state.copyWith(isLoadingCategory: false));
+      addError(e);
+    }
+  }
+
+  Future<void> getBrands() async {
+    try {
+      emit(state.copyWith(isLoadingCategory: true));
+      await repos.getBrands().then((response) {
+        emit(state.copyWith(brandModels: response.success));
+      });
+      emit(state.copyWith(isLoadingCategory: false));
+    } catch (e) {
+      emit(state.copyWith(isLoadingCategory: false));
+      addError(e);
+    }
+  }
+
   @override
   void addError(Object error, [StackTrace? stackTrace]) {
     logger.e(error, stackTrace: stackTrace);
     super.addError(error, stackTrace);
+  }
+
+  @override
+  HomeState? fromJson(Map<String, dynamic> json) {
+    return HomeState.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(HomeState state) {
+    return state.toJson();
   }
 }

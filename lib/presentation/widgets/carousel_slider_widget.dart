@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -36,6 +37,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
           itemBuilder: (context, index, realIndex) {
             final record = widget.records[index];
             return CatchImageNetworkWidget(
+              borderRadius: BorderRadius.circular(appRadius.scale),
               boxFit: BoxFit.cover,
               height: 260.scale,
               width: double.infinity,

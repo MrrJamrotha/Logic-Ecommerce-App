@@ -128,4 +128,52 @@ class ApiClient implements Api {
       throw ErrorHandler.handleException(exception as Exception);
     }
   }
+
+  @override
+  Future<BaseResponse> getBrands({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getBrands),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getBrowseCategories({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getBrowseCategories),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
+    }
+  }
 }
