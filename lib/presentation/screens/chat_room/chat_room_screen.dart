@@ -317,27 +317,27 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                   },
                   icon: Icon(Icons.pause),
                 ),
-                AudioWaveforms(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30.scale),
-                    color: appBlueAccent,
-                    // backgroundColor: appBlueAccent,
-                  ),
-                  enableGesture: true,
-                  size: Size(300, 50),
-                  recorderController: recorderController,
-                  shouldCalculateScrolledPosition: true,
-                  waveStyle: WaveStyle(
-                    waveThickness: 2.5,
-                    spacing: 5,
-                    middleLineColor: Colors.transparent,
-                    waveCap: StrokeCap.round,
-                    extendWaveform: true,
-                    scaleFactor: 100,
-                    waveColor: appWhite,
-                    // backgroundColor: appWhite,
-                  ),
-                ),
+                // AudioWaveforms(
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(30.scale),
+                //     color: appBlueAccent,
+                //     // backgroundColor: appBlueAccent,
+                //   ),
+                //   enableGesture: true,
+                //   size: Size(300, 50),
+                //   recorderController: recorderController,
+                //   shouldCalculateScrolledPosition: true,
+                //   waveStyle: WaveStyle(
+                //     waveThickness: 2.5,
+                //     spacing: 5,
+                //     middleLineColor: Colors.transparent,
+                //     waveCap: StrokeCap.round,
+                //     extendWaveform: true,
+                //     scaleFactor: 100,
+                //     waveColor: appWhite,
+                //     // backgroundColor: appWhite,
+                //   ),
+                // ),
                 IconButton(
                   onPressed: () {
                     if (recorderController.hasPermission) {

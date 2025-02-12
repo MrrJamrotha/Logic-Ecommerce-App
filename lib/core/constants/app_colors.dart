@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-const primary = Color(0XFF007AFF);
+const primary = Color(0XFFF14A00);
 const appWhite = Colors.white;
 const appBlack = Colors.black;
-const appBlueGrey = Colors.blueGrey;
 const appGrey = Colors.grey;
-const appGreen = Colors.green;
-const appYellow = Colors.yellow;
-const appRedAccent = Colors.redAccent;
-const appBlueAccent = Colors.blueAccent;
-const textColor = Color(0XFF888888);
+const appGreen = Color(0XFF4CAF50);
+const appYellow = Color(0XFFFFA500);
+const appRedAccent = Color(0XFFD30000);
+const textColor = Color(0XFF565353);

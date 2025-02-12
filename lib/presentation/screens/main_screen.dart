@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/category/category_screen.dart';
@@ -8,6 +10,8 @@ import 'package:logic_app/presentation/screens/profile/profile_screen.dart';
 import 'package:logic_app/presentation/screens/search/search_screen.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
 import 'package:logic_app/presentation/screens/setting/setting_state.dart';
+import 'package:logic_app/presentation/widgets/icon_widget.dart';
+import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class MainScreen extends StatefulWidget {
   static const routePath = '/main';
@@ -46,22 +50,70 @@ class _MainScreenState extends State<MainScreen> {
               context.read<SettingCubit>().onPageChanged(index);
               _pageController.jumpToPage(index);
             },
+            indicatorColor: primary,
+            surfaceTintColor: appWhite,
             selectedIndex: state.currentIndex,
             destinations: [
               NavigationDestination(
-                icon: Icon(Icons.home),
+                selectedIcon: IconWidget(
+                  assetName: homeSvg,
+                  width: 24.scale,
+                  height: 24.scale,
+                  colorFilter: ColorFilter.mode(appWhite, BlendMode.srcIn),
+                ),
+                icon: IconWidget(
+                  assetName: homeSvg,
+                  width: 24.scale,
+                  height: 24.scale,
+                ),
                 label: 'home'.tr,
               ),
               NavigationDestination(
-                icon: Icon(Icons.menu),
-                label: 'category',
+                selectedIcon: IconWidget(
+                  assetName: menuSvg,
+                  width: 24.scale,
+                  height: 24.scale,
+                  colorFilter: ColorFilter.mode(appWhite, BlendMode.srcIn),
+                ),
+                icon: IconWidget(
+                  assetName: menuSvg,
+                  width: 24.scale,
+                  height: 24.scale,
+                ),
+                label: 'categories',
               ),
               NavigationDestination(
-                icon: Icon(Icons.search),
-                label: 'search',
+                selectedIcon: Badge.count(
+                  count: 10, //TODO: next time
+                  child: IconWidget(
+                    assetName: cartSvg,
+                    width: 24.scale,
+                    height: 24.scale,
+                    colorFilter: ColorFilter.mode(appWhite, BlendMode.srcIn),
+                  ),
+                ),
+                icon: Badge.count(
+                  count: 10, //TODO: next time
+                  child: IconWidget(
+                    assetName: cartSvg,
+                    width: 24.scale,
+                    height: 24.scale,
+                  ),
+                ),
+                label: 'carts',
               ),
               NavigationDestination(
-                icon: Icon(Icons.account_circle_outlined),
+                selectedIcon: IconWidget(
+                  assetName: userSvg,
+                  width: 24.scale,
+                  height: 24.scale,
+                  colorFilter: ColorFilter.mode(appWhite, BlendMode.srcIn),
+                ),
+                icon: IconWidget(
+                  assetName: userSvg,
+                  width: 24.scale,
+                  height: 24.scale,
+                ),
                 label: 'account',
               ),
             ],
