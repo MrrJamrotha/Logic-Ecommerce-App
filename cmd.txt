@@ -2,3 +2,27 @@ arch -x86_64 pod install , intel
 -> https://github.com/CocoaPods/CocoaPods/issues/12635
 
 flutter run --dart-define-from-file=env/dev.json
+
+
+https://pub.dev/packages/flutter_native_splash
+# If you have a flavor called production you would do this:
+dart run flutter_native_splash:create --flavor production
+
+# For a flavor with a name staging you would provide it's name like so:
+dart run flutter_native_splash:create --flavor acceptance
+
+# And if you have a local version for devs you could do that:
+dart run flutter_native_splash:create --flavor development
+
+
+More than one 
+You also have the ability to specify all the flavors in one command as shown bellow:
+dart run flutter_native_splash:create --flavors development,staging,production
+
+
+All flavors 
+And if you have many different flavors available in your project, and wish to generate the splash screen for all of them, you can use this command (starting from 2.4.4):
+
+dart run flutter_native_splash:create --all-flavors
+# OR you can use the shorthand option
+dart run flutter_native_splash:create -A
