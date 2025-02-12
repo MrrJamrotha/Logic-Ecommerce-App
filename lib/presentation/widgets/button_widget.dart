@@ -4,15 +4,16 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class ButtonWidget extends StatelessWidget {
-  const ButtonWidget({super.key, required this.title, required this.onPressed});
+  const ButtonWidget({super.key, required this.title, required this.onPressed, this.color = primary});
   final String title;
   final VoidCallback onPressed;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: primary,
+        backgroundColor: color,
         padding: EdgeInsets.all(10.scale),
       ),
       child: SizedBox(

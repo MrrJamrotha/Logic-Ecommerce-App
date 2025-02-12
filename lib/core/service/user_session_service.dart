@@ -30,10 +30,8 @@ class UserSessionService {
   Future<UserModel?> getUser() async {
     // Instance method
     String? userJson = await _secureStorageService.read('user');
-    if (userJson != null) {
-      // Assuming UserModel has a fromJson method
-      userModel = UserModel.fromJon(jsonDecode(userJson));
-    }
+    // Assuming UserModel has a fromJson method
+    userModel = UserModel.fromJon(jsonDecode(userJson!));
     return userModel;
   }
 }
