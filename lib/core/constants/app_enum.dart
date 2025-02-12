@@ -31,3 +31,22 @@ enum MessageType {
   document,
   location,
 }
+
+// Product','Category','Brand','Merchant','Promotion','Coupon
+//display_type = 'NewProduct','Promotion','Coupon','NewCategory','NewBrand'
+enum SlideShowType {
+  category,
+  product,
+  brand,
+  merchant,
+  promotion,
+  coupon,
+}
+
+enum DisplayType {
+  newProduct,
+  promotion,
+  coupon,
+  newCategory,
+  newBrand,
+}

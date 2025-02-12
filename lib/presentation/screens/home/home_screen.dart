@@ -4,6 +4,7 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
+import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,6 +25,7 @@ class HomeScreenState extends State<HomeScreen>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
+    screenCubit.getSlideShow(parameters: {'display_type': 'NewProduct'});
     super.initState();
   }
 
@@ -36,33 +38,28 @@ class HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(),
-      body: BlocConsumer<HomeCubit, HomeState>(
-        bloc: screenCubit,
-        listener: (BuildContext context, HomeState state) {
-          if (state.error != null) {
-            // TODO your code here
-          }
-        },
-        builder: (BuildContext context, HomeState state) {
-          // if (state.isLoading) {
-          //   return Center(child: CircularProgressIndicator());
-          // }
-
-          return buildBody(state);
-        },
+      appBar: AppbarWidget(
+        title: 'home'.tr,
       ),
+      body: buildBody(),
     );
   }
 
-  Widget buildBody(HomeState state) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () {
-          showDialogUpdate();
-        },
-        child: Text('get photo'),
-      ),
+  Widget buildBody() {
+    return BlocBuilder<HomeCubit, HomeState>(
+      bloc: screenCubit,
+      builder: (context, state) {
+        final records = state.slideShowModels ?? [];
+        return Column(
+          spacing: 16.scale,
+          children: [
+            CarouselSliderWidget(
+              records: records,
+              isLoading: state.isLoadingSlideShow,
+            ),
+          ],
+        );
+      },
     );
   }
 

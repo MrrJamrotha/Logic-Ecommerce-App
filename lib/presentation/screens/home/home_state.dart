@@ -1,55 +1,58 @@
 import 'package:equatable/equatable.dart';
-import 'package:photo_manager/photo_manager.dart';
+import 'package:logic_app/data/models/slide_show_model.dart';
 
 class HomeState extends Equatable {
   final bool isLoading;
+  final bool isLoadingSlideShow;
   final String? error;
-  final List<AssetPathEntity> assetPathList;
-  final List<AssetEntity> albumsFolders;
+  final List<SlideShowModel>? slideShowModels;
+
   const HomeState({
     this.isLoading = false,
+    this.isLoadingSlideShow = false,
     this.error,
-    this.assetPathList = const [],
-    this.albumsFolders = const [],
+    this.slideShowModels,
   });
 
   HomeState copyWith({
     bool? isLoading,
+    bool? isLoadingSlideShow,
     String? error,
-    List<AssetPathEntity>? assetPathList,
-    List<AssetEntity>? albumsFolders,
+    List<SlideShowModel>? slideShowModels,
   }) {
     return HomeState(
       isLoading: isLoading ?? this.isLoading,
+      isLoadingSlideShow: isLoadingSlideShow ?? this.isLoadingSlideShow,
       error: error ?? this.error,
-      assetPathList: assetPathList ?? this.assetPathList,
-      albumsFolders: albumsFolders ?? this.albumsFolders,
+      slideShowModels: slideShowModels ?? this.slideShowModels,
     );
   }
 
   @override
   List<Object?> get props => [
         isLoading,
+        isLoadingSlideShow,
         error,
-        assetPathList,
-        albumsFolders,
+        slideShowModels,
       ];
 
   Map<String, dynamic> toJson() {
     return {
       'isLoading': isLoading,
+      'isLoadingSlideShow': isLoadingSlideShow,
       'error': error,
-      'assetPathList': assetPathList,
-      'albumsFolders': albumsFolders,
+      'slide_show': slideShowModels,
     };
   }
 
   static HomeState fromJson(Map<String, dynamic> json) {
     return HomeState(
       isLoading: json['isLoading'] ?? false,
+      isLoadingSlideShow: json['isLoadingSlideShow'] ?? false,
       error: json['error'],
-      assetPathList: json['assetPathList'],
-      albumsFolders: json['albumsFolders'],
+      slideShowModels: json['slide_show']
+          ?.map((model) => SlideShowModel.fromJson(model))
+          ?.toList(),
     );
   }
 }

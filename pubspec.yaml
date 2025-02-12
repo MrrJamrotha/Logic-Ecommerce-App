@@ -10,6 +10,7 @@ dependencies:
   audio_waveforms: ^1.2.0
   cached_network_image: ^3.4.1
   camera: ^0.10.6
+  carousel_slider: ^5.0.0
   connectivity_plus: ^6.1.2
   crypto: ^3.0.6
   dynamic_color: ^1.7.0

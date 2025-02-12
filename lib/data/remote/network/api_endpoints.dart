@@ -3,6 +3,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class ApiEndpoints {
   static final String baseUrl = dotenv.env['baseUrl'] ?? "";
 
+  //Home
+  static final getSlideShow = '$baseUrl/get-slide-show';
+
   //Auth
   static final login = '$baseUrl/login';
   static final register = '$baseUrl/register';

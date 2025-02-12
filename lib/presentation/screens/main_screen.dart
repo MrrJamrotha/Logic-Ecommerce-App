@@ -46,6 +46,7 @@ class _MainScreenState extends State<MainScreen> {
             ],
           ),
           bottomNavigationBar: NavigationBar(
+            backgroundColor: appWhite,
             onDestinationSelected: (index) {
               context.read<SettingCubit>().onPageChanged(index);
               _pageController.jumpToPage(index);

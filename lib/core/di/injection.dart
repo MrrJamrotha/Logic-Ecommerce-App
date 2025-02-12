@@ -6,6 +6,8 @@ import 'package:logic_app/core/service/secure_storage_service.dart';
 import 'package:logic_app/core/service/shared_preferences_service.dart';
 import 'package:logic_app/data/remote/network/api_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:logic_app/data/repositories/home/home_repository_impl.dart';
+import 'package:logic_app/data/repositories/user/user_repository_impl.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 final di = GetIt.instance;
@@ -24,4 +26,8 @@ void setupInjector() {
 
   di.registerSingleton<PusherChannelsFlutter>(
       PusherChannelsFlutter.getInstance());
+
+  //repositories
+  di.registerLazySingleton<UserRepositoryImpl>(() => UserRepositoryImpl());
+  di.registerLazySingleton<HomeRepositoryImpl>(() => HomeRepositoryImpl());
 }

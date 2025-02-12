@@ -6,8 +6,11 @@ const contactSvg = "assets/icons/contact-phonebook-support-svgrepo-com.svg";
 const checkReadSvg = 'assets/icons/check-read-svgrepo-com.svg';
 const checkSvg = 'assets/icons/check-big-svgrepo-com.svg';
 
-
 const homeSvg = 'assets/icons/home.svg';
 const menuSvg = 'assets/icons/menu.svg';
 const cartSvg = 'assets/icons/cart.svg';
 const userSvg = 'assets/icons/user.svg';
+
+const searchSvg = 'assets/icons/Search.svg';
+const notificationSvg = 'assets/icons/Notification.svg';
+const arrowLeftSvg = 'assets/icons/arrow.svg';
