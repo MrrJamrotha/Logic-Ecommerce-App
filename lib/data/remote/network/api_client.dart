@@ -5,6 +5,7 @@ import 'package:logic_app/core/common/base_response.dart';
 import 'package:logic_app/core/error/error_handler.dart';
 import 'package:logic_app/core/error/error_messages.dart';
 import 'package:logic_app/core/error/exceptions.dart';
+import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/data/remote/network/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:logic_app/data/remote/network/api_endpoints.dart';
@@ -171,6 +172,34 @@ class ApiClient implements Api {
         status: body['status'],
         message: body['message'],
         data: body['records'],
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getRecommendForYou({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getRecommendedForYou),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+        lastPage: AppFormat.toInt(body['last_page']),
+        currentPage: AppFormat.toInt(body['current_page']),
       );
     } catch (exception) {
       throw ErrorHandler.handleException(exception as Exception);

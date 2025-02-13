@@ -14,3 +14,8 @@ const userSvg = 'assets/icons/user.svg';
 const searchSvg = 'assets/icons/Search.svg';
 const notificationSvg = 'assets/icons/Notification.svg';
 const arrowLeftSvg = 'assets/icons/arrow.svg';
+const wishlist = 'assets/icons/Wishlist.svg';
+
+const addSvg = 'assets/icons/add.svg';
+const removeSvg = 'assets/icons/Remove.svg';
+const heartSvg = 'assets/icons/heart.svg';

@@ -9,6 +9,7 @@ import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/card_brand_widget.dart';
 import 'package:logic_app/presentation/widgets/card_category_widget.dart';
 import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
+import 'package:logic_app/presentation/widgets/product_card_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,10 +30,17 @@ class HomeScreenState extends State<HomeScreen>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    screenCubit.getSlideShow(parameters: {'display_type': 'NewProduct'});
-    screenCubit.getBrowseCategories();
-    screenCubit.getBrands();
+    loadInitialDatas();
     super.initState();
+  }
+
+  Future<void> loadInitialDatas() async {
+    Future.wait([
+      screenCubit.getSlideShow(parameters: {'display_type': 'NewProduct'}),
+      screenCubit.getBrowseCategories(),
+      screenCubit.getBrands(),
+      screenCubit.getRecommendedForYou(),
+    ]);
   }
 
   @override
@@ -58,6 +66,7 @@ class HomeScreenState extends State<HomeScreen>
         final slideShowModels = state.slideShowModels ?? [];
         final categoryModels = state.categoryModels ?? [];
         final brandModels = state.brandModels ?? [];
+        final recommendProducts = state.recommendProducts ?? [];
         return SingleChildScrollView(
           padding: EdgeInsets.all(appPedding.scale),
           child: Column(
@@ -126,12 +135,29 @@ class HomeScreenState extends State<HomeScreen>
                 records: slideShowModels,
                 isLoading: state.isLoadingSlideShow,
               ),
-              // _buildTitleRow(
-              //   title: 'recommend_for_you'.tr,
-              //   onTap: () {
-              //     //TODO: next time
-              //   },
-              // ),
+              _buildTitleRow(
+                title: 'recommend_for_you'.tr,
+                onTap: () {
+                  //TODO: next time
+                },
+                child: SizedBox(
+                  height: 200.scale,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: recommendProducts.length,
+                    itemBuilder: (context, index) {
+                      final record = recommendProducts[index];
+                      return Padding(
+                        padding: EdgeInsets.only(right: appSpace.scale),
+                        child: ProductCardWidget(
+                          record: record,
+                          isLoading: state.isLoadingRecommend,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
               // _buildTitleRow(
               //   title: 'bast_seller'.tr,
               //   onTap: () {

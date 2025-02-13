@@ -10,4 +10,5 @@ abstract class Api {
   Future<BaseResponse> getSlideShow({Map<String, dynamic>? parameters});
   Future<BaseResponse> getBrowseCategories({Map<String, dynamic>? parameters});
   Future<BaseResponse> getBrands({Map<String, dynamic>? parameters});
+  Future<BaseResponse> getRecommendForYou({Map<String, dynamic>? parameters});
 }

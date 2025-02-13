@@ -8,6 +8,12 @@ class ApiEndpoints {
   static final getBrowseCategories = '$baseUrl/get-browse-categories';
   static final getBrands = '$baseUrl/get-brands';
 
+  static final getRecommendedForYou = '$baseUrl/get-recommended-product';
+  static final getNewArrivals = '$baseUrl/get-product-new-arrivals';
+  static final getRelatedProduct = '$baseUrl/get-related-product';
+  static final getProductBastReview = '$baseUrl/get-product-bast-review';
+  static final getSpacialProduct = '$baseUrl/get-spacial-product';
+
   //Auth
   static final login = '$baseUrl/login';
   static final register = '$baseUrl/register';

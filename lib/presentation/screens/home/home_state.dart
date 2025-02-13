@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:logic_app/data/models/brand_model.dart';
 import 'package:logic_app/data/models/category_model.dart';
+import 'package:logic_app/data/models/product_model.dart';
 import 'package:logic_app/data/models/slide_show_model.dart';
 
 class HomeState extends Equatable {
@@ -8,20 +9,24 @@ class HomeState extends Equatable {
   final bool isLoadingSlideShow;
   final bool isLoadingCategory;
   final bool isLoadingBrand;
+  final bool isLoadingRecommend;
   final String? error;
   final List<SlideShowModel>? slideShowModels;
   final List<CategoryModel>? categoryModels;
   final List<BrandModel>? brandModels;
+  final List<ProductModel>? recommendProducts;
 
   const HomeState({
     this.isLoading = false,
     this.isLoadingSlideShow = false,
     this.isLoadingBrand = false,
     this.isLoadingCategory = false,
+    this.isLoadingRecommend = false,
     this.error,
     this.slideShowModels,
     this.categoryModels,
     this.brandModels,
+    this.recommendProducts,
   });
 
   HomeState copyWith({
@@ -29,10 +34,12 @@ class HomeState extends Equatable {
     bool? isLoadingSlideShow,
     bool? isLoadingBrand,
     bool? isLoadingCategory,
+    bool? isLoadingRecommend,
     String? error,
     List<SlideShowModel>? slideShowModels,
     List<CategoryModel>? categoryModels,
     List<BrandModel>? brandModels,
+    List<ProductModel>? recommendProducts,
   }) {
     return HomeState(
       isLoading: isLoading ?? this.isLoading,
@@ -43,6 +50,7 @@ class HomeState extends Equatable {
       slideShowModels: slideShowModels ?? this.slideShowModels,
       categoryModels: categoryModels ?? this.categoryModels,
       brandModels: brandModels ?? this.brandModels,
+      recommendProducts: recommendProducts ?? this.recommendProducts,
     );
   }
 
@@ -56,6 +64,7 @@ class HomeState extends Equatable {
         slideShowModels,
         categoryModels,
         brandModels,
+        recommendProducts,
       ];
 
   Map<String, dynamic> toJson() {
@@ -64,10 +73,12 @@ class HomeState extends Equatable {
       'isLoadingSlideShow': isLoadingSlideShow,
       'isLoadingBrand': isLoadingBrand,
       'isLoadingCategory': isLoadingCategory,
+      'isLoadingRecommend': isLoadingRecommend,
       'error': error,
       'slide_show': slideShowModels?.map((e) => e.toJson()).toList(),
       'category': categoryModels?.map((e) => e.toJson()).toList(),
       'brand': brandModels?.map((e) => e.toJson()).toList(),
+      'recommendProducts': recommendProducts?.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -85,6 +96,9 @@ class HomeState extends Equatable {
           json['brand']?.map((model) => BrandModel.fromJson(model))?.toList(),
       categoryModels: json['category']
           ?.map((model) => CategoryModel.fromJson(model))
+          ?.toList(),
+      recommendProducts: json['recommendProducts']
+          ?.map((model) => ProductModel.fromJson(model))
           ?.toList(),
     );
   }

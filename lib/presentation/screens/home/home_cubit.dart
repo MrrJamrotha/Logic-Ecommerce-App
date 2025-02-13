@@ -49,6 +49,19 @@ class HomeCubit extends HydratedCubit<HomeState> {
     }
   }
 
+  Future<void> getRecommendedForYou() async {
+    try {
+      emit(state.copyWith(isLoadingRecommend: true));
+      await repos.getRecommendedForYou().then((response) {
+        emit(state.copyWith(recommendProducts: response.success));
+      });
+      emit(state.copyWith(isLoadingRecommend: false));
+    } catch (e) {
+      emit(state.copyWith(isLoadingRecommend: false));
+      addError(e);
+    }
+  }
+
   @override
   void addError(Object error, [StackTrace? stackTrace]) {
     logger.e(error, stackTrace: stackTrace);

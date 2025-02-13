@@ -1,6 +1,7 @@
 import 'package:logic_app/core/common/result.dart';
 import 'package:logic_app/data/models/brand_model.dart';
 import 'package:logic_app/data/models/category_model.dart';
+import 'package:logic_app/data/models/product_model.dart';
 import 'package:logic_app/data/models/slide_show_model.dart';
 
 abstract class HomeRepository {
@@ -13,6 +14,10 @@ abstract class HomeRepository {
   });
 
   Future<Result<List<BrandModel>, dynamic>> getBrands({
+    Map<String, dynamic>? parameters,
+  });
+
+  Future<Result<List<ProductModel>, dynamic>> getRecommendedForYou({
     Map<String, dynamic>? parameters,
   });
 }
