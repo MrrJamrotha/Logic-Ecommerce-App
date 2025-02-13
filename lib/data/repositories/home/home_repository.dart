@@ -20,4 +20,16 @@ abstract class HomeRepository {
   Future<Result<List<ProductModel>, dynamic>> getRecommendedForYou({
     Map<String, dynamic>? parameters,
   });
+
+  Future<Result<List<ProductModel>, dynamic>> getProductNewArrivals({
+    Map<String, dynamic>? parameters,
+  });
+
+  Future<Result<List<ProductModel>, dynamic>> getSpacialProduct({
+    Map<String, dynamic>? parameters,
+  });
+
+  Future<Result<List<ProductModel>, dynamic>> getProductBastReview({
+    Map<String, dynamic>? parameters,
+  });
 }

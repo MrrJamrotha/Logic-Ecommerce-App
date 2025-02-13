@@ -198,8 +198,91 @@ class ApiClient implements Api {
         status: body['status'],
         message: body['message'],
         data: body['records'],
-        lastPage: AppFormat.toInt(body['last_page']),
-        currentPage: AppFormat.toInt(body['current_page']),
+        lastPage: AppFormat.toInt(body['last_page'] ?? 1),
+        currentPage: AppFormat.toInt(body['current_page'] ?? 1),
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getProductNewArrivals({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getNewArrivals),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+        lastPage: AppFormat.toInt(body['last_page'] ?? 1),
+        currentPage: AppFormat.toInt(body['current_page'] ?? 1),
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getProductBastReview({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getProductBastReview),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+        lastPage: AppFormat.toInt(body['last_page'] ?? 1),
+        currentPage: AppFormat.toInt(body['current_page'] ?? 1),
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getSpacialProduct({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getSpacialProduct),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+        lastPage: AppFormat.toInt(body['last_page'] ?? 1),
+        currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
     } catch (exception) {
       throw ErrorHandler.handleException(exception as Exception);

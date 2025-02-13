@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/data/models/brand_model.dart';
+import 'package:logic_app/data/models/product_model.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
@@ -40,6 +42,9 @@ class HomeScreenState extends State<HomeScreen>
       screenCubit.getBrowseCategories(),
       screenCubit.getBrands(),
       screenCubit.getRecommendedForYou(),
+      screenCubit.getProductNewArrivals(),
+      screenCubit.getProductBastReview(),
+      screenCubit.getSpacialProduct(),
     ]);
   }
 
@@ -67,6 +72,9 @@ class HomeScreenState extends State<HomeScreen>
         final categoryModels = state.categoryModels ?? [];
         final brandModels = state.brandModels ?? [];
         final recommendProducts = state.recommendProducts ?? [];
+        final newArrivals = state.newArrivals ?? [];
+        final bastReviewProducts = state.bastReviewProducts ?? [];
+        final specialProducts = state.specialProducts ?? [];
         return SingleChildScrollView(
           padding: EdgeInsets.all(appPedding.scale),
           child: Column(
@@ -81,21 +89,7 @@ class HomeScreenState extends State<HomeScreen>
                 onTap: () {
                   //TODO: next time
                 },
-                child: SizedBox(
-                  height: 100.scale,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: categoryModels.length,
-                    itemBuilder: (context, index) {
-                      final record = categoryModels[index];
-                      return CardCategoryWidget(
-                        picture: record.picture,
-                        pictureHash: record.pictureHash,
-                        title: record.name,
-                      );
-                    },
-                  ),
-                ),
+                child: _listDatas(categoryModels),
               ),
 
               _buildTitleRow(
@@ -103,21 +97,7 @@ class HomeScreenState extends State<HomeScreen>
                 onTap: () {
                   //TODO: next time
                 },
-                child: SizedBox(
-                  height: 105.scale,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: brandModels.length,
-                    itemBuilder: (context, index) {
-                      final record = brandModels[index];
-                      return CardBrandWidget(
-                        picture: record.picture,
-                        pictureHash: record.pictureHash,
-                        title: record.name,
-                      );
-                    },
-                  ),
-                ),
+                child: _listDatas(brandModels),
               ),
               // _buildTitleRow(
               //   title: 'today_deals'.tr,
@@ -140,46 +120,86 @@ class HomeScreenState extends State<HomeScreen>
                 onTap: () {
                   //TODO: next time
                 },
-                child: SizedBox(
-                  height: 200.scale,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: recommendProducts.length,
-                    itemBuilder: (context, index) {
-                      final record = recommendProducts[index];
-                      return Padding(
-                        padding: EdgeInsets.only(right: appSpace.scale),
-                        child: ProductCardWidget(
-                          record: record,
-                          isLoading: state.isLoadingRecommend,
-                        ),
-                      );
-                    },
-                  ),
+                child: _buildListProducts(
+                  recommendProducts,
+                  state.isLoadingRecommend,
                 ),
               ),
-              // _buildTitleRow(
-              //   title: 'bast_seller'.tr,
-              //   onTap: () {
-              //     //TODO: next time
-              //   },
-              // ),
-              // _buildTitleRow(
-              //   title: 'new_arrival'.tr,
-              //   onTap: () {
-              //     //TODO: next time
-              //   },
-              // ),
-              // _buildTitleRow(
-              //   title: 'spacial_offers'.tr,
-              //   onTap: () {
-              //     //TODO: next time
-              //   },
-              // ),
+              _buildTitleRow(
+                title: 'bast_seller'.tr,
+                onTap: () {
+                  //TODO: next time
+                },
+                child: _buildListProducts(
+                  bastReviewProducts,
+                  state.isLoadingBastReview,
+                ),
+              ),
+              _buildTitleRow(
+                title: 'new_arrival'.tr,
+                onTap: () {
+                  //TODO: next time
+                },
+                child: _buildListProducts(
+                  newArrivals,
+                  state.isLoadingNewArrival,
+                ),
+              ),
+              _buildTitleRow(
+                title: 'spacial_offers'.tr,
+                onTap: () {
+                  //TODO: next time
+                },
+                child: _buildListProducts(
+                  specialProducts,
+                  state.isLoadingSpecialProducts,
+                ),
+              ),
             ],
           ),
         );
       },
+    );
+  }
+
+  SizedBox _listDatas(List<dynamic> records) {
+    return SizedBox(
+      height: 105.scale,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: records.length,
+        itemBuilder: (context, index) {
+          final record = records[index];
+          return CardBrandWidget(
+            picture: record.picture,
+            pictureHash: record.pictureHash,
+            title: record.name,
+          );
+        },
+      ),
+    );
+  }
+
+  SizedBox _buildListProducts(
+    List<ProductModel> records,
+    bool isLoading,
+  ) {
+    return SizedBox(
+      height: 200.scale,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: records.length,
+        itemBuilder: (context, index) {
+          final record = records[index];
+          return Padding(
+            padding: EdgeInsets.only(right: appSpace.scale),
+            child: ProductCardWidget(
+              record: record,
+              isLoading: isLoading,
+            ),
+          );
+        },
+      ),
     );
   }
 

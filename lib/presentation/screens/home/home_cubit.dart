@@ -62,6 +62,45 @@ class HomeCubit extends HydratedCubit<HomeState> {
     }
   }
 
+  Future<void> getProductNewArrivals() async {
+    try {
+      emit(state.copyWith(isLoadingNewArrival: true));
+      await repos.getProductNewArrivals().then((response) {
+        emit(state.copyWith(newArrivals: response.success));
+      });
+      emit(state.copyWith(isLoadingNewArrival: false));
+    } catch (e) {
+      emit(state.copyWith(isLoadingNewArrival: false));
+      addError(e);
+    }
+  }
+
+  Future<void> getProductBastReview() async {
+    try {
+      emit(state.copyWith(isLoadingBastReview: true));
+      await repos.getProductBastReview().then((response) {
+        emit(state.copyWith(bastReviewProducts: response.success));
+      });
+      emit(state.copyWith(isLoadingBastReview: false));
+    } catch (e) {
+      emit(state.copyWith(isLoadingBastReview: false));
+      addError(e);
+    }
+  }
+
+  Future<void> getSpacialProduct() async {
+    try {
+      emit(state.copyWith(isLoadingSpecialProducts: true));
+      await repos.getSpacialProduct().then((response) {
+        emit(state.copyWith(specialProducts: response.success));
+      });
+      emit(state.copyWith(isLoadingSpecialProducts: false));
+    } catch (e) {
+      emit(state.copyWith(isLoadingSpecialProducts: false));
+      addError(e);
+    }
+  }
+
   @override
   void addError(Object error, [StackTrace? stackTrace]) {
     logger.e(error, stackTrace: stackTrace);

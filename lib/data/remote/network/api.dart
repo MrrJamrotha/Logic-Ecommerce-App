@@ -11,4 +11,8 @@ abstract class Api {
   Future<BaseResponse> getBrowseCategories({Map<String, dynamic>? parameters});
   Future<BaseResponse> getBrands({Map<String, dynamic>? parameters});
   Future<BaseResponse> getRecommendForYou({Map<String, dynamic>? parameters});
+  Future<BaseResponse> getProductNewArrivals(
+      {Map<String, dynamic>? parameters});
+  Future<BaseResponse> getSpacialProduct({Map<String, dynamic>? parameters});
+  Future<BaseResponse> getProductBastReview({Map<String, dynamic>? parameters});
 }

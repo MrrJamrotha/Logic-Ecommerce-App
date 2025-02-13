@@ -85,4 +85,60 @@ class HomeRepositoryImpl implements HomeRepository {
       throw GenericFailure(error.toString());
     }
   }
+
+  @override
+  Future<Result<List<ProductModel>, dynamic>> getProductNewArrivals({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result =
+          await _apiClient.getProductNewArrivals(parameters: parameters);
+      if (result.status != 'success') {
+        return Result(failed: result.message);
+      }
+      final records = (result.data as List<dynamic>).map((item) {
+        return ProductModel.fromJson(item as Map<String, dynamic>);
+      }).toList();
+      return Result(success: records);
+    } catch (error) {
+      throw GenericFailure(error.toString());
+    }
+  }
+
+  @override
+  Future<Result<List<ProductModel>, dynamic>> getProductBastReview({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result =
+          await _apiClient.getProductBastReview(parameters: parameters);
+      if (result.status != 'success') {
+        return Result(failed: result.message);
+      }
+      final records = (result.data as List<dynamic>).map((item) {
+        return ProductModel.fromJson(item as Map<String, dynamic>);
+      }).toList();
+      return Result(success: records);
+    } catch (error) {
+      throw GenericFailure(error.toString());
+    }
+  }
+
+  @override
+  Future<Result<List<ProductModel>, dynamic>> getSpacialProduct({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result = await _apiClient.getSpacialProduct(parameters: parameters);
+      if (result.status != 'success') {
+        return Result(failed: result.message);
+      }
+      final records = (result.data as List<dynamic>).map((item) {
+        return ProductModel.fromJson(item as Map<String, dynamic>);
+      }).toList();
+      return Result(success: records);
+    } catch (error) {
+      throw GenericFailure(error.toString());
+    }
+  }
 }
