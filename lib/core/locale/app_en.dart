@@ -10,4 +10,7 @@ final Map<String, String> en = {
   'new_arrival': 'New arrival',
   'spacial_offers': 'Spacial offers',
   'view_more': 'View More',
+  'categories': 'Categories',
+  'carts': 'Carts',
+  'account': 'Account',
 };

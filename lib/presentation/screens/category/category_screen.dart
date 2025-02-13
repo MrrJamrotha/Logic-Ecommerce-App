@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:logic_app/core/constants/app_size_config.dart';
+import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/category/category_cubit.dart';
 import 'package:logic_app/presentation/screens/category/category_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
+import 'package:logic_app/presentation/widgets/card_category_widget.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({Key? key}) : super(key: key);
+  const CategoryScreen({super.key});
 
   @override
-  _CategoryScreenState createState() => _CategoryScreenState();
+  CategoryScreenState createState() => CategoryScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
+class CategoryScreenState extends State<CategoryScreen> {
   final screenCubit = CategoryCubit();
 
   @override
@@ -25,13 +29,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'categories'.tr),
-      body: BlocConsumer<CategoryCubit, CategoryState>(
+      body: BlocBuilder<CategoryCubit, CategoryState>(
         bloc: screenCubit,
-        listener: (BuildContext context, CategoryState state) {
-          if (state.error != null) {
-            // TODO your code here
-          }
-        },
         builder: (BuildContext context, CategoryState state) {
           if (state.isLoading) {
             return Center(child: CircularProgressIndicator());
@@ -44,10 +43,22 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   Widget buildBody(CategoryState state) {
-    return ListView(
-      children: [
-        // TODO your code here
-      ],
+    final records = state.records ?? [];
+    final double width = AppSizeConfig.screenWidth;
+    double widthCard = 130.scale;
+    int countRow = width ~/ widthCard;
+    return MasonryGridView.count(
+      padding: EdgeInsets.all(appPedding.scale),
+      itemCount: records.length,
+      crossAxisCount: countRow,
+      itemBuilder: (context, index) {
+        final record = records[index];
+        return CardCategoryWidget(
+          picture: record.picture,
+          pictureHash: record.pictureHash,
+          title: record.name,
+        );
+      },
     );
   }
 }

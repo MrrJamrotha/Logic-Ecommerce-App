@@ -80,7 +80,7 @@ class _MainScreenState extends State<MainScreen> {
                   width: 24.scale,
                   height: 24.scale,
                 ),
-                label: 'categories',
+                label: 'categories'.tr,
               ),
               NavigationDestination(
                 selectedIcon: Badge.count(
@@ -100,7 +100,7 @@ class _MainScreenState extends State<MainScreen> {
                     height: 24.scale,
                   ),
                 ),
-                label: 'carts',
+                label: 'carts'.tr,
               ),
               NavigationDestination(
                 selectedIcon: IconWidget(
@@ -114,7 +114,7 @@ class _MainScreenState extends State<MainScreen> {
                   width: 24.scale,
                   height: 24.scale,
                 ),
-                label: 'account',
+                label: 'account'.tr,
               ),
             ],
           ),
