@@ -80,25 +80,27 @@ class HomeScreenState extends State<HomeScreen>
           child: Column(
             spacing: 16.scale,
             children: [
-              CarouselSliderWidget(
-                records: slideShowModels,
-                isLoading: state.isLoadingSlideShow,
-              ),
-              _buildTitleRow(
-                title: 'browse_categories'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-                child: _listDatas(categoryModels),
-              ),
-
-              _buildTitleRow(
-                title: 'popular_brands'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-                child: _listDatas(brandModels),
-              ),
+              if (slideShowModels.isNotEmpty)
+                CarouselSliderWidget(
+                  records: slideShowModels,
+                  isLoading: state.isLoadingSlideShow,
+                ),
+              if (categoryModels.isNotEmpty)
+                _buildTitleRow(
+                  title: 'browse_categories'.tr,
+                  onTap: () {
+                    //TODO: next time
+                  },
+                  child: _listDatas(categoryModels),
+                ),
+              if (brandModels.isNotEmpty)
+                _buildTitleRow(
+                  title: 'popular_brands'.tr,
+                  onTap: () {
+                    //TODO: next time
+                  },
+                  child: _listDatas(brandModels),
+                ),
               // _buildTitleRow(
               //   title: 'today_deals'.tr,
               //   onTap: () {
@@ -111,50 +113,55 @@ class HomeScreenState extends State<HomeScreen>
               //     //TODO: next time
               //   },
               // ),
-              CarouselSliderWidget(
-                records: slideShowModels,
-                isLoading: state.isLoadingSlideShow,
-              ),
-              _buildTitleRow(
-                title: 'recommend_for_you'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-                child: _buildListProducts(
-                  recommendProducts,
-                  state.isLoadingRecommend,
+              if (slideShowModels.isNotEmpty)
+                CarouselSliderWidget(
+                  records: slideShowModels,
+                  isLoading: state.isLoadingSlideShow,
                 ),
-              ),
-              _buildTitleRow(
-                title: 'bast_seller'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-                child: _buildListProducts(
-                  bastReviewProducts,
-                  state.isLoadingBastReview,
+              if (recommendProducts.isNotEmpty)
+                _buildTitleRow(
+                  title: 'recommend_for_you'.tr,
+                  onTap: () {
+                    //TODO: next time
+                  },
+                  child: _buildListProducts(
+                    recommendProducts,
+                    state.isLoadingRecommend,
+                  ),
                 ),
-              ),
-              _buildTitleRow(
-                title: 'new_arrival'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-                child: _buildListProducts(
-                  newArrivals,
-                  state.isLoadingNewArrival,
+              if (bastReviewProducts.isNotEmpty)
+                _buildTitleRow(
+                  title: 'bast_seller'.tr,
+                  onTap: () {
+                    //TODO: next time
+                  },
+                  child: _buildListProducts(
+                    bastReviewProducts,
+                    state.isLoadingBastReview,
+                  ),
                 ),
-              ),
-              _buildTitleRow(
-                title: 'spacial_offers'.tr,
-                onTap: () {
-                  //TODO: next time
-                },
-                child: _buildListProducts(
-                  specialProducts,
-                  state.isLoadingSpecialProducts,
+              if (newArrivals.isNotEmpty)
+                _buildTitleRow(
+                  title: 'new_arrival'.tr,
+                  onTap: () {
+                    //TODO: next time
+                  },
+                  child: _buildListProducts(
+                    newArrivals,
+                    state.isLoadingNewArrival,
+                  ),
                 ),
-              ),
+              if (specialProducts.isNotEmpty)
+                _buildTitleRow(
+                  title: 'spacial_offers'.tr,
+                  onTap: () {
+                    //TODO: next time
+                  },
+                  child: _buildListProducts(
+                    specialProducts,
+                    state.isLoadingSpecialProducts,
+                  ),
+                ),
             ],
           ),
         );
