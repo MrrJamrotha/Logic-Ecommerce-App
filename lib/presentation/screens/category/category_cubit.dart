@@ -5,7 +5,7 @@ import 'package:logic_app/data/repositories/category/category_repository_impl.da
 import 'package:logic_app/presentation/screens/category/category_state.dart';
 
 class CategoryCubit extends HydratedCubit<CategoryState> {
-  CategoryCubit() : super(CategoryState(isLoading: true));
+  CategoryCubit() : super(CategoryState());
   final repos = di.get<CategoryRepositoryImpl>();
   Future<void> loadInitialData() async {
     final stableState = state;
@@ -29,6 +29,8 @@ class CategoryCubit extends HydratedCubit<CategoryState> {
 
   @override
   CategoryState? fromJson(Map<String, dynamic> json) {
+    final initialData = CategoryState.fromJson(json);
+    emit(initialData);
     return CategoryState.fromJson(json);
   }
 

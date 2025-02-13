@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:logic_app/data/models/category_model.dart';
 
@@ -25,14 +27,15 @@ class CategoryState extends Equatable {
   }
 
   Map<String, dynamic> toJson() {
+    var json = jsonEncode(records?.map((e) => e.toJson()).toList());
     return {
       'isLoading': isLoading,
       'error': error,
-      'records': records?.map((model) => model.toJson()).toList(),
+      'records': json,
     };
   }
 
-  static CategoryState fromJson(Map<String, dynamic> json) {
+  factory CategoryState.fromJson(Map<String, dynamic> json) {
     return CategoryState(
       isLoading: json['isLoading'],
       error: json['error'],
