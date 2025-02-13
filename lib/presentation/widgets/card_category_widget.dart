@@ -11,10 +11,12 @@ class CardCategoryWidget extends StatelessWidget {
     required this.picture,
     required this.pictureHash,
     required this.title,
+    this.boxFit = BoxFit.cover,
   });
   final String picture;
   final String pictureHash;
   final String title;
+  final BoxFit? boxFit;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class CardCategoryWidget extends StatelessWidget {
         spacing: 5.scale,
         children: [
           CatchImageNetworkWidget(
-            boxFit: BoxFit.cover,
+            boxFit: boxFit,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(appRadius.scale),
               topRight: Radius.circular(appRadius.scale),
@@ -37,6 +39,7 @@ class CardCategoryWidget extends StatelessWidget {
             blurHash: pictureHash,
           ),
           TextWidget(text: title),
+          SizedBox.shrink(),
         ],
       ),
     );

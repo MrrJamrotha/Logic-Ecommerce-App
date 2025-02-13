@@ -169,7 +169,7 @@ class HomeScreenState extends State<HomeScreen>
 
   SizedBox _listDatas(List<dynamic> records) {
     return SizedBox(
-      height: 105.scale,
+      height: 107.scale,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: records.length,

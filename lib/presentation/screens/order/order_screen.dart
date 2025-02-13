@@ -4,13 +4,16 @@ import 'package:logic_app/presentation/screens/order/order_cubit.dart';
 import 'package:logic_app/presentation/screens/order/order_state.dart';
 
 class OrderScreen extends StatefulWidget {
-	const OrderScreen({Key? key}) : super(key: key);
+	const OrderScreen({super.key});
+  static const routeName = 'order';
+  static const routePath = '/order';
+
 	
 	@override
-	_OrderScreenState createState() => _OrderScreenState();
+	OrderScreenState createState() => OrderScreenState();
 }
 	
-class _OrderScreenState extends State<OrderScreen> {
+class OrderScreenState extends State<OrderScreen> {
 	final screenCubit = OrderCubit();
 	
 	@override

@@ -4,13 +4,15 @@ import 'package:logic_app/presentation/screens/address/address_cubit.dart';
 import 'package:logic_app/presentation/screens/address/address_state.dart';
 
 class AddressScreen extends StatefulWidget {
-  const AddressScreen({Key? key}) : super(key: key);
+  const AddressScreen({super.key});
+  static const routeName = 'address';
+  
 
   @override
-  _AddressScreenState createState() => _AddressScreenState();
+  AddressScreenState createState() => AddressScreenState();
 }
 
-class _AddressScreenState extends State<AddressScreen> {
+class AddressScreenState extends State<AddressScreen> {
   final screenCubit = AddressCubit();
 
   @override

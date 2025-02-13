@@ -19,3 +19,11 @@ const wishlist = 'assets/icons/Wishlist.svg';
 const addSvg = 'assets/icons/add.svg';
 const removeSvg = 'assets/icons/Remove.svg';
 const heartSvg = 'assets/icons/heart.svg';
+
+const orderSvg = 'assets/icons/Order.svg';
+const locationsvg = 'assets/icons/Locations.svg';
+const logoutSvg = 'assets/icons/Logout.svg';
+const languageSvg = 'assets/icons/language.svg';
+const currencySvg = 'assets/icons/currency.svg';
+
+const arrowRightSvg = 'assets/icons/arrow-r.svg';

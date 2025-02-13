@@ -137,6 +137,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
                 color: textColor,
               ),
               ButtonWidget(
+                width: double.infinity,
                 onPressed: () {
                   onNextPage(currentIndex);
                 },
