@@ -214,7 +214,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   Widget _buildListMenu() {
     return BoxWidget(
       borderRadius: BorderRadius.circular(appSpace.scale),
-      padding: EdgeInsets.all(appPedding.scale),
+      padding: EdgeInsets.symmetric(vertical: appSpace.scale,horizontal: appPedding.scale),
       child: ListView.separated(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -226,6 +226,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         itemBuilder: (context, index) {
           final record = listMenus[index];
           return ListTile(
+            contentPadding: EdgeInsets.zero,
             onTap: () => handelOnTap(index),
             leading: IconWidget(
               assetName: record['icon_name'],

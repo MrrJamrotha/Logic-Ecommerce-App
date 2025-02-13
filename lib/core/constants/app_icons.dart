@@ -27,3 +27,4 @@ const languageSvg = 'assets/icons/language.svg';
 const currencySvg = 'assets/icons/currency.svg';
 
 const arrowRightSvg = 'assets/icons/arrow-r.svg';
+const deleteSvg = 'assets/icons/Delete.svg';
