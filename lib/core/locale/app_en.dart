@@ -48,4 +48,13 @@ final Map<String, String> en = {
   'payment_method': 'Payment Method',
   'order_item_summart': 'Order Item Summary',
   'write_reviw': 'Write a review',
+  'choose_product_review': 'Please choose product for write review',
+  'write_review': 'Write review',
+  'comment': 'Comment',
+  'add_photos': 'Add photos',
+  'camera': 'Camera',
+  'albums': 'Albums',
+  'upload': 'Upload',
+  'save': 'Save',
+  'comment_is_required': 'Comment is required'
 };

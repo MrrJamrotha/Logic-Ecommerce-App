@@ -12,6 +12,7 @@ import 'package:logic_app/presentation/screens/not_found/not_found_screen.dart';
 import 'package:logic_app/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
 import 'package:logic_app/presentation/screens/order_detail/order_detail_screen.dart';
+import 'package:logic_app/presentation/screens/write_review/write_review_screen.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class MainRouter {
@@ -86,19 +87,34 @@ class MainRouter {
               },
               routes: [
                 GoRoute(
-                  path: OrderDetailScreen.routePath,
-                  name: OrderDetailScreen.routeName,
-                  pageBuilder: (context, state) => CustomTransitionPage(
-                    child: OrderDetailScreen(),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    },
-                  ),
-                ),
+                    path: OrderDetailScreen.routePath,
+                    name: OrderDetailScreen.routeName,
+                    pageBuilder: (context, state) => CustomTransitionPage(
+                          child: OrderDetailScreen(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ),
+                    routes: [
+                      GoRoute(
+                        path: WriteReviewScreen.routePath,
+                        name: WriteReviewScreen.routeName,
+                        pageBuilder: (context, state) => CustomTransitionPage(
+                          child: WriteReviewScreen(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      )
+                    ]),
               ],
             ),
           ],

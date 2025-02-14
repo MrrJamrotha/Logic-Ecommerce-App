@@ -1,4 +1,4 @@
-const albumsSvg = "assets/icons/album-svgrepo-com.svg";
+// const albumsSvg = "assets/icons/album-svgrepo-com.svg";
 const fileSvg = "assets/icons/file-text-svgrepo-com.svg";
 const musicSvg = "assets/icons/music-library-2-svgrepo-com.svg";
 const locationSvg = "assets/icons/location-define-svgrepo-com.svg";
@@ -28,3 +28,8 @@ const currencySvg = 'assets/icons/currency.svg';
 
 const arrowRightSvg = 'assets/icons/arrow-r.svg';
 const deleteSvg = 'assets/icons/Delete.svg';
+
+const cameraSvg = 'assets/icons/camera-svgrepo-com.svg';
+const albumsSvg = 'assets/icons/albums-outline-svgrepo-com.svg';
+
+const cancelSvg = 'assets/icons/cancel.svg';

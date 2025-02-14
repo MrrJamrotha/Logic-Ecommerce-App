@@ -24,7 +24,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  
+
   //setup (DI depenecy injection)
   setupInjector();
 
@@ -46,7 +46,7 @@ void main() async {
 
   //initialize database sql
   di.get<DatabaseService>().database;
-  
+
   HttpOverrides.global = MyHttpOverrides();
 
   runApp(

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
@@ -12,6 +13,7 @@ import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/order_detail/order_detail_cubit.dart';
 import 'package:logic_app/presentation/screens/order_detail/order_detail_state.dart';
+import 'package:logic_app/presentation/screens/write_review/write_review_screen.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/box_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
@@ -62,7 +64,11 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
               mainAxisSize: MainAxisSize.min,
               spacing: 5.scale,
               children: [
-                TextWidget(text: 'Please choose product for write review'),
+                TextWidget(
+                  text: 'choose_product_review'.tr,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18.scale,
+                ),
                 Divider(),
                 ListView.builder(
                   shrinkWrap: true,
@@ -202,6 +208,9 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
 
   BoxWidget _buildListWriteReview() {
     return BoxWidget(
+      onTap: () {
+        context.goNamed(WriteReviewScreen.routeName);
+      },
       padding: EdgeInsets.all(appSpace.scale),
       borderRadius: BorderRadius.circular(appRadius.scale),
       child: Row(
