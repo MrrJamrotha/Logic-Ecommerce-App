@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/presentation/screens/order_detail/order_detail_screen.dart';
 import 'package:logic_app/presentation/widgets/box_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
@@ -14,7 +16,7 @@ class OrderCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BoxWidget(
       onTap: () {
-        //TODO: this
+        context.goNamed(OrderDetailScreen.routeName);
       },
       borderRadius: BorderRadius.circular(appRadius.scale),
       padding: EdgeInsets.all(10.scale),
@@ -23,6 +25,7 @@ class OrderCardWidget extends StatelessWidget {
         children: [
           _buildRow(left: 'status'.tr, right: 'pending'.tr, isStatus: true),
           _buildRow(left: '123CTF-0001', right: '01-Jun-2025'),
+          _buildRow(left: 'payment_method'.tr, right: 'Cash on delivery'),
           _buildRow(left: 'total_items'.tr, right: '10'),
           _buildRow(left: 'delivery_fee'.tr, right: '0\$'),
           _buildRow(left: 'total_discount'.tr, right: '0\$'),

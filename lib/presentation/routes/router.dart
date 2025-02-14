@@ -11,6 +11,7 @@ import 'package:logic_app/presentation/screens/main_screen.dart';
 import 'package:logic_app/presentation/screens/not_found/not_found_screen.dart';
 import 'package:logic_app/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
+import 'package:logic_app/presentation/screens/order_detail/order_detail_screen.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class MainRouter {
@@ -83,6 +84,22 @@ class MainRouter {
                   },
                 );
               },
+              routes: [
+                GoRoute(
+                  path: OrderDetailScreen.routePath,
+                  name: OrderDetailScreen.routeName,
+                  pageBuilder: (context, state) => CustomTransitionPage(
+                    child: OrderDetailScreen(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),

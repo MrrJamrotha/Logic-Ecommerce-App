@@ -6,8 +6,9 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:label="logic_app"
@@ -45,7 +46,7 @@
         
         <!-- google map -->
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="YOUR KEY HERE"/>
+               android:value="AIzaSyC4CozRUE7HA_5ypnjyWDh3Eo4fjTCkGWY"/>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
