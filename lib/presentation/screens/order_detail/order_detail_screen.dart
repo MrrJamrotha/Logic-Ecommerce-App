@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
+import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/order_detail/order_detail_cubit.dart';
@@ -15,6 +16,7 @@ import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/box_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
 import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
+import 'package:logic_app/presentation/widgets/icon_widget.dart';
 import 'package:logic_app/presentation/widgets/order_card_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
@@ -41,6 +43,44 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
   //   final GoogleMapController controller = await _controller.future;
   //   await controller.animateCamera(CameraUpdate.newCameraPosition( ));
   // }
+
+  showModelProductWriteReview() {
+    showModalBottomSheet(
+      backgroundColor: appWhite,
+      isScrollControlled: true,
+      showDragHandle: true,
+      useRootNavigator: true,
+      context: context,
+      builder: (context) {
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.9),
+          child: Padding(
+            padding: EdgeInsets.all(appPedding.scale),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              spacing: 5.scale,
+              children: [
+                TextWidget(text: 'Please choose product for write review'),
+                Divider(),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 2,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: appSpace.scale),
+                      child: _buildListWriteReview(),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,11 +189,87 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
             ),
           )),
           ButtonWidget(
-              width: double.infinity,
-              title: 'write_reviw'.tr,
-              onPressed: () {
-                //TOOD:
-              })
+            width: double.infinity,
+            title: 'write_reviw'.tr,
+            onPressed: () {
+              showModelProductWriteReview();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  BoxWidget _buildListWriteReview() {
+    return BoxWidget(
+      padding: EdgeInsets.all(appSpace.scale),
+      borderRadius: BorderRadius.circular(appRadius.scale),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CatchImageNetworkWidget(
+                borderRadius: BorderRadius.circular(appRadius.scale),
+                boxFit: BoxFit.cover,
+                width: 100.scale,
+                height: 100.scale,
+                imageUrl:
+                    'https://crdms.images.consumerreports.org/prod/products/cr/models/399694-smartphones-apple-iphone-11-10008711.png',
+                blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 5.scale,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'IPhone 16 pro ',
+                          style: TextStyle(
+                            fontSize: 14.scale,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'x 2',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.scale,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      style: TextStyle(
+                        fontSize: 14.scale,
+                        color: textColor,
+                      ),
+                      children: [
+                        TextSpan(text: 'Blue'),
+                        TextSpan(text: ' | '),
+                        TextSpan(text: '128 GB'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Center(
+            child: IconWidget(
+              assetName: arrowRightSvg,
+              width: 24.scale,
+              height: 24.scale,
+            ),
+          )
         ],
       ),
     );
