@@ -90,6 +90,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         case WishlistScreen.routeName:
           break;
         case AddressScreen.routeName:
+          context.pushNamed(AddressScreen.routeName);
           break;
         case LanguageScreen.routeName:
           break;
@@ -221,7 +222,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         separatorBuilder: (context, index) => Divider(
-          color: textColor,
+          color: textColor.withOpacity(0.1),
           height: 0.1.scale,
         ),
         itemCount: listMenus.length,

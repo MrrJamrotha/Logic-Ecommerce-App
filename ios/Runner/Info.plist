@@ -69,5 +69,14 @@
 		<false/>
 
 
+		<!-- location -->
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>We need your location to provide better service.</string>
+
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>We need your location access even when the app is running in the background.</string>
+
+
+
 	</dict>
 </plist>

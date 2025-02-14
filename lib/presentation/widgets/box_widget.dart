@@ -12,6 +12,7 @@ class BoxWidget extends StatelessWidget {
     this.width,
     this.height,
     this.borderRadius,
+    this.color = appWhite,
   });
   final Widget child;
   final Function()? onTap;
@@ -20,6 +21,7 @@ class BoxWidget extends StatelessWidget {
   final double? width;
   final double? height;
   final BorderRadiusGeometry? borderRadius;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class BoxWidget extends StatelessWidget {
             margin: margin,
             padding: padding,
             decoration: BoxDecoration(
-              color: appWhite,
+              color: color,
               borderRadius: borderRadius,
               border: Border.all(color: textColor, width: 0.1.scale),
               boxShadow: [

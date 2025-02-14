@@ -56,5 +56,11 @@ final Map<String, String> en = {
   'albums': 'Albums',
   'upload': 'Upload',
   'save': 'Save',
-  'comment_is_required': 'Comment is required'
+  'comment_is_required': 'Comment is required',
+  'update_address': 'Update address',
+  'create_address': 'Create address',
+  'add_new_address': 'Add new address',
+  'update': 'Update',
+  'address_line_1': 'Address Line 1',
+  'address_line_2': 'Address Line 2',
 };

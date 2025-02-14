@@ -210,6 +210,7 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
     return BoxWidget(
       onTap: () {
         context.goNamed(WriteReviewScreen.routeName);
+        context.pop();
       },
       padding: EdgeInsets.all(appSpace.scale),
       borderRadius: BorderRadius.circular(appRadius.scale),

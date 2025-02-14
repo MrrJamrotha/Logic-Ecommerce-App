@@ -332,6 +332,42 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "geolocator",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/geolocator-13.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "geolocator_android",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/geolocator_android-4.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "geolocator_apple",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "geolocator_platform_interface",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/geolocator_platform_interface-4.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "geolocator_web",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/geolocator_web-4.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "geolocator_windows",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/geolocator_windows-0.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
       "name": "get_it",
       "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/get_it-8.0.3",
       "packageUri": "lib/",
@@ -974,7 +1010,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-14T07:43:28.653064Z",
+  "generated": "2025-02-14T08:56:01.286016Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///Users/foxtech-mach/development/flutter",
