@@ -50,3 +50,16 @@ enum DisplayType {
   newCategory,
   newBrand,
 }
+
+enum ErrorType {
+  notFound,
+  empty,
+  serverError,
+}
+
+enum OrderStatus{
+  pending,
+  processing, 
+  delivery,
+  completed,
+}

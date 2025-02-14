@@ -15,7 +15,7 @@ import 'package:logic_app/presentation/screens/wishlist/wishlist_screen.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/box_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
-import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart'; 
+import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
@@ -85,6 +85,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       final route = listMenus[index]['route'];
       switch (route) {
         case OrderScreen.routeName:
+          context.pushNamed(OrderScreen.routeName);
           break;
         case WishlistScreen.routeName:
           break;
@@ -99,7 +100,7 @@ class ProfileScreenState extends State<ProfileScreen> {
           break;
         default:
           showDialogLogout();
-          break; 
+          break;
       }
     } catch (e) {
       logger.e(e);
@@ -214,7 +215,8 @@ class ProfileScreenState extends State<ProfileScreen> {
   Widget _buildListMenu() {
     return BoxWidget(
       borderRadius: BorderRadius.circular(appSpace.scale),
-      padding: EdgeInsets.symmetric(vertical: appSpace.scale,horizontal: appPedding.scale),
+      padding: EdgeInsets.symmetric(
+          vertical: appSpace.scale, horizontal: appPedding.scale),
       child: ListView.separated(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),

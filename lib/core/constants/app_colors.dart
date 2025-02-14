@@ -9,3 +9,4 @@ const appYellow = Color(0XFFFFA500);
 const appRedAccent = Color(0XFFD30000);
 const textColor = Color(0XFF565353);
 const boxShadowColor = Color(0XFFE9E9E9);
+const secondaryColor = Color(0XFFFFA57D);

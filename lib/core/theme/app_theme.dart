@@ -6,10 +6,12 @@ class AppTheme {
     useMaterial3: true,
     primaryColor: primary,
     fontFamily: 'DMSans',
+    scaffoldBackgroundColor: appWhite,
   );
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     primaryColor: primary,
     fontFamily: 'DMSans',
+    scaffoldBackgroundColor: appWhite,
   );
 }

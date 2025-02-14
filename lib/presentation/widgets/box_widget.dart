@@ -23,26 +23,31 @@ class BoxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Ink(
-      // onTap: onTap,
-      child: Container(
-        width: width,
-        height: height,
-        margin: margin,
-        padding: padding,
-        decoration: BoxDecoration(
-          borderRadius: borderRadius,
-          color: appWhite,
-          border: Border.all(color: textColor, width: 0.1.scale),
-          boxShadow: [
-            BoxShadow(
-              color: boxShadowColor,
-              offset: Offset(0, 12.scale),
-              blurRadius: 48.scale,
+    return SizedBox(
+      child: Material(
+        shape: RoundedRectangleBorder(),
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            width: width,
+            height: height,
+            margin: margin,
+            padding: padding,
+            decoration: BoxDecoration(
+              color: appWhite,
+              borderRadius: borderRadius,
+              border: Border.all(color: textColor, width: 0.1.scale),
+              boxShadow: [
+                BoxShadow(
+                  color: boxShadowColor,
+                  offset: Offset(0, 12.scale),
+                  blurRadius: 48.scale,
+                ),
+              ],
             ),
-          ],
+            child: child,
+          ),
         ),
-        child: child,
       ),
     );
   }
