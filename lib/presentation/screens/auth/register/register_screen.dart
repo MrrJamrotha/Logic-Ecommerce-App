@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/auth/register/register_cubit.dart
 import 'package:logic_app/presentation/screens/auth/register/register_state.dart';
 
 class RegisterScreen extends StatefulWidget {
-	const RegisterScreen({Key? key}) : super(key: key);
+	const RegisterScreen({super.key});
 	
 	@override
 	_RegisterScreenState createState() => _RegisterScreenState();

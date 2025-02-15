@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/auth/login/login_cubit.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_state.dart';
 
 class LoginScreen extends StatefulWidget {
-	const LoginScreen({Key? key}) : super(key: key);
+	const LoginScreen({super.key});
 	
 	@override
 	_LoginScreenState createState() => _LoginScreenState();

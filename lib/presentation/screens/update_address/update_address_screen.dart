@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/update_address/update_address_cubit.dart';
@@ -38,7 +39,7 @@ class UpdateAddressScreenState extends State<UpdateAddressScreen> {
   final _postalCodeCtr = TextEditingController();
   final _noteCtr = TextEditingController();
 
-  List<String> _nickNames = [
+  final List<String> _nickNames = [
     "home",
     "office",
     "other",
@@ -110,30 +111,26 @@ class UpdateAddressScreenState extends State<UpdateAddressScreen> {
                       () => PanGestureRecognizer())),
               ),
             ),
-            // TextFormField(),
-            DropdownButtonFormField(
-              // dropdownColor: appWhite,
+            DropdownButton<String>(
+              value: _currentNickName,
+              isExpanded: true,
+              itemHeight: 60,
+              dropdownColor: appWhite,
               items: _nickNames.map((String item) {
                 return DropdownMenuItem(
-                    value: item,
-                    child: Padding(
-                      padding: EdgeInsets.all(appPedding.scale),
-                      child: TextWidget(text: item),
-                    ));
+                  value: item,
+                  child: Padding(
+                    padding: EdgeInsets.all(appPedding.scale),
+                    child: TextWidget(text: item),
+                  ),
+                );
               }).toList(),
               onChanged: (newValue) {
                 setState(() {
-                  _nikeNameCtr.text = newValue!;
-                  _currentNickName = newValue;
+                  _currentNickName = newValue!;
+                  _nikeNameCtr.text = _currentNickName;
                 });
               },
-
-              value: _currentNickName,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                filled: true,
-                fillColor: Colors.grey[200],
-              ),
             ),
             TextFormField(
               controller: _phoneCtr,
@@ -209,7 +206,6 @@ class UpdateAddressScreenState extends State<UpdateAddressScreen> {
                 hintText: 'postal_code'.tr,
               ),
             ),
-
             TextFormField(
               controller: _noteCtr,
               maxLines: 5,

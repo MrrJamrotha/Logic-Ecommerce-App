@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/check_out/check_out_cubit.dart';
 import 'package:logic_app/presentation/screens/check_out/check_out_state.dart';
 
 class CheckOutScreen extends StatefulWidget {
-	const CheckOutScreen({Key? key}) : super(key: key);
+	const CheckOutScreen({super.key});
 	
 	@override
 	_CheckOutScreenState createState() => _CheckOutScreenState();

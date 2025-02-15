@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/search/search_cubit.dart';
 import 'package:logic_app/presentation/screens/search/search_state.dart';
 
 class SearchScreen extends StatefulWidget {
-	const SearchScreen({Key? key}) : super(key: key);
+	const SearchScreen({super.key});
 	
 	@override
 	_SearchScreenState createState() => _SearchScreenState();

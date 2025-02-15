@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/contact_us/contact_us_cubit.dart'
 import 'package:logic_app/presentation/screens/contact_us/contact_us_state.dart';
 
 class ContactUsScreen extends StatefulWidget {
-	const ContactUsScreen({Key? key}) : super(key: key);
+	const ContactUsScreen({super.key});
 	
 	@override
 	_ContactUsScreenState createState() => _ContactUsScreenState();

@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/item_detail/item_detail_cubit.dar
 import 'package:logic_app/presentation/screens/item_detail/item_detail_state.dart';
 
 class ItemDetailScreen extends StatefulWidget {
-	const ItemDetailScreen({Key? key}) : super(key: key);
+	const ItemDetailScreen({super.key});
 	
 	@override
 	_ItemDetailScreenState createState() => _ItemDetailScreenState();

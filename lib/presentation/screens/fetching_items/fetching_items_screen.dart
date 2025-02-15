@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/fetching_items/fetching_items_cub
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
 
 class FetchingItemsScreen extends StatefulWidget {
-	const FetchingItemsScreen({Key? key}) : super(key: key);
+	const FetchingItemsScreen({super.key});
 	
 	@override
 	_FetchingItemsScreenState createState() => _FetchingItemsScreenState();

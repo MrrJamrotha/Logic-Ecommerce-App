@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/chat/chat_cubit.dart';
 import 'package:logic_app/presentation/screens/chat/chat_state.dart';
 
 class ChatScreen extends StatefulWidget {
-	const ChatScreen({Key? key}) : super(key: key);
+	const ChatScreen({super.key});
 	
 	@override
 	_ChatScreenState createState() => _ChatScreenState();

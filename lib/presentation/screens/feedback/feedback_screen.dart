@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/feedback/feedback_cubit.dart';
 import 'package:logic_app/presentation/screens/feedback/feedback_state.dart';
 
 class FeedbackScreen extends StatefulWidget {
-	const FeedbackScreen({Key? key}) : super(key: key);
+	const FeedbackScreen({super.key});
 	
 	@override
 	_FeedbackScreenState createState() => _FeedbackScreenState();

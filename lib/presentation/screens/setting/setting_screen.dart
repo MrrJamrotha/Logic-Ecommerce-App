@@ -4,7 +4,7 @@ import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
 import 'package:logic_app/presentation/screens/setting/setting_state.dart';
 
 class SettingScreen extends StatefulWidget {
-	const SettingScreen({Key? key}) : super(key: key);
+	const SettingScreen({super.key});
 	
 	@override
 	_SettingScreenState createState() => _SettingScreenState();
