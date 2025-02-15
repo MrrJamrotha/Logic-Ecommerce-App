@@ -9,6 +9,7 @@ class TextWidget extends StatelessWidget {
     this.fontWeight,
     this.textAlign,
     this.height,
+    this.maxLines,
   });
   final String text;
   final double? fontSize;
@@ -16,16 +17,19 @@ class TextWidget extends StatelessWidget {
   final FontWeight? fontWeight;
   final TextAlign? textAlign;
   final double? height;
+  final int? maxLines;
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       textAlign: textAlign,
+      maxLines: maxLines,
       style: TextStyle(
         fontSize: fontSize,
         color: color,
         fontWeight: fontWeight,
         height: height,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

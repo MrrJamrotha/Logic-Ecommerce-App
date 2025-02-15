@@ -169,16 +169,23 @@ class HomeScreenState extends State<HomeScreen>
 
   SizedBox _listDatas(List<dynamic> records) {
     return SizedBox(
-      height: 107.scale,
+      height: 125.scale,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: records.length,
         itemBuilder: (context, index) {
           final record = records[index];
-          return CardBrandWidget(
-            picture: record.picture,
-            pictureHash: record.pictureHash,
-            title: record.name,
+          return Padding(
+            padding: EdgeInsets.only(
+              right: appSpace.scale,
+              bottom: appSpace.scale,
+              top: appSpace.scale,
+            ),
+            child: CardBrandWidget(
+              picture: record.picture,
+              pictureHash: record.pictureHash,
+              title: record.name,
+            ),
           );
         },
       ),
