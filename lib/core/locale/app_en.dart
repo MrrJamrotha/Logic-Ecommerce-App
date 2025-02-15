@@ -63,4 +63,5 @@ final Map<String, String> en = {
   'update': 'Update',
   'address_line_1': 'Address Line 1',
   'address_line_2': 'Address Line 2',
+  'notifications': 'Notifications',
 };

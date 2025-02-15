@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/presentation/screens/notification/notification_screen.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
@@ -60,7 +62,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
           ),
         IconButton(
           onPressed: () {
-            // context.goNamed(ChatRoomScreen.routeName);
+            context.goNamed(NotificationScreen.routeName);
           },
           icon: Badge.count(
             count: 10,
