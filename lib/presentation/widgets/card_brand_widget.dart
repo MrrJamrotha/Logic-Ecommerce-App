@@ -36,7 +36,11 @@ class CardBrandWidget extends StatelessWidget {
             imageUrl: picture,
             blurHash: pictureHash,
           ),
-          TextWidget(text: title, maxLines: 1),
+          TextWidget(
+            text: title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );

@@ -16,6 +16,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.onBackPress,
     this.bottom,
     this.isBottom = false,
+    this.isNotification = true,
   });
   final bool isSearch;
   final String title;
@@ -24,6 +25,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   final Function()? onBackPress;
   final PreferredSizeWidget? bottom;
   final bool isBottom;
+  final bool isNotification;
   @override
   Size get preferredSize =>
       Size.fromHeight(kToolbarHeight + (isBottom ? 50.scale : 0));
@@ -60,19 +62,20 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
               height: 24.scale,
             ),
           ),
-        IconButton(
-          onPressed: () {
-            context.goNamed(NotificationScreen.routeName);
-          },
-          icon: Badge.count(
-            count: 10,
-            child: IconWidget(
-              assetName: notificationSvg,
-              width: 24.scale,
-              height: 24.scale,
+        if (isNotification)
+          IconButton(
+            onPressed: () {
+              context.goNamed(NotificationScreen.routeName);
+            },
+            icon: Badge.count(
+              count: 10,
+              child: IconWidget(
+                assetName: notificationSvg,
+                width: 24.scale,
+                height: 24.scale,
+              ),
             ),
           ),
-        ),
       ],
     );
   }

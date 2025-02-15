@@ -1,17 +1,17 @@
-class RegisterState {
+class OtpState {
 	final bool isLoading;
 	final String? error;
 	  
-	const RegisterState({
+	const OtpState({
 		this.isLoading = false,
 		this.error,
 	});
 	  
-	RegisterState copyWith({
+	OtpState copyWith({
 		bool? isLoading,
 		String? error,
 	}) {
-		return RegisterState(
+		return OtpState(
 			isLoading: isLoading ?? this.isLoading,
 			error: error ?? this.error,
 		);

@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/presentation/screens/auth/register/register_state.dart';
+import 'package:logic_app/presentation/screens/auth/otp/otp_state.dart';
 
-class RegisterCubit extends Cubit<RegisterState> {
-	RegisterCubit() : super(RegisterState(isLoading: true));
+class OtpCubit extends Cubit<OtpState> {
+	OtpCubit() : super(OtpState(isLoading: true));
 	
 	Future<void> loadInitialData() async {
 		final stableState = state;

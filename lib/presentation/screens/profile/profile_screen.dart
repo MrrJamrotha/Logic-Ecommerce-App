@@ -6,6 +6,7 @@ import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/address/address_screen.dart';
+import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:logic_app/presentation/screens/cubit/currency_screen.dart';
 import 'package:logic_app/presentation/screens/language/language_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
@@ -206,7 +207,7 @@ class ProfileScreenState extends State<ProfileScreen> {
             ButtonWidget(
               title: 'edit_profile'.tr,
               onPressed: () {
-                //TODO:
+                context.pushNamed(LoginScreen.routeName);
               },
             )
           ],

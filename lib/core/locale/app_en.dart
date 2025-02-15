@@ -66,4 +66,7 @@ final Map<String, String> en = {
   'notifications': 'Notifications',
   'khmer': 'Khmer',
   'english': 'English',
+  'or_sign_with': 'Or sign with',
+  'continue': 'Continue',
+  'continue_with_google': 'Continue with Google'
 };

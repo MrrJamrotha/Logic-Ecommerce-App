@@ -33,3 +33,4 @@ const cameraSvg = 'assets/icons/camera-svgrepo-com.svg';
 const albumsSvg = 'assets/icons/albums-outline-svgrepo-com.svg';
 
 const cancelSvg = 'assets/icons/cancel.svg';
+const googleSvg = 'assets/icons/Google.svg';
