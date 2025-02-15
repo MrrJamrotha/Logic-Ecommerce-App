@@ -9,6 +9,8 @@ import 'package:logic_app/presentation/screens/camera/take_picture_screen.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_screen.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/preview_image.dart';
 import 'package:logic_app/presentation/screens/create_address/create_address_screen.dart';
+import 'package:logic_app/presentation/screens/cubit/currency_screen.dart';
+import 'package:logic_app/presentation/screens/language/language_screen.dart';
 import 'package:logic_app/presentation/screens/main_screen.dart';
 import 'package:logic_app/presentation/screens/not_found/not_found_screen.dart';
 import 'package:logic_app/presentation/screens/notification/notification_screen.dart';
@@ -168,6 +170,32 @@ class MainRouter {
               pageBuilder: (context, state) {
                 return CustomTransitionPage(
                   child: NotificationScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+                );
+              },
+            ),
+            GoRoute(
+              path: LanguageScreen.routePath,
+              name: LanguageScreen.routeName,
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  child: LanguageScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+                );
+              },
+            ),
+            GoRoute(
+              path: CurrencyScreen.routePath,
+              name: CurrencyScreen.routeName,
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  child: CurrencyScreen(),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     return FadeTransition(opacity: animation, child: child);

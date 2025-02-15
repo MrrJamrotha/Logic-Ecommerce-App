@@ -93,8 +93,10 @@ class ProfileScreenState extends State<ProfileScreen> {
           context.pushNamed(AddressScreen.routeName);
           break;
         case LanguageScreen.routeName:
+          context.pushNamed(LanguageScreen.routeName);
           break;
         case CurrencyScreen.routeName:
+          context.pushNamed(CurrencyScreen.routeName);
           break;
         case '':
           showDialogLogout();
