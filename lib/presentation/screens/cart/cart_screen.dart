@@ -41,30 +41,33 @@ class CartScreenState extends State<CartScreen> {
           return buildBody(state);
         },
       ),
-      bottomNavigationBar: BoxWidget(
-        padding: EdgeInsets.all(appSpace.scale),
-        borderRadius: BorderRadius.circular(appRadius.scale),
-        margin: EdgeInsets.all(appPedding.scale),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: appSpace.scale,
-          children: [
-            _buildRow(
-              leftText: 'total_items'.tr,
-              rightText: '6',
-            ),
-            _buildRow(
-              leftText: 'total_amount'.tr,
-              rightText: '3499.99\$',
-              rightColor: primary,
-            ),
-            ButtonWidget(
-              title: 'check_out'.tr,
-              onPressed: () {
-                //TODO: check
-              },
-            )
-          ],
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(appPedding.scale),
+        child: BoxWidget(
+          color: appWhite,
+          padding: EdgeInsets.all(appSpace.scale),
+          borderRadius: BorderRadius.circular(appRadius.scale),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: appSpace.scale,
+            children: [
+              _buildRow(
+                leftText: 'total_items'.tr,
+                rightText: '6',
+              ),
+              _buildRow(
+                leftText: 'total_amount'.tr,
+                rightText: '3499.99\$',
+                rightColor: primary,
+              ),
+              ButtonWidget(
+                title: 'check_out'.tr,
+                onPressed: () {
+                  //TODO: check
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
