@@ -290,6 +290,7 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
       padding: EdgeInsets.all(appSpace.scale),
       borderRadius: BorderRadius.circular(appRadius.scale),
       child: Row(
+        spacing: appSpace.scale,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

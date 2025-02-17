@@ -81,4 +81,10 @@ final Map<String, String> en = {
   'opt_code_required': 'Please enter the 6-digit OTP sent to your phone.',
   'opt_code_length':
       'Most OTPs are 6 digits long, so the message might simply say "Your OTP is a 6-digit code.',
+  'delivery_address': 'Delivery address',
+  'order_summary': 'Order summary',
+  'payment_methods': 'Payment methods',
+  'cash_delivery': 'Cash on delivery',
+  'total_order': 'Total order',
+  'subtotal': 'Subtotal',
 };
