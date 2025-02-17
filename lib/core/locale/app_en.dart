@@ -87,4 +87,7 @@ final Map<String, String> en = {
   'cash_delivery': 'Cash on delivery',
   'total_order': 'Total order',
   'subtotal': 'Subtotal',
+  'thank_you': 'Thank you!',
+  'pay_success': 'Payment done successfuly',
+  'continue_shopping': 'Continue Shopping'
 };

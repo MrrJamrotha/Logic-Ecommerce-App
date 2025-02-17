@@ -16,6 +16,9 @@ import 'package:logic_app/presentation/widgets/text_widget.dart';
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
+  static const routeName = 'cart_screen';
+  static const routePath = '/cart_screen';
+
   @override
   CartScreenState createState() => CartScreenState();
 }

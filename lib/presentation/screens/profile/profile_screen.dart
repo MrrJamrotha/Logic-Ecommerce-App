@@ -22,6 +22,8 @@ import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+  static const routeName = 'profile_screen';
+  static const routePath = '/profile_screen';
 
   @override
   ProfileScreenState createState() => ProfileScreenState();
@@ -91,7 +93,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         case WishlistScreen.routeName:
           break;
         case AddressScreen.routeName:
-          context.pushNamed(AddressScreen.routeName);
+          context.pushNamed('/profile_address');
           break;
         case LanguageScreen.routeName:
           context.pushNamed(LanguageScreen.routeName);

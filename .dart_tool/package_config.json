@@ -566,6 +566,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "lottie",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/lottie-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/matcher-0.12.17",
       "packageUri": "lib/",
@@ -1016,7 +1022,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-17T04:52:12.122988Z",
+  "generated": "2025-02-17T06:47:57.866230Z",
   "generator": "pub",
   "generatorVersion": "3.7.0",
   "flutterRoot": "file:///Users/foxtech-mach/development/flutter",

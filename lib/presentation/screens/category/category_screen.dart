@@ -10,6 +10,8 @@ import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/card_category_widget.dart';
 
 class CategoryScreen extends StatefulWidget {
+  static const routeName = 'category_screen';
+  static const routePath = '/category_screen';
   const CategoryScreen({super.key});
 
   @override

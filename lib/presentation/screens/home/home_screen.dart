@@ -14,6 +14,8 @@ import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  static const routeName = 'home';
+  static const routePath = '/home';
 
   @override
   HomeScreenState createState() => HomeScreenState();

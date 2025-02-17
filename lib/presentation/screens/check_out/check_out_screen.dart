@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/helper/loading_overlay.dart';
 import 'package:logic_app/presentation/screens/check_out/check_out_cubit.dart';
 import 'package:logic_app/presentation/screens/check_out/check_out_state.dart';
 import 'package:logic_app/presentation/widgets/aba_box_widget.dart';
@@ -28,6 +29,13 @@ class CheckOutScreenState extends State<CheckOutScreen> {
   void initState() {
     screenCubit.loadInitialData();
     super.initState();
+  }
+
+  Future<void> _placeOrder() async {
+    LoadingOverlay.showPlaceOrderSuccess(context);
+    // Future.delayed(Duration(seconds: 3), () {
+    //   LoadingOverlay.hide(); // Hide loading overlay
+    // });
   }
 
   @override
@@ -152,7 +160,7 @@ class CheckOutScreenState extends State<CheckOutScreen> {
           ButtonWidget(
             title: 'place_order'.tr,
             onPressed: () {
-              //TODO:
+              _placeOrder();
             },
           ),
         ],
