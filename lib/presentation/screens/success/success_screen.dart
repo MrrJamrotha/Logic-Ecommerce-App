@@ -5,6 +5,7 @@ import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/helper/loading_overlay.dart';
 import 'package:logic_app/presentation/screens/home/home_screen.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
@@ -53,7 +54,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
                 title: 'continue_shopping'.tr,
                 onPressed: () {
                   context.read<SettingCubit>().onPageChanged(0);
-                  context.go(HomeScreen.routePath);
+                  context.goNamed(HomeScreen.routeName);
+                  LoadingOverlay.hide();
                 },
               )
             ],
