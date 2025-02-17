@@ -65,6 +65,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/logo/logo-development.png
+    - assets/country_code.json
     - .env
 
   fonts:

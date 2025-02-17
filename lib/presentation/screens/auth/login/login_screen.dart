@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/data/models/country_model.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_cubit.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
@@ -23,10 +26,11 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   final screenCubit = LoginCubit();
-
+  final _searchTextCtr = TextEditingController();
+  final _dialCodeCtr = TextEditingController(text: "+855");
   @override
   void initState() {
-    screenCubit.loadInitialData();
+    screenCubit.getCountries();
     super.initState();
   }
 
@@ -55,6 +59,76 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void showModalCountries() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      useRootNavigator: true,
+      useSafeArea: true,
+      showDragHandle: true,
+      backgroundColor: appWhite,
+      context: context,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.6,
+          minChildSize: 0.5,
+          expand: false,
+          snap: true,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return Column(
+              children: [
+                // 🔹 Search Bar
+                Padding(
+                  padding: EdgeInsets.all(appPedding.scale),
+                  child: CupertinoSearchTextField(
+                    controller: _searchTextCtr,
+                    placeholder: 'search_country'.tr,
+                    onChanged: (value) {
+                      screenCubit.searchCountries(value);
+                    },
+                  ),
+                ),
+
+                // 🔹 Scrollable List with Search Results
+                Expanded(
+                  child:
+                      BlocSelector<LoginCubit, LoginState, List<CountryModel>>(
+                    bloc: screenCubit,
+                    selector: (state) {
+                      return state.countries ?? [];
+                    },
+                    builder: (context, filteredCountries) {
+                      return ListView.builder(
+                        controller: scrollController,
+                        itemCount: filteredCountries.length,
+                        itemBuilder: (context, index) {
+                          final country = filteredCountries[index];
+                          return ListTile(
+                            leading: Text(
+                              country.emoji,
+                              style: TextStyle(fontSize: 24.scale),
+                            ),
+                            title: TextWidget(text: country.name),
+                            subtitle: TextWidget(text: country.dialCode),
+                            trailing: TextWidget(text: country.code),
+                            onTap: () {
+                              screenCubit.selectDialcode(country.dialCode);
+                              _dialCodeCtr.text = country.dialCode;
+                              context.pop();
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   Widget buildBody(LoginState state) {
     return Center(
       child: SingleChildScrollView(
@@ -72,13 +146,12 @@ class LoginScreenState extends State<LoginScreen> {
               ),
             ),
             TextWidget(
-              text: 'Enter your mobile phone',
+              text: 'enter_phone'.tr,
               fontSize: 20.scale,
               fontWeight: FontWeight.w700,
             ),
             TextWidget(
-              text:
-                  'Please confirm your country code and enter your phone number',
+              text: 'login_content'.tr,
               fontSize: 14.scale,
             ),
             Row(
@@ -87,9 +160,10 @@ class LoginScreenState extends State<LoginScreen> {
                 Expanded(
                   flex: 1,
                   child: TextFormField(
+                    controller: _dialCodeCtr,
                     readOnly: true,
                     onTap: () {
-                      //
+                      showModalCountries();
                     },
                     decoration: InputDecoration(
                       hintText: 'country'.tr,

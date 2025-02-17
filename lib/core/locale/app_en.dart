@@ -71,4 +71,8 @@ final Map<String, String> en = {
   'continue_with_google': 'Continue with Google',
   'check_out': 'Check out',
   'place_order': 'Place order',
+  'enter_phone': 'Enter your mobile phone',
+  'login_content':
+      'Please confirm your country code and enter your phone number',
+  'search_country': 'Search country'
 };
