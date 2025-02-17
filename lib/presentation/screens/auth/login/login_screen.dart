@@ -10,6 +10,7 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/models/country_model.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_cubit.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_state.dart';
+import 'package:logic_app/presentation/screens/auth/otp/otp_screen.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
@@ -190,7 +191,7 @@ class LoginScreenState extends State<LoginScreen> {
             ButtonWidget(
               title: 'continue'.tr,
               onPressed: () {
-                //TODO:
+                context.goNamed(OtpScreen.routeName);
               },
             ),
             Row(
@@ -205,6 +206,9 @@ class LoginScreenState extends State<LoginScreen> {
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: backgroudButtonColor.withOpacity(0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(appRadius.scale),
+                ),
               ),
               child: Row(
                 spacing: appSpace.scale,

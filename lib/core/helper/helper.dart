@@ -6,6 +6,7 @@ import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/locale/app_locale.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:pinput/pinput.dart';
 
 extension Translation on String {
   String get tr {
@@ -63,3 +64,28 @@ Color getOrderColorStatus(OrderStatus status) {
       return appGreen;
   }
 }
+
+final defaultPinTheme = PinTheme(
+  width: 56.scale,
+  height: 56.scale,
+  textStyle: TextStyle(
+    fontSize: 20.scale,
+    color: appBlack,
+    fontWeight: FontWeight.w600,
+  ),
+  decoration: BoxDecoration(
+    border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+    borderRadius: BorderRadius.circular(20),
+  ),
+);
+
+final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+  border: Border.all(color: primary),
+  borderRadius: BorderRadius.circular(8),
+);
+
+final submittedPinTheme = defaultPinTheme.copyWith(
+  decoration: defaultPinTheme.decoration?.copyWith(
+    color: Color.fromRGBO(234, 239, 243, 1),
+  ),
+);

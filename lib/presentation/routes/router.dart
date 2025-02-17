@@ -6,6 +6,7 @@ import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/presentation/global/application/application_cubit.dart';
 import 'package:logic_app/presentation/screens/address/address_screen.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
+import 'package:logic_app/presentation/screens/auth/otp/otp_screen.dart';
 import 'package:logic_app/presentation/screens/camera/take_picture_screen.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_screen.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/preview_image.dart';
@@ -216,6 +217,21 @@ class MainRouter {
                   },
                 );
               },
+              routes: [
+                GoRoute(
+                  path: OtpScreen.routePath,
+                  name: OtpScreen.routeName,
+                  pageBuilder: (context, state) {
+                    return CustomTransitionPage(
+                      child: OtpScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(opacity: animation, child: child);
+                      },
+                    );
+                  },
+                )
+              ],
             )
           ],
         ),

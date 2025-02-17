@@ -1,0 +1,2 @@
+/Users/foxtech-mach/Projects/Logic-Ecommerce-App/android/app/.cxx/Debug/r414v1tr/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/foxtech-mach/Projects/Logic-Ecommerce-App/android/app/.cxx/Debug/r414v1tr/arm64-v8a/CMakeFiles/rebuild_cache.dir

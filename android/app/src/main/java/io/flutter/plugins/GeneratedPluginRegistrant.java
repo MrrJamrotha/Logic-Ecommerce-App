@@ -76,6 +76,11 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin onesignal_flutter, com.onesignal.flutter.OneSignalPlugin", e);
     }
     try {
+      flutterEngine.getPlugins().add(new ru.surfstudio.otp_autofill.OTPPlugin());
+    } catch (Exception e) {
+      Log.e(TAG, "Error registering plugin otp_autofill, ru.surfstudio.otp_autofill.OTPPlugin", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new io.flutter.plugins.pathprovider.PathProviderPlugin());
     } catch (Exception e) {
       Log.e(TAG, "Error registering plugin path_provider_android, io.flutter.plugins.pathprovider.PathProviderPlugin", e);

@@ -800,11 +800,20 @@ packages:
   onesignal_flutter:
     dependency: "direct main"
     description:
-      name: onesignal_flutter
-      sha256: c60e253f4bfdbd2bd25c47e491bfd4ab8bd0336ad288b2873bd81f839b07ad8e
+      path: "."
+      ref: HEAD
+      resolved-ref: "1b728a59a5dbe42474f1179edbdbebb5a259c9d4"
+      url: "https://github.com/milansurelia/OneSignal-Flutter-SDK.git"
+    source: git
+    version: "5.2.9"
+  otp_autofill:
+    dependency: "direct main"
+    description:
+      name: otp_autofill
+      sha256: "081a8366475db40c44f0582a34a779dbda0f54ac1f40a9b99dcd4b4546f025c2"
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.9"
+    version: "4.1.0"
   path:
     dependency: "direct main"
     description:

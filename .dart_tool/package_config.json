@@ -609,9 +609,15 @@
     },
     {
       "name": "onesignal_flutter",
-      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/onesignal_flutter-5.2.9",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/git/OneSignal-Flutter-SDK-1b728a59a5dbe42474f1179edbdbebb5a259c9d4/",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "otp_autofill",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/otp_autofill-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "path",
@@ -1010,7 +1016,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-17T01:40:31.557561Z",
+  "generated": "2025-02-17T04:52:12.122988Z",
   "generator": "pub",
   "generatorVersion": "3.7.0",
   "flutterRoot": "file:///Users/foxtech-mach/development/flutter",

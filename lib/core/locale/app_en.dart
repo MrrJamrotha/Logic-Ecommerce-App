@@ -74,5 +74,11 @@ final Map<String, String> en = {
   'enter_phone': 'Enter your mobile phone',
   'login_content':
       'Please confirm your country code and enter your phone number',
-  'search_country': 'Search country'
+  'search_country': 'Search country',
+  'confirm': 'Confirm',
+  'otp_content': 'Please verify your account by entering the code send to ',
+  'enter_otp': 'Enter verification code',
+  'opt_code_required': 'Please enter the 6-digit OTP sent to your phone.',
+  'opt_code_length':
+      'Most OTPs are 6 digits long, so the message might simply say "Your OTP is a 6-digit code.',
 };

@@ -23,7 +23,7 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> searchCountries(String query) async {
     if (query.isEmpty) {
-      emit(state.copyWith(countries: state.countries));
+      getCountries();
     } else {
       var datas = state.countries
           ?.where((country) =>

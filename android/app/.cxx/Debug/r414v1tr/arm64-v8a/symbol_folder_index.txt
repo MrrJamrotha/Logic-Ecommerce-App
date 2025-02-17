@@ -1,0 +1,1 @@
+/Users/foxtech-mach/Projects/Logic-Ecommerce-App/build/app/intermediates/cxx/Debug/r414v1tr/obj/arm64-v8a
