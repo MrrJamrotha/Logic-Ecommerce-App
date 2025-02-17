@@ -53,36 +53,33 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
   Widget buildBody(FetchingItemsState state) {
     return CustomScrollView(
       slivers: [
-        // SliverPersistentHeader(
-        //   pinned: true,
-        //   delegate: HeaderDelegateWidget(
-        //     child: SizedBox(
-        //       height: 70.scale,
-        //       child: ListView.builder(
-        //         padding: EdgeInsets.all(appPedding.scale),
-        //         itemCount: 10,
-        //         scrollDirection: Axis.horizontal,
-        //         itemBuilder: (context, index) {
-        //           return Padding(
-        //             padding: EdgeInsets.only(right: appSpace.scale),
-        //             child: OutlinedButton(
-        //               onPressed: () {
-        //                 // TODO your code here
-        //               },
-        //               style: OutlinedButton.styleFrom(
-        //                 padding: EdgeInsets.all(appSpace.scale),
-        //                 shape: RoundedRectangleBorder(
-        //                   borderRadius: BorderRadius.circular(appRadius.scale),
-        //                 ),
-        //               ),
-        //               child: TextWidget(text: 'text'),
-        //             ),
-        //           );
-        //         },
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: HeaderDelegateWidget(
+            child: ListView.builder(
+              padding: EdgeInsets.all(appPedding.scale),
+              itemCount: 10,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(right: appSpace.scale),
+                  child: OutlinedButton(
+                    onPressed: () {
+                      // TODO your code here
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.all(appSpace.scale),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(appRadius.scale),
+                      ),
+                    ),
+                    child: TextWidget(text: 'text'),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
         // SliverList.builder(
         //   itemCount: 10,
         //   itemBuilder: (context, index) {

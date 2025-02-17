@@ -20,10 +20,10 @@ class HeaderDelegateWidget extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 264;
+  double get maxExtent => 80;
 
   @override
-  double get minExtent => 84;
+  double get minExtent => 80;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
