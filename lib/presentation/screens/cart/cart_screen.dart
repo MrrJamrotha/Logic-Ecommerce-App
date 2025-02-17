@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/cart/cart_cubit.dart';
 import 'package:logic_app/presentation/screens/cart/cart_state.dart';
+import 'package:logic_app/presentation/screens/check_out/check_out_screen.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/box_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
@@ -63,7 +65,7 @@ class CartScreenState extends State<CartScreen> {
               ButtonWidget(
                 title: 'check_out'.tr,
                 onPressed: () {
-                  //TODO: check
+                  context.goNamed(CheckOutScreen.routeName);
                 },
               )
             ],

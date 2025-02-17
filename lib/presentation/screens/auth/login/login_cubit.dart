@@ -8,7 +8,7 @@ import 'package:logic_app/presentation/screens/auth/login/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginState());
-
+  List<CountryModel> _allCountries = [];
   Future<void> getCountries() async {
     final json = await rootBundle.loadString('assets/country_code.json');
     final countries = await Isolate.run<List<CountryModel>>(() {
@@ -18,18 +18,19 @@ class LoginCubit extends Cubit<LoginState> {
           .map(CountryModel.fromJson)
           .toList();
     });
+    _allCountries = countries;
     emit(state.copyWith(countries: countries));
   }
 
   Future<void> searchCountries(String query) async {
     if (query.isEmpty) {
-      getCountries();
+      emit(state.copyWith(countries: _allCountries)); // Restore full list
     } else {
-      var datas = state.countries
-          ?.where((country) =>
+      var filteredCountries = _allCountries
+          .where((country) =>
               country.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
-      emit(state.copyWith(countries: datas));
+      emit(state.copyWith(countries: filteredCountries));
     }
   }
 

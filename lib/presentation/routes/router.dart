@@ -10,6 +10,7 @@ import 'package:logic_app/presentation/screens/auth/otp/otp_screen.dart';
 import 'package:logic_app/presentation/screens/camera/take_picture_screen.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_screen.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/preview_image.dart';
+import 'package:logic_app/presentation/screens/check_out/check_out_screen.dart';
 import 'package:logic_app/presentation/screens/create_address/create_address_screen.dart';
 import 'package:logic_app/presentation/screens/cubit/currency_screen.dart';
 import 'package:logic_app/presentation/screens/language/language_screen.dart';
@@ -80,6 +81,19 @@ class MainRouter {
                   },
                 ),
               ],
+            ),
+            GoRoute(
+              path: CheckOutScreen.routePath,
+              name: CheckOutScreen.routeName,
+              pageBuilder: (context, state) {
+                return CustomTransitionPage(
+                  child: CheckOutScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+                );
+              },
             ),
             GoRoute(
               path: AddressScreen.routePath,
