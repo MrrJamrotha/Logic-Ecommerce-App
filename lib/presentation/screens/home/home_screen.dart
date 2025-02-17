@@ -197,8 +197,9 @@ class HomeScreenState extends State<HomeScreen>
     bool isLoading,
   ) {
     return SizedBox(
-      height: 200.scale,
+      height: 210.scale,
       child: ListView.builder(
+        padding: EdgeInsets.symmetric(vertical: appSpace.scale),
         scrollDirection: Axis.horizontal,
         itemCount: records.length,
         itemBuilder: (context, index) {

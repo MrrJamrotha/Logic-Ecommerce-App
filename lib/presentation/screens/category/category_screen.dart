@@ -49,6 +49,8 @@ class CategoryScreenState extends State<CategoryScreen> {
     int countRow = width ~/ widthCard;
     return MasonryGridView.count(
       padding: EdgeInsets.all(appPedding.scale),
+      crossAxisSpacing: appSpace.scale,
+      mainAxisSpacing: appSpace.scale,
       itemCount: records.length,
       crossAxisCount: countRow,
       itemBuilder: (context, index) {
