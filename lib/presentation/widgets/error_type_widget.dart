@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
@@ -26,23 +27,25 @@ class ErrorTypeWidget extends StatelessWidget {
         text = "someting_want_wrong";
         break;
     }
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: appPedding.scale,
-        children: [
-          Image.asset(
-            name,
-            width: 200.scale,
-            height: 200.scale,
-          ),
-          TextWidget(
-            text: text.tr,
-            fontSize: 18.scale,
-            fontWeight: FontWeight.w700,
-          ),
-        ],
+    return Scaffold(
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: appPedding.scale,
+          children: [
+            Image.asset(
+              name,
+              width: 200.scale,
+              height: 200.scale,
+            ),
+            TextWidget(
+              text: text.tr,
+              fontSize: 18.scale,
+              fontWeight: FontWeight.w700,
+            ),
+          ],
+        ),
       ),
     );
   }

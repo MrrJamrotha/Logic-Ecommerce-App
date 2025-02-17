@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -89,7 +90,9 @@ class HomeScreenState extends State<HomeScreen>
                 _buildTitleRow(
                   title: 'browse_categories'.tr,
                   onTap: () {
-                    //TODO: next time
+                    context.pushNamed('home_fetching_item', extra: {
+                      'title': 'browse_categories'.tr,
+                    });
                   },
                   child: _listDatas(categoryModels),
                 ),

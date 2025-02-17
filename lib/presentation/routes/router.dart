@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/presentation/screens/address/address_screen.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
@@ -9,16 +10,16 @@ import 'package:logic_app/presentation/screens/category/category_screen.dart';
 import 'package:logic_app/presentation/screens/check_out/check_out_screen.dart';
 import 'package:logic_app/presentation/screens/create_address/create_address_screen.dart';
 import 'package:logic_app/presentation/screens/cubit/currency_screen.dart';
+import 'package:logic_app/presentation/screens/fetching_items/fetching_items_screen.dart';
 import 'package:logic_app/presentation/screens/home/home_screen.dart';
 import 'package:logic_app/presentation/screens/language/language_screen.dart';
 import 'package:logic_app/presentation/screens/main_screen.dart';
-import 'package:logic_app/presentation/screens/not_found/not_found_screen.dart';
-import 'package:logic_app/presentation/screens/notification/notification_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
 import 'package:logic_app/presentation/screens/order_detail/order_detail_screen.dart';
 import 'package:logic_app/presentation/screens/profile/profile_screen.dart';
 import 'package:logic_app/presentation/screens/update_address/update_address_screen.dart';
 import 'package:logic_app/presentation/screens/write_review/write_review_screen.dart';
+import 'package:logic_app/presentation/widgets/error_type_widget.dart';
 
 class MainRouter {
   static GoRouter createRouter(BuildContext context) {
@@ -33,19 +34,31 @@ class MainRouter {
           },
           branches: [
             StatefulShellBranch(
-              navigatorKey: homeNavigatorKey,
+              navigatorKey: GlobalKey<NavigatorState>(),
               routes: [
                 GoRoute(
-                  path: HomeScreen.routePath,
-                  name: HomeScreen.routeName,
-                  builder: (context, state) {
-                    return HomeScreen(key: state.pageKey);
-                  },
-                )
+                    path: HomeScreen.routePath,
+                    name: HomeScreen.routeName,
+                    builder: (context, state) {
+                      return HomeScreen(key: state.pageKey);
+                    },
+                    routes: [
+                      GoRoute(
+                        path: '/home_fetching_item',
+                        name: 'home_fetching_item',
+                        parentNavigatorKey: rootNavigatorKey,
+                        builder: (context, state) {
+                          final datas = state.extra as Map<String, dynamic>;
+                          return FetchingItemsScreen(
+                            title: datas['title'],
+                          );
+                        },
+                      ),
+                    ])
               ],
             ),
             StatefulShellBranch(
-              navigatorKey: categoryNavigatorKey,
+              navigatorKey: GlobalKey<NavigatorState>(),
               routes: [
                 GoRoute(
                   path: CategoryScreen.routePath,
@@ -57,7 +70,7 @@ class MainRouter {
               ],
             ),
             StatefulShellBranch(
-              navigatorKey: cartNavigatorKey,
+              navigatorKey: GlobalKey<NavigatorState>(),
               routes: [
                 GoRoute(
                     path: CartScreen.routePath,
@@ -72,9 +85,7 @@ class MainRouter {
                         parentNavigatorKey: rootNavigatorKey,
                         pageBuilder: (context, state) {
                           return CustomTransitionPage(
-                            child: CheckOutScreen(
-                              key: state.pageKey,
-                            ),
+                            child: CheckOutScreen(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return FadeTransition(
@@ -136,7 +147,7 @@ class MainRouter {
               ],
             ),
             StatefulShellBranch(
-              navigatorKey: accountNavigatorKey,
+              navigatorKey: GlobalKey<NavigatorState>(),
               routes: [
                 GoRoute(
                   path: ProfileScreen.routePath,
@@ -237,20 +248,21 @@ class MainRouter {
                             ]),
                       ],
                     ),
-                    GoRoute(
-                      path: NotificationScreen.routePath,
-                      name: NotificationScreen.routeName,
-                      pageBuilder: (context, state) {
-                        return CustomTransitionPage(
-                          child: NotificationScreen(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                                opacity: animation, child: child);
-                          },
-                        );
-                      },
-                    ),
+                    // GoRoute(
+                    //   path: NotificationScreen.routePath,
+                    //   name: NotificationScreen.routeName,
+                    //   parentNavigatorKey: rootNavigatorKey,
+                    //   pageBuilder: (context, state) {
+                    //     return CustomTransitionPage(
+                    //       child: NotificationScreen(),
+                    //       transitionsBuilder:
+                    //           (context, animation, secondaryAnimation, child) {
+                    //         return FadeTransition(
+                    //             opacity: animation, child: child);
+                    //       },
+                    //     );
+                    //   },
+                    // ),
                     GoRoute(
                       path: LanguageScreen.routePath,
                       name: LanguageScreen.routeName,
@@ -319,7 +331,8 @@ class MainRouter {
           ],
         ),
       ],
-      errorBuilder: (context, state) => NotFoundScreen(),
+      errorBuilder: (context, state) =>
+          ErrorTypeWidget(type: ErrorType.notFound),
     );
   }
 }

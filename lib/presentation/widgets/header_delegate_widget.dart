@@ -1,0 +1,31 @@
+import 'package:flutter/material.dart';
+
+class HeaderDelegateWidget extends SliverPersistentHeaderDelegate {
+  HeaderDelegateWidget({
+    this.minHeight,
+    this.maxHeight,
+    required this.child,
+  });
+  final double? minHeight;
+  final double? maxHeight;
+  final Widget child;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return child;
+  }
+
+  @override
+  double get maxExtent => 264;
+
+  @override
+  double get minExtent => 84;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
+      true;
+}
