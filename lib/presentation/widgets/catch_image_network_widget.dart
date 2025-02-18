@@ -24,7 +24,7 @@ class CatchImageNetworkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      
+      key: super.key,
       cacheManager: di.get<BaseCacheManager>(),
       imageUrl: imageUrl,
       fit: boxFit,
@@ -33,6 +33,7 @@ class CatchImageNetworkWidget extends StatelessWidget {
       filterQuality: FilterQuality.high,
       imageBuilder: (context, imageProvider) {
         return Container(
+          key: super.key,
           width: height,
           height: width,
           decoration: BoxDecoration(
@@ -46,7 +47,7 @@ class CatchImageNetworkWidget extends StatelessWidget {
         );
       },
       placeholder: (context, url) {
-        return BlurHash(hash: blurHash);
+        return BlurHash(key: super.key, hash: blurHash);
       },
       errorWidget: (context, url, error) {
         return Text('Error loading image');

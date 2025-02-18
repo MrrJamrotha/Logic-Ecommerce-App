@@ -19,10 +19,11 @@ class IconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
+      key: super.key,
       assetName,
       width: width,
       height: height,
-      colorFilter:colorFilter ,
+      colorFilter: colorFilter,
       fit: fit,
     );
   }

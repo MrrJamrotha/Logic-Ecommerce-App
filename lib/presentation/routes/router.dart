@@ -54,6 +54,7 @@ class MainRouter {
                         final datas = state.extra as Map<String, dynamic>;
                         return FetchingItemsScreen(
                           title: datas['title'],
+                          type: datas['type'],
                         );
                       },
                     ),

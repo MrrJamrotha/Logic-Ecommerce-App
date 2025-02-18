@@ -500,6 +500,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "infinite_scroll_pagination",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/infinite_scroll_pagination-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "intl",
       "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/intl-0.19.0",
       "packageUri": "lib/",
@@ -836,6 +842,12 @@
       "languageVersion": "3.7"
     },
     {
+      "name": "sliver_tools",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/sliver_tools-0.2.12",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "smooth_page_indicator",
       "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/smooth_page_indicator-1.2.0+3",
       "packageUri": "lib/",
@@ -1022,7 +1034,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-17T06:47:57.866230Z",
+  "generated": "2025-02-18T02:51:14.963622Z",
   "generator": "pub",
   "generatorVersion": "3.7.0",
   "flutterRoot": "file:///Users/foxtech-mach/development/flutter",

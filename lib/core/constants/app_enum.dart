@@ -57,9 +57,16 @@ enum ErrorType {
   serverError,
 }
 
-enum OrderStatus{
+enum OrderStatus {
   pending,
-  processing, 
+  processing,
   delivery,
   completed,
+}
+
+enum FetchingType {
+  recommented,
+  baseSeller,
+  newArrival,
+  wishlist,
 }

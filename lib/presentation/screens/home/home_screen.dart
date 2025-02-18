@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/models/product_model.dart';
@@ -102,18 +103,9 @@ class HomeScreenState extends State<HomeScreen>
                   title: 'popular_brands'.tr,
                   onTap: () {
                     context.pushNamed('brand');
-                    // context.pushNamed('home_fetching_item', extra: {
-                    //   'title': 'popular_brands'.tr,
-                    // });
                   },
                   child: _listDatas(brandModels),
                 ),
-              // _buildTitleRow(
-              //   title: 'today_deals'.tr,
-              //   onTap: () {
-              //     //TODO: next time
-              //   },
-              // ),
               // _buildTitleRow(
               //   title: 'today_deals'.tr,
               //   onTap: () {
@@ -129,7 +121,10 @@ class HomeScreenState extends State<HomeScreen>
                 _buildTitleRow(
                   title: 'recommend_for_you'.tr,
                   onTap: () {
-                    //TODO: next time
+                    context.pushNamed('home_fetching_item', extra: {
+                      'title': 'recommend_for_you'.tr,
+                      'type': FetchingType.recommented,
+                    });
                   },
                   child: _buildListProducts(
                     recommendProducts,

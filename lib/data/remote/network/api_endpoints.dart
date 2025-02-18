@@ -5,14 +5,14 @@ class ApiEndpoints {
 
   //Home
   static final getSlideShow = '$baseUrl/get-slide-show';
-  static final getBrowseCategories = '$baseUrl/get-browse-categories';
+  static final getBrowseCategories = '$baseUrl/get-categories';
   static final getBrands = '$baseUrl/get-brands';
 
-  static final getRecommendedForYou = '$baseUrl/get-recommended-product';
+  static final getRecommendedForYou = '$baseUrl/get-product-recommended';
   static final getNewArrivals = '$baseUrl/get-product-new-arrivals';
-  static final getRelatedProduct = '$baseUrl/get-related-product';
+  static final getRelatedProduct = '$baseUrl/get-product-related';
   static final getProductBastReview = '$baseUrl/get-product-bast-review';
-  static final getSpacialProduct = '$baseUrl/get-spacial-product';
+  static final getSpacialProduct = '$baseUrl/get-product-spacial';
 
   //Auth
   static final login = '$baseUrl/login';

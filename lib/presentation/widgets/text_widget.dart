@@ -23,6 +23,7 @@ class TextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
+      key: super.key,
       text,
       textAlign: textAlign,
       maxLines: maxLines,

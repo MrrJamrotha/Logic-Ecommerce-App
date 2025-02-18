@@ -25,6 +25,7 @@ class ProductCardWidget extends StatelessWidget {
       return SizedBox.shrink();
     }
     return BoxWidget(
+      key: super.key,
       width: 170.scale,
       borderRadius: BorderRadius.circular(appRadius.scale),
       child: Stack(
@@ -33,6 +34,7 @@ class ProductCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CatchImageNetworkWidget(
+                key: super.key,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(appRadius.scale),
                   topLeft: Radius.circular(appRadius.scale),
@@ -75,7 +77,6 @@ class ProductCardWidget extends StatelessWidget {
                       ),
                     ),
                     RatingBar.builder(
-                      //TODO : with data
                       ignoreGestures: true,
                       initialRating: 3,
                       tapOnlyMode: true,
@@ -86,12 +87,14 @@ class ProductCardWidget extends StatelessWidget {
                       itemCount: 5,
                       itemSize: 10.scale,
                       itemBuilder: (context, _) => Icon(
+                        key: super.key,
                         Icons.star,
                         color: appYellow,
                       ),
                       onRatingUpdate: (rating) {},
                     ),
                     TextWidget(
+                      key: super.key,
                       text: '120 Reviews', //TODO: with data
                       fontSize: 10.scale,
                       color: textColor,
@@ -105,12 +108,16 @@ class ProductCardWidget extends StatelessWidget {
           Positioned(
             top: -5.scale,
             right: -5.scale,
-            child: WishlistButtonWidget(),
+            child: WishlistButtonWidget(
+              key: super.key,
+            ),
           ),
           Positioned(
             right: -5.scale,
             bottom: -5.scale,
-            child: AddToCartButtonWidget(),
+            child: AddToCartButtonWidget(
+              key: super.key,
+            ),
           ),
         ],
       ),
