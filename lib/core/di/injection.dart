@@ -7,6 +7,7 @@ import 'package:logic_app/core/service/secure_storage_service.dart';
 import 'package:logic_app/core/service/shared_preferences_service.dart';
 import 'package:logic_app/data/remote/network/api_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:logic_app/data/repositories/brand/brand_repository_impl.dart';
 import 'package:logic_app/data/repositories/category/category_repository_impl.dart';
 import 'package:logic_app/data/repositories/home/home_repository_impl.dart';
 import 'package:logic_app/data/repositories/user/user_repository_impl.dart';
@@ -35,4 +36,6 @@ void setupInjector() {
   di.registerLazySingleton<HomeRepositoryImpl>(() => HomeRepositoryImpl());
   di.registerLazySingleton<CategoryRepositoryImpl>(
       () => CategoryRepositoryImpl());
+
+  di.registerLazySingleton<BrandRepositoryImpl>(() => BrandRepositoryImpl());
 }

@@ -5,6 +5,7 @@ import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/presentation/screens/address/address_screen.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:logic_app/presentation/screens/auth/otp/otp_screen.dart';
+import 'package:logic_app/presentation/screens/brand/brand_screen.dart';
 import 'package:logic_app/presentation/screens/cart/cart_screen.dart';
 import 'package:logic_app/presentation/screens/category/category_screen.dart';
 import 'package:logic_app/presentation/screens/check_out/check_out_screen.dart';
@@ -37,24 +38,35 @@ class MainRouter {
               navigatorKey: GlobalKey<NavigatorState>(),
               routes: [
                 GoRoute(
-                    path: HomeScreen.routePath,
-                    name: HomeScreen.routeName,
-                    builder: (context, state) {
-                      return HomeScreen(key: state.pageKey);
-                    },
-                    routes: [
-                      GoRoute(
-                        path: '/home_fetching_item',
-                        name: 'home_fetching_item',
-                        parentNavigatorKey: rootNavigatorKey,
-                        builder: (context, state) {
-                          final datas = state.extra as Map<String, dynamic>;
-                          return FetchingItemsScreen(
-                            title: datas['title'],
-                          );
-                        },
-                      ),
-                    ])
+                  path: HomeScreen.routePath,
+                  name: HomeScreen.routeName,
+                  builder: (context, state) {
+                    return HomeScreen(
+                      key: state.pageKey,
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                      path: '/home_fetching_item',
+                      name: 'home_fetching_item',
+                      parentNavigatorKey: rootNavigatorKey,
+                      builder: (context, state) {
+                        final datas = state.extra as Map<String, dynamic>;
+                        return FetchingItemsScreen(
+                          title: datas['title'],
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      path: '/brand',
+                      name: 'brand',
+                      parentNavigatorKey: rootNavigatorKey,
+                      builder: (context, state) {
+                        return BrandScreen();
+                      },
+                    ),
+                  ],
+                )
               ],
             ),
             StatefulShellBranch(

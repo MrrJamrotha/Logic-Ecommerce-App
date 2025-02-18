@@ -5,8 +5,10 @@ import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/models/product_model.dart';
+import 'package:logic_app/presentation/screens/category/category_screen.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
+import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/card_brand_widget.dart';
 import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
@@ -90,9 +92,8 @@ class HomeScreenState extends State<HomeScreen>
                 _buildTitleRow(
                   title: 'browse_categories'.tr,
                   onTap: () {
-                    context.pushNamed('home_fetching_item', extra: {
-                      'title': 'browse_categories'.tr,
-                    });
+                    GoRouter.of(context).go(CategoryScreen.routePath);
+                    context.read<SettingCubit>().onPageChanged(1);
                   },
                   child: _listDatas(categoryModels),
                 ),
@@ -100,7 +101,10 @@ class HomeScreenState extends State<HomeScreen>
                 _buildTitleRow(
                   title: 'popular_brands'.tr,
                   onTap: () {
-                    //TODO: next time
+                    context.pushNamed('brand');
+                    // context.pushNamed('home_fetching_item', extra: {
+                    //   'title': 'popular_brands'.tr,
+                    // });
                   },
                   child: _listDatas(brandModels),
                 ),

@@ -56,6 +56,8 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
         SliverPersistentHeader(
           pinned: true,
           delegate: HeaderDelegateWidget(
+            maxHeight: 75,
+            minHeight: 75,
             child: ListView.builder(
               padding: EdgeInsets.all(appPedding.scale),
               itemCount: 10,

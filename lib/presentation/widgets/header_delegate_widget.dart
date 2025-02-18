@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class HeaderDelegateWidget extends SliverPersistentHeaderDelegate {
   HeaderDelegateWidget({
-    this.minHeight,
-    this.maxHeight,
+    required this.minHeight,
+    required this.maxHeight,
     required this.child,
   });
-  final double? minHeight;
-  final double? maxHeight;
+  final double minHeight;
+  final double maxHeight;
   final Widget child;
 
   @override
@@ -20,10 +20,10 @@ class HeaderDelegateWidget extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 80;
+  double get maxExtent => maxHeight;
 
   @override
-  double get minExtent => 80;
+  double get minExtent => minHeight;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
