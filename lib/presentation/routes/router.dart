@@ -13,6 +13,7 @@ import 'package:logic_app/presentation/screens/create_address/create_address_scr
 import 'package:logic_app/presentation/screens/cubit/currency_screen.dart';
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_screen.dart';
 import 'package:logic_app/presentation/screens/home/home_screen.dart';
+import 'package:logic_app/presentation/screens/item_detail/item_detail_screen.dart';
 import 'package:logic_app/presentation/screens/language/language_screen.dart';
 import 'package:logic_app/presentation/screens/main_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
@@ -64,6 +65,15 @@ class MainRouter {
                       parentNavigatorKey: rootNavigatorKey,
                       builder: (context, state) {
                         return BrandScreen();
+                      },
+                    ),
+                    GoRoute(
+                      path: '/home-item-detail',
+                      name: 'home-item-detail',
+                      parentNavigatorKey: rootNavigatorKey,
+                      builder: (context, state) {
+                        final parameters = state.extra as Map<String, dynamic>;
+                        return ItemDetailScreen(parameters: parameters);
                       },
                     ),
                   ],

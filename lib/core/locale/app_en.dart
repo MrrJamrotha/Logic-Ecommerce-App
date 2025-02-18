@@ -97,4 +97,11 @@ final Map<String, String> en = {
   'price_range': 'Price range',
   'product_rating': 'Product rating',
   'show_results': 'Show results',
+  'item_details': 'Item details',
+  "description": 'Description',
+  'add_to_cart': 'Add to cart',
+  'product_details': 'Product details',
+  'price_details': 'Price details',
+  'merchant_informaiton': 'Merchant information',
+  'product_reviews': 'Product reviews',
 };

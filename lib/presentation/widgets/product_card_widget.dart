@@ -15,9 +15,11 @@ class ProductCardWidget extends StatelessWidget {
     super.key,
     required this.record,
     required this.isLoading,
+    this.onTap,
   });
   final ProductModel record;
   final bool isLoading;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class ProductCardWidget extends StatelessWidget {
     return BoxWidget(
       key: super.key,
       width: 170.scale,
+      onTap: onTap,
       borderRadius: BorderRadius.circular(appRadius.scale),
       child: Stack(
         children: [

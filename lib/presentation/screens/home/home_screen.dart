@@ -72,7 +72,14 @@ class HomeScreenState extends State<HomeScreen>
     return BlocBuilder<HomeCubit, HomeState>(
       bloc: screenCubit,
       builder: (context, state) {
-        final slideShowModels = state.slideShowModels ?? [];
+        final List<dynamic> slideShowModels = state.slideShowModels
+                ?.map((e) => {
+                      'picture': e.picture,
+                      'pictureHash': e.pictureHash,
+                    })
+                .toList() ??
+            [];
+
         final categoryModels = state.categoryModels ?? [];
         final brandModels = state.brandModels ?? [];
         final recommendProducts = state.recommendProducts ?? [];
@@ -86,6 +93,7 @@ class HomeScreenState extends State<HomeScreen>
             children: [
               if (slideShowModels.isNotEmpty)
                 CarouselSliderWidget(
+                  borderRadius: BorderRadius.circular(appRadius.scale),
                   records: slideShowModels,
                   isLoading: state.isLoadingSlideShow,
                 ),
@@ -106,14 +114,9 @@ class HomeScreenState extends State<HomeScreen>
                   },
                   child: _listDatas(brandModels),
                 ),
-              // _buildTitleRow(
-              //   title: 'today_deals'.tr,
-              //   onTap: () {
-              //     //TODO: next time
-              //   },
-              // ),
               if (slideShowModels.isNotEmpty)
                 CarouselSliderWidget(
+                  borderRadius: BorderRadius.circular(appRadius.scale),
                   records: slideShowModels,
                   isLoading: state.isLoadingSlideShow,
                 ),
@@ -211,6 +214,11 @@ class HomeScreenState extends State<HomeScreen>
           return Padding(
             padding: EdgeInsets.only(right: appSpace.scale),
             child: ProductCardWidget(
+              onTap: () {
+                context.goNamed('home-item-detail', extra: {
+                  'productId': record.id,
+                });
+              },
               record: record,
               isLoading: isLoading,
             ),
