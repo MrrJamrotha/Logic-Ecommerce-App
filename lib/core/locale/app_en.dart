@@ -91,5 +91,10 @@ final Map<String, String> en = {
   'pay_success': 'Payment done successfuly',
   'continue_shopping': 'Continue Shopping',
   'all': 'All',
-  'not_found_product': 'No products found'
+  'not_found_product': 'No products found',
+  'categpries': 'Categories',
+  'brands': 'Brands',
+  'price_range': 'Price range',
+  'product_rating': 'Product rating',
+  'show_results': 'Show results',
 };

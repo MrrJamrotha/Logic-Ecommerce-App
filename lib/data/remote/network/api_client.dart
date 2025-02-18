@@ -199,6 +199,8 @@ class ApiClient implements Api {
         message: body['message'],
         data: body['records'],
         data2: body['categories'] ?? [],
+        data3: body['brands'] ?? [],
+        data4: body['price_range'] ?? {},
         lastPage: AppFormat.toInt(body['last_page'] ?? 1),
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );

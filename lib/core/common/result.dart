@@ -1,4 +1,6 @@
+import 'package:logic_app/data/models/brand_model.dart';
 import 'package:logic_app/data/models/category_model.dart';
+import 'package:logic_app/data/models/price_range_model.dart';
 
 class Result<T, E> {
   final T? success;
@@ -6,6 +8,8 @@ class Result<T, E> {
   final int lastPage;
   final int currentPage;
   final List<CategoryModel>? categories;
+  final List<BrandModel>? brands;
+  final PriceRangeModel? priceRangeModel;
 
   Result({
     this.success,
@@ -13,5 +17,7 @@ class Result<T, E> {
     this.lastPage = 1,
     this.currentPage = 1,
     this.categories,
+    this.brands,
+    this.priceRangeModel,
   });
 }

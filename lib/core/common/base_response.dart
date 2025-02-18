@@ -6,6 +6,8 @@ class BaseResponse<T> {
   int currentPage;
   int lastPage;
   T? data2;
+  T? data3;
+  T? data4;
 
   BaseResponse({
     required this.data,
@@ -15,5 +17,7 @@ class BaseResponse<T> {
     this.currentPage = 1,
     this.lastPage = 1,
     this.data2,
+    this.data3,
+    this.data4,
   });
 }

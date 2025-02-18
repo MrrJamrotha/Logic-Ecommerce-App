@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/di/injection.dart';
+import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/data/repositories/fetching_item/fetching_item_repository_impl.dart';
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
 
@@ -70,6 +72,12 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
       emit(state.copyWith(
         records: response.success,
         categories: response.categories,
+        brands: response.brands,
+        priceRangeModel: response.priceRangeModel,
+        rangeValues: RangeValues(
+          AppFormat.toDouble(response.priceRangeModel?.minPrice),
+          AppFormat.toDouble(response.priceRangeModel?.maxPrice),
+        ),
         lastPage: response.lastPage,
         currentPage: response.currentPage,
       ));
@@ -85,6 +93,16 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
       type: FetchingType.recommented,
       categoryId: categoryId,
     );
+  }
+
+  void priceRangeChange(RangeValues values) {
+    emit(state.copyWith(rangeValues: values));
+  }
+
+  void selectStars(int rating, bool isSelected) {
+    final updatedRatings = Map<int, bool>.from(state.selectedRatings ?? {});
+    updatedRatings[rating] = isSelected;
+    emit(state.copyWith(selectedRatings: updatedRatings));
   }
 
   @override

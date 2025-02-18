@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/utils/app_format.dart'; 
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_cubit.dart';
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
+import 'package:logic_app/presentation/widgets/button_widget.dart';
 import 'package:logic_app/presentation/widgets/header_delegate_widget.dart';
 import 'package:logic_app/presentation/widgets/product_card_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
@@ -27,7 +30,7 @@ class FetchingItemsScreen extends StatefulWidget {
 
 class FetchingItemsScreenState extends State<FetchingItemsScreen> {
   final screenCubit = FetchingItemsCubit();
-
+  List<int> ratings = [5, 4, 3, 2, 1];
   @override
   void initState() {
     screenCubit.loadInitialData(type: widget.type);
@@ -38,10 +41,151 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
     screenCubit.filterByCategory(id.isEmpty ? "" : id);
   }
 
+  showFilterModal() {
+    showModalBottomSheet(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      isDismissible: true,
+      showDragHandle: true,
+      builder: (context) {
+        return BlocBuilder<FetchingItemsCubit, FetchingItemsState>(
+          bloc: screenCubit,
+          builder: (context, state) {
+            final categories = state.categories ?? [];
+            final brands = state.brands ?? [];
+            final priceRange = state.rangeValues;
+            if (priceRange == null) {
+              return SizedBox.expand();
+            }
+            return SingleChildScrollView(
+              padding: EdgeInsets.all(appPedding.scale),
+              child: Column(
+                spacing: appSpace.scale,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextWidget(
+                    text: 'categpries'.tr,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.scale,
+                  ),
+                  Divider(
+                    height: 1,
+                    color: textColor,
+                  ),
+                  Wrap(
+                      runSpacing: appSpace.scale,
+                      spacing: appSpace.scale,
+                      children: categories.map((record) {
+                        return ChoiceChip(
+                          label: TextWidget(text: record.name),
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          selected: false,
+                          selectedColor: primary,
+                        );
+                      }).toList()),
+                  TextWidget(
+                    text: 'brands'.tr,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.scale,
+                  ),
+                  Divider(
+                    height: 1,
+                    color: textColor,
+                  ),
+                  Wrap(
+                      runSpacing: appSpace.scale,
+                      spacing: appSpace.scale,
+                      children: brands.map((record) {
+                        return ChoiceChip(
+                          label: TextWidget(text: record.name),
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          selected: false,
+                          selectedColor: primary,
+                        );
+                      }).toList()),
+                  TextWidget(
+                    text: 'price_range'.tr,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.scale,
+                  ),
+                  Divider(
+                    height: 1,
+                    color: textColor,
+                  ),
+                  RangeSlider(
+                    inactiveColor: primary,
+                    activeColor: primary,
+                    values: state.rangeValues ?? RangeValues(0, 1),
+                    min: AppFormat.toDouble(state.priceRangeModel?.minPrice),
+                    max: AppFormat.toDouble(state.priceRangeModel?.maxPrice),
+                    divisions: 5,
+                    labels: RangeLabels(
+                      state.priceRangeModel!.minPrice,
+                      state.priceRangeModel!.maxPrice,
+                    ),
+                    onChanged: (RangeValues values) {
+                      screenCubit.priceRangeChange(values);
+                    },
+                  ),
+                  TextWidget(
+                    text: 'product_rating'.tr,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.scale,
+                  ),
+                  Divider(
+                    height: 1,
+                    color: textColor,
+                  ),
+                  Column(
+                    children: ratings.map((rating) {
+                      return CheckboxListTile.adaptive(
+                        title: RatingBarIndicator(
+                          itemSize: 20.scale,
+                          rating: rating.toDouble(),
+                          itemBuilder: (context, index) => Icon(
+                            Icons.star,
+                            color: appYellow,
+                          ),
+                        ),
+                        value: state.selectedRatings?[rating] ?? false,
+                        onChanged: (value) {
+                          screenCubit.selectStars(rating, value ?? false);
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  ButtonWidget(
+                    title: 'show_results',
+                    onPressed: () {
+                      //TODO: next time
+                    },
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: widget.title),
+      appBar: AppbarWidget(
+        title: widget.title,
+        isFilter: true,
+        onTapFilter: () {
+          showFilterModal();
+        },
+      ),
       body: BlocBuilder<FetchingItemsCubit, FetchingItemsState>(
         bloc: screenCubit,
         builder: (BuildContext context, FetchingItemsState state) {

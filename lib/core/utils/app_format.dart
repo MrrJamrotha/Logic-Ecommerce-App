@@ -10,7 +10,8 @@ class AppFormat {
   }
 
   static double toDouble(dynamic value) {
-    return double.parse(value);
+    String cleanValue = value.toString().replaceAll(RegExp(r'[^0-9.]'), '');
+    return double.parse(cleanValue);
   }
 
   static String toStr(dynamic value) {

@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:logic_app/data/models/brand_model.dart';
 import 'package:logic_app/data/models/category_model.dart';
+import 'package:logic_app/data/models/price_range_model.dart';
 import 'package:logic_app/data/models/product_model.dart';
 
 class FetchingItemsState extends Equatable {
@@ -9,7 +12,11 @@ class FetchingItemsState extends Equatable {
   final int currentPage;
   final int lastPage;
   final List<CategoryModel>? categories;
+  final List<BrandModel>? brands;
   final String? selectCategoryId;
+  final PriceRangeModel? priceRangeModel;
+  final RangeValues? rangeValues;
+  final Map<int, bool>? selectedRatings;
 
   const FetchingItemsState({
     this.isLoading = false,
@@ -19,6 +26,10 @@ class FetchingItemsState extends Equatable {
     this.lastPage = 1,
     this.categories,
     this.selectCategoryId,
+    this.brands,
+    this.priceRangeModel,
+    this.rangeValues,
+    this.selectedRatings,
   });
 
   FetchingItemsState copyWith({
@@ -29,6 +40,10 @@ class FetchingItemsState extends Equatable {
     int? lastPage,
     List<CategoryModel>? categories,
     String? selectCategoryId,
+    List<BrandModel>? brands,
+    PriceRangeModel? priceRangeModel,
+    RangeValues? rangeValues,
+    Map<int, bool>? selectedRatings,
   }) {
     return FetchingItemsState(
       isLoading: isLoading ?? this.isLoading,
@@ -38,6 +53,10 @@ class FetchingItemsState extends Equatable {
       lastPage: lastPage ?? this.lastPage,
       categories: categories ?? this.categories,
       selectCategoryId: selectCategoryId ?? this.selectCategoryId,
+      brands: brands ?? this.brands,
+      priceRangeModel: priceRangeModel ?? this.priceRangeModel,
+      rangeValues: rangeValues ?? this.rangeValues,
+      selectedRatings: selectedRatings ?? this.selectedRatings,
     );
   }
 
@@ -50,5 +69,9 @@ class FetchingItemsState extends Equatable {
         lastPage,
         categories,
         selectCategoryId,
+        brands,
+        priceRangeModel,
+        rangeValues,
+        selectedRatings,
       ];
 }

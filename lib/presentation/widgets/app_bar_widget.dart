@@ -17,6 +17,8 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.bottom,
     this.isBottom = false,
     this.isNotification = true,
+    this.isFilter = false,
+    this.onTapFilter,
   });
   final bool isSearch;
   final String title;
@@ -26,6 +28,8 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   final bool isBottom;
   final bool isNotification;
+  final bool isFilter;
+  final Function()? onTapFilter;
   @override
   Size get preferredSize =>
       Size.fromHeight(kToolbarHeight + (isBottom ? 50.scale : 0));
@@ -58,6 +62,15 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
             },
             icon: IconWidget(
               assetName: searchSvg,
+              width: 24.scale,
+              height: 24.scale,
+            ),
+          ),
+        if (isFilter)
+          IconButton(
+            onPressed: onTapFilter,
+            icon: IconWidget(
+              assetName: filterSvg,
               width: 24.scale,
               height: 24.scale,
             ),
