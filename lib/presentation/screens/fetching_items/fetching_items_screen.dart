@@ -7,7 +7,7 @@ import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/utils/app_format.dart'; 
+import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_cubit.dart';
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
@@ -43,6 +43,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
 
   showFilterModal() {
     showModalBottomSheet(
+      backgroundColor: appWhite,
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
@@ -79,13 +80,14 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
                       runSpacing: appSpace.scale,
                       spacing: appSpace.scale,
                       children: categories.map((record) {
-                        return ChoiceChip(
+                        return FilterChip(
+                          backgroundColor: appWhite,
                           label: TextWidget(text: record.name),
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
                           selected: false,
                           selectedColor: primary,
+                          onSelected: (bool value) {
+                            //TODO:
+                          },
                         );
                       }).toList()),
                   TextWidget(
@@ -101,13 +103,14 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
                       runSpacing: appSpace.scale,
                       spacing: appSpace.scale,
                       children: brands.map((record) {
-                        return ChoiceChip(
+                        return FilterChip(
+                          backgroundColor: appWhite,
                           label: TextWidget(text: record.name),
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
                           selected: false,
                           selectedColor: primary,
+                          onSelected: (bool value) {
+                            //TODO: check
+                          },
                         );
                       }).toList()),
                   TextWidget(
@@ -146,6 +149,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
                   Column(
                     children: ratings.map((rating) {
                       return CheckboxListTile.adaptive(
+                        contentPadding: EdgeInsets.zero,
                         title: RatingBarIndicator(
                           itemSize: 20.scale,
                           rating: rating.toDouble(),
@@ -162,7 +166,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
                     }).toList(),
                   ),
                   ButtonWidget(
-                    title: 'show_results',
+                    title: 'show_results'.tr,
                     onPressed: () {
                       //TODO: next time
                     },
