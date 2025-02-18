@@ -36,7 +36,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
 
   void selectFilterProductByCategory(String id) {
     if (id.isEmpty) {
-      screenCubit.loadInitialData(type: widget.type);
+      screenCubit.filterByCategory("");
     } else {
       screenCubit.filterByCategory(id);
     }
