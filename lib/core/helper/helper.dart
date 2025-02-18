@@ -89,3 +89,8 @@ final submittedPinTheme = defaultPinTheme.copyWith(
     color: Color.fromRGBO(234, 239, 243, 1),
   ),
 );
+
+String maskText(String text) {
+  if (text.length <= 2) return text; // No masking if the text is too short
+  return text[0] + '*' * (text.length - 2) + text[text.length - 1];
+}

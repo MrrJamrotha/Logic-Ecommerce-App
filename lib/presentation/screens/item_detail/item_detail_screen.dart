@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -8,10 +7,12 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_cubit.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
+import 'package:logic_app/presentation/widgets/box_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
 import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
 import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:logic_app/presentation/widgets/wishlist_button_widget.dart';
 
 class ItemDetailScreen extends StatefulWidget {
   const ItemDetailScreen({super.key, required this.parameters});
@@ -101,10 +102,19 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CarouselSliderWidget(
-            height: 400,
-            records: itemPictures,
-            isLoading: false,
+          Stack(
+            children: [
+              CarouselSliderWidget(
+                height: 400,
+                records: itemPictures,
+                isLoading: false,
+              ),
+              Positioned(
+                right: 5.scale,
+                top: 5.scale,
+                child: WishlistButtonWidget(),
+              )
+            ],
           ),
           Padding(
             padding: EdgeInsets.all(appPedding.scale),
@@ -255,24 +265,110 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: appSpace.scale,
                   children: [
-                    TextWidget(
-                      text: 'product_reviews'.tr,
-                      fontSize: 18.scale,
-                      fontWeight: FontWeight.w700,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextWidget(
+                          text: 'product_reviews'.tr,
+                          fontSize: 18.scale,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            //TODO:
+                          },
+                          child: TextWidget(
+                            text: 'view_more'.tr,
+                            color: primary,
+                            decoration: TextDecoration.underline,
+                          ),
+                        )
+                      ],
                     ),
-                    TextButton(
-                      onPressed: () {
-                        //TODO:
-                      },
-                      child: TextWidget(
-                        text: 'view_more'.tr,
-                        color: primary,
-                        decoration: TextDecoration.underline,
+                    BoxWidget(
+                      borderRadius: BorderRadius.circular(appRadius.scale),
+                      padding: EdgeInsets.all(appSpace.scale),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: appSpace.scale,
+                            children: [
+                              CatchImageNetworkWidget(
+                                width: 50.scale,
+                                height: 50.scale,
+                                borderRadius: BorderRadius.circular(100.scale),
+                                boxFit: BoxFit.cover,
+                                imageUrl:
+                                    'https://t3.ftcdn.net/jpg/02/73/71/46/360_F_273714684_GXTZHmfFM3yvZwP7KaGc1h2Md00F83UF.jpg',
+                                blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TextWidget(
+                                    text: maskText('Soeurn Rotha'),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14.scale,
+                                  ),
+                                  RatingBarIndicator(
+                                    rating: 3.5,
+                                    itemSize: 10.scale,
+                                    itemBuilder: (context, index) => Icon(
+                                      Icons.star,
+                                      color: appYellow,
+                                    ),
+                                  ),
+                                  TextWidget(
+                                    text: '19-01-2025',
+                                    fontSize: 12.scale,
+                                    color: textColor,
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          TextWidget(
+                            text:
+                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ",
+                            fontSize: 12.scale,
+                            color: textColor,
+                          ),
+                          SizedBox(
+                            height: 120.scale,
+                            child: ListView.builder(
+                              padding: EdgeInsets.symmetric(
+                                vertical: appPedding.scale,
+                              ),
+                              // shrinkWrap: true,
+                              // physics: NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: itemPictures.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding:
+                                      EdgeInsets.only(right: appSpace.scale),
+                                  child: CatchImageNetworkWidget(
+                                    borderRadius:
+                                        BorderRadius.circular(appRadius.scale),
+                                    width: 70.scale,
+                                    height: 70.scale,
+                                    boxFit: BoxFit.cover,
+                                    imageUrl: itemPictures[index]['picture'],
+                                    blurHash: itemPictures[index]
+                                        ['pictureHash'],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    )
+                    ),
                   ],
                 ),
                 ExpansionTile(
