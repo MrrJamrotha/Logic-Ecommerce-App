@@ -50,10 +50,15 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
     String categoryId,
   ) async {
     try {
+      if (pageKey == 1) {
+        pagingController.refresh();
+      }
+
       final response = await repos.getRecommendedForYou(
         parameters: {"page": pageKey, 'category_id': categoryId},
       );
-      var records = response.success ?? []; 
+
+      var records = response.success ?? [];
       final isLastPage = response.currentPage >= response.lastPage;
       if (isLastPage) {
         pagingController.appendLastPage(records);
