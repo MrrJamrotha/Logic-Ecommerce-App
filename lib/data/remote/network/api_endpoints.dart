@@ -17,6 +17,9 @@ class ApiEndpoints {
   static final getMerchntProfile = '$baseUrl/get-merchant-profile';
   static final getProductByMerchnt = '$baseUrl/get-product-by-merchant';
 
+  static final getProductByCategory = '$baseUrl/get-product-by-category';
+  static final getProductByBrand = '$baseUrl/get-product-by-brand';
+
   //Auth
   static final login = '$baseUrl/login';
   static final register = '$baseUrl/register';

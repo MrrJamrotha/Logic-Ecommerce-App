@@ -5,9 +5,9 @@ class BaseResponse<T> {
   int? statusCode;
   int currentPage;
   int lastPage;
-  T? data2;
-  T? data3;
-  T? data4;
+  T? categories;
+  T? brands;
+  T? priceRange;
 
   BaseResponse({
     required this.data,
@@ -16,8 +16,8 @@ class BaseResponse<T> {
     this.statusCode,
     this.currentPage = 1,
     this.lastPage = 1,
-    this.data2,
-    this.data3,
-    this.data4,
+    this.categories,
+    this.brands,
+    this.priceRange,
   });
 }

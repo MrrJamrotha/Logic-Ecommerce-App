@@ -215,9 +215,9 @@ class ApiClient implements Api {
         status: body['status'],
         message: body['message'],
         data: body['records'],
-        data2: body['categories'] ?? [],
-        data3: body['brands'] ?? [],
-        data4: body['price_range'] ?? {},
+        categories: body['categories'] ?? [],
+        brands: body['brands'] ?? [],
+        priceRange: body['price_range'] ?? {},
         lastPage: AppFormat.toInt(body['last_page'] ?? 1),
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
@@ -383,6 +383,65 @@ class ApiClient implements Api {
         status: body['status'],
         message: body['message'],
         data: body['records'],
+        lastPage: AppFormat.toInt(body['last_page'] ?? 1),
+        currentPage: AppFormat.toInt(body['current_page'] ?? 1),
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getProductByBrand({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getProductByBrand),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+        categories: body['categories'] ?? [],
+        priceRange: body['price_range'] ?? {},
+        lastPage: AppFormat.toInt(body['last_page'] ?? 1),
+        currentPage: AppFormat.toInt(body['current_page'] ?? 1),
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getProductByCategory({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getProductByCategory),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body); 
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'] ?? [],
+        brands: body['brands'] ?? [],
+        priceRange: body['price_range'] ?? {},
         lastPage: AppFormat.toInt(body['last_page'] ?? 1),
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );

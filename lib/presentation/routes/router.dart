@@ -55,10 +55,7 @@ class MainRouter {
                       parentNavigatorKey: rootNavigatorKey,
                       builder: (context, state) {
                         final datas = state.extra as Map<String, dynamic>;
-                        return FetchingItemsScreen(
-                          title: datas['title'],
-                          type: datas['type'],
-                        );
+                        return FetchingItemsScreen(parameters: datas);
                       },
                     ),
                     GoRoute(

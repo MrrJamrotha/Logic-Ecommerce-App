@@ -69,4 +69,6 @@ enum FetchingType {
   baseSeller,
   newArrival,
   wishlist,
+  productByCategory,
+  productByBrand,
 }

@@ -12,25 +12,22 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
       : super(FetchingItemsState(
           isLoading: true,
           selectCategoryId: "",
-        )) {
-    pagingController.addPageRequestListener((pageKey) {
-      paginationGetRecommendedData(pageKey, state.selectCategoryId ?? "");
-    });
-  }
+          selectBrandId: "",
+        ));
   final repos = di.get<FetchingItemRepositoryImpl>();
 
   final pagingController = PagingController(firstPageKey: 1);
 
   Future<void> loadInitialData({
     FetchingType type = FetchingType.recommented,
-    String? categoryId,
+    Map<String, dynamic>? parameters,
   }) async {
     final stableState = state;
     try {
       emit(state.copyWith(isLoading: true));
       switch (type) {
         case FetchingType.recommented:
-          paginationGetRecommendedData(1, categoryId ?? "");
+          paginationGetRecommendedData(1, parameters);
           break;
         case FetchingType.baseSeller:
           break;
@@ -38,6 +35,12 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
           break;
 
         case FetchingType.wishlist:
+          break;
+
+        case FetchingType.productByCategory:
+          paginationProductByCategory(pageKey: 1, parameters: parameters);
+          break;
+        case FetchingType.productByBrand:
           break;
       }
       emit(state.copyWith(isLoading: false));
@@ -49,7 +52,7 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
 
   Future<void> paginationGetRecommendedData(
     int pageKey,
-    String categoryId,
+    Map<String, dynamic>? parameters,
   ) async {
     try {
       if (pageKey == 1) {
@@ -57,7 +60,7 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
       }
 
       final response = await repos.getRecommendedForYou(
-        parameters: {"page": pageKey, 'category_id': categoryId},
+        parameters: {"page": pageKey, ...?parameters},
       );
 
       var records = response.success ?? [];
@@ -87,11 +90,63 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
     }
   }
 
-  void filterByCategory(String categoryId) async {
-    emit(state.copyWith(selectCategoryId: categoryId));
+  Future<void> paginationProductByCategory({
+    int pageKey = 1,
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      if (pageKey == 1) {
+        pagingController.refresh();
+      }
+
+      final response = await repos.getProductByCategory(
+        parameters: {"page": pageKey, ...?parameters},
+      );
+
+      var records = response.success ?? [];
+      final isLastPage = response.currentPage >= response.lastPage;
+      if (isLastPage) {
+        pagingController.appendLastPage(records);
+      } else {
+        final nextPageKey = pageKey + 1;
+        pagingController.appendPage(records, nextPageKey);
+      }
+      emit(state.copyWith(
+        records: response.success,
+        brands: response.brands,
+        priceRangeModel: response.priceRangeModel,
+        rangeValues: RangeValues(
+          AppFormat.toDouble(response.priceRangeModel?.minPrice),
+          AppFormat.toDouble(response.priceRangeModel?.maxPrice),
+        ),
+        lastPage: response.lastPage,
+        currentPage: response.currentPage,
+      ));
+    } catch (e) {
+      addError(e);
+    }
+  }
+
+  void filterByCategory({
+    required String categoryId,
+    required FetchingType type,
+  }) async {
+    // emit(state.copyWith(selectCategoryId: categoryId));
+    // await loadInitialData(
+    //   type: type,
+    //   categoryId: categoryId,
+    // );
+  }
+
+  void filterByBrand({
+    required String brandId,
+    required String categoryId,
+    required FetchingType type,
+  }) async {
+    emit(state.copyWith(selectBrandId: brandId));
     await loadInitialData(
-      type: FetchingType.recommented,
-      categoryId: categoryId,
+      type: type,
+      parameters: {'brand_id': brandId, 'category_id': categoryId},
     );
   }
 

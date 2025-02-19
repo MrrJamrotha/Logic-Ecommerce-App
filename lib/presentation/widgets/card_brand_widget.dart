@@ -11,15 +11,18 @@ class CardBrandWidget extends StatelessWidget {
     required this.picture,
     required this.pictureHash,
     required this.title,
+    this.onTap,
   });
   final String picture;
   final String pictureHash;
   final String title;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return BoxWidget(
       width: 130.scale,
+      onTap: onTap,
       padding: EdgeInsets.all(5.scale),
       borderRadius: BorderRadius.circular(appRadius.scale),
       // height: 95,

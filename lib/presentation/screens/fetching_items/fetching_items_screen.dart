@@ -11,7 +11,6 @@ import 'package:logic_app/presentation/screens/fetching_items/fetching_items_cub
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
-import 'package:logic_app/presentation/widgets/header_delegate_widget.dart';
 import 'package:logic_app/presentation/widgets/product_card_widget.dart';
 import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
@@ -19,11 +18,9 @@ import 'package:logic_app/presentation/widgets/text_widget.dart';
 class FetchingItemsScreen extends StatefulWidget {
   const FetchingItemsScreen({
     super.key,
-    required this.title,
-    required this.type,
+    required this.parameters,
   });
-  final String title;
-  final FetchingType type;
+  final Map<String, dynamic> parameters;
   @override
   FetchingItemsScreenState createState() => FetchingItemsScreenState();
 }
@@ -33,12 +30,69 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
   List<int> ratings = [5, 4, 3, 2, 1];
   @override
   void initState() {
-    screenCubit.loadInitialData(type: widget.type);
+    _initPagination();
+    String brandId = "";
+    String categoryId = "";
+    if (widget.parameters['type'] == FetchingType.productByCategory) {
+      categoryId = widget.parameters['category_id'];
+    }
+    if (widget.parameters['type'] == FetchingType.productByBrand) {
+      brandId = widget.parameters['brand_id'];
+    }
+    screenCubit.loadInitialData(
+      type: widget.parameters['type'],
+      parameters: {
+        'category_id': categoryId,
+        'brand_id': brandId,
+      },
+    );
     super.initState();
   }
 
+  void _initPagination() {
+    screenCubit.pagingController.addPageRequestListener((pageKey) {
+      switch (widget.parameters['type']) {
+        case FetchingType.recommented:
+          screenCubit.paginationGetRecommendedData(pageKey, {
+            'category_id': screenCubit.state.selectCategoryId,
+          });
+          break;
+        case FetchingType.newArrival:
+          break;
+        case FetchingType.baseSeller:
+          break;
+        case FetchingType.wishlist:
+          break;
+        case FetchingType.productByBrand:
+          break;
+
+        case FetchingType.productByCategory:
+          screenCubit.paginationProductByCategory(
+            pageKey: pageKey,
+            parameters: {
+              'category_id': widget.parameters['category_id'],
+              'brand_id': '',
+            },
+          );
+          break;
+      }
+    });
+  }
+
   void selectFilterProductByCategory(String id) {
-    screenCubit.filterByCategory(id.isEmpty ? "" : id);
+    print('selectFilterProductByCategory');
+    screenCubit.filterByCategory(
+      categoryId: id.isEmpty ? "" : id,
+      type: widget.parameters['type'],
+    );
+  }
+
+  void selectFilterProductByBrand(String id) {
+    screenCubit.filterByBrand(
+      brandId: id.isEmpty ? "" : id,
+      type: widget.parameters['type'],
+      categoryId: widget.parameters['category_id'],
+    );
   }
 
   showFilterModal() {
@@ -67,52 +121,66 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextWidget(
-                    text: 'categpries'.tr,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18.scale,
-                  ),
-                  Divider(
-                    height: 1,
-                    color: textColor,
-                  ),
-                  Wrap(
-                      runSpacing: appSpace.scale,
+                  if (categories.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: appSpace.scale,
-                      children: categories.map((record) {
-                        return FilterChip(
-                          backgroundColor: appWhite,
-                          label: TextWidget(text: record.name),
-                          selected: false,
-                          selectedColor: primary,
-                          onSelected: (bool value) {
-                            //TODO:
-                          },
-                        );
-                      }).toList()),
-                  TextWidget(
-                    text: 'brands'.tr,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18.scale,
-                  ),
-                  Divider(
-                    height: 1,
-                    color: textColor,
-                  ),
-                  Wrap(
-                      runSpacing: appSpace.scale,
+                      children: [
+                        TextWidget(
+                          text: 'categories'.tr,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18.scale,
+                        ),
+                        Divider(
+                          height: 1,
+                          color: textColor,
+                        ),
+                        Wrap(
+                            runSpacing: appSpace.scale,
+                            spacing: appSpace.scale,
+                            children: categories.map((record) {
+                              return FilterChip(
+                                backgroundColor: appWhite,
+                                label: TextWidget(text: record.name),
+                                selected: false,
+                                selectedColor: primary,
+                                onSelected: (bool value) {
+                                  //TODO:
+                                },
+                              );
+                            }).toList()),
+                      ],
+                    ),
+                  if (brands.isNotEmpty)
+                    Column(
                       spacing: appSpace.scale,
-                      children: brands.map((record) {
-                        return FilterChip(
-                          backgroundColor: appWhite,
-                          label: TextWidget(text: record.name),
-                          selected: false,
-                          selectedColor: primary,
-                          onSelected: (bool value) {
-                            //TODO: check
-                          },
-                        );
-                      }).toList()),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(
+                          text: 'brands'.tr,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18.scale,
+                        ),
+                        Divider(
+                          height: 1,
+                          color: textColor,
+                        ),
+                        Wrap(
+                            runSpacing: appSpace.scale,
+                            spacing: appSpace.scale,
+                            children: brands.map((record) {
+                              return FilterChip(
+                                backgroundColor: appWhite,
+                                label: TextWidget(text: record.name),
+                                selected: false,
+                                selectedColor: primary,
+                                onSelected: (bool value) {
+                                  //TODO: check
+                                },
+                              );
+                            }).toList()),
+                      ],
+                    ),
                   TextWidget(
                     text: 'price_range'.tr,
                     fontWeight: FontWeight.w600,
@@ -180,7 +248,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: widget.title,
+        title: widget.parameters['title'],
         isFilter: true,
         onTapFilter: () {
           showFilterModal();
@@ -201,46 +269,22 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
 
   Widget buildBody(FetchingItemsState state) {
     final categories = state.categories ?? [];
+    final brands = state.brands ?? [];
     final double width = AppSizeConfig.screenWidth;
     double widthCard = 170.scale;
     int countRow = width ~/ widthCard;
     return CustomScrollView(
       key: Key('fetching'),
       slivers: [
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: HeaderDelegateWidget(
-            maxHeight: 75,
-            minHeight: 75,
-            child: Container(
-              color: appWhite,
-              child: ListView.builder(
-                padding: EdgeInsets.all(appPedding.scale),
-                itemCount: categories.length + 1,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return _buildTextButton(
-                      id: "",
-                      title: 'all'.tr,
-                      selectCategoryId: state.selectCategoryId ?? "",
-                      onPressed: () {
-                        selectFilterProductByCategory("");
-                      },
-                    );
-                  }
-                  final record = categories[index - 1];
-                  return _buildTextButton(
-                    id: record.id,
-                    title: record.name,
-                    selectCategoryId: state.selectCategoryId ?? "",
-                    onPressed: () {
-                      selectFilterProductByCategory(record.id);
-                    },
-                  );
-                },
-              ),
-            ),
+        SliverFloatingHeader(
+          child: _buildHorizontalList(
+            items: brands.isNotEmpty ? brands : categories,
+            selectId: brands.isNotEmpty
+                ? state.selectBrandId ?? ""
+                : state.selectCategoryId ?? "",
+            onPressed: brands.isNotEmpty
+                ? selectFilterProductByBrand
+                : selectFilterProductByCategory,
           ),
         ),
         SliverPadding(
@@ -274,11 +318,44 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
     );
   }
 
+  Widget _buildHorizontalList({
+    required List<dynamic> items,
+    required String selectId,
+    required void Function(String) onPressed,
+  }) {
+    return Container(
+      color: appWhite,
+      height: 75.scale,
+      child: ListView.builder(
+        padding: EdgeInsets.all(appPedding.scale),
+        itemCount: items.length + 1,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return _buildTextButton(
+              id: "",
+              title: 'all'.tr,
+              selectId: selectId,
+              onPressed: () => onPressed(""),
+            );
+          }
+          final record = items[index - 1];
+          return _buildTextButton(
+            id: record.id,
+            title: record.name,
+            selectId: selectId,
+            onPressed: () => onPressed(record.id),
+          );
+        },
+      ),
+    );
+  }
+
   _buildTextButton({
     required id,
     required String title,
     Function()? onPressed,
-    required String selectCategoryId,
+    required String selectId,
   }) {
     return Padding(
       padding: EdgeInsets.only(right: appSpace.scale),
@@ -286,10 +363,9 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
           side: BorderSide(
-            color:
-                selectCategoryId == id ? primary : textColor.withOpacity(0.5),
+            color: selectId == id ? primary : textColor.withOpacity(0.5),
           ),
-          backgroundColor: selectCategoryId == id ? primary : appWhite,
+          backgroundColor: selectId == id ? primary : appWhite,
           padding: EdgeInsets.all(appSpace.scale),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(appRadius.scale),
@@ -297,7 +373,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
         ),
         child: TextWidget(
           text: title,
-          color: selectCategoryId == id ? appWhite : appBlack,
+          color: selectId == id ? appWhite : appBlack,
           fontSize: 14.scale,
         ),
       ),
