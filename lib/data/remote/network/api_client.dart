@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 // import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:logic_app/core/common/base_response.dart';
 import 'package:logic_app/core/error/error_handler.dart';
 import 'package:logic_app/core/error/error_messages.dart';
 import 'package:logic_app/core/error/exceptions.dart';
+import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/data/remote/network/api.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +17,20 @@ import 'package:logic_app/data/remote/network/api_interceptor.dart';
 class ApiClient implements Api {
   final http.Client _client;
   ApiClient(this._client);
+
+  Future<String> getAppId() async {
+    try {
+      final deviceInfoPlugin = DeviceInfoPlugin();
+      final deviceInfo = await deviceInfoPlugin.deviceInfo;
+      final allInfo = deviceInfo.data;
+      return Platform.isAndroid
+          ? allInfo['id']
+          : allInfo['identifierForVendor'];
+    } catch (e) {
+      logger.e(e);
+      return '';
+    }
+  }
 
   @override
   Future<BaseResponse> login({Map<String, dynamic>? parameters}) async {
