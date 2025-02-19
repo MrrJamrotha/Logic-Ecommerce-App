@@ -18,7 +18,15 @@ class UserRepositoryImpl implements UserRepository {
       }
       return Result(success: result.data);
     } catch (error) {
-      throw GenericFailure(error.toString());
+      if (error is ServerFailure) {
+        return Result(failed: "Server error: ${error.message}");
+      } else if (error is NetworkFailure) {
+        return Result(failed: "Network error: ${error.message}");
+      } else if (error is CacheFailure) {
+        return Result(failed: "Cache error: ${error.message}");
+      } else {
+        return Result(failed: "Unexpected error: ${error.toString()}");
+      }
     }
   }
 
@@ -33,7 +41,15 @@ class UserRepositoryImpl implements UserRepository {
       }
       return Result(success: result.data);
     } catch (error) {
-      throw GenericFailure(error.toString());
+      if (error is ServerFailure) {
+        return Result(failed: "Server error: ${error.message}");
+      } else if (error is NetworkFailure) {
+        return Result(failed: "Network error: ${error.message}");
+      } else if (error is CacheFailure) {
+        return Result(failed: "Cache error: ${error.message}");
+      } else {
+        return Result(failed: "Unexpected error: ${error.toString()}");
+      }
     }
   }
 }

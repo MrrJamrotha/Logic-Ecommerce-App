@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_cubit.dart';
 import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_state.dart';
+import 'package:logic_app/presentation/screens/merchant_profile/tabs/bast_match_tab.dart';
+import 'package:logic_app/presentation/screens/merchant_profile/tabs/new_product_tab.dart';
+import 'package:logic_app/presentation/screens/merchant_profile/tabs/promotion_product_tab.dart';
+import 'package:logic_app/presentation/screens/merchant_profile/tabs/top_sale_tab.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
+import 'package:logic_app/presentation/widgets/error_type_widget.dart';
 import 'package:logic_app/presentation/widgets/header_delegate_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
@@ -24,7 +30,9 @@ class MerchantProfileScreenState extends State<MerchantProfileScreen>
   @override
   void initState() {
     _tabContoller = TabController(length: 4, vsync: this);
-    screenCubit.loadInitialData();
+    screenCubit.loadInitialData(parameters: {
+      'merchant_id': 1,
+    });
     super.initState();
   }
 
@@ -32,13 +40,8 @@ class MerchantProfileScreenState extends State<MerchantProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'merchant_profile'.tr),
-      body: BlocConsumer<MerchantProfileCubit, MerchantProfileState>(
+      body: BlocBuilder<MerchantProfileCubit, MerchantProfileState>(
         bloc: screenCubit,
-        listener: (BuildContext context, MerchantProfileState state) {
-          if (state.error != null) {
-            // TODO your code here
-          }
-        },
         builder: (BuildContext context, MerchantProfileState state) {
           if (state.isLoading) {
             return Center(child: CircularProgressIndicator());
@@ -51,86 +54,97 @@ class MerchantProfileScreenState extends State<MerchantProfileScreen>
   }
 
   Widget buildBody(MerchantProfileState state) {
+    var record = state.record;
+    if (record == null) return ErrorTypeWidget(type: ErrorType.notFound);
     return DefaultTabController(
       length: 4,
-      child: CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: EdgeInsets.all(appPedding.scale),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                spacing: appPedding.scale,
-                children: [
-                  SizedBox(
-                    height: 260.scale,
-                    child: Stack(
-                      children: [
-                        CatchImageNetworkWidget(
-                          height: 200.scale,
-                          width: double.infinity,
-                          blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-                          borderRadius: BorderRadius.circular(appRadius.scale),
-                          boxFit: BoxFit.cover,
-                          imageUrl:
-                              'https://nmgprod.s3.amazonaws.com/media/files/07/43/0743bf736dcdc851e878d77c6635bdc5/cover_image.jpg',
-                        ),
-                        Positioned(
-                          left: appPedding.scale,
-                          bottom: 0,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 5.scale,
-                            children: [
-                              CatchImageNetworkWidget(
-                                width: 80.scale,
-                                height: 80.scale,
-                                blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-                                borderRadius: BorderRadius.circular(100.scale),
-                                boxFit: BoxFit.cover,
-                                imageUrl:
-                                    'https://t4.ftcdn.net/jpg/02/79/66/93/360_F_279669366_Lk12QalYQKMczLEa4ySjhaLtx1M2u7e6.jpg',
-                              ),
-                              TextWidget(
-                                text: 'Merchant name',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                                // fontSize: 10.scale,
-                              )
-                            ],
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverPadding(
+              padding: EdgeInsets.all(appPedding.scale),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  spacing: appPedding.scale,
+                  children: [
+                    SizedBox(
+                      height: 260.scale,
+                      child: Stack(
+                        children: [
+                          CatchImageNetworkWidget(
+                            height: 200.scale,
+                            width: double.infinity,
+                            blurHash: record.coverHash,
+                            borderRadius:
+                                BorderRadius.circular(appRadius.scale),
+                            boxFit: BoxFit.cover,
+                            imageUrl: record.cover,
                           ),
-                        )
-                      ],
+                          Positioned(
+                            left: appPedding.scale,
+                            bottom: 0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 5.scale,
+                              children: [
+                                CatchImageNetworkWidget(
+                                  width: 80.scale,
+                                  height: 80.scale,
+                                  blurHash: record.avatarHash,
+                                  borderRadius:
+                                      BorderRadius.circular(100.scale),
+                                  boxFit: BoxFit.cover,
+                                  imageUrl: record.avatar,
+                                ),
+                                TextWidget(
+                                  text: record.storeName,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          SliverPersistentHeader(
-            pinned: true,
-            floating: true,
-            delegate: HeaderDelegateWidget(
-                minHeight: 80.scale,
-                maxHeight: 80.scale,
-                child: TabBar(
-                  indicatorColor: primary,
-                  unselectedLabelColor: appBlack,
-                  labelColor: primary,
-                  tabs: [
-                    Tab(text: 'new'.tr),
-                    Tab(text: 'top_sale'.tr),
-                    Tab(text: 'promotions'.tr),
-                    Tab(text: 'bast_match'.tr),
-                  ],
-                )),
-          ),
-          SliverFillRemaining(
-            child: TabBarView(
-              controller: _tabContoller,
-              children: [],
+            SliverPersistentHeader(
+              pinned: true,
+              floating: true,
+              delegate: HeaderDelegateWidget(
+                  minHeight: 45.scale,
+                  maxHeight: 45.scale,
+                  child: Container(
+                    color: appWhite,
+                    child: TabBar(
+                      controller: _tabContoller,
+                      indicatorColor: primary,
+                      unselectedLabelColor: appBlack,
+                      labelColor: primary,
+                      tabs: [
+                        Tab(text: 'new'.tr),
+                        Tab(text: 'top_sale'.tr),
+                        Tab(text: 'promotions'.tr),
+                        Tab(text: 'bast_match'.tr),
+                      ],
+                    ),
+                  )),
             ),
-          ),
-        ],
+          ];
+        },
+        body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _tabContoller,
+          children: [
+            NewProductTab(),
+            TopSaleTab(),
+            PromotionProductTab(),
+            BastMatchTab(),
+          ],
+        ),
       ),
     );
   }
