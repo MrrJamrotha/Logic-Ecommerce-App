@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/constants/app_space.dart';
@@ -55,6 +56,10 @@ class _NewProductTabState extends State<NewProductTab> {
           builderDelegate: PagedChildBuilderDelegate<ProductModel>(
             itemBuilder: (context, record, index) {
               return ProductCardWidget(
+                onTap: () {
+                  context.pushNamed('merchant-item-detail',
+                      extra: {'product_id': 2});
+                },
                 record: record,
                 isLoading: state.isLoadingProduct,
               );

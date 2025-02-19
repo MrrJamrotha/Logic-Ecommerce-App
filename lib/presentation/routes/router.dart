@@ -70,38 +70,49 @@ class MainRouter {
                       },
                     ),
                     GoRoute(
-                        path: '/home-item-detail',
-                        name: 'home-item-detail',
-                        parentNavigatorKey: rootNavigatorKey,
-                        builder: (context, state) {
-                          final parameters =
-                              state.extra as Map<String, dynamic>;
-                          return ItemDetailScreen(parameters: parameters);
-                        },
-                        routes: [
-                          GoRoute(
-                            path: '/review-product',
-                            name: 'review-product',
-                            parentNavigatorKey: rootNavigatorKey,
-                            builder: (context, state) {
-                              final parameters =
-                                  state.extra as Map<String, dynamic>;
-                              return ReviewProductScreen(
-                                  parameters: parameters);
-                            },
-                          ),
-                          GoRoute(
-                            path: '/merchant-profile',
-                            name: 'merchant-profile',
-                            parentNavigatorKey: rootNavigatorKey,
-                            builder: (context, state) {
-                              final parameters =
-                                  state.extra as Map<String, dynamic>;
-                              return MerchantProfileScreen(
-                                  parameters: parameters);
-                            },
-                          )
-                        ]),
+                      path: '/home-item-detail',
+                      name: 'home-item-detail',
+                      parentNavigatorKey: rootNavigatorKey,
+                      builder: (context, state) {
+                        final parameters = state.extra as Map<String, dynamic>;
+                        return ItemDetailScreen(parameters: parameters);
+                      },
+                      routes: [
+                        GoRoute(
+                          path: '/review-product',
+                          name: 'review-product',
+                          parentNavigatorKey: rootNavigatorKey,
+                          builder: (context, state) {
+                            final parameters =
+                                state.extra as Map<String, dynamic>;
+                            return ReviewProductScreen(parameters: parameters);
+                          },
+                        ),
+                        GoRoute(
+                          path: '/merchant-profile',
+                          name: 'merchant-profile',
+                          parentNavigatorKey: rootNavigatorKey,
+                          builder: (context, state) {
+                            final parameters =
+                                state.extra as Map<String, dynamic>;
+                            return MerchantProfileScreen(
+                                parameters: parameters);
+                          },
+                          routes: [
+                            GoRoute(
+                              path: '/merchant-item-detail',
+                              name: 'merchant-item-detail',
+                              parentNavigatorKey: rootNavigatorKey,
+                              builder: (context, state) {
+                                final parameters =
+                                    state.extra as Map<String, dynamic>;
+                                return ItemDetailScreen(parameters: parameters);
+                              },
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ],
                 )
               ],
