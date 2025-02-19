@@ -14,3 +14,4 @@ const backgroudButtonColor = Color(0XFFE3E3E3);
 
 const abaTextColor = Color(0XFF697386);
 const abaShadowColor = Color(0XFFB7BECB);
+const unratedColor = Color(0XFFE0E8F1);

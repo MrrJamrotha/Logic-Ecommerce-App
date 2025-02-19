@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
@@ -13,6 +12,7 @@ import 'package:logic_app/presentation/widgets/card_user_review.dart';
 import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
 import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
 import 'package:logic_app/presentation/widgets/list_product_horizontal_widget.dart';
+import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/row_view_more_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 import 'package:logic_app/presentation/widgets/wishlist_button_widget.dart';
@@ -167,14 +167,7 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                 ),
                 Row(
                   children: [
-                    RatingBarIndicator(
-                      itemSize: 20.scale,
-                      rating: 4.5,
-                      itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: appYellow,
-                      ),
-                    ),
+                    RatingBarWidget(itemSize: 20.scale, rating: 4.5),
                     TextWidget(
                       text: '(56 Reviews)',
                       fontSize: 12.scale,
@@ -346,6 +339,9 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                 ),
                 if (relatedProducts.isNotEmpty)
                   RowViewMoreWidget(
+                    onTap: () {
+                      //TODO:
+                    },
                     title: 'related_products'.tr,
                     child: ListProductHorizontalWidget(
                       records: relatedProducts,

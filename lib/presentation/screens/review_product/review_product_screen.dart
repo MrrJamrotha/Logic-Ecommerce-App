@@ -7,7 +7,7 @@ import 'package:logic_app/presentation/screens/review_product/review_product_cub
 import 'package:logic_app/presentation/screens/review_product/review_product_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/card_user_review.dart';
-import 'package:logic_app/presentation/widgets/header_delegate_widget.dart';
+import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class ReviewProductScreen extends StatefulWidget {
@@ -77,62 +77,70 @@ class ReviewProductScreenState extends State<ReviewProductScreen> {
   Widget buildBody(ReviewProductState state) {
     return CustomScrollView(
       slivers: [
-        SliverFloatingHeader(
+        SliverToBoxAdapter(
           child: Column(
-            children: [],
+            spacing: appSpace.scale,
+            children: [
+              TextWidget(
+                text: '3.5',
+                fontSize: 30.scale,
+                fontWeight: FontWeight.w600,
+              ),
+              RatingBarWidget(
+                itemSize: 30.scale,
+                rating: 3.5,
+              ),
+              TextWidget(text: 'based on 23 reviews', color: textColor),
+              _buildLinearProgressWithStar(
+                progress: 0.9,
+                rating: 5,
+              ),
+              _buildLinearProgressWithStar(
+                progress: 0.8,
+                rating: 4,
+              ),
+              _buildLinearProgressWithStar(
+                progress: 0.8,
+                rating: 3,
+                color: appYellow,
+              ),
+              _buildLinearProgressWithStar(
+                progress: 0.6,
+                rating: 2,
+                color: secondaryColor,
+              ),
+              _buildLinearProgressWithStar(
+                progress: 0.5,
+                rating: 1,
+                color: appRedAccent,
+              ),
+            ],
           ),
         ),
-        SliverPersistentHeader(
-          floating: true,
-          pinned: true,
-          delegate: HeaderDelegateWidget(
-            minHeight: 60.scale,
-            maxHeight: 60.scale,
-            child: Container(
-              color: appWhite,
-              child: ListView.builder(
-                padding: EdgeInsets.all(appPedding.scale),
-                scrollDirection: Axis.horizontal,
-                itemCount: _listStarts.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Padding(
-                      padding: EdgeInsets.only(right: appSpace.scale),
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(appRadius.scale),
-                        )),
-                        onPressed: () {
-                          //TODO
-                        },
-                        child: TextWidget(
-                          text: 'all'.tr,
-                          fontSize: 12.scale,
-                          color: appBlack,
-                        ),
-                      ),
-                    );
-                  }
-                  return Padding(
-                    padding: EdgeInsets.only(right: appSpace.scale),
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(appRadius.scale),
-                      )),
-                      onPressed: () {
-                        //TODO
-                      },
-                      child: TextWidget(
-                        text: '${_listStarts[index - 1]} ${'star'.tr}',
-                        fontSize: 12.scale,
-                        color: appBlack,
-                      ),
-                    ),
+        SliverFloatingHeader(
+          child: Container(
+            height: 60.scale,
+            color: appWhite,
+            child: ListView.builder(
+              padding: EdgeInsets.all(appPedding.scale),
+              scrollDirection: Axis.horizontal,
+              itemCount: _listStarts.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _buildTextButtonOutline(
+                    title: 'all'.tr,
+                    onTap: () {
+                      //TODO:
+                    },
                   );
-                },
-              ),
+                }
+                return _buildTextButtonOutline(
+                  title: '${_listStarts[index - 1]} ${'star'.tr}',
+                  onTap: () {
+                    //TODO:
+                  },
+                );
+              },
             ),
           ),
         ),
@@ -149,6 +157,49 @@ class ReviewProductScreenState extends State<ReviewProductScreen> {
           ),
         )
       ],
+    );
+  }
+
+  Padding _buildTextButtonOutline({required String title, Function()? onTap}) {
+    return Padding(
+      padding: EdgeInsets.only(right: appSpace.scale),
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(appRadius.scale),
+        )),
+        onPressed: onTap,
+        child: TextWidget(
+          text: title,
+          fontSize: 12.scale,
+          color: appBlack,
+        ),
+      ),
+    );
+  }
+
+  Padding _buildLinearProgressWithStar({
+    double progress = 0.0,
+    double rating = 4.0,
+    Color? color = appGreen,
+  }) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: appPedding.scale,
+      ),
+      child: Row(
+        spacing: appSpace.scale,
+        children: [
+          RatingBarWidget(itemSize: 15.scale, rating: rating),
+          Expanded(
+            child: LinearProgressIndicator(
+              color: color,
+              backgroundColor: unratedColor,
+              value: progress,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

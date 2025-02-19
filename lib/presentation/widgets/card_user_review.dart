@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/widgets/box_widget.dart';
 import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
+import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class CardUserReview extends StatelessWidget {
@@ -38,13 +38,9 @@ class CardUserReview extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontSize: 14.scale,
                   ),
-                  RatingBarIndicator(
+                  RatingBarWidget(
                     rating: 3.5,
                     itemSize: 10.scale,
-                    itemBuilder: (context, index) => Icon(
-                      Icons.star,
-                      color: appYellow,
-                    ),
                   ),
                   TextWidget(
                     text: '19-01-2025',

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
@@ -14,6 +13,7 @@ import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
 import 'package:logic_app/presentation/widgets/header_delegate_widget.dart';
 import 'package:logic_app/presentation/widgets/product_card_widget.dart';
+import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class FetchingItemsScreen extends StatefulWidget {
@@ -150,13 +150,9 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
                     children: ratings.map((rating) {
                       return CheckboxListTile.adaptive(
                         contentPadding: EdgeInsets.zero,
-                        title: RatingBarIndicator(
+                        title: RatingBarWidget(
                           itemSize: 20.scale,
                           rating: rating.toDouble(),
-                          itemBuilder: (context, index) => Icon(
-                            Icons.star,
-                            color: appYellow,
-                          ),
                         ),
                         value: state.selectedRatings?[rating] ?? false,
                         onChanged: (value) {
