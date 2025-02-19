@@ -104,4 +104,7 @@ final Map<String, String> en = {
   'price_details': 'Price details',
   'merchant_informaiton': 'Merchant information',
   'product_reviews': 'Product reviews',
+  'review_product': 'Review product',
+  'star': 'Star',
+  'related_products': 'Related products',
 };

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_cubit.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/box_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
+import 'package:logic_app/presentation/widgets/card_user_review.dart';
 import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
 import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
+import 'package:logic_app/presentation/widgets/list_product_horizontal_widget.dart';
+import 'package:logic_app/presentation/widgets/row_view_more_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 import 'package:logic_app/presentation/widgets/wishlist_button_widget.dart';
 
@@ -70,6 +73,11 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
   @override
   void initState() {
     screenCubit.loadInitialData();
+    screenCubit.getRelatedProduct(parameters: {
+      'merchant_id': widget.parameters['merchant_id'],
+      'category_id': widget.parameters['category_id'],
+      'brand_id': widget.parameters['category_id'],
+    });
     super.initState();
   }
 
@@ -98,6 +106,7 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
   }
 
   Widget buildBody(ItemDetailState state) {
+    final relatedProducts = state.relatedProducts ?? [];
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,111 +274,12 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                     ],
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: appSpace.scale,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextWidget(
-                          text: 'product_reviews'.tr,
-                          fontSize: 18.scale,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            //TODO:
-                          },
-                          child: TextWidget(
-                            text: 'view_more'.tr,
-                            color: primary,
-                            decoration: TextDecoration.underline,
-                          ),
-                        )
-                      ],
-                    ),
-                    BoxWidget(
-                      borderRadius: BorderRadius.circular(appRadius.scale),
-                      padding: EdgeInsets.all(appSpace.scale),
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: appSpace.scale,
-                            children: [
-                              CatchImageNetworkWidget(
-                                width: 50.scale,
-                                height: 50.scale,
-                                borderRadius: BorderRadius.circular(100.scale),
-                                boxFit: BoxFit.cover,
-                                imageUrl:
-                                    'https://t3.ftcdn.net/jpg/02/73/71/46/360_F_273714684_GXTZHmfFM3yvZwP7KaGc1h2Md00F83UF.jpg',
-                                blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                    text: maskText('Soeurn Rotha'),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14.scale,
-                                  ),
-                                  RatingBarIndicator(
-                                    rating: 3.5,
-                                    itemSize: 10.scale,
-                                    itemBuilder: (context, index) => Icon(
-                                      Icons.star,
-                                      color: appYellow,
-                                    ),
-                                  ),
-                                  TextWidget(
-                                    text: '19-01-2025',
-                                    fontSize: 12.scale,
-                                    color: textColor,
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                          TextWidget(
-                            text:
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It ",
-                            fontSize: 12.scale,
-                            color: textColor,
-                          ),
-                          SizedBox(
-                            height: 120.scale,
-                            child: ListView.builder(
-                              padding: EdgeInsets.symmetric(
-                                vertical: appPedding.scale,
-                              ),
-                              // shrinkWrap: true,
-                              // physics: NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: itemPictures.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding:
-                                      EdgeInsets.only(right: appSpace.scale),
-                                  child: CatchImageNetworkWidget(
-                                    borderRadius:
-                                        BorderRadius.circular(appRadius.scale),
-                                    width: 70.scale,
-                                    height: 70.scale,
-                                    boxFit: BoxFit.cover,
-                                    imageUrl: itemPictures[index]['picture'],
-                                    blurHash: itemPictures[index]
-                                        ['pictureHash'],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                RowViewMoreWidget(
+                  onTap: () {
+                    context.goNamed('review-product', extra: {'product_id': 1});
+                  },
+                  title: 'product_reviews'.tr,
+                  child: CardUserReview(pictures: itemPictures),
                 ),
                 ExpansionTile(
                   tilePadding: EdgeInsets.zero,
@@ -434,6 +344,14 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                     );
                   }).toList(),
                 ),
+                if (relatedProducts.isNotEmpty)
+                  RowViewMoreWidget(
+                    title: 'related_products'.tr,
+                    child: ListProductHorizontalWidget(
+                      records: relatedProducts,
+                      isLoading: state.isLoadingRelatedProduct,
+                    ),
+                  ),
               ],
             ),
           )

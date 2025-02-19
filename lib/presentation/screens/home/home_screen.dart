@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/data/models/product_model.dart';
 import 'package:logic_app/presentation/screens/category/category_screen.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/card_brand_widget.dart';
 import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
-import 'package:logic_app/presentation/widgets/product_card_widget.dart';
+import 'package:logic_app/presentation/widgets/list_category_and_brand_widget.dart';
+import 'package:logic_app/presentation/widgets/list_product_horizontal_widget.dart';
+import 'package:logic_app/presentation/widgets/row_view_more_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -89,7 +88,7 @@ class HomeScreenState extends State<HomeScreen>
         return SingleChildScrollView(
           padding: EdgeInsets.all(appPedding.scale),
           child: Column(
-            spacing: 16.scale,
+            spacing: appPedding.scale,
             children: [
               if (slideShowModels.isNotEmpty)
                 CarouselSliderWidget(
@@ -98,21 +97,21 @@ class HomeScreenState extends State<HomeScreen>
                   isLoading: state.isLoadingSlideShow,
                 ),
               if (categoryModels.isNotEmpty)
-                _buildTitleRow(
+                RowViewMoreWidget(
                   title: 'browse_categories'.tr,
                   onTap: () {
                     GoRouter.of(context).go(CategoryScreen.routePath);
                     context.read<SettingCubit>().onPageChanged(1);
                   },
-                  child: _listDatas(categoryModels),
+                  child: ListCategoryAndBrandWidget(records: categoryModels),
                 ),
               if (brandModels.isNotEmpty)
-                _buildTitleRow(
+                RowViewMoreWidget(
                   title: 'popular_brands'.tr,
                   onTap: () {
                     context.pushNamed('brand');
                   },
-                  child: _listDatas(brandModels),
+                  child: ListCategoryAndBrandWidget(records: brandModels),
                 ),
               if (slideShowModels.isNotEmpty)
                 CarouselSliderWidget(
@@ -121,7 +120,7 @@ class HomeScreenState extends State<HomeScreen>
                   isLoading: state.isLoadingSlideShow,
                 ),
               if (recommendProducts.isNotEmpty)
-                _buildTitleRow(
+                RowViewMoreWidget(
                   title: 'recommend_for_you'.tr,
                   onTap: () {
                     context.pushNamed('home_fetching_item', extra: {
@@ -129,127 +128,48 @@ class HomeScreenState extends State<HomeScreen>
                       'type': FetchingType.recommented,
                     });
                   },
-                  child: _buildListProducts(
-                    recommendProducts,
-                    state.isLoadingRecommend,
+                  child: ListProductHorizontalWidget(
+                    records: recommendProducts,
+                    isLoading: state.isLoadingRecommend,
                   ),
                 ),
               if (bastReviewProducts.isNotEmpty)
-                _buildTitleRow(
+                RowViewMoreWidget(
                   title: 'bast_seller'.tr,
                   onTap: () {
                     //TODO: next time
                   },
-                  child: _buildListProducts(
-                    bastReviewProducts,
-                    state.isLoadingBastReview,
+                  child: ListProductHorizontalWidget(
+                    records: bastReviewProducts,
+                    isLoading: state.isLoadingBastReview,
                   ),
                 ),
               if (newArrivals.isNotEmpty)
-                _buildTitleRow(
+                RowViewMoreWidget(
                   title: 'new_arrival'.tr,
                   onTap: () {
                     //TODO: next time
                   },
-                  child: _buildListProducts(
-                    newArrivals,
-                    state.isLoadingNewArrival,
+                  child: ListProductHorizontalWidget(
+                    records: newArrivals,
+                    isLoading: state.isLoadingNewArrival,
                   ),
                 ),
               if (specialProducts.isNotEmpty)
-                _buildTitleRow(
+                RowViewMoreWidget(
                   title: 'spacial_offers'.tr,
                   onTap: () {
                     //TODO: next time
                   },
-                  child: _buildListProducts(
-                    specialProducts,
-                    state.isLoadingSpecialProducts,
+                  child: ListProductHorizontalWidget(
+                    records: specialProducts,
+                    isLoading: state.isLoadingSpecialProducts,
                   ),
                 ),
             ],
           ),
         );
       },
-    );
-  }
-
-  SizedBox _listDatas(List<dynamic> records) {
-    return SizedBox(
-      height: 125.scale,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: records.length,
-        itemBuilder: (context, index) {
-          final record = records[index];
-          return Padding(
-            padding: EdgeInsets.only(
-              right: appSpace.scale,
-              bottom: appSpace.scale,
-              top: appSpace.scale,
-            ),
-            child: CardBrandWidget(
-              picture: record.picture,
-              pictureHash: record.pictureHash,
-              title: record.name,
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  SizedBox _buildListProducts(
-    List<ProductModel> records,
-    bool isLoading,
-  ) {
-    return SizedBox(
-      height: 210.scale,
-      child: ListView.builder(
-        padding: EdgeInsets.symmetric(vertical: appSpace.scale),
-        scrollDirection: Axis.horizontal,
-        itemCount: records.length,
-        itemBuilder: (context, index) {
-          final record = records[index];
-          return Padding(
-            padding: EdgeInsets.only(right: appSpace.scale),
-            child: ProductCardWidget(
-              onTap: () {
-                context.goNamed('home-item-detail', extra: {
-                  'productId': record.id,
-                });
-              },
-              record: record,
-              isLoading: isLoading,
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildTitleRow({
-    required String title,
-    Function()? onTap,
-    required Widget child,
-  }) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextWidget(text: title),
-            TextButton(
-              onPressed: onTap,
-              child: TextWidget(
-                text: 'view_more'.tr,
-                color: primary,
-              ),
-            ),
-          ],
-        ),
-        child
-      ],
     );
   }
 

@@ -19,6 +19,7 @@ import 'package:logic_app/presentation/screens/main_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
 import 'package:logic_app/presentation/screens/order_detail/order_detail_screen.dart';
 import 'package:logic_app/presentation/screens/profile/profile_screen.dart';
+import 'package:logic_app/presentation/screens/review_product/review_product_screen.dart';
 import 'package:logic_app/presentation/screens/update_address/update_address_screen.dart';
 import 'package:logic_app/presentation/screens/write_review/write_review_screen.dart';
 import 'package:logic_app/presentation/widgets/error_type_widget.dart';
@@ -68,14 +69,27 @@ class MainRouter {
                       },
                     ),
                     GoRoute(
-                      path: '/home-item-detail',
-                      name: 'home-item-detail',
-                      parentNavigatorKey: rootNavigatorKey,
-                      builder: (context, state) {
-                        final parameters = state.extra as Map<String, dynamic>;
-                        return ItemDetailScreen(parameters: parameters);
-                      },
-                    ),
+                        path: '/home-item-detail',
+                        name: 'home-item-detail',
+                        parentNavigatorKey: rootNavigatorKey,
+                        builder: (context, state) {
+                          final parameters =
+                              state.extra as Map<String, dynamic>;
+                          return ItemDetailScreen(parameters: parameters);
+                        },
+                        routes: [
+                          GoRoute(
+                            path: '/review-product',
+                            name: 'review-product',
+                            parentNavigatorKey: rootNavigatorKey,
+                            builder: (context, state) {
+                              final parameters =
+                                  state.extra as Map<String, dynamic>;
+                              return ReviewProductScreen(
+                                  parameters: parameters);
+                            },
+                          )
+                        ]),
                   ],
                 )
               ],
