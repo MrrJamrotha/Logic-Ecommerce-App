@@ -16,6 +16,7 @@ import 'package:logic_app/presentation/screens/home/home_screen.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_screen.dart';
 import 'package:logic_app/presentation/screens/language/language_screen.dart';
 import 'package:logic_app/presentation/screens/main_screen.dart';
+import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
 import 'package:logic_app/presentation/screens/order_detail/order_detail_screen.dart';
 import 'package:logic_app/presentation/screens/profile/profile_screen.dart';
@@ -86,6 +87,17 @@ class MainRouter {
                               final parameters =
                                   state.extra as Map<String, dynamic>;
                               return ReviewProductScreen(
+                                  parameters: parameters);
+                            },
+                          ),
+                          GoRoute(
+                            path: '/merchant-profile',
+                            name: 'merchant-profile',
+                            parentNavigatorKey: rootNavigatorKey,
+                            builder: (context, state) {
+                              final parameters =
+                                  state.extra as Map<String, dynamic>;
+                              return MerchantProfileScreen(
                                   parameters: parameters);
                             },
                           )

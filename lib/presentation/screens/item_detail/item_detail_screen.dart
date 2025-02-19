@@ -229,42 +229,49 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                 ),
                 SizedBox(
                   height: 170.scale,
-                  child: Stack(
-                    children: [
-                      CatchImageNetworkWidget(
-                        height: 120.scale,
-                        width: double.infinity,
-                        blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-                        borderRadius: BorderRadius.circular(appRadius.scale),
-                        boxFit: BoxFit.cover,
-                        imageUrl:
-                            'https://nmgprod.s3.amazonaws.com/media/files/07/43/0743bf736dcdc851e878d77c6635bdc5/cover_image.jpg',
-                      ),
-                      Positioned(
-                        left: appPedding.scale,
-                        bottom: 0,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 5.scale,
-                          children: [
-                            CatchImageNetworkWidget(
-                              width: 80.scale,
-                              height: 80.scale,
-                              blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-                              borderRadius: BorderRadius.circular(100.scale),
-                              boxFit: BoxFit.cover,
-                              imageUrl:
-                                  'https://t4.ftcdn.net/jpg/02/79/66/93/360_F_279669366_Lk12QalYQKMczLEa4ySjhaLtx1M2u7e6.jpg',
-                            ),
-                            TextWidget(
-                              text: 'Merchant name',
-                              fontWeight: FontWeight.w600,
-                              // fontSize: 10.scale,
-                            )
-                          ],
+                  child: GestureDetector(
+                    onTap: () {
+                      context.goNamed('merchant-profile', extra: {
+                        'merchant_id': 1,
+                      });
+                    },
+                    child: Stack(
+                      children: [
+                        CatchImageNetworkWidget(
+                          height: 120.scale,
+                          width: double.infinity,
+                          blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                          borderRadius: BorderRadius.circular(appRadius.scale),
+                          boxFit: BoxFit.cover,
+                          imageUrl:
+                              'https://nmgprod.s3.amazonaws.com/media/files/07/43/0743bf736dcdc851e878d77c6635bdc5/cover_image.jpg',
                         ),
-                      )
-                    ],
+                        Positioned(
+                          left: appPedding.scale,
+                          bottom: 0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 5.scale,
+                            children: [
+                              CatchImageNetworkWidget(
+                                width: 80.scale,
+                                height: 80.scale,
+                                blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                                borderRadius: BorderRadius.circular(100.scale),
+                                boxFit: BoxFit.cover,
+                                imageUrl:
+                                    'https://t4.ftcdn.net/jpg/02/79/66/93/360_F_279669366_Lk12QalYQKMczLEa4ySjhaLtx1M2u7e6.jpg',
+                              ),
+                              TextWidget(
+                                text: 'Merchant name',
+                                fontWeight: FontWeight.w600,
+                                // fontSize: 10.scale,
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 RowViewMoreWidget(
