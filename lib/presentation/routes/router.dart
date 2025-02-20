@@ -19,6 +19,8 @@ import 'package:logic_app/presentation/screens/main_screen.dart';
 import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
 import 'package:logic_app/presentation/screens/order_detail/order_detail_screen.dart';
+import 'package:logic_app/presentation/screens/product_by_brand/product_by_brand_screen.dart';
+import 'package:logic_app/presentation/screens/product_by_category/product_by_category_screen.dart';
 import 'package:logic_app/presentation/screens/profile/profile_screen.dart';
 import 'package:logic_app/presentation/screens/review_product/review_product_screen.dart';
 import 'package:logic_app/presentation/screens/update_address/update_address_screen.dart';
@@ -56,6 +58,24 @@ class MainRouter {
                       builder: (context, state) {
                         final datas = state.extra as Map<String, dynamic>;
                         return FetchingItemsScreen(parameters: datas);
+                      },
+                    ),
+                    GoRoute(
+                      path: '/product_by_category',
+                      name: 'product_by_category',
+                      parentNavigatorKey: rootNavigatorKey,
+                      builder: (context, state) {
+                        final datas = state.extra as Map<String, dynamic>;
+                        return ProductByCategoryScreen(parameters: datas);
+                      },
+                    ),
+                    GoRoute(
+                      path: '/product_by_brand',
+                      name: 'product_by_brand',
+                      parentNavigatorKey: rootNavigatorKey,
+                      builder: (context, state) {
+                        final datas = state.extra as Map<String, dynamic>;
+                        return ProductByBrandScreen(parameters: datas);
                       },
                     ),
                     GoRoute(

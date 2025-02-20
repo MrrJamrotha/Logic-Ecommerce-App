@@ -103,7 +103,10 @@ class HomeScreenState extends State<HomeScreen>
                     GoRouter.of(context).go(CategoryScreen.routePath);
                     context.read<SettingCubit>().onPageChanged(1);
                   },
-                  child: ListCategoryAndBrandWidget(records: categoryModels),
+                  child: ListCategoryAndBrandWidget(
+                    records: categoryModels,
+                    listProductType: ListProductType.category,
+                  ),
                 ),
               if (brandModels.isNotEmpty)
                 RowViewMoreWidget(
@@ -111,7 +114,10 @@ class HomeScreenState extends State<HomeScreen>
                   onTap: () {
                     context.pushNamed('brand');
                   },
-                  child: ListCategoryAndBrandWidget(records: brandModels),
+                  child: ListCategoryAndBrandWidget(
+                    records: brandModels,
+                    listProductType: ListProductType.brand,
+                  ),
                 ),
               if (slideShowModels.isNotEmpty)
                 CarouselSliderWidget(

@@ -13,6 +13,8 @@ import 'package:logic_app/data/repositories/fetching_item/fetching_item_reposito
 import 'package:logic_app/data/repositories/home/home_repository_impl.dart';
 import 'package:logic_app/data/repositories/item_detail/item_detail_repository_impl.dart';
 import 'package:logic_app/data/repositories/merchant/merchant_repository_impl.dart';
+import 'package:logic_app/data/repositories/product_by_brand/product_by_brand_repository_impl.dart';
+import 'package:logic_app/data/repositories/product_by_category/product_by_category_repository_impl.dart';
 import 'package:logic_app/data/repositories/user/user_repository_impl.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
@@ -49,4 +51,10 @@ void setupInjector() {
 
   di.registerLazySingleton<MerchantRepositoryImpl>(
       () => MerchantRepositoryImpl());
+
+  di.registerLazySingleton<ProductByCategoryRepositoryImpl>(
+      () => ProductByCategoryRepositoryImpl());
+
+  di.registerLazySingleton<ProductByBrandRepositoryImpl>(
+      () => ProductByBrandRepositoryImpl());
 }

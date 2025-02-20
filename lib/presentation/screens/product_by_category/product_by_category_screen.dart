@@ -2,39 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/presentation/screens/fetching_items/fetching_items_cubit.dart';
-import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
+import 'package:logic_app/presentation/screens/product_by_category/product_by_category_cubit.dart';
+import 'package:logic_app/presentation/screens/product_by_category/product_by_category_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
 import 'package:logic_app/presentation/widgets/product_card_widget.dart';
 import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
-class FetchingItemsScreen extends StatefulWidget {
-  const FetchingItemsScreen({
+class ProductByCategoryScreen extends StatefulWidget {
+  const ProductByCategoryScreen({
     super.key,
     required this.parameters,
   });
   final Map<String, dynamic> parameters;
   @override
-  FetchingItemsScreenState createState() => FetchingItemsScreenState();
+  ProductByCategoryScreenState createState() => ProductByCategoryScreenState();
 }
 
-class FetchingItemsScreenState extends State<FetchingItemsScreen> {
-  final screenCubit = FetchingItemsCubit();
+class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
+  final screenCubit = ProductByCategoryCubit();
   List<int> ratings = [5, 4, 3, 2, 1];
   @override
   void initState() {
     screenCubit.loadInitialData(
-      type: widget.parameters['type'],
       parameters: {
         'category_id': widget.parameters['category_id'],
-        'brand_id': widget.parameters['brand_id'],
+        'brand_id': "",
       },
     );
     _initPagination();
@@ -43,29 +41,22 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
 
   void _initPagination() {
     screenCubit.pagingController.addPageRequestListener((pageKey) {
-      switch (widget.parameters['type']) {
-        case FetchingType.recommented:
-          screenCubit.paginationGetRecommendedData(pageKey, {
-            'category_id': screenCubit.state.selectCategoryId,
-          });
-          break;
-        case FetchingType.newArrival:
-          break;
-        case FetchingType.baseSeller:
-          break;
-        case FetchingType.wishlist:
-          break;
-      }
+      screenCubit.paginationProductByCategory(
+        pageKey: pageKey,
+        parameters: {
+          'category_id': widget.parameters['category_id'],
+          'brand_id': screenCubit.state.selectBrandId,
+        },
+      );
     });
   }
 
-  //use for feching data recomment , top sale and etc...
-  void selectFilterProductByCategory(String id) {
-    print('dddd $id');
-    screenCubit.filterByCategory(
-      categoryId: id.isEmpty ? "" : id,
-      type: widget.parameters['type'],
-    );
+  //use for select from category
+  void selectFilterProductByBrand(String id) {
+    screenCubit.filterProductByBrand(parameters: {
+      'category_id': widget.parameters['category_id'],
+      'brand_id': id,
+    });
   }
 
   showFilterModal() {
@@ -78,10 +69,9 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
       isDismissible: true,
       showDragHandle: true,
       builder: (context) {
-        return BlocBuilder<FetchingItemsCubit, FetchingItemsState>(
+        return BlocBuilder<ProductByCategoryCubit, ProductByCategoryState>(
           bloc: screenCubit,
           builder: (context, state) {
-            final categories = state.categories ?? [];
             final brands = state.brands ?? [];
             final priceRange = state.rangeValues;
             if (priceRange == null) {
@@ -94,36 +84,6 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (categories.isNotEmpty)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: appSpace.scale,
-                      children: [
-                        TextWidget(
-                          text: 'categories'.tr,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18.scale,
-                        ),
-                        Divider(
-                          height: 1,
-                          color: textColor,
-                        ),
-                        Wrap(
-                            runSpacing: appSpace.scale,
-                            spacing: appSpace.scale,
-                            children: categories.map((record) {
-                              return FilterChip(
-                                backgroundColor: appWhite,
-                                label: TextWidget(text: record.name),
-                                selected: false,
-                                selectedColor: primary,
-                                onSelected: (bool value) {
-                                  //TODO:
-                                },
-                              );
-                            }).toList()),
-                      ],
-                    ),
                   if (brands.isNotEmpty)
                     Column(
                       spacing: appSpace.scale,
@@ -227,9 +187,9 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
           showFilterModal();
         },
       ),
-      body: BlocBuilder<FetchingItemsCubit, FetchingItemsState>(
+      body: BlocBuilder<ProductByCategoryCubit, ProductByCategoryState>(
         bloc: screenCubit,
-        builder: (BuildContext context, FetchingItemsState state) {
+        builder: (BuildContext context, ProductByCategoryState state) {
           if (state.isLoading) {
             return Center(child: CircularProgressIndicator());
           }
@@ -240,8 +200,8 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
     );
   }
 
-  Widget buildBody(FetchingItemsState state) {
-    final categories = state.categories ?? [];
+  Widget buildBody(ProductByCategoryState state) {
+    final brands = state.brands ?? [];
     final double width = AppSizeConfig.screenWidth;
     double widthCard = 170.scale;
     int countRow = width ~/ widthCard;
@@ -250,9 +210,9 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
       slivers: [
         SliverFloatingHeader(
           child: _buildHorizontalList(
-            items: categories,
-            selectId: state.selectCategoryId ?? "",
-            onPressed: selectFilterProductByCategory,
+            items: brands,
+            selectId: state.selectBrandId ?? "",
+            onPressed: selectFilterProductByBrand,
           ),
         ),
         SliverPadding(

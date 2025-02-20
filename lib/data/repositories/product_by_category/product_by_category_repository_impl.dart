@@ -2,30 +2,26 @@ import 'package:logic_app/core/common/result.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/error/failure.dart';
 import 'package:logic_app/data/models/brand_model.dart';
-import 'package:logic_app/data/models/category_model.dart';
 import 'package:logic_app/data/models/price_range_model.dart';
 import 'package:logic_app/data/models/product_model.dart';
 import 'package:logic_app/data/remote/network/api_client.dart';
-import 'package:logic_app/data/repositories/fetching_item/fetching_item_repository.dart';
+import 'package:logic_app/data/repositories/product_by_category/product_by_category_repository.dart';
 
-class FetchingItemRepositoryImpl implements FetchingItemRepository {
+class ProductByCategoryRepositoryImpl implements ProductByCategoryRepository {
   final _apiClient = di.get<ApiClient>();
-
   @override
-  Future<Result<List<ProductModel>, dynamic>> getRecommendedForYou({
+  Future<Result<List<ProductModel>, dynamic>> getProductByCategory({
     Map<String, dynamic>? parameters,
   }) async {
     try {
       final result =
-          await _apiClient.getRecommendForYou(parameters: parameters);
+          await _apiClient.getProductByCategory(parameters: parameters);
       if (result.status != 'success') {
         return Result(failed: result.message);
       }
+
       final records = (result.data as List<dynamic>).map((item) {
         return ProductModel.fromJson(item as Map<String, dynamic>);
-      }).toList();
-      final categories = (result.categories as List<dynamic>).map((item) {
-        return CategoryModel.fromJson(item as Map<String, dynamic>);
       }).toList();
 
       final brands = (result.brands as List<dynamic>).map((item) {
@@ -34,7 +30,6 @@ class FetchingItemRepositoryImpl implements FetchingItemRepository {
       final priceRangeModel = PriceRangeModel.fromJson(result.priceRange);
       return Result(
         success: records,
-        categories: categories,
         brands: brands,
         priceRangeModel: priceRangeModel,
         lastPage: result.lastPage,

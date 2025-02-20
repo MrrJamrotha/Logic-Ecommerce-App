@@ -1,42 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/di/injection.dart';
+import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/data/repositories/fetching_item/fetching_item_repository_impl.dart';
-import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
+import 'package:logic_app/data/repositories/product_by_category/product_by_category_repository_impl.dart';
+import 'package:logic_app/presentation/screens/product_by_category/product_by_category_state.dart';
 
-class FetchingItemsCubit extends Cubit<FetchingItemsState> {
-  FetchingItemsCubit()
-      : super(FetchingItemsState(
-          isLoading: true,
-          selectCategoryId: "",
-          selectBrandId: "",
-        ));
-  final repos = di.get<FetchingItemRepositoryImpl>();
-
+class ProductByCategoryCubit extends Cubit<ProductByCategoryState> {
+  ProductByCategoryCubit() : super(ProductByCategoryState(isLoading: true));
+  final repos = di.get<ProductByCategoryRepositoryImpl>();
   final pagingController = PagingController(firstPageKey: 1);
 
   Future<void> loadInitialData({
-    FetchingType type = FetchingType.recommented,
     Map<String, dynamic>? parameters,
   }) async {
     final stableState = state;
     try {
       emit(state.copyWith(isLoading: true));
-      switch (type) {
-        case FetchingType.recommented:
-          paginationGetRecommendedData(1, parameters);
-          break;
-        case FetchingType.baseSeller:
-          break;
-        case FetchingType.newArrival:
-          break;
-
-        case FetchingType.wishlist:
-          break;
-      }
+      await paginationProductByCategory(parameters: parameters);
       emit(state.copyWith(isLoading: false));
     } catch (error) {
       emit(state.copyWith(error: error.toString()));
@@ -44,16 +26,16 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
     }
   }
 
-  Future<void> paginationGetRecommendedData(
-    int pageKey,
+  Future<void> paginationProductByCategory({
+    int pageKey = 1,
     Map<String, dynamic>? parameters,
-  ) async {
+  }) async {
     try {
       if (pageKey == 1) {
         pagingController.refresh();
       }
 
-      final response = await repos.getRecommendedForYou(
+      final response = await repos.getProductByCategory(
         parameters: {"page": pageKey, ...?parameters},
       );
 
@@ -65,10 +47,8 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
         final nextPageKey = pageKey + 1;
         pagingController.appendPage(records, nextPageKey);
       }
-
       emit(state.copyWith(
         records: response.success,
-        categories: response.categories,
         brands: response.brands,
         priceRangeModel: response.priceRangeModel,
         rangeValues: RangeValues(
@@ -78,20 +58,14 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
         lastPage: response.lastPage,
         currentPage: response.currentPage,
       ));
-    } catch (error) {
-      pagingController.error = error;
-      emit(state.copyWith(error: error.toString()));
+    } catch (e) {
+      addError(e);
     }
   }
 
-  void filterByCategory({
-    required String categoryId,
-    required FetchingType type,
-  }) async {
-    emit(state.copyWith(selectCategoryId: categoryId));
-    await loadInitialData(type: type, parameters: {
-      'category_id': categoryId,
-    });
+  Future<void> filterProductByBrand({Map<String, dynamic>? parameters}) async {
+    emit(state.copyWith(selectBrandId: parameters?['brand_id']));
+    await paginationProductByCategory(parameters: parameters);
   }
 
   void priceRangeChange(RangeValues values) {
@@ -105,8 +79,8 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
   }
 
   @override
-  Future<void> close() {
-    pagingController.dispose();
-    return super.close();
+  void addError(Object error, [StackTrace? stackTrace]) {
+    logger.e(error, stackTrace: stackTrace);
+    super.addError(error, stackTrace);
   }
 }

@@ -6,8 +6,13 @@ import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/widgets/card_brand_widget.dart';
 
 class ListCategoryAndBrandWidget extends StatelessWidget {
-  const ListCategoryAndBrandWidget({super.key, required this.records});
+  const ListCategoryAndBrandWidget({
+    super.key,
+    required this.records,
+    required this.listProductType,
+  });
   final List<dynamic> records;
+  final ListProductType listProductType;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -26,12 +31,13 @@ class ListCategoryAndBrandWidget extends StatelessWidget {
             child: CardBrandWidget(
               onTap: () {
                 context.goNamed(
-                  'home_fetching_item',
+                  listProductType == ListProductType.category
+                      ? 'product_by_category'
+                      : 'product_by_brand',
                   extra: {
                     'title': record.name,
-                    'type': FetchingType.productByCategory,
-                    'brand_id': record.id,
                     'category_id': record.id,
+                    'brand_id': record.id,
                   },
                 );
               },
