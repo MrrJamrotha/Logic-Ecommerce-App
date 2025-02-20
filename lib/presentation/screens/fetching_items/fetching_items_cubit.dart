@@ -25,18 +25,7 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
     final stableState = state;
     try {
       emit(state.copyWith(isLoading: true));
-      switch (type) {
-        case FetchingType.recommented:
-          paginationGetRecommendedData(1, parameters);
-          break;
-        case FetchingType.baseSeller:
-          break;
-        case FetchingType.newArrival:
-          break;
-
-        case FetchingType.wishlist:
-          break;
-      }
+      paginationFetchingProduct(parameters: parameters, type: type);
       emit(state.copyWith(isLoading: false));
     } catch (error) {
       emit(state.copyWith(error: error.toString()));
@@ -44,18 +33,42 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
     }
   }
 
-  Future<void> paginationGetRecommendedData(
-    int pageKey,
+  Future<void> paginationFetchingProduct({
+    int pageKey = 1,
     Map<String, dynamic>? parameters,
-  ) async {
+    FetchingType type = FetchingType.recommented,
+  }) async {
     try {
       if (pageKey == 1) {
         pagingController.refresh();
       }
+      dynamic response;
+      switch (type) {
+        case FetchingType.recommented:
+          response = await repos.getRecommendedForYou(
+            parameters: {"page": pageKey, ...?parameters},
+          );
+          break;
+        case FetchingType.baseSeller:
+          response = await repos.getBastSeller(
+            parameters: {"page": pageKey, ...?parameters},
+          );
+          break;
+        case FetchingType.newArrival:
+          response = await repos.getNewArrival(
+            parameters: {"page": pageKey, ...?parameters},
+          );
+          break;
 
-      final response = await repos.getRecommendedForYou(
-        parameters: {"page": pageKey, ...?parameters},
-      );
+        case FetchingType.spacialOffers:
+          response = await repos.getSpacialProduct(
+            parameters: {"page": pageKey, ...?parameters},
+          );
+          break;
+
+        case FetchingType.wishlist:
+          break;
+      }
 
       var records = response.success ?? [];
       final isLastPage = response.currentPage >= response.lastPage;

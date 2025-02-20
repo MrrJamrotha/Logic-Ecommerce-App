@@ -69,6 +69,7 @@ enum FetchingType {
   baseSeller,
   newArrival,
   wishlist,
+  spacialOffers,
 }
 
 enum ListProductType {

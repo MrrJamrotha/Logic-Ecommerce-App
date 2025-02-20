@@ -143,7 +143,10 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'bast_seller'.tr,
                   onTap: () {
-                    //TODO: next time
+                    context.pushNamed('home_fetching_item', extra: {
+                      'title': 'bast_seller'.tr,
+                      'type': FetchingType.baseSeller,
+                    });
                   },
                   child: ListProductHorizontalWidget(
                     records: bastReviewProducts,
@@ -154,7 +157,10 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'new_arrival'.tr,
                   onTap: () {
-                    //TODO: next time
+                    context.pushNamed('home_fetching_item', extra: {
+                      'title': 'new_arrival'.tr,
+                      'type': FetchingType.newArrival,
+                    });
                   },
                   child: ListProductHorizontalWidget(
                     records: newArrivals,
@@ -165,7 +171,10 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'spacial_offers'.tr,
                   onTap: () {
-                    //TODO: next time
+                    context.pushNamed('home_fetching_item', extra: {
+                      'title': 'spacial_offers'.tr,
+                      'type': FetchingType.spacialOffers,
+                    });
                   },
                   child: ListProductHorizontalWidget(
                     records: specialProducts,

@@ -246,6 +246,9 @@ class ApiClient implements Api {
         status: body['status'],
         message: body['message'],
         data: body['records'],
+        categories: body['categories'] ?? [],
+        brands: body['brands'] ?? [],
+        priceRange: body['price_range'] ?? {},
         lastPage: AppFormat.toInt(body['last_page'] ?? 1),
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
@@ -272,7 +275,10 @@ class ApiClient implements Api {
         statusCode: response.statusCode,
         status: body['status'],
         message: body['message'],
-        data: body['records'],
+        data: body['records'] ?? "",
+        categories: body['categories'] ?? [],
+        brands: body['brands'] ?? [],
+        priceRange: body['price_range'] ?? {},
         lastPage: AppFormat.toInt(body['last_page'] ?? 1),
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
@@ -301,6 +307,9 @@ class ApiClient implements Api {
         status: body['status'],
         message: body['message'],
         data: body['records'],
+        categories: body['categories'] ?? [],
+        brands: body['brands'] ?? [],
+        priceRange: body['price_range'] ?? {},
         lastPage: AppFormat.toInt(body['last_page'] ?? 1),
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );

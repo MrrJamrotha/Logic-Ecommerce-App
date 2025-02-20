@@ -5,4 +5,16 @@ abstract class FetchingItemRepository {
   Future<Result<List<ProductModel>, dynamic>> getRecommendedForYou({
     Map<String, dynamic>? parameters,
   });
+
+  Future<Result<List<ProductModel>, dynamic>> getBastSeller({
+    Map<String, dynamic>? parameters,
+  });
+
+  Future<Result<List<ProductModel>, dynamic>> getNewArrival({
+    Map<String, dynamic>? parameters,
+  });
+
+  Future<Result<List<ProductModel>, dynamic>> getSpacialProduct({
+    Map<String, dynamic>? parameters,
+  });
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -33,8 +32,8 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
     screenCubit.loadInitialData(
       type: widget.parameters['type'],
       parameters: {
-        'category_id': widget.parameters['category_id'],
-        'brand_id': widget.parameters['brand_id'],
+        'category_id': widget.parameters['category_id'] ?? "",
+        'brand_id': widget.parameters['brand_id'] ?? "",
       },
     );
     _initPagination();
@@ -43,25 +42,18 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
 
   void _initPagination() {
     screenCubit.pagingController.addPageRequestListener((pageKey) {
-      switch (widget.parameters['type']) {
-        case FetchingType.recommented:
-          screenCubit.paginationGetRecommendedData(pageKey, {
-            'category_id': screenCubit.state.selectCategoryId,
-          });
-          break;
-        case FetchingType.newArrival:
-          break;
-        case FetchingType.baseSeller:
-          break;
-        case FetchingType.wishlist:
-          break;
-      }
+      screenCubit.paginationFetchingProduct(
+        pageKey: pageKey,
+        parameters: {
+          'category_id': screenCubit.state.selectCategoryId ?? "",
+          'brand_id': screenCubit.state.selectBrandId ?? "",
+        },
+        type: widget.parameters['type'],
+      );
     });
   }
 
-  //use for feching data recomment , top sale and etc...
   void selectFilterProductByCategory(String id) {
-    print('dddd $id');
     screenCubit.filterByCategory(
       categoryId: id.isEmpty ? "" : id,
       type: widget.parameters['type'],
