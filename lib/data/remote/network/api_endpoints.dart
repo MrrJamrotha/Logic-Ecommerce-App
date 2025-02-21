@@ -19,6 +19,7 @@ class ApiEndpoints {
 
   static final getProductByCategory = '$baseUrl/get-product-by-category';
   static final getProductByBrand = '$baseUrl/get-product-by-brand';
+  static final getItemDetail = '$baseUrl/get-item-detail';
 
   //Auth
   static final login = '$baseUrl/login';

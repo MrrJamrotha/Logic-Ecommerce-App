@@ -7,13 +7,13 @@ import 'package:logic_app/presentation/screens/item_detail/item_detail_state.dar
 class ItemDetailCubit extends Cubit<ItemDetailState> {
   ItemDetailCubit() : super(ItemDetailState(isLoading: true));
   final repos = di.get<ItemDetailRepositoryImpl>();
-  Future<void> loadInitialData() async {
+  Future<void> loadInitialData({Map<String, dynamic>? parameters}) async {
     final stableState = state;
     try {
       emit(state.copyWith(isLoading: true));
-
-      // TODO your code here
-
+      await repos.getItemDetail(parameters: parameters).then((response) {
+        emit(state.copyWith(itemDetailModel: response.success));
+      });
       emit(state.copyWith(isLoading: false));
     } catch (error) {
       emit(state.copyWith(error: error.toString()));

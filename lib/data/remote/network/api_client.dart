@@ -435,7 +435,6 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
-      print(jsonEncode(parameters));
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByCategory),
         body: jsonEncode(parameters),
@@ -454,6 +453,31 @@ class ApiClient implements Api {
         priceRange: body['price_range'] ?? {},
         lastPage: AppFormat.toInt(body['last_page'] ?? 1),
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
+      );
+    } catch (exception) {
+      throw ErrorHandler.handleException(exception as Exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getItemDetail({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getItemDetail),
+        body: jsonEncode(parameters),
+        headers: ApiInterceptor.modifyHeaders(),
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final body = jsonDecode(response.body);
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['record'] ?? [],
       );
     } catch (exception) {
       throw ErrorHandler.handleException(exception as Exception);

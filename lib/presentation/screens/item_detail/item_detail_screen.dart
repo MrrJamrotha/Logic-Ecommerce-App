@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_cubit.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
@@ -11,6 +13,7 @@ import 'package:logic_app/presentation/widgets/button_widget.dart';
 import 'package:logic_app/presentation/widgets/card_user_review.dart';
 import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
 import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
+import 'package:logic_app/presentation/widgets/error_type_widget.dart';
 import 'package:logic_app/presentation/widgets/list_product_horizontal_widget.dart';
 import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/row_view_more_widget.dart';
@@ -26,53 +29,12 @@ class ItemDetailScreen extends StatefulWidget {
 
 class ItemDetailScreenState extends State<ItemDetailScreen> {
   final screenCubit = ItemDetailCubit();
-  final List<dynamic> itemPictures = [
-    {
-      'picture':
-          'https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg',
-      'pictureHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-    },
-    {
-      'picture':
-          'https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460',
-      'pictureHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-    },
-    {
-      'picture':
-          'https://down-ph.img.susercontent.com/file/ph-11134207-7qul3-lg1yu9p1oak855',
-      'pictureHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-    },
-    {
-      'picture': 'https://pebblely.com/ideas/perfume/black-white.jpg',
-      'pictureHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-    },
-    {
-      'picture':
-          'https://d3pllp7nz3wmw5.cloudfront.net/product_images/26780234305-1_FULL.jpg',
-      'pictureHash': 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-    }
-  ];
 
-  final List<dynamic> priceDetails = [
-    {
-      'title': 'Base Price',
-      'description':
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
-    },
-    {
-      'title': 'Discount Price',
-      'description':
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
-    },
-    {
-      'title': 'Tax/VAT',
-      'description':
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
-    },
-  ];
   @override
   void initState() {
-    screenCubit.loadInitialData();
+    screenCubit.loadInitialData(parameters: {
+      'product_id': widget.parameters['product_id'],
+    });
     screenCubit.getRelatedProduct(parameters: {
       'merchant_id': widget.parameters['merchant_id'],
       'category_id': widget.parameters['category_id'],
@@ -107,6 +69,16 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
 
   Widget buildBody(ItemDetailState state) {
     final relatedProducts = state.relatedProducts ?? [];
+    final itemDetail = state.itemDetailModel;
+    if (itemDetail == null) {
+      return ErrorTypeWidget(type: ErrorType.notFound);
+    }
+    List<dynamic> pictures = itemDetail.pictures
+        .map((e) => {
+              'picture': e.picture,
+              'pictureHash': e.pictureHash,
+            })
+        .toList();
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +87,7 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
             children: [
               CarouselSliderWidget(
                 height: 400,
-                records: itemPictures,
+                records: pictures,
                 isLoading: false,
               ),
               Positioned(
@@ -136,7 +108,7 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TextWidget(
-                      text: 'Mockup',
+                      text: itemDetail.name,
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
@@ -144,22 +116,23 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: '19.00\$ ',
+                            text: itemDetail.price,
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 20.scale,
                               color: primary,
                             ),
                           ),
-                          TextSpan(
-                            text: '20.00\$',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20.scale,
-                              color: textColor,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          )
+                          //TODO:
+                          // TextSpan(
+                          //   text: '20.00\$',
+                          //   style: TextStyle(
+                          //     fontWeight: FontWeight.w400,
+                          //     fontSize: 20.scale,
+                          //     color: textColor,
+                          //     decoration: TextDecoration.lineThrough,
+                          //   ),
+                          // )
                         ],
                       ),
                     )
@@ -167,12 +140,17 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                 ),
                 Row(
                   children: [
-                    RatingBarWidget(itemSize: 20.scale, rating: 4.5),
-                    TextWidget(
-                      text: '(56 Reviews)',
-                      fontSize: 12.scale,
-                      color: textColor,
-                    ),
+                    if (AppFormat.toDouble(itemDetail.totalReview) > 0)
+                      RatingBarWidget(
+                        itemSize: 20.scale,
+                        rating: AppFormat.toDouble(itemDetail.averageStar),
+                      ),
+                    if (AppFormat.toDouble(itemDetail.totalReview) > 0)
+                      TextWidget(
+                        text: '(${itemDetail.totalReview} ${'reviews'.tr})',
+                        fontSize: 12.scale,
+                        color: textColor,
+                      ),
                     Spacer(),
                     Container(
                       padding: EdgeInsets.symmetric(
@@ -180,11 +158,12 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                         vertical: 5.scale,
                       ),
                       decoration: BoxDecoration(
+                        // ignore: deprecated_member_use
                         color: primary.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(appRadius.scale),
                       ),
                       child: TextWidget(
-                        text: '-20%',
+                        text: '-20%', //TODO:
                         color: primary,
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -212,14 +191,9 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                   ),
                   iconColor: primary,
                   children: [
-                    TextWidget(
-                        text:
-                            "Lorem Ipsum គឺជាអត្ថបទមិនពិតនៃឧស្សាហកម្មបោះពុម្ព និងវាយអក្សរ។ Lorem Ipsum គឺជាអត្ថបទអត់ចេះសោះស្តង់ដាររបស់ឧស្សាហកម្មតាំងពីទសវត្សរ៍ឆ្នាំ 1500 នៅពេលដែលម៉ាស៊ីនបោះពុម្ពមិនស្គាល់មួយបានយកប្រភេទសៀវភៅមួយប្រភេទ ហើយច្របល់វាដើម្បីបង្កើតសៀវភៅគំរូ។ វាបានរស់រានមានជីវិតមិនត្រឹមតែប្រាំសតវត្សប៉ុណ្ណោះទេ ប៉ុន្តែវាក៏ជាការលោតផ្លោះចូលទៅក្នុងការវាយអក្សរអេឡិចត្រូនិចផងដែរ ដែលនៅតែមិនផ្លាស់ប្តូរ។ វាត្រូវបានពេញនិយមនៅក្នុងទសវត្សរ៍ឆ្នាំ 1960 ជាមួយនឹងការចេញផ្សាយសន្លឹក Letraset ដែលមាន Lorem Ipsum passages ហើយថ្មីៗនេះជាមួយនឹងកម្មវិធីបោះពុម្ពលើតុដូចជា Aldus PageMaker រួមទាំងកំណែរបស់ Lorem Ipsum ផងដែរ។"),
+                    TextWidget(text: itemDetail.description),
                     SizedBox(height: appSpace.scale),
-                    TextWidget(
-                      text:
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    )
+                    TextWidget(text: itemDetail.description2)
                   ],
                 ),
                 TextWidget(
@@ -232,7 +206,7 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                   child: GestureDetector(
                     onTap: () {
                       context.goNamed('merchant-profile', extra: {
-                        'merchant_id': 1,
+                        'merchant_id': itemDetail.merchantId,
                       });
                     },
                     child: Stack(
@@ -240,11 +214,10 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                         CatchImageNetworkWidget(
                           height: 120.scale,
                           width: double.infinity,
-                          blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                          blurHash: itemDetail.merchant.coverHash,
                           borderRadius: BorderRadius.circular(appRadius.scale),
                           boxFit: BoxFit.cover,
-                          imageUrl:
-                              'https://nmgprod.s3.amazonaws.com/media/files/07/43/0743bf736dcdc851e878d77c6635bdc5/cover_image.jpg',
+                          imageUrl: itemDetail.merchant.cover,
                         ),
                         Positioned(
                           left: appPedding.scale,
@@ -256,16 +229,14 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                               CatchImageNetworkWidget(
                                 width: 80.scale,
                                 height: 80.scale,
-                                blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
+                                blurHash: itemDetail.merchant.avatarHash,
                                 borderRadius: BorderRadius.circular(100.scale),
                                 boxFit: BoxFit.cover,
-                                imageUrl:
-                                    'https://t4.ftcdn.net/jpg/02/79/66/93/360_F_279669366_Lk12QalYQKMczLEa4ySjhaLtx1M2u7e6.jpg',
+                                imageUrl: itemDetail.merchant.avatar,
                               ),
                               TextWidget(
-                                text: 'Merchant name',
+                                text: itemDetail.merchant.storeName,
                                 fontWeight: FontWeight.w600,
-                                // fontSize: 10.scale,
                               )
                             ],
                           ),
@@ -274,76 +245,86 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                     ),
                   ),
                 ),
-                RowViewMoreWidget(
-                  onTap: () {
-                    context.goNamed('review-product', extra: {'product_id': 1});
-                  },
-                  title: 'product_reviews'.tr,
-                  child: CardUserReview(pictures: itemPictures),
-                ),
-                ExpansionTile(
-                  tilePadding: EdgeInsets.zero,
-                  backgroundColor: appWhite,
-                  title: TextWidget(
-                    text: 'product_details'.tr,
-                    fontSize: 18.scale,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  initiallyExpanded: true,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  iconColor: primary,
-                  children: itemPictures.map((e) {
-                    return CatchImageNetworkWidget(
-                      width: double.infinity,
-                      height: 400.scale,
-                      boxFit: BoxFit.cover,
-                      imageUrl: e['picture'],
-                      blurHash: e['pictureHash'],
-                    );
-                  }).toList(),
-                ),
-                ExpansionTile(
-                  tilePadding: EdgeInsets.zero,
-                  backgroundColor: appWhite,
-                  title: TextWidget(
-                    text: 'price_details'.tr,
-                    fontSize: 18.scale,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  initiallyExpanded: true,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  iconColor: primary,
-                  children: priceDetails.map((e) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: appSpace.scale),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            spacing: appSpace.scale,
-                            children: [
-                              Icon(Icons.circle, size: 12.scale),
-                              TextWidget(
-                                text: e['title'],
-                                fontSize: 14.scale,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 5.scale),
-                          TextWidget(
-                            text: e['description'],
-                            fontSize: 12.scale,
-                          ),
-                        ],
+                if (itemDetail.reviews.isNotEmpty)
+                  RowViewMoreWidget(
+                    onTap: () {
+                      context
+                          .goNamed('review-product', extra: {'product_id': 1});
+                    },
+                    title: 'product_reviews'.tr,
+                    child: Column(
+                      children: List.generate(
+                        itemDetail.reviews.length,
+                        (index) => CardUserReview(
+                            pictures: itemDetail.reviews[index].pictures),
                       ),
-                    );
-                  }).toList(),
-                ),
+                    ),
+                  ),
+                if (itemDetail.itemDetailPictures.isNotEmpty)
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    backgroundColor: appWhite,
+                    title: TextWidget(
+                      text: 'product_details'.tr,
+                      fontSize: 18.scale,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    initiallyExpanded: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    iconColor: primary,
+                    children: itemDetail.itemDetailPictures.map((e) {
+                      return CatchImageNetworkWidget(
+                        width: double.infinity,
+                        height: 400.scale,
+                        boxFit: BoxFit.cover,
+                        imageUrl: e.picture,
+                        blurHash: e.pictureHash,
+                      );
+                    }).toList(),
+                  ),
+                if (itemDetail.itemDetailPrice.isNotEmpty)
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    backgroundColor: appWhite,
+                    title: TextWidget(
+                      text: 'price_details'.tr,
+                      fontSize: 18.scale,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    initiallyExpanded: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    iconColor: primary,
+                    children: itemDetail.itemDetailPrice.map((e) {
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: appSpace.scale),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              spacing: appSpace.scale,
+                              children: [
+                                Icon(Icons.circle, size: 12.scale),
+                                TextWidget(
+                                  text: e.name,
+                                  fontSize: 14.scale,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5.scale),
+                            TextWidget(
+                              text: e.description,
+                              fontSize: 12.scale,
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 if (relatedProducts.isNotEmpty)
                   RowViewMoreWidget(
                     onTap: () {
