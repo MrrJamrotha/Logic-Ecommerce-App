@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
@@ -77,6 +78,7 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
             if (priceRange == null) {
               return SizedBox.expand();
             }
+            var selectBrandIds = state.selectBrandIds ?? [];
             return SingleChildScrollView(
               padding: EdgeInsets.all(appPedding.scale),
               child: Column(
@@ -104,11 +106,24 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
                             children: brands.map((record) {
                               return FilterChip(
                                 backgroundColor: appWhite,
-                                label: TextWidget(text: record.name),
-                                selected: false,
+                                label: TextWidget(
+                                  text: record.name,
+                                  color: selectBrandIds.contains(record.id)
+                                      ? appWhite
+                                      : appBlack,
+                                ),
+                                selected: selectBrandIds.contains(record.id),
                                 selectedColor: primary,
+                                checkmarkColor: appWhite,
+                                deleteIconColor:
+                                    selectBrandIds.contains(record.id)
+                                        ? appWhite
+                                        : appBlack,
                                 onSelected: (bool value) {
-                                  //TODO: check
+                                  screenCubit.selectBrandIds(record.id);
+                                },
+                                onDeleted: () {
+                                  screenCubit.removeBrandIds(record.id);
                                 },
                               );
                             }).toList()),
@@ -123,20 +138,37 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
                     height: 1,
                     color: textColor,
                   ),
-                  RangeSlider(
-                    inactiveColor: primary,
-                    activeColor: primary,
-                    values: state.rangeValues ?? RangeValues(0, 1),
-                    min: AppFormat.toDouble(state.priceRangeModel?.minPrice),
-                    max: AppFormat.toDouble(state.priceRangeModel?.maxPrice),
-                    divisions: 5,
-                    labels: RangeLabels(
-                      state.priceRangeModel!.minPrice,
-                      state.priceRangeModel!.maxPrice,
-                    ),
-                    onChanged: (RangeValues values) {
-                      screenCubit.priceRangeChange(values);
-                    },
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextWidget(
+                            text: state.rangeValues!.start.toStringAsFixed(2),
+                          ),
+                          TextWidget(
+                            text: state.rangeValues!.end.toStringAsFixed(2),
+                          )
+                        ],
+                      ),
+                      RangeSlider(
+                        inactiveColor: unratedColor,
+                        activeColor: primary,
+                        values: state.rangeValues ?? RangeValues(0, 1),
+                        min:
+                            AppFormat.toDouble(state.priceRangeModel?.minPrice),
+                        max:
+                            AppFormat.toDouble(state.priceRangeModel?.maxPrice),
+                        divisions: 5,
+                        labels: RangeLabels(
+                          state.rangeValues!.start.toStringAsFixed(2),
+                          state.rangeValues!.end.toStringAsFixed(2),
+                        ),
+                        onChanged: (RangeValues values) {
+                          screenCubit.priceRangeChange(values);
+                        },
+                      ),
+                    ],
                   ),
                   TextWidget(
                     text: 'product_rating'.tr,
@@ -165,7 +197,10 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
                   ButtonWidget(
                     title: 'show_results'.tr,
                     onPressed: () {
-                      //TODO: next time
+                      screenCubit.filterProducts(parameters: {
+                        'category_id': widget.parameters['category_id'],
+                      });
+                      context.pop();
                     },
                   )
                 ],

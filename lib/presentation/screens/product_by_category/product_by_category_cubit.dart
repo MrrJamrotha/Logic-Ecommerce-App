@@ -74,8 +74,50 @@ class ProductByCategoryCubit extends Cubit<ProductByCategoryState> {
 
   void selectStars(int rating, bool isSelected) {
     final updatedRatings = Map<int, bool>.from(state.selectedRatings ?? {});
-    updatedRatings[rating] = isSelected;
+
+    if (isSelected) {
+      updatedRatings[rating] = true;
+    } else {
+      updatedRatings.remove(rating);
+    }
+
     emit(state.copyWith(selectedRatings: updatedRatings));
+  }
+
+  void selectBrandIds(String id) {
+    if (!(state.selectBrandIds?.contains(id) ?? false)) {
+      emit(state.copyWith(selectBrandIds: [...?state.selectBrandIds, id]));
+    }
+  }
+
+  void removeBrandIds(String id) {
+    emit(
+      state.copyWith(
+        selectBrandIds:
+            state.selectBrandIds?.where((item) => item != id).toList(),
+      ),
+    );
+  }
+
+  Future<void> filterProducts({Map<String, dynamic>? parameters}) async {
+    try {
+      var ratings = (state.selectedRatings!.keys.toList()..sort()).join(',');
+
+      var brands = (state.selectBrandIds!.toList()..sort()).join(',');
+      await loadInitialData(parameters: {
+        'min_price': state.rangeValues?.start,
+        'max_price': state.rangeValues?.end,
+        'rating': ratings.endsWith(',')
+            ? ratings.substring(0, ratings.length - 1)
+            : ratings,
+        'category_id': parameters?['category_id'],
+        'brand_id': brands.endsWith(',')
+            ? brands.substring(0, brands.length - 1)
+            : brands,
+      });
+    } catch (e) {
+      addError(e);
+    }
   }
 
   @override
