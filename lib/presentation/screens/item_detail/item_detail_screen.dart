@@ -38,7 +38,7 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
     screenCubit.getRelatedProduct(parameters: {
       'merchant_id': widget.parameters['merchant_id'],
       'category_id': widget.parameters['category_id'],
-      'brand_id': widget.parameters['category_id'],
+      'brand_id': widget.parameters['brand_id'],
     });
     super.initState();
   }
@@ -328,7 +328,13 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                 if (relatedProducts.isNotEmpty)
                   RowViewMoreWidget(
                     onTap: () {
-                      //TODO:
+                      context.goNamed('item_detail_fetching_item', extra: {
+                        'title': 'related_products'.tr,
+                        'type': FetchingType.relatedProducts,
+                        'merchant_id': itemDetail.merchantId,
+                        'category_id': itemDetail.categoryId,
+                        'brand_id': itemDetail.brandId,
+                      });
                     },
                     title: 'related_products'.tr,
                     child: ListProductHorizontalWidget(

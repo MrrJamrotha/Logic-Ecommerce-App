@@ -70,6 +70,7 @@ enum FetchingType {
   newArrival,
   wishlist,
   spacialOffers,
+  relatedProducts,
 }
 
 enum ListProductType {

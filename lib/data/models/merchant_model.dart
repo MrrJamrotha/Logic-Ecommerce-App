@@ -18,7 +18,6 @@ class MerchantModel {
   });
 
   factory MerchantModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     return MerchantModel(
       id: AppFormat.toStr(json['id']),
       storeName: AppFormat.toStr(json['store_name']),

@@ -8,8 +8,12 @@ import 'package:logic_app/data/repositories/fetching_item/fetching_item_reposito
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
 
 class FetchingItemsCubit extends Cubit<FetchingItemsState> {
-  FetchingItemsCubit(FetchingType type)
-      : super(FetchingItemsState(
+  FetchingItemsCubit({
+    FetchingType type = FetchingType.recommented,
+    String merchantId = "",
+    String categoryId = "",
+    String brandId = "",
+  }) : super(FetchingItemsState(
           isLoading: true,
           selectCategoryId: "",
           selectCategoryIds: [],
@@ -21,13 +25,14 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
           : '';
       var categories = (state.selectCategoryIds?.toList() ?? []).isNotEmpty
           ? (state.selectCategoryIds!.toList()..sort()).join(',')
-          : '';
+          : categoryId;
       var brands = (state.selectBrandIds?.toList() ?? []).isNotEmpty
           ? (state.selectBrandIds!.toList()..sort()).join(',')
-          : '';
+          : brandId;
       paginationFetchingProduct(
         pageKey: pageKey,
         parameters: {
+          'merchant_id': merchantId,
           'min_price': state.rangeValues?.start ?? "",
           'max_price': state.rangeValues?.end ?? "",
           'rating': ratings,
@@ -91,6 +96,12 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
           );
           break;
 
+        case FetchingType.relatedProducts:
+          response = await repos.getRelatedProduct(
+            parameters: {"page": pageKey, ...?parameters},
+          );
+          break;
+
         case FetchingType.wishlist:
           break;
       }
@@ -123,6 +134,7 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
   }
 
   void filterByCategory({
+    String merchantId = "",
     required String categoryId,
     required FetchingType type,
   }) async {
@@ -136,6 +148,7 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
     ));
     await loadInitialData(type: type, parameters: {
       'category_id': categoryId,
+      'merchant_id': merchantId,
       'min_price': '',
       'max_price': '',
       'rating': '',
@@ -208,6 +221,10 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
 
         case FetchingType.spacialOffers:
           response = await repos.getSpacialProduct(parameters: parameters);
+          break;
+
+        case FetchingType.relatedProducts:
+          response = await repos.getRelatedProduct(parameters: parameters);
           break;
 
         case FetchingType.wishlist:

@@ -106,6 +106,15 @@ class MainRouter {
                           },
                         ),
                         GoRoute(
+                          path: '/item_detail_fetching_item',
+                          name: 'item_detail_fetching_item',
+                          parentNavigatorKey: rootNavigatorKey,
+                          builder: (context, state) {
+                            final datas = state.extra as Map<String, dynamic>;
+                            return FetchingItemsScreen(parameters: datas);
+                          },
+                        ),
+                        GoRoute(
                           path: '/merchant-profile',
                           name: 'merchant-profile',
                           parentNavigatorKey: rootNavigatorKey,

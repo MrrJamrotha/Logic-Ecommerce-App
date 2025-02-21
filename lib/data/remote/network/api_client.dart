@@ -323,6 +323,7 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      print(jsonEncode(parameters));
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getRelatedProduct),
         body: jsonEncode(parameters),

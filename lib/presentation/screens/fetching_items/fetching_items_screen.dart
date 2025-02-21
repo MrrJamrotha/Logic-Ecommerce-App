@@ -30,12 +30,18 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
   List<int> ratings = [5, 4, 3, 2, 1];
   @override
   void initState() {
-    screenCubit = FetchingItemsCubit(widget.parameters['type']);
+    screenCubit = FetchingItemsCubit(
+      type: widget.parameters['type'],
+      merchantId: widget.parameters['merchant_id'] ?? "",
+      categoryId: widget.parameters['category_id'] ?? "",
+      brandId: widget.parameters['brand_id'] ?? "",
+    );
     screenCubit.loadInitialData(
       type: widget.parameters['type'],
       parameters: {
         'category_id': widget.parameters['category_id'] ?? "",
         'brand_id': widget.parameters['brand_id'] ?? "",
+        'merchant_id': widget.parameters['merchant_id'] ?? "",
       },
     );
     super.initState();
@@ -43,6 +49,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
 
   void selectFilterProductByCategory(String id) {
     screenCubit.filterByCategory(
+      merchantId: widget.parameters['merchant_id'] ?? "",
       categoryId: id.isEmpty ? "" : id,
       type: widget.parameters['type'],
     );

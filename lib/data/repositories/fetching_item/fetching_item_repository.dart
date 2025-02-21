@@ -17,4 +17,8 @@ abstract class FetchingItemRepository {
   Future<Result<List<ProductModel>, dynamic>> getSpacialProduct({
     Map<String, dynamic>? parameters,
   });
+
+  Future<Result<List<ProductModel>, dynamic>> getRelatedProduct({
+    Map<String, dynamic>? parameters,
+  });
 }

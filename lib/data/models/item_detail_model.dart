@@ -22,10 +22,12 @@ class ItemDetailModel {
     required this.totalReview,
     required this.merchant,
     required this.itemDetailPictures,
+    required this.categoryId,
   });
 
   final String id;
   final String merchantId;
+  final String categoryId;
   final String brandId;
   final String name;
   final String name2;
@@ -74,6 +76,7 @@ class ItemDetailModel {
           ? []
           : List<PictureModel>.from(json["item_detail_pictures"]!
               .map((x) => PictureModel.fromJson(x))),
+      categoryId: AppFormat.toStr(json["category_id"]),
     );
   }
 
@@ -95,5 +98,6 @@ class ItemDetailModel {
         "total_review": totalReview,
         "item_detail_pictures":
             itemDetailPictures.map((x) => x.toJson()).toList(),
+        "category_id": categoryId,
       };
 }
