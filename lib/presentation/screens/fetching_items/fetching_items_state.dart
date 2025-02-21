@@ -19,7 +19,6 @@ class FetchingItemsState extends Equatable {
   final Map<int, bool>? selectedRatings;
   final List<String>? selectCategoryIds;
   final List<String>? selectBrandIds;
-  final String? selectBrandId;
 
   const FetchingItemsState({
     this.isLoading = false,
@@ -33,7 +32,6 @@ class FetchingItemsState extends Equatable {
     this.priceRangeModel,
     this.rangeValues,
     this.selectedRatings,
-    this.selectBrandId,
     this.selectBrandIds,
     this.selectCategoryIds,
   });
@@ -66,7 +64,6 @@ class FetchingItemsState extends Equatable {
       priceRangeModel: priceRangeModel ?? this.priceRangeModel,
       rangeValues: rangeValues ?? this.rangeValues,
       selectedRatings: selectedRatings ?? this.selectedRatings,
-      selectBrandId: selectBrandId ?? this.selectBrandId,
       selectBrandIds: selectBrandIds ?? this.selectBrandIds,
       selectCategoryIds: selectCategoryIds ?? this.selectCategoryIds,
     );
@@ -85,7 +82,6 @@ class FetchingItemsState extends Equatable {
         priceRangeModel,
         rangeValues,
         selectedRatings,
-        selectBrandId,
         selectBrandIds,
         selectCategoryIds,
       ];

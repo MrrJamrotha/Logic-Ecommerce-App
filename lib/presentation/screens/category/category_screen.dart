@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -58,6 +59,15 @@ class CategoryScreenState extends State<CategoryScreen> {
       itemBuilder: (context, index) {
         final record = records[index];
         return CardCategoryWidget(
+          onTap: () {
+            context.goNamed(
+              'category_product',
+              extra: {
+                'title': record.name,
+                'category_id': record.id,
+              },
+            );
+          },
           picture: record.picture,
           pictureHash: record.pictureHash,
           title: record.name,

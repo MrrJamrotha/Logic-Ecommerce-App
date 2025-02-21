@@ -96,14 +96,10 @@ class AudioProcessor {
   // Handle the result received from the isolate
   void _handleAudioProcessingResult(Map<String, dynamic> result) {
     if (result.containsKey('error')) {
-      print('Error: ${result['error']}');
     } else {
-      final samples = result['samples'];
-      final waveformData = result['waveformData'];
-      final maxDuration = result['maxDuration'];
-      print('samples : $samples');
-      print('Waveform Data: $waveformData');
-      print('Max Duration: $maxDuration');
+      // final samples = result['samples'];
+      // final waveformData = result['waveformData'];
+      // final maxDuration = result['maxDuration'];
     }
   }
 

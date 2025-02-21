@@ -143,6 +143,17 @@ class MainRouter {
                   builder: (context, state) {
                     return CategoryScreen(key: state.pageKey);
                   },
+                  routes: [
+                    GoRoute(
+                      path: '/category_product',
+                      name: 'category_product',
+                      parentNavigatorKey: rootNavigatorKey,
+                      builder: (context, state) {
+                        final datas = state.extra as Map<String, dynamic>;
+                        return ProductByCategoryScreen(parameters: datas);
+                      },
+                    ),
+                  ],
                 )
               ],
             ),

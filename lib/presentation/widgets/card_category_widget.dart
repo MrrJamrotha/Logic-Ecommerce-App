@@ -12,18 +12,20 @@ class CardCategoryWidget extends StatelessWidget {
     required this.pictureHash,
     required this.title,
     this.boxFit = BoxFit.cover,
+    this.onTap,
   });
   final String picture;
   final String pictureHash;
   final String title;
   final BoxFit? boxFit;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return BoxWidget(
       width: 130.scale,
       borderRadius: BorderRadius.circular(appRadius.scale),
-      // height: 95,
+      onTap: onTap,
       child: Column(
         spacing: 5.scale,
         children: [

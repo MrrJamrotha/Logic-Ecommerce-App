@@ -8,14 +8,37 @@ import 'package:logic_app/data/repositories/fetching_item/fetching_item_reposito
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
 
 class FetchingItemsCubit extends Cubit<FetchingItemsState> {
-  FetchingItemsCubit()
+  FetchingItemsCubit(FetchingType type)
       : super(FetchingItemsState(
           isLoading: true,
           selectCategoryId: "",
-          selectBrandId: "",
           selectCategoryIds: [],
           selectBrandIds: [],
-        ));
+        )) {
+    pagingController.addPageRequestListener((pageKey) {
+      var ratings = (state.selectedRatings?.keys.toList() ?? []).isNotEmpty
+          ? (state.selectedRatings!.keys.toList()..sort()).join(',')
+          : '';
+      var categories = (state.selectCategoryIds?.toList() ?? []).isNotEmpty
+          ? (state.selectCategoryIds!.toList()..sort()).join(',')
+          : '';
+      var brands = (state.selectBrandIds?.toList() ?? []).isNotEmpty
+          ? (state.selectBrandIds!.toList()..sort()).join(',')
+          : '';
+      paginationFetchingProduct(
+        pageKey: pageKey,
+        parameters: {
+          'min_price': state.rangeValues?.start ?? "",
+          'max_price': state.rangeValues?.end ?? "",
+          'rating': ratings,
+          'category_id': categories,
+          'brand_id': brands,
+        },
+        type: type,
+      );
+    });
+  }
+
   final repos = di.get<FetchingItemRepositoryImpl>();
 
   final pagingController = PagingController(firstPageKey: 1);
@@ -103,9 +126,20 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
     required String categoryId,
     required FetchingType type,
   }) async {
-    emit(state.copyWith(selectCategoryId: categoryId));
+    emit(state.copyWith(
+      selectCategoryId: categoryId,
+      selectBrandId: "",
+      selectCategoryIds: [],
+      selectBrandIds: [],
+      selectedRatings: null,
+      rangeValues: RangeValues(0, 0),
+    ));
     await loadInitialData(type: type, parameters: {
       'category_id': categoryId,
+      'min_price': '',
+      'max_price': '',
+      'rating': '',
+      'brand_id': '',
     });
   }
 
@@ -127,23 +161,75 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
 
   Future<void> filterProducts({required FetchingType type}) async {
     try {
-      var ratings = (state.selectedRatings!.keys.toList()..sort()).join(',');
-      var categories = (state.selectCategoryIds!.toList()..sort()).join(',');
-      var brands = (state.selectBrandIds!.toList()..sort()).join(',');
-      await loadInitialData(type: type, parameters: {
-        'min_price': state.rangeValues?.start,
-        'max_price': state.rangeValues?.end,
-        'rating': ratings.endsWith(',')
-            ? ratings.substring(0, ratings.length - 1)
-            : ratings,
-        'category_id': categories.endsWith(',')
-            ? categories.substring(0, categories.length - 1)
-            : categories,
-        'brand_id': brands.endsWith(',')
-            ? brands.substring(0, brands.length - 1)
-            : brands,
-      });
+      var ratings = (state.selectedRatings?.keys.toList() ?? []).isNotEmpty
+          ? (state.selectedRatings!.keys.toList()..sort()).join(',')
+          : '';
+      var categories = (state.selectCategoryIds?.toList() ?? []).isNotEmpty
+          ? (state.selectCategoryIds!.toList()..sort()).join(',')
+          : '';
+      var brands = (state.selectBrandIds?.toList() ?? []).isNotEmpty
+          ? (state.selectBrandIds!.toList()..sort()).join(',')
+          : '';
+      emit(state.copyWith(selectCategoryId: ""));
+      await filter(
+        type: type,
+        parameters: {
+          'min_price': state.rangeValues?.start,
+          'max_price': state.rangeValues?.end,
+          'rating': ratings,
+          'category_id': categories,
+          'brand_id': brands,
+        },
+      );
     } catch (e) {
+      addError(e);
+    }
+  }
+
+  Future<void> filter({
+    required FetchingType type,
+    Map<String, dynamic>? parameters,
+  }) async {
+    final stableState = state;
+    try {
+      emit(state.copyWith(isLoading: true));
+      pagingController.refresh();
+      dynamic response;
+      switch (type) {
+        case FetchingType.recommented:
+          response = await repos.getRecommendedForYou(parameters: parameters);
+          break;
+        case FetchingType.baseSeller:
+          response = await repos.getBastSeller(parameters: parameters);
+          break;
+        case FetchingType.newArrival:
+          response = await repos.getNewArrival(parameters: parameters);
+          break;
+
+        case FetchingType.spacialOffers:
+          response = await repos.getSpacialProduct(parameters: parameters);
+          break;
+
+        case FetchingType.wishlist:
+          break;
+      }
+
+      emit(state.copyWith(
+        records: response.success,
+        categories: response.categories,
+        brands: response.brands,
+        priceRangeModel: response.priceRangeModel,
+        rangeValues: RangeValues(
+          AppFormat.toDouble(response.priceRangeModel?.minPrice),
+          AppFormat.toDouble(response.priceRangeModel?.maxPrice),
+        ),
+        lastPage: response.lastPage,
+        currentPage: response.currentPage,
+      ));
+
+      emit(state.copyWith(isLoading: false));
+    } catch (e) {
+      emit(stableState.copyWith(isLoading: false));
       addError(e);
     }
   }

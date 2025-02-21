@@ -11,6 +11,7 @@ class LoadingOverlay {
       builder: (context) => Stack(
         children: [
           ModalBarrier(
+            // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.5),
             dismissible: false,
           ),

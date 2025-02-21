@@ -26,30 +26,18 @@ class ProductByCategoryScreen extends StatefulWidget {
 }
 
 class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
-  final screenCubit = ProductByCategoryCubit();
+  late ProductByCategoryCubit screenCubit;
   List<int> ratings = [5, 4, 3, 2, 1];
   @override
   void initState() {
+    screenCubit = ProductByCategoryCubit(widget.parameters['category_id']);
     screenCubit.loadInitialData(
       parameters: {
         'category_id': widget.parameters['category_id'],
         'brand_id': "",
       },
     );
-    _initPagination();
     super.initState();
-  }
-
-  void _initPagination() {
-    screenCubit.pagingController.addPageRequestListener((pageKey) {
-      screenCubit.paginationProductByCategory(
-        pageKey: pageKey,
-        parameters: {
-          'category_id': widget.parameters['category_id'],
-          'brand_id': screenCubit.state.selectBrandId,
-        },
-      );
-    });
   }
 
   //use for select from category
@@ -57,6 +45,9 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
     screenCubit.filterProductByBrand(parameters: {
       'category_id': widget.parameters['category_id'],
       'brand_id': id,
+      'min_price': '',
+      'max_price': '',
+      'rating': '',
     });
   }
 
@@ -73,6 +64,9 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
         return BlocBuilder<ProductByCategoryCubit, ProductByCategoryState>(
           bloc: screenCubit,
           builder: (context, state) {
+            if (state.isLoading) {
+              return Center(child: CircularProgressIndicator.adaptive());
+            }
             final brands = state.brands ?? [];
             final priceRange = state.rangeValues;
             if (priceRange == null) {
@@ -226,9 +220,8 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
         bloc: screenCubit,
         builder: (BuildContext context, ProductByCategoryState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator.adaptive());
           }
-
           return buildBody(state);
         },
       ),

@@ -92,8 +92,6 @@ class _VoiceMessageBubbleState extends State<VoiceMessageBubble> {
       _isLoading.value = false;
       _waveformData.value =
           await _playerController.extractWaveformData(path: _filePath!);
-
-      print('Waveform Data: ${_waveformData.value}');
     }
   }
 

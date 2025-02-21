@@ -98,27 +98,28 @@ class OtpScreenState extends State<OtpScreen> {
                 fontSize: 14.scale,
               ),
               Pinput(
-                controller: controller,
-                length: 6,
-                defaultPinTheme: defaultPinTheme,
-                focusedPinTheme: focusedPinTheme,
-                submittedPinTheme: submittedPinTheme,
-                onTapOutside: (PointerDownEvent event) {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'opt_code_required'.tr;
-                  }
-                  if (value.length != 6) {
-                    return 'opt_code_length'.tr;
-                  }
-                  return null;
-                },
-                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                showCursor: true,
-                onCompleted: (pin) => print(pin),
-              ),
+                  controller: controller,
+                  length: 6,
+                  defaultPinTheme: defaultPinTheme,
+                  focusedPinTheme: focusedPinTheme,
+                  submittedPinTheme: submittedPinTheme,
+                  onTapOutside: (PointerDownEvent event) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'opt_code_required'.tr;
+                    }
+                    if (value.length != 6) {
+                      return 'opt_code_length'.tr;
+                    }
+                    return null;
+                  },
+                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                  showCursor: true,
+                  onCompleted: (pin) {
+                    //TODO:
+                  }),
               ButtonWidget(
                 title: 'confirm'.tr,
                 onPressed: () {

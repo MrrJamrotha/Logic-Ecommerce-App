@@ -227,6 +227,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         separatorBuilder: (context, index) => Divider(
+          // ignore: deprecated_member_use
           color: textColor.withOpacity(0.1),
           height: 0.1.scale,
         ),

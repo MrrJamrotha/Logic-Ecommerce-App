@@ -105,6 +105,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
                 onMapCreated: (controller) {
                   _controller.complete(controller);
                 },
+                // ignore: prefer_collection_literals
                 gestureRecognizers: Set()
                   ..add(Factory<PanGestureRecognizer>(
                       () => PanGestureRecognizer())),

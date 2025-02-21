@@ -209,6 +209,7 @@ class ApiClient implements Api {
         throw ServerException();
       }
       final body = jsonDecode(response.body);
+
       return BaseResponse(
         statusCode: response.statusCode,
         status: body['status'],
@@ -434,6 +435,7 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      print(jsonEncode(parameters));
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByCategory),
         body: jsonEncode(parameters),

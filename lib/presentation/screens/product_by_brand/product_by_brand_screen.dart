@@ -26,30 +26,18 @@ class ProductByBrandScreen extends StatefulWidget {
 }
 
 class ProductByBrandScreenState extends State<ProductByBrandScreen> {
-  final screenCubit = ProductByBrandCubit();
+  late ProductByBrandCubit screenCubit;
   List<int> ratings = [5, 4, 3, 2, 1];
   @override
   void initState() {
+    screenCubit = ProductByBrandCubit(widget.parameters['brand_id']);
     screenCubit.loadInitialData(
       parameters: {
         'category_id': "",
         'brand_id': widget.parameters['brand_id'],
       },
     );
-    _initPagination();
     super.initState();
-  }
-
-  void _initPagination() {
-    screenCubit.pagingController.addPageRequestListener((pageKey) {
-      screenCubit.paginationProductByBrand(
-        pageKey: pageKey,
-        parameters: {
-          'category_id': screenCubit.state.selectCategoryId,
-          'brand_id': widget.parameters['brand_id'],
-        },
-      );
-    });
   }
 
   void selectFilterProductByCategory(String id) {

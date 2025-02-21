@@ -173,6 +173,7 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
                         position: LatLng(11.5564, 104.9282),
                       )
                     },
+                    // ignore: prefer_collection_literals
                     gestureRecognizers: Set()
                       ..add(Factory<PanGestureRecognizer>(
                           () => PanGestureRecognizer())),

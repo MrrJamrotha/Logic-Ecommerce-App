@@ -8,7 +8,28 @@ import 'package:logic_app/data/repositories/product_by_category/product_by_categ
 import 'package:logic_app/presentation/screens/product_by_category/product_by_category_state.dart';
 
 class ProductByCategoryCubit extends Cubit<ProductByCategoryState> {
-  ProductByCategoryCubit() : super(ProductByCategoryState(isLoading: true));
+  ProductByCategoryCubit(String categiryId)
+      : super(ProductByCategoryState(isLoading: true)) {
+    pagingController.addPageRequestListener((pageKey) {
+      var ratings = (state.selectedRatings?.keys.toList() ?? []).isNotEmpty
+          ? (state.selectedRatings!.keys.toList()..sort()).join(',')
+          : '';
+
+      var brands = (state.selectBrandIds?.toList() ?? []).isNotEmpty
+          ? (state.selectBrandIds!.toList()..sort()).join(',')
+          : '';
+      paginationProductByCategory(
+        pageKey: pageKey,
+        parameters: {
+          'min_price': state.rangeValues?.start ?? "",
+          'max_price': state.rangeValues?.end ?? "",
+          'category_id': categiryId,
+          'brand_id': brands,
+          'rating': ratings,
+        },
+      );
+    });
+  }
   final repos = di.get<ProductByCategoryRepositoryImpl>();
   final pagingController = PagingController(firstPageKey: 1);
 
@@ -64,8 +85,13 @@ class ProductByCategoryCubit extends Cubit<ProductByCategoryState> {
   }
 
   Future<void> filterProductByBrand({Map<String, dynamic>? parameters}) async {
-    emit(state.copyWith(selectBrandId: parameters?['brand_id']));
-    await paginationProductByCategory(parameters: parameters);
+    emit(state.copyWith(
+      selectBrandId: parameters?['brand_id'],
+      selectBrandIds: [],
+      selectedRatings: null,
+      rangeValues: RangeValues(0, 0),
+    ));
+    await paginationProductByCategory(pageKey: 1, parameters: parameters);
   }
 
   void priceRangeChange(RangeValues values) {
@@ -101,21 +127,47 @@ class ProductByCategoryCubit extends Cubit<ProductByCategoryState> {
 
   Future<void> filterProducts({Map<String, dynamic>? parameters}) async {
     try {
-      var ratings = (state.selectedRatings!.keys.toList()..sort()).join(',');
+      var ratings = (state.selectedRatings?.keys.toList() ?? []).isNotEmpty
+          ? (state.selectedRatings!.keys.toList()..sort()).join(',')
+          : '';
 
-      var brands = (state.selectBrandIds!.toList()..sort()).join(',');
-      await loadInitialData(parameters: {
+      var brands = (state.selectBrandIds?.toList() ?? []).isNotEmpty
+          ? (state.selectBrandIds!.toList()..sort()).join(',')
+          : '';
+      emit(state.copyWith(selectBrandId: ""));
+      await filter(parameters: {
         'min_price': state.rangeValues?.start,
         'max_price': state.rangeValues?.end,
-        'rating': ratings.endsWith(',')
-            ? ratings.substring(0, ratings.length - 1)
-            : ratings,
+        'rating': ratings,
         'category_id': parameters?['category_id'],
-        'brand_id': brands.endsWith(',')
-            ? brands.substring(0, brands.length - 1)
-            : brands,
+        'brand_id': brands,
       });
     } catch (e) {
+      addError(e);
+    }
+  }
+
+  Future<void> filter({Map<String, dynamic>? parameters}) async {
+    try {
+      emit(state.copyWith(isLoading: true));
+      pagingController.refresh();
+      final response = await repos.getProductByCategory(parameters: parameters);
+      emit(
+        state.copyWith(
+          records: response.success,
+          brands: response.brands,
+          priceRangeModel: response.priceRangeModel,
+          rangeValues: RangeValues(
+            AppFormat.toDouble(response.priceRangeModel?.minPrice),
+            AppFormat.toDouble(response.priceRangeModel?.maxPrice),
+          ),
+          lastPage: response.lastPage,
+          currentPage: response.currentPage,
+        ),
+      );
+      emit(state.copyWith(isLoading: false));
+    } catch (e) {
+      emit(state.copyWith(isLoading: false));
       addError(e);
     }
   }

@@ -26,10 +26,11 @@ class FetchingItemsScreen extends StatefulWidget {
 }
 
 class FetchingItemsScreenState extends State<FetchingItemsScreen> {
-  final screenCubit = FetchingItemsCubit();
+  late FetchingItemsCubit screenCubit;
   List<int> ratings = [5, 4, 3, 2, 1];
   @override
   void initState() {
+    screenCubit = FetchingItemsCubit(widget.parameters['type']);
     screenCubit.loadInitialData(
       type: widget.parameters['type'],
       parameters: {
@@ -37,21 +38,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
         'brand_id': widget.parameters['brand_id'] ?? "",
       },
     );
-    _initPagination();
     super.initState();
-  }
-
-  void _initPagination() {
-    screenCubit.pagingController.addPageRequestListener((pageKey) {
-      screenCubit.paginationFetchingProduct(
-        pageKey: pageKey,
-        parameters: {
-          'category_id': screenCubit.state.selectCategoryId ?? "",
-          'brand_id': screenCubit.state.selectBrandId ?? "",
-        },
-        type: widget.parameters['type'],
-      );
-    });
   }
 
   void selectFilterProductByCategory(String id) {
@@ -376,6 +363,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
           side: BorderSide(
+            // ignore: deprecated_member_use
             color: selectId == id ? primary : textColor.withOpacity(0.5),
           ),
           backgroundColor: selectId == id ? primary : appWhite,
