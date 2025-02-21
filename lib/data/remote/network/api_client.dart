@@ -209,7 +209,6 @@ class ApiClient implements Api {
         throw ServerException();
       }
       final body = jsonDecode(response.body);
-
       return BaseResponse(
         statusCode: response.statusCode,
         status: body['status'],

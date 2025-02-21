@@ -111,4 +111,5 @@ final Map<String, String> en = {
   'top_sale': 'Top sale',
   'promotions': 'Promotions',
   'bast_match': 'Bast match',
+  'reviews': 'Reviews',
 };

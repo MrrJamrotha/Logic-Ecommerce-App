@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/data/models/product_model.dart';
 import 'package:logic_app/presentation/widgets/add_to_cart_button_widget.dart';
 import 'package:logic_app/presentation/widgets/box_widget.dart';
@@ -79,29 +80,31 @@ class ProductCardWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    RatingBar.builder(
-                      ignoreGestures: true,
-                      initialRating: 3,
-                      tapOnlyMode: true,
-                      updateOnDrag: true,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemSize: 10.scale,
-                      itemBuilder: (context, _) => Icon(
-                        key: super.key,
-                        Icons.star,
-                        color: appYellow,
+                    if (AppFormat.toDouble(record.averageStar) > 0)
+                      RatingBar.builder(
+                        ignoreGestures: true,
+                        initialRating: AppFormat.toDouble(record.averageStar),
+                        tapOnlyMode: true,
+                        updateOnDrag: true,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 10.scale,
+                        itemBuilder: (context, _) => Icon(
+                          key: super.key,
+                          Icons.star,
+                          color: appYellow,
+                        ),
+                        onRatingUpdate: (rating) {},
                       ),
-                      onRatingUpdate: (rating) {},
-                    ),
-                    TextWidget(
-                      key: super.key,
-                      text: '120 Reviews', //TODO: with data
-                      fontSize: 10.scale,
-                      color: textColor,
-                    )
+                    if (AppFormat.toDouble(record.totalReviews) > 0)
+                      TextWidget(
+                        key: super.key,
+                        text: '${record.totalReviews} ${'reviews'.tr}',
+                        fontSize: 10.scale,
+                        color: textColor,
+                      )
                   ],
                 ),
               )

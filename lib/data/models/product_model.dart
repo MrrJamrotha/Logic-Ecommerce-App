@@ -17,6 +17,7 @@ class ProductModel {
   final int stockQuantity;
   final String picture;
   final String pictureHash;
+  final String totalReviews;
 
   ProductModel({
     required this.id,
@@ -35,6 +36,7 @@ class ProductModel {
     required this.stockQuantity,
     required this.picture,
     required this.pictureHash,
+    required this.totalReviews,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -55,6 +57,7 @@ class ProductModel {
       stockQuantity: AppFormat.toInt(json['stock_quantity']),
       picture: AppFormat.toStr(json['picture']),
       pictureHash: AppFormat.toStr(json['picture_hash']),
+      totalReviews: AppFormat.toStr(json['total_reviews']),
     );
   }
 
@@ -76,6 +79,7 @@ class ProductModel {
       'stock_quantity': stockQuantity,
       'picture': picture,
       'picture_hash': pictureHash,
+      'total_reviews': totalReviews,
     };
   }
 }

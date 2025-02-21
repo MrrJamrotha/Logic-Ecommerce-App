@@ -17,7 +17,9 @@ class FetchingItemsState extends Equatable {
   final PriceRangeModel? priceRangeModel;
   final RangeValues? rangeValues;
   final Map<int, bool>? selectedRatings;
-   final String? selectBrandId;
+  final List<String>? selectCategoryIds;
+  final List<String>? selectBrandIds;
+  final String? selectBrandId;
 
   const FetchingItemsState({
     this.isLoading = false,
@@ -32,6 +34,8 @@ class FetchingItemsState extends Equatable {
     this.rangeValues,
     this.selectedRatings,
     this.selectBrandId,
+    this.selectBrandIds,
+    this.selectCategoryIds,
   });
 
   FetchingItemsState copyWith({
@@ -47,6 +51,8 @@ class FetchingItemsState extends Equatable {
     RangeValues? rangeValues,
     Map<int, bool>? selectedRatings,
     String? selectBrandId,
+    List<String>? selectBrandIds,
+    List<String>? selectCategoryIds,
   }) {
     return FetchingItemsState(
       isLoading: isLoading ?? this.isLoading,
@@ -60,7 +66,9 @@ class FetchingItemsState extends Equatable {
       priceRangeModel: priceRangeModel ?? this.priceRangeModel,
       rangeValues: rangeValues ?? this.rangeValues,
       selectedRatings: selectedRatings ?? this.selectedRatings,
-      selectBrandId: selectBrandId?? this.selectBrandId,
+      selectBrandId: selectBrandId ?? this.selectBrandId,
+      selectBrandIds: selectBrandIds ?? this.selectBrandIds,
+      selectCategoryIds: selectCategoryIds ?? this.selectCategoryIds,
     );
   }
 
@@ -78,5 +86,7 @@ class FetchingItemsState extends Equatable {
         rangeValues,
         selectedRatings,
         selectBrandId,
+        selectBrandIds,
+        selectCategoryIds,
       ];
 }

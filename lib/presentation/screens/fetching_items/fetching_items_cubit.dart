@@ -13,6 +13,8 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
           isLoading: true,
           selectCategoryId: "",
           selectBrandId: "",
+          selectCategoryIds: [],
+          selectBrandIds: [],
         ));
   final repos = di.get<FetchingItemRepositoryImpl>();
 
@@ -113,8 +115,68 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
 
   void selectStars(int rating, bool isSelected) {
     final updatedRatings = Map<int, bool>.from(state.selectedRatings ?? {});
-    updatedRatings[rating] = isSelected;
+
+    if (isSelected) {
+      updatedRatings[rating] = true;
+    } else {
+      updatedRatings.remove(rating);
+    }
+
     emit(state.copyWith(selectedRatings: updatedRatings));
+  }
+
+  Future<void> filterProducts({required FetchingType type}) async {
+    try {
+      var ratings = (state.selectedRatings!.keys.toList()..sort()).join(',');
+      var categories = (state.selectCategoryIds!.toList()..sort()).join(',');
+      var brands = (state.selectBrandIds!.toList()..sort()).join(',');
+      await loadInitialData(type: type, parameters: {
+        'min_price': state.rangeValues?.start,
+        'max_price': state.rangeValues?.end,
+        'rating': ratings.endsWith(',')
+            ? ratings.substring(0, ratings.length - 1)
+            : ratings,
+        'category_id': categories.endsWith(',')
+            ? categories.substring(0, categories.length - 1)
+            : categories,
+        'brand_id': brands.endsWith(',')
+            ? brands.substring(0, brands.length - 1)
+            : brands,
+      });
+    } catch (e) {
+      addError(e);
+    }
+  }
+
+  void selectCategoryIds(String id) {
+    if (!(state.selectCategoryIds?.contains(id) ?? false)) {
+      emit(
+          state.copyWith(selectCategoryIds: [...?state.selectCategoryIds, id]));
+    }
+  }
+
+  void removeCategoryIds(String id) {
+    emit(
+      state.copyWith(
+        selectCategoryIds:
+            state.selectCategoryIds?.where((item) => item != id).toList(),
+      ),
+    );
+  }
+
+  void selectBrandIds(String id) {
+    if (!(state.selectBrandIds?.contains(id) ?? false)) {
+      emit(state.copyWith(selectBrandIds: [...?state.selectBrandIds, id]));
+    }
+  }
+
+  void removeBrandIds(String id) {
+    emit(
+      state.copyWith(
+        selectBrandIds:
+            state.selectBrandIds?.where((item) => item != id).toList(),
+      ),
+    );
   }
 
   @override
