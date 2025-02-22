@@ -12,8 +12,8 @@ import 'package:logic_app/presentation/widgets/product_card_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class NewProductTab extends StatefulWidget {
-  const NewProductTab({super.key});
-
+  const NewProductTab({super.key, required this.merchantId});
+  final String merchantId;
   @override
   State<NewProductTab> createState() => _NewProductTabState();
 }
@@ -24,13 +24,13 @@ class _NewProductTabState extends State<NewProductTab> {
   void initState() {
     screenCubit.pagingController.addPageRequestListener((pageKey) {
       screenCubit.paginationProduct(pageKey: pageKey, parameters: {
-        'merchant_id': 1,
+        'merchant_id': widget.merchantId,
         'status': 'new',
       });
     });
 
     screenCubit.getProductByMerchant(parameters: {
-      'merchant_id': 1,
+      'merchant_id': widget.merchantId,
       'status': 'new',
     });
     super.initState();

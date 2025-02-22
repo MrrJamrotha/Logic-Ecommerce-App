@@ -248,8 +248,9 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                 if (itemDetail.reviews.isNotEmpty)
                   RowViewMoreWidget(
                     onTap: () {
-                      context
-                          .goNamed('review-product', extra: {'product_id': 1});
+                      context.goNamed('review-product', extra: {
+                        'product_id': itemDetail.id,
+                      });
                     },
                     title: 'product_reviews'.tr,
                     child: Column(
