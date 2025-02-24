@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/helper/loading_overlay.dart';
 import 'package:logic_app/data/models/country_model.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_cubit.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_state.dart';
@@ -27,11 +29,49 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final screenCubit = LoginCubit();
   final _searchTextCtr = TextEditingController();
+  final _phoneNumberCtr = TextEditingController();
   final _dialCodeCtr = TextEditingController(text: "+855");
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     screenCubit.getCountries();
     super.initState();
+  }
+
+  void _handleLogin() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        LoadingOverlay.show(context);
+        final result = await screenCubit.generateOtpCode(
+          parameters: {
+            'phone_number': '${_dialCodeCtr.text}${_phoneNumberCtr.text}',
+          },
+        );
+        if (result) {
+          if (!mounted) return;
+          showMessage(
+            message: screenCubit.state.message ?? "",
+            status: MessageStatus.success,
+          );
+          Navigator.pushNamed(context, OtpScreen.routeName, arguments: {
+            'phone_number': '${_dialCodeCtr.text}${_phoneNumberCtr.text}',
+          });
+        } else {
+          showMessage(
+            message: screenCubit.state.message ?? "",
+            status: MessageStatus.warning,
+          );
+        }
+
+        LoadingOverlay.hide();
+      } catch (e) {
+        LoadingOverlay.hide();
+        showMessage(
+          message: "Failed to generate OTP code. Please try again later.",
+          status: MessageStatus.error,
+        );
+      }
+    }
   }
 
   @override
@@ -41,13 +81,8 @@ class LoginScreenState extends State<LoginScreen> {
         title: '',
         isNotification: false,
       ),
-      body: BlocConsumer<LoginCubit, LoginState>(
+      body: BlocBuilder<LoginCubit, LoginState>(
         bloc: screenCubit,
-        listener: (BuildContext context, LoginState state) {
-          if (state.error != null) {
-            // TODO your code here
-          }
-        },
         builder: (BuildContext context, LoginState state) {
           if (state.isLoading) {
             return Center(child: CircularProgressIndicator());
@@ -133,95 +168,109 @@ class LoginScreenState extends State<LoginScreen> {
     return Center(
       child: SingleChildScrollView(
         padding: EdgeInsets.all(appPedding.scale),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: appPedding.scale,
-          children: [
-            Center(
-              child: Image.asset(
-                logoImg,
-                width: 150.scale,
-                height: 150.scale,
-              ),
-            ),
-            TextWidget(
-              text: 'enter_phone'.tr,
-              fontSize: 20.scale,
-              fontWeight: FontWeight.w700,
-            ),
-            TextWidget(
-              text: 'login_content'.tr,
-              fontSize: 14.scale,
-            ),
-            Row(
-              spacing: appSpace.scale,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: TextFormField(
-                    controller: _dialCodeCtr,
-                    readOnly: true,
-                    onTap: () {
-                      showModalCountries();
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'country'.tr,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: TextFormField(
-                    keyboardType: TextInputType.phone,
-                    textInputAction: TextInputAction.done,
-                    onTapOutside: (PointerDownEvent event) {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'phone_number'.tr,
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            ButtonWidget(
-              title: 'continue'.tr,
-              onPressed: () {
-                Navigator.pushNamed(context, OtpScreen.routeName);
-              },
-            ),
-            Row(
-              spacing: appRadius.scale,
-              children: [
-                Expanded(child: Divider(color: textColor)),
-                TextWidget(text: 'or_sign_with'.tr, color: textColor),
-                Expanded(child: Divider(color: textColor)),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: backgroudButtonColor.withOpacity(0.1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(appRadius.scale),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: appPedding.scale,
+            children: [
+              Center(
+                child: Image.asset(
+                  logoImg,
+                  width: 150.scale,
+                  height: 150.scale,
                 ),
               ),
-              child: Row(
+              TextWidget(
+                text: 'enter_phone'.tr,
+                fontSize: 20.scale,
+                fontWeight: FontWeight.w700,
+              ),
+              TextWidget(
+                text: 'login_content'.tr,
+                fontSize: 14.scale,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: appSpace.scale,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconWidget(assetName: googleSvg),
-                  TextWidget(
-                    text: 'continue_with_google'.tr,
-                    color: appBlack,
+                  Expanded(
+                    flex: 1,
+                    child: TextFormField(
+                      controller: _dialCodeCtr,
+                      readOnly: true,
+                      onTap: () {
+                        showModalCountries();
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'country'.tr,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: TextFormField(
+                      controller: _phoneNumberCtr,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'phone_number_required'.tr;
+                        }
+                        if (value.length < 8) {
+                          return 'phone_number_length'.tr;
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (v) => _handleLogin(),
+                      onEditingComplete: () => _handleLogin(),
+                      onTapOutside: (PointerDownEvent event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'phone_number'.tr,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                   ),
                 ],
               ),
-            )
-          ],
+              ButtonWidget(
+                title: 'continue'.tr,
+                onPressed: () => _handleLogin(),
+              ),
+              Row(
+                spacing: appRadius.scale,
+                children: [
+                  Expanded(child: Divider(color: textColor)),
+                  TextWidget(text: 'or_sign_with'.tr, color: textColor),
+                  Expanded(child: Divider(color: textColor)),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () => _handleLogin(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: backgroudButtonColor.withOpacity(0.1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(appRadius.scale),
+                  ),
+                ),
+                child: Row(
+                  spacing: appSpace.scale,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconWidget(assetName: googleSvg),
+                    TextWidget(
+                      text: 'continue_with_google'.tr,
+                      color: appBlack,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
