@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_space.dart';
@@ -55,7 +54,7 @@ class WriteReviewScreenState extends State<WriteReviewScreen> {
             ListTile(
               onTap: () {
                 screenCubit.selectCamera();
-                context.pop();
+                Navigator.pop(context);
               },
               leading: IconWidget(
                 assetName: cameraSvg,
@@ -67,7 +66,7 @@ class WriteReviewScreenState extends State<WriteReviewScreen> {
             ListTile(
               onTap: () {
                 screenCubit.selectImages();
-                context.pop();
+                Navigator.pop(context);
               },
               leading: IconWidget(
                 assetName: albumsSvg,

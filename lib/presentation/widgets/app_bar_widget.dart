@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -58,7 +57,6 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             onPressed: () {
               //TODO:
-              // context.goNamed(ChatRoomScreen.routeName);
             },
             icon: IconWidget(
               assetName: searchSvg,
@@ -78,7 +76,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
         if (isNotification)
           IconButton(
             onPressed: () {
-              context.goNamed(NotificationScreen.routeName);
+              Navigator.pushNamed(context, NotificationScreen.routeName);
             },
             icon: Badge.count(
               count: 10,

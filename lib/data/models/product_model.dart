@@ -18,6 +18,10 @@ class ProductModel {
   final String picture;
   final String pictureHash;
   final String totalReviews;
+  final bool isPromotion;
+  final String newPrice;
+  final String discountType;
+  final String discountValue;
 
   ProductModel({
     required this.id,
@@ -37,6 +41,10 @@ class ProductModel {
     required this.picture,
     required this.pictureHash,
     required this.totalReviews,
+    required this.isPromotion,
+    required this.newPrice,
+    required this.discountType,
+    required this.discountValue,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -58,6 +66,10 @@ class ProductModel {
       picture: AppFormat.toStr(json['picture']),
       pictureHash: AppFormat.toStr(json['picture_hash']),
       totalReviews: AppFormat.toStr(json['total_reviews']),
+      isPromotion: json['is_promotion'] ?? false,
+      newPrice: AppFormat.toStr(json['new_price']),
+      discountType: AppFormat.toStr(json['discount_type']),
+      discountValue: AppFormat.toStr(json['discount_value']),
     );
   }
 
@@ -80,6 +92,10 @@ class ProductModel {
       'picture': picture,
       'picture_hash': pictureHash,
       'total_reviews': totalReviews,
+      'is_promotion': isPromotion,
+      'new_price': newPrice,
+      'discount_type': discountType,
+      'discount_value': discountValue,
     };
   }
 }

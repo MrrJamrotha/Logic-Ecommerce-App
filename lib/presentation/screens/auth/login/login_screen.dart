@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_images.dart';
@@ -114,7 +113,7 @@ class LoginScreenState extends State<LoginScreen> {
                             onTap: () {
                               screenCubit.selectDialcode(country.dialCode);
                               _dialCodeCtr.text = country.dialCode;
-                              context.pop();
+                              Navigator.pop(context);
                             },
                           );
                         },
@@ -191,7 +190,7 @@ class LoginScreenState extends State<LoginScreen> {
             ButtonWidget(
               title: 'continue'.tr,
               onPressed: () {
-                context.goNamed(OtpScreen.routeName);
+                Navigator.pushNamed(context, OtpScreen.routeName);
               },
             ),
             Row(

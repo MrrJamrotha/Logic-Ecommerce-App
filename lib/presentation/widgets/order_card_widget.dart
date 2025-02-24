@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_space.dart';
@@ -16,7 +15,7 @@ class OrderCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BoxWidget(
       onTap: () {
-        context.goNamed(OrderDetailScreen.routeName);
+        Navigator.pushNamed(context, OrderDetailScreen.routeName);
       },
       borderRadius: BorderRadius.circular(appRadius.scale),
       padding: EdgeInsets.all(10.scale),

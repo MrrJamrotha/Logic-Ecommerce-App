@@ -1,37 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/presentation/screens/cart/cart_screen.dart';
+import 'package:logic_app/presentation/screens/category/category_screen.dart';
+import 'package:logic_app/presentation/screens/home/home_screen.dart';
+import 'package:logic_app/presentation/screens/profile/profile_screen.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
 import 'package:logic_app/presentation/screens/setting/setting_state.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
 
 class MainScreen extends StatefulWidget {
-  static const routePath = '/main';
-  static const routeName = 'main';
   const MainScreen({
     super.key,
     this.initialPage = 0,
-    required this.navigationShell,
   });
   final int initialPage;
-
-  final StatefulNavigationShell navigationShell;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    _pageController = PageController(initialPage: widget.initialPage);
+    super.initState();
+  }
+
   void _onTap(index) {
-    context.read<SettingCubit>().onPageChanged(index);
-    widget.navigationShell.goBranch(
+    _pageController.animateToPage(
       index,
-      initialLocation: index == widget.navigationShell.currentIndex,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
     );
+    context.read<SettingCubit>().onPageChanged(index);
   }
 
   @override
@@ -40,7 +47,16 @@ class _MainScreenState extends State<MainScreen> {
     return BlocBuilder<SettingCubit, SettingState>(
       builder: (context, state) {
         return Scaffold(
-          body: widget.navigationShell,
+          body: PageView(
+            controller: _pageController,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              HomeScreen(),
+              CategoryScreen(),
+              CartScreen(),
+              ProfileScreen(),
+            ],
+          ),
           bottomNavigationBar: NavigationBar(
             backgroundColor: appWhite,
             onDestinationSelected: _onTap,

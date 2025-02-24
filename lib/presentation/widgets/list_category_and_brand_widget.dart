@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/presentation/screens/product_by_brand/product_by_brand_screen.dart';
+import 'package:logic_app/presentation/screens/product_by_category/product_by_category_screen.dart';
 import 'package:logic_app/presentation/widgets/card_brand_widget.dart';
 
 class ListCategoryAndBrandWidget extends StatelessWidget {
@@ -30,16 +31,16 @@ class ListCategoryAndBrandWidget extends StatelessWidget {
             ),
             child: CardBrandWidget(
               onTap: () {
-                context.goNamed(
-                  listProductType == ListProductType.category
-                      ? 'product_by_category'
-                      : 'product_by_brand',
-                  extra: {
-                    'title': record.name,
-                    'category_id': record.id,
-                    'brand_id': record.id,
-                  },
-                );
+                Navigator.pushNamed(
+                    context,
+                    listProductType == ListProductType.category
+                        ? ProductByCategoryScreen.routeName
+                        : ProductByBrandScreen.routeName,
+                    arguments: {
+                      'title': record.name,
+                      'category_id': record.id,
+                      'brand_id': record.id,
+                    });
               },
               picture: record.picture,
               pictureHash: record.pictureHash,

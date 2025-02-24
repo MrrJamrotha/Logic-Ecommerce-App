@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -68,7 +67,7 @@ class CartScreenState extends State<CartScreen> {
               ButtonWidget(
                 title: 'check_out'.tr,
                 onPressed: () {
-                  context.goNamed(CheckOutScreen.routeName);
+                  Navigator.pushNamed(context, CheckOutScreen.routeName);
                 },
               )
             ],

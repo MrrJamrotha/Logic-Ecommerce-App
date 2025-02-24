@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/address/address_screen.dart';
-import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:logic_app/presentation/screens/cubit/currency_screen.dart';
+import 'package:logic_app/presentation/screens/edit_profile/edit_profile_screen.dart';
 import 'package:logic_app/presentation/screens/language/language_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
 import 'package:logic_app/presentation/screens/profile/profile_cubit.dart';
@@ -88,18 +87,19 @@ class ProfileScreenState extends State<ProfileScreen> {
       final route = listMenus[index]['route'];
       switch (route) {
         case OrderScreen.routeName:
-          context.pushNamed(OrderScreen.routeName);
+          Navigator.pushNamed(context, OrderScreen.routeName);
           break;
         case WishlistScreen.routeName:
+          Navigator.pushNamed(context, WishlistScreen.routeName);
           break;
         case AddressScreen.routeName:
-          context.pushNamed('/profile_address');
+          Navigator.pushNamed(context, AddressScreen.routeName);
           break;
         case LanguageScreen.routeName:
-          context.pushNamed(LanguageScreen.routeName);
+          Navigator.pushNamed(context, LanguageScreen.routeName);
           break;
         case CurrencyScreen.routeName:
-          context.pushNamed(CurrencyScreen.routeName);
+          Navigator.pushNamed(context, CurrencyScreen.routeName);
           break;
         case '':
           showDialogLogout();
@@ -123,7 +123,7 @@ class ProfileScreenState extends State<ProfileScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                context.pop();
+                Navigator.pop(context);
               },
               child: TextWidget(
                 text: 'cancel'.tr,
@@ -132,7 +132,7 @@ class ProfileScreenState extends State<ProfileScreen> {
             ),
             TextButton(
               onPressed: () {
-                context.pop();
+                Navigator.pop(context);
               },
               child: TextWidget(
                 text: 'ok'.tr,
@@ -209,7 +209,7 @@ class ProfileScreenState extends State<ProfileScreen> {
             ButtonWidget(
               title: 'edit_profile'.tr,
               onPressed: () {
-                context.pushNamed(LoginScreen.routeName);
+                Navigator.pushNamed(context, EditProfileScreen.routeName);
               },
             )
           ],

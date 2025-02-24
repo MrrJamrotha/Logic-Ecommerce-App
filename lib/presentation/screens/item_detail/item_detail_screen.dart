@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/utils/app_format.dart';
+import 'package:logic_app/presentation/screens/fetching_items/fetching_items_screen.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_cubit.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_state.dart';
+import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_screen.dart';
+import 'package:logic_app/presentation/screens/review_product/review_product_screen.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
 import 'package:logic_app/presentation/widgets/card_user_review.dart';
@@ -21,6 +23,7 @@ import 'package:logic_app/presentation/widgets/text_widget.dart';
 import 'package:logic_app/presentation/widgets/wishlist_button_widget.dart';
 
 class ItemDetailScreen extends StatefulWidget {
+  static const routeName = 'item_detail';
   const ItemDetailScreen({super.key, required this.parameters});
   final Map<String, dynamic> parameters;
   @override
@@ -205,9 +208,11 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                   height: 170.scale,
                   child: GestureDetector(
                     onTap: () {
-                      context.goNamed('merchant-profile', extra: {
-                        'merchant_id': itemDetail.merchantId,
-                      });
+                      Navigator.pushNamed(
+                          context, MerchantProfileScreen.routeName,
+                          arguments: {
+                            'merchant_id': itemDetail.merchantId,
+                          });
                     },
                     child: Stack(
                       children: [
@@ -248,9 +253,11 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                 if (itemDetail.reviews.isNotEmpty)
                   RowViewMoreWidget(
                     onTap: () {
-                      context.goNamed('review-product', extra: {
-                        'product_id': itemDetail.id,
-                      });
+                      Navigator.pushNamed(
+                          context, ReviewProductScreen.routeName,
+                          arguments: {
+                            'product_id': itemDetail.id,
+                          });
                     },
                     title: 'product_reviews'.tr,
                     child: Column(
@@ -329,13 +336,15 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                 if (relatedProducts.isNotEmpty)
                   RowViewMoreWidget(
                     onTap: () {
-                      context.goNamed('item_detail_fetching_item', extra: {
-                        'title': 'related_products'.tr,
-                        'type': FetchingType.relatedProducts,
-                        'merchant_id': itemDetail.merchantId,
-                        'category_id': itemDetail.categoryId,
-                        'brand_id': itemDetail.brandId,
-                      });
+                      Navigator.pushNamed(
+                          context, FetchingItemsScreen.routeName,
+                          arguments: {
+                            'title': 'related_products'.tr,
+                            'type': FetchingType.relatedProducts,
+                            'merchant_id': itemDetail.merchantId,
+                            'category_id': itemDetail.categoryId,
+                            'brand_id': itemDetail.brandId,
+                          });
                     },
                     title: 'related_products'.tr,
                     child: ListProductHorizontalWidget(

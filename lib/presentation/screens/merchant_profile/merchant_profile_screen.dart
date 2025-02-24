@@ -17,6 +17,7 @@ import 'package:logic_app/presentation/widgets/header_delegate_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class MerchantProfileScreen extends StatefulWidget {
+  static const routeName = 'merchant_profile';
   const MerchantProfileScreen({super.key, required this.parameters});
   final Map<String, dynamic> parameters;
   @override

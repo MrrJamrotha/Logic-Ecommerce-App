@@ -10,6 +10,7 @@ import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/card_brand_widget.dart';
 
 class BrandScreen extends StatefulWidget {
+  static const routeName = 'brand_screen';
   const BrandScreen({super.key});
 
   @override

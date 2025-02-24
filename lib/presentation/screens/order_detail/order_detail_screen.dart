@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
@@ -210,8 +209,8 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
   BoxWidget _buildListWriteReview() {
     return BoxWidget(
       onTap: () {
-        context.goNamed(WriteReviewScreen.routeName);
-        context.pop();
+        Navigator.pushNamed(context, WriteReviewScreen.routeName);
+        Navigator.pop(context);
       },
       padding: EdgeInsets.all(appSpace.scale),
       borderRadius: BorderRadius.circular(appRadius.scale),

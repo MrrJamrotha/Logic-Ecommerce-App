@@ -1,9 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/camera/take_picture_screen.dart';
 import 'package:logic_app/presentation/widgets/render_asset_entity_image_widget.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -33,10 +31,6 @@ class AlbmusImageGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         if (index == 0) {
           return GestureDetector(
-            onTap: () => context.goNamed(
-              TakePictureScreen.routeName,
-              extra: cameras.first,
-            ),
             child: SizedBox(
               width: 150.scale,
               height: 180.scale,

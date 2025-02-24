@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/category/category_cubit.dart';
 import 'package:logic_app/presentation/screens/category/category_state.dart';
+import 'package:logic_app/presentation/screens/product_by_category/product_by_category_screen.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/card_category_widget.dart';
 
@@ -60,13 +60,11 @@ class CategoryScreenState extends State<CategoryScreen> {
         final record = records[index];
         return CardCategoryWidget(
           onTap: () {
-            context.goNamed(
-              'category_product',
-              extra: {
-                'title': record.name,
-                'category_id': record.id,
-              },
-            );
+            Navigator.pushNamed(context, ProductByCategoryScreen.routeName,
+                arguments: {
+                  'title': record.name,
+                  'category_id': record.id,
+                });
           },
           picture: record.picture,
           pictureHash: record.pictureHash,

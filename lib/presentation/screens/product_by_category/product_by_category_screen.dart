@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
@@ -16,6 +15,7 @@ import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class ProductByCategoryScreen extends StatefulWidget {
+  static const routeName = 'product_category_screen';
   const ProductByCategoryScreen({
     super.key,
     required this.parameters,
@@ -194,7 +194,7 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
                       screenCubit.filterProducts(parameters: {
                         'category_id': widget.parameters['category_id'],
                       });
-                      context.pop();
+                      Navigator.pop(context);
                     },
                   )
                 ],

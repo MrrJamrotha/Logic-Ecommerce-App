@@ -12,7 +12,6 @@ import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/locale/locale_delegate.dart';
 import 'package:logic_app/core/service/database_service.dart';
-import 'package:logic_app/core/service/onesignal_service.dart';
 import 'package:logic_app/core/theme/app_theme.dart';
 import 'package:logic_app/presentation/global/application/application_cubit.dart';
 import 'package:logic_app/presentation/global/application/application_state.dart';
@@ -78,11 +77,10 @@ class _LogicAppState extends State<LogicApp> {
 
   @override
   Widget build(BuildContext context) {
-    final router = MainRouter.createRouter(context);
-    OnesignalService(router: router).initPlatformState();
+    // OnesignalService(router: router).initPlatformState();
     return BlocBuilder<ApplicationCubit, ApplicationState>(
       builder: (context, state) {
-        return MaterialApp.router(
+        return MaterialApp(
           scaffoldMessengerKey: scaffoldMessengerKey,
           localizationsDelegates: [
             LocaleDelegate(),
@@ -91,83 +89,16 @@ class _LogicAppState extends State<LogicApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: [
-            Locale("af"),
-            Locale("am"),
-            Locale("ar"),
-            Locale("az"),
-            Locale("be"),
-            Locale("bg"),
-            Locale("bn"),
-            Locale("bs"),
-            Locale("ca"),
-            Locale("cs"),
-            Locale("da"),
-            Locale("de"),
-            Locale("el"),
             Locale("en", 'US'),
-            Locale("es"),
-            Locale("et"),
-            Locale("fa"),
-            Locale("fi"),
-            Locale("fr"),
-            Locale("gl"),
-            Locale("ha"),
-            Locale("he"),
-            Locale("hi"),
-            Locale("hr"),
-            Locale("hu"),
-            Locale("hy"),
-            Locale("id"),
-            Locale("is"),
-            Locale("it"),
-            Locale("ja"),
-            Locale("ka"),
-            Locale("kk"),
             Locale("km", 'KH'),
-            Locale("ko"),
-            Locale("ku"),
-            Locale("ky"),
-            Locale("lt"),
-            Locale("lv"),
-            Locale("mk"),
-            Locale("ml"),
-            Locale("mn"),
-            Locale("ms"),
-            Locale("nb"),
-            Locale("nl"),
-            Locale("nn"),
-            Locale("no"),
-            Locale("pl"),
-            Locale("ps"),
-            Locale("pt"),
-            Locale("ro"),
-            Locale("ru"),
-            Locale("sd"),
-            Locale("sk"),
-            Locale("sl"),
-            Locale("so"),
-            Locale("sq"),
-            Locale("sr"),
-            Locale("sv"),
-            Locale("ta"),
-            Locale("tg"),
-            Locale("th"),
-            Locale("tk"),
-            Locale("tr"),
-            Locale("tt"),
-            Locale("uk"),
-            Locale("ug"),
-            Locale("ur"),
-            Locale("uz"),
-            Locale("vi"),
             Locale("zh")
           ],
           locale: Locale('en', 'US'),
           debugShowCheckedModeBanner: false,
-          routerConfig: MainRouter.createRouter(context),
           theme: AppTheme.darkTheme,
           themeMode: state.isDarkModeTheme ? ThemeMode.dark : ThemeMode.light,
           darkTheme: AppTheme.darkTheme,
+          onGenerateRoute: AppNavigator.appRoute,
         );
       },
     );

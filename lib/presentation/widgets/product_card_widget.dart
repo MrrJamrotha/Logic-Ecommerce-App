@@ -62,14 +62,16 @@ class ProductCardWidget extends StatelessWidget {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: '${record.price} ',
+                            text: record.isPromotion
+                                ? '${record.newPrice} '
+                                : '${record.price} ',
                             style: TextStyle(
                               color: primary,
                               fontSize: 12.scale,
                             ),
                           ),
                           TextSpan(
-                            text: record.price,
+                            text: record.isPromotion ? record.price : null,
                             style: TextStyle(
                               decoration: TextDecoration.lineThrough,
                               color: textColor,
@@ -111,6 +113,26 @@ class ProductCardWidget extends StatelessWidget {
               // TextWidget(text: 'text'),
             ],
           ),
+          if (record.isPromotion)
+            Positioned(
+              top: 5.scale,
+              left: 0,
+              child: Container(
+                padding: EdgeInsets.all(5.scale),
+                decoration: BoxDecoration(
+                  color: primary,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(appRadius),
+                    bottomRight: Radius.circular(appRadius.scale),
+                  ),
+                ),
+                child: TextWidget(
+                  text: record.discountValue,
+                  fontSize: 12,
+                  color: appWhite,
+                ),
+              ),
+            ),
           Positioned(
             top: -5.scale,
             right: -5.scale,

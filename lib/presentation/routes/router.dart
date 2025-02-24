@@ -1,435 +1,329 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/presentation/screens/address/address_screen.dart';
 import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:logic_app/presentation/screens/auth/otp/otp_screen.dart';
 import 'package:logic_app/presentation/screens/brand/brand_screen.dart';
-import 'package:logic_app/presentation/screens/cart/cart_screen.dart';
-import 'package:logic_app/presentation/screens/category/category_screen.dart';
 import 'package:logic_app/presentation/screens/check_out/check_out_screen.dart';
 import 'package:logic_app/presentation/screens/create_address/create_address_screen.dart';
 import 'package:logic_app/presentation/screens/cubit/currency_screen.dart';
+import 'package:logic_app/presentation/screens/edit_profile/edit_profile_screen.dart';
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_screen.dart';
-import 'package:logic_app/presentation/screens/home/home_screen.dart';
 import 'package:logic_app/presentation/screens/item_detail/item_detail_screen.dart';
 import 'package:logic_app/presentation/screens/language/language_screen.dart';
 import 'package:logic_app/presentation/screens/main_screen.dart';
 import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_screen.dart';
+import 'package:logic_app/presentation/screens/notification/notification_screen.dart';
 import 'package:logic_app/presentation/screens/order/order_screen.dart';
 import 'package:logic_app/presentation/screens/order_detail/order_detail_screen.dart';
 import 'package:logic_app/presentation/screens/product_by_brand/product_by_brand_screen.dart';
 import 'package:logic_app/presentation/screens/product_by_category/product_by_category_screen.dart';
-import 'package:logic_app/presentation/screens/profile/profile_screen.dart';
 import 'package:logic_app/presentation/screens/review_product/review_product_screen.dart';
 import 'package:logic_app/presentation/screens/update_address/update_address_screen.dart';
+import 'package:logic_app/presentation/screens/wishlist/wishlist_screen.dart';
 import 'package:logic_app/presentation/screens/write_review/write_review_screen.dart';
-import 'package:logic_app/presentation/widgets/error_type_widget.dart';
 
-class MainRouter {
-  static GoRouter createRouter(BuildContext context) {
-    return GoRouter(
-      initialLocation: HomeScreen.routePath,
-      navigatorKey: rootNavigatorKey,
-      debugLogDiagnostics: true,
-      routes: [
-        StatefulShellRoute.indexedStack(
-          builder: (context, state, navigationShell) {
-            return MainScreen(navigationShell: navigationShell);
-          },
-          branches: [
-            StatefulShellBranch(
-              navigatorKey: GlobalKey<NavigatorState>(),
-              routes: [
-                GoRoute(
-                  path: HomeScreen.routePath,
-                  name: HomeScreen.routeName,
-                  builder: (context, state) {
-                    return HomeScreen(
-                      key: state.pageKey,
-                    );
-                  },
-                  routes: [
-                    GoRoute(
-                      path: '/home_fetching_item',
-                      name: 'home_fetching_item',
-                      parentNavigatorKey: rootNavigatorKey,
-                      builder: (context, state) {
-                        final datas = state.extra as Map<String, dynamic>;
-                        return FetchingItemsScreen(parameters: datas);
-                      },
-                    ),
-                    GoRoute(
-                      path: '/product_by_category',
-                      name: 'product_by_category',
-                      parentNavigatorKey: rootNavigatorKey,
-                      builder: (context, state) {
-                        final datas = state.extra as Map<String, dynamic>;
-                        return ProductByCategoryScreen(parameters: datas);
-                      },
-                    ),
-                    GoRoute(
-                      path: '/product_by_brand',
-                      name: 'product_by_brand',
-                      parentNavigatorKey: rootNavigatorKey,
-                      builder: (context, state) {
-                        final datas = state.extra as Map<String, dynamic>;
-                        return ProductByBrandScreen(parameters: datas);
-                      },
-                    ),
-                    GoRoute(
-                      path: '/brand',
-                      name: 'brand',
-                      parentNavigatorKey: rootNavigatorKey,
-                      builder: (context, state) {
-                        return BrandScreen();
-                      },
-                    ),
-                    GoRoute(
-                      path: '/home-item-detail',
-                      name: 'home-item-detail',
-                      parentNavigatorKey: rootNavigatorKey,
-                      builder: (context, state) {
-                        final parameters = state.extra as Map<String, dynamic>;
-                        return ItemDetailScreen(parameters: parameters);
-                      },
-                      routes: [
-                        GoRoute(
-                          path: '/review-product',
-                          name: 'review-product',
-                          parentNavigatorKey: rootNavigatorKey,
-                          builder: (context, state) {
-                            final parameters =
-                                state.extra as Map<String, dynamic>;
-                            return ReviewProductScreen(parameters: parameters);
-                          },
-                        ),
-                        GoRoute(
-                          path: '/item_detail_fetching_item',
-                          name: 'item_detail_fetching_item',
-                          parentNavigatorKey: rootNavigatorKey,
-                          builder: (context, state) {
-                            final datas = state.extra as Map<String, dynamic>;
-                            return FetchingItemsScreen(parameters: datas);
-                          },
-                        ),
-                        GoRoute(
-                          path: '/merchant-profile',
-                          name: 'merchant-profile',
-                          parentNavigatorKey: rootNavigatorKey,
-                          builder: (context, state) {
-                            final parameters =
-                                state.extra as Map<String, dynamic>;
-                            return MerchantProfileScreen(
-                                parameters: parameters);
-                          },
-                          routes: [
-                            GoRoute(
-                              path: '/merchant-item-detail',
-                              name: 'merchant-item-detail',
-                              parentNavigatorKey: rootNavigatorKey,
-                              builder: (context, state) {
-                                final parameters =
-                                    state.extra as Map<String, dynamic>;
-                                return ItemDetailScreen(parameters: parameters);
-                              },
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                )
-              ],
-            ),
-            StatefulShellBranch(
-              navigatorKey: GlobalKey<NavigatorState>(),
-              routes: [
-                GoRoute(
-                  path: CategoryScreen.routePath,
-                  name: CategoryScreen.routeName,
-                  builder: (context, state) {
-                    return CategoryScreen(key: state.pageKey);
-                  },
-                  routes: [
-                    GoRoute(
-                      path: '/category_product',
-                      name: 'category_product',
-                      parentNavigatorKey: rootNavigatorKey,
-                      builder: (context, state) {
-                        final datas = state.extra as Map<String, dynamic>;
-                        return ProductByCategoryScreen(parameters: datas);
-                      },
-                    ),
-                  ],
-                )
-              ],
-            ),
-            StatefulShellBranch(
-              navigatorKey: GlobalKey<NavigatorState>(),
-              routes: [
-                GoRoute(
-                    path: CartScreen.routePath,
-                    name: CartScreen.routeName,
-                    builder: (context, state) {
-                      return CartScreen(key: state.pageKey);
-                    },
-                    routes: [
-                      GoRoute(
-                        path: CheckOutScreen.routePath,
-                        name: CheckOutScreen.routeName,
-                        parentNavigatorKey: rootNavigatorKey,
-                        pageBuilder: (context, state) {
-                          return CustomTransitionPage(
-                            child: CheckOutScreen(),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              return FadeTransition(
-                                  opacity: animation, child: child);
-                            },
-                          );
-                        },
-                        routes: [
-                          GoRoute(
-                            path: AddressScreen.routePath,
-                            name: 'checkout_address',
-                            // parentNavigatorKey: rootNavigatorKey,
-                            pageBuilder: (context, state) {
-                              return CustomTransitionPage(
-                                child: AddressScreen(),
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  );
-                                },
-                              );
-                            },
-                            routes: [
-                              GoRoute(
-                                path: CreateAddressScreen.routePath,
-                                name: 'checkout_create_address',
-                                pageBuilder: (context, state) {
-                                  return CustomTransitionPage(
-                                    child: CreateAddressScreen(),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
-                                      return FadeTransition(
-                                          opacity: animation, child: child);
-                                    },
-                                  );
-                                },
-                              ),
-                              GoRoute(
-                                path: UpdateAddressScreen.routePath,
-                                name: 'checkout_update_address',
-                                pageBuilder: (context, state) {
-                                  return CustomTransitionPage(
-                                    child: UpdateAddressScreen(),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
-                                      return FadeTransition(
-                                          opacity: animation, child: child);
-                                    },
-                                  );
-                                },
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ]),
-              ],
-            ),
-            StatefulShellBranch(
-              navigatorKey: GlobalKey<NavigatorState>(),
-              routes: [
-                GoRoute(
-                  path: ProfileScreen.routePath,
-                  name: ProfileScreen.routeName,
-                  builder: (context, state) {
-                    return ProfileScreen(key: state.pageKey);
-                  },
-                  routes: [
-                    GoRoute(
-                      path: AddressScreen.routePath,
-                      name: '/profile_address',
-                      parentNavigatorKey: rootNavigatorKey,
-                      pageBuilder: (context, state) {
-                        return CustomTransitionPage(
-                          child: AddressScreen(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                                opacity: animation, child: child);
-                          },
-                        );
-                      },
-                      routes: [
-                        GoRoute(
-                          path: CreateAddressScreen.routePath,
-                          name: 'profile_create_address',
-                          pageBuilder: (context, state) {
-                            return CustomTransitionPage(
-                              child: CreateAddressScreen(),
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                    opacity: animation, child: child);
-                              },
-                            );
-                          },
-                        ),
-                        GoRoute(
-                          path: UpdateAddressScreen.routePath,
-                          name: 'profile_update_address',
-                          pageBuilder: (context, state) {
-                            return CustomTransitionPage(
-                              child: UpdateAddressScreen(),
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                    opacity: animation, child: child);
-                              },
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                    GoRoute(
-                      path: OrderScreen.routePath,
-                      name: OrderScreen.routeName,
-                      pageBuilder: (context, state) {
-                        return CustomTransitionPage(
-                          child: OrderScreen(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                                opacity: animation, child: child);
-                          },
-                        );
-                      },
-                      routes: [
-                        GoRoute(
-                            path: OrderDetailScreen.routePath,
-                            name: OrderDetailScreen.routeName,
-                            pageBuilder: (context, state) =>
-                                CustomTransitionPage(
-                                  child: OrderDetailScreen(),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return FadeTransition(
-                                      opacity: animation,
-                                      child: child,
-                                    );
-                                  },
-                                ),
-                            routes: [
-                              GoRoute(
-                                path: WriteReviewScreen.routePath,
-                                name: WriteReviewScreen.routeName,
-                                pageBuilder: (context, state) =>
-                                    CustomTransitionPage(
-                                  child: WriteReviewScreen(),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return FadeTransition(
-                                      opacity: animation,
-                                      child: child,
-                                    );
-                                  },
-                                ),
-                              )
-                            ]),
-                      ],
-                    ),
-                    // GoRoute(
-                    //   path: NotificationScreen.routePath,
-                    //   name: NotificationScreen.routeName,
-                    //   parentNavigatorKey: rootNavigatorKey,
-                    //   pageBuilder: (context, state) {
-                    //     return CustomTransitionPage(
-                    //       child: NotificationScreen(),
-                    //       transitionsBuilder:
-                    //           (context, animation, secondaryAnimation, child) {
-                    //         return FadeTransition(
-                    //             opacity: animation, child: child);
-                    //       },
-                    //     );
-                    //   },
-                    // ),
-                    GoRoute(
-                      path: LanguageScreen.routePath,
-                      name: LanguageScreen.routeName,
-                      pageBuilder: (context, state) {
-                        return CustomTransitionPage(
-                          child: LanguageScreen(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                                opacity: animation, child: child);
-                          },
-                        );
-                      },
-                    ),
-
-                    GoRoute(
-                      path: CurrencyScreen.routePath,
-                      name: CurrencyScreen.routeName,
-                      pageBuilder: (context, state) {
-                        return CustomTransitionPage(
-                          child: CurrencyScreen(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                                opacity: animation, child: child);
-                          },
-                        );
-                      },
-                    ),
-                    GoRoute(
-                      path: LoginScreen.routePath,
-                      name: LoginScreen.routeName,
-                      pageBuilder: (context, state) {
-                        return CustomTransitionPage(
-                          child: LoginScreen(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return FadeTransition(
-                                opacity: animation, child: child);
-                          },
-                        );
-                      },
-                      routes: [
-                        GoRoute(
-                          path: OtpScreen.routePath,
-                          name: OtpScreen.routeName,
-                          pageBuilder: (context, state) {
-                            return CustomTransitionPage(
-                              child: OtpScreen(),
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                    opacity: animation, child: child);
-                              },
-                            );
-                          },
-                        )
-                      ],
-                    )
-
-                    ///==
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
-      ],
-      errorBuilder: (context, state) =>
-          ErrorTypeWidget(type: ErrorType.notFound),
+class AppNavigator {
+  static SlideTransition _st(animation, child) {
+    final tween = Tween(
+      begin: const Offset(1.0, 0.0),
+      end: Offset.zero,
     );
+    final curvedAnimation = CurvedAnimation(
+      parent: animation,
+      curve: Curves.ease,
+    );
+    return SlideTransition(
+      position: tween.animate(curvedAnimation),
+      child: child,
+    );
+  }
+
+  static Route<dynamic>? appRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(builder: (_) => MainScreen());
+      case ItemDetailScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            final parameters = settings.arguments as Map<String, dynamic>;
+            return ItemDetailScreen(
+              key: ValueKey(ItemDetailScreen.routeName),
+              parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case FetchingItemsScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            final parameters = settings.arguments as Map<String, dynamic>;
+            return FetchingItemsScreen(
+              key: ValueKey(FetchingItemsScreen.routeName),
+              parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case CreateAddressScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return CreateAddressScreen(
+              key: ValueKey(CreateAddressScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case OrderScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return OrderScreen(
+              key: ValueKey(OrderScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case WishlistScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return WishlistScreen(
+              key: ValueKey(WishlistScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case AddressScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return AddressScreen(
+              key: ValueKey(AddressScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case LanguageScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return LanguageScreen(
+              key: ValueKey(LanguageScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case CurrencyScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return CurrencyScreen(
+              key: ValueKey(CurrencyScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case EditProfileScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return EditProfileScreen(
+              key: ValueKey(EditProfileScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case ProductByBrandScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            final parameters = settings.arguments as Map<String, dynamic>;
+            return ProductByBrandScreen(
+              key: ValueKey(ProductByBrandScreen.routeName),
+              parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case BrandScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return BrandScreen(
+              key: ValueKey(BrandScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case UpdateAddressScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return UpdateAddressScreen(
+              key: ValueKey(BrandScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case OtpScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return OtpScreen(
+              key: ValueKey(OtpScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case CheckOutScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return CheckOutScreen(
+              key: ValueKey(OtpScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case ProductByCategoryScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            final parameters = settings.arguments as Map<String, dynamic>;
+            return ProductByCategoryScreen(
+              key: ValueKey(ProductByCategoryScreen.routeName),
+              parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case MerchantProfileScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            final parameters = settings.arguments as Map<String, dynamic>;
+            return MerchantProfileScreen(
+              key: ValueKey(MerchantProfileScreen.routeName),
+              parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case WriteReviewScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return WriteReviewScreen(
+              key: ValueKey(WriteReviewScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case NotificationScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return NotificationScreen(
+              key: ValueKey(NotificationScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case OrderDetailScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            // final parameters = settings.arguments as Map<String, dynamic>;
+            return OrderDetailScreen(
+              key: ValueKey(OrderDetailScreen.routeName),
+              // parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case ReviewProductScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            final parameters = settings.arguments as Map<String, dynamic>;
+            return ReviewProductScreen(
+              key: ValueKey(ReviewProductScreen.routeName),
+              parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      default:
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
+    }
   }
 }

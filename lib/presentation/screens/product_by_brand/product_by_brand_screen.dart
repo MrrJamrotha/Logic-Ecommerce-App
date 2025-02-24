@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_size_config.dart';
@@ -16,6 +15,7 @@ import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class ProductByBrandScreen extends StatefulWidget {
+  static const routeName = 'product_by_brand_screen';
   const ProductByBrandScreen({
     super.key,
     required this.parameters,
@@ -190,7 +190,7 @@ class ProductByBrandScreenState extends State<ProductByBrandScreen> {
                       screenCubit.filterProducts(parameters: {
                         'brand_id': widget.parameters['brand_id'],
                       });
-                      context.pop();
+                      Navigator.pop(context);
                     },
                   )
                 ],

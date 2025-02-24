@@ -11,6 +11,7 @@ import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class ReviewProductScreen extends StatefulWidget {
+  static const routeName = 'review_product';
   const ReviewProductScreen({super.key, required this.parameters});
   final Map<String, dynamic> parameters;
   @override

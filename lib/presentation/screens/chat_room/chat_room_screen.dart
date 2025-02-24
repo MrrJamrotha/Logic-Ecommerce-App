@@ -2,7 +2,6 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
@@ -444,11 +443,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                           scrollController: scrollController,
                           cameras: cameras,
                           onTap: () {
-                            context.pop();
-                            context.goNamed(
-                              PreviewImage.routeName,
-                              extra: records,
-                            );
+                            Navigator.pop(context);
                           },
                         ),
                       ),

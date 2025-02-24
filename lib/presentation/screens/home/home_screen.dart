@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/category/category_screen.dart';
+import 'package:logic_app/presentation/screens/brand/brand_screen.dart';
+import 'package:logic_app/presentation/screens/fetching_items/fetching_items_screen.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
@@ -100,7 +100,6 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'browse_categories'.tr,
                   onTap: () {
-                    GoRouter.of(context).go(CategoryScreen.routePath);
                     context.read<SettingCubit>().onPageChanged(1);
                   },
                   child: ListCategoryAndBrandWidget(
@@ -112,7 +111,7 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'popular_brands'.tr,
                   onTap: () {
-                    context.pushNamed('brand');
+                    Navigator.pushNamed(context, BrandScreen.routeName);
                   },
                   child: ListCategoryAndBrandWidget(
                     records: brandModels,
@@ -129,10 +128,11 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'recommend_for_you'.tr,
                   onTap: () {
-                    context.pushNamed('home_fetching_item', extra: {
-                      'title': 'recommend_for_you'.tr,
-                      'type': FetchingType.recommented,
-                    });
+                    Navigator.pushNamed(context, FetchingItemsScreen.routeName,
+                        arguments: {
+                          'title': 'recommend_for_you'.tr,
+                          'type': FetchingType.recommented,
+                        });
                   },
                   child: ListProductHorizontalWidget(
                     records: recommendProducts,
@@ -143,10 +143,11 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'bast_seller'.tr,
                   onTap: () {
-                    context.pushNamed('home_fetching_item', extra: {
-                      'title': 'bast_seller'.tr,
-                      'type': FetchingType.baseSeller,
-                    });
+                    Navigator.pushNamed(context, FetchingItemsScreen.routeName,
+                        arguments: {
+                          'title': 'bast_seller'.tr,
+                          'type': FetchingType.baseSeller,
+                        });
                   },
                   child: ListProductHorizontalWidget(
                     records: bastReviewProducts,
@@ -157,10 +158,11 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'new_arrival'.tr,
                   onTap: () {
-                    context.pushNamed('home_fetching_item', extra: {
-                      'title': 'new_arrival'.tr,
-                      'type': FetchingType.newArrival,
-                    });
+                    Navigator.pushNamed(context, FetchingItemsScreen.routeName,
+                        arguments: {
+                          'title': 'new_arrival'.tr,
+                          'type': FetchingType.newArrival,
+                        });
                   },
                   child: ListProductHorizontalWidget(
                     records: newArrivals,
@@ -171,10 +173,11 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'spacial_offers'.tr,
                   onTap: () {
-                    context.pushNamed('home_fetching_item', extra: {
-                      'title': 'spacial_offers'.tr,
-                      'type': FetchingType.spacialOffers,
-                    });
+                    Navigator.pushNamed(context, FetchingItemsScreen.routeName,
+                        arguments: {
+                          'title': 'spacial_offers'.tr,
+                          'type': FetchingType.spacialOffers,
+                        });
                   },
                   child: ListProductHorizontalWidget(
                     records: specialProducts,

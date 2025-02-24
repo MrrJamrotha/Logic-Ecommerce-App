@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -55,7 +54,7 @@ class AddressScreenState extends State<AddressScreen> {
         child: ButtonWidget(
           title: 'add_new_address'.tr,
           onPressed: () {
-            context.pushNamed(CreateAddressScreen.routeName);
+            Navigator.pushNamed(context, CreateAddressScreen.routeName);
           },
         ),
       ),
@@ -71,7 +70,7 @@ class AddressScreenState extends State<AddressScreen> {
           padding: EdgeInsets.only(bottom: appSpace.scale),
           child: BoxWidget(
             onTap: () {
-              context.goNamed(UpdateAddressScreen.routeName);
+              Navigator.pushNamed(context, UpdateAddressScreen.routeName);
             },
             borderRadius: BorderRadius.circular(appRadius.scale),
             padding: EdgeInsets.all(appSpace.scale),
