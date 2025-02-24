@@ -215,10 +215,10 @@ class AppNavigator {
       case OtpScreen.routeName:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            // final parameters = settings.arguments as Map<String, dynamic>;
+            final parameters = settings.arguments as Map<String, dynamic>;
             return OtpScreen(
               key: ValueKey(OtpScreen.routeName),
-              // parameters: parameters,
+              parameters: parameters,
             );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {

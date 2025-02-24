@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/helper/loading_overlay.dart';
 import 'package:logic_app/presentation/screens/auth/otp/otp_cubit.dart';
 import 'package:logic_app/presentation/screens/auth/otp/otp_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
@@ -12,9 +15,9 @@ import 'package:otp_autofill/otp_autofill.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+  const OtpScreen({super.key, required this.parameters});
   static const routeName = 'otp';
-  static const routePath = '/otp';
+  final Map<String, dynamic> parameters;
   @override
   OtpScreenState createState() => OtpScreenState();
 }
@@ -24,24 +27,54 @@ class OtpScreenState extends State<OtpScreen> {
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey();
   late OTPTextEditController controller;
+  late OTPInteractor _otpInteractor;
 
   @override
   void initState() {
+    _otpInteractor = OTPInteractor();
     controller = OTPTextEditController(
-      codeLength: 6,
-    )..startListenUserConsent(
+      codeLength: 5,
+      otpInteractor: _otpInteractor,
+      onTimeOutException: () {
+        // Restart listening on timeout, only for Android
+        if (Platform.isAndroid) {
+          controller.startListenUserConsent(
+            (code) {
+              final exp = RegExp(r'\d{5}');
+              return exp.stringMatch(code ?? '') ?? '';
+            },
+          );
+        }
+      },
+    );
+
+    if (Platform.isAndroid) {
+      controller.startListenUserConsent(
         (code) {
-          final exp = RegExp(r'(\d{6})');
+          final exp = RegExp(r'\d{5}');
           return exp.stringMatch(code ?? '') ?? '';
         },
       );
-    screenCubit.loadInitialData();
+    }
     super.initState();
   }
 
-  void onOtpSubmit() {
+  void onOtpSubmit() async {
     if (_formKey.currentState!.validate()) {
-      // screenCubit.submitOtp(otp);
+      LoadingOverlay.show(context);
+      final result = await screenCubit.verifyOtp(parameters: {
+        'phone_number': widget.parameters['phone_number'],
+        'code': controller.text,
+      });
+
+      if (result) {
+        if (!mounted) return;
+        Navigator.of(context)
+          ..pop()
+          ..pop({'result': result});
+      }
+
+      LoadingOverlay.hide();
     }
   }
 
@@ -52,18 +85,9 @@ class OtpScreenState extends State<OtpScreen> {
         title: '',
         isNotification: false,
       ),
-      body: BlocConsumer<OtpCubit, OtpState>(
+      body: BlocBuilder<OtpCubit, OtpState>(
         bloc: screenCubit,
-        listener: (BuildContext context, OtpState state) {
-          if (state.error != null) {
-            // TODO your code here
-          }
-        },
         builder: (BuildContext context, OtpState state) {
-          if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
-
           return buildBody(state);
         },
       ),
@@ -103,6 +127,7 @@ class OtpScreenState extends State<OtpScreen> {
                   defaultPinTheme: defaultPinTheme,
                   focusedPinTheme: focusedPinTheme,
                   submittedPinTheme: submittedPinTheme,
+                  onSubmitted: (value) => onOtpSubmit(),
                   onTapOutside: (PointerDownEvent event) {
                     FocusManager.instance.primaryFocus?.unfocus();
                   },
@@ -122,9 +147,7 @@ class OtpScreenState extends State<OtpScreen> {
                   }),
               ButtonWidget(
                 title: 'confirm'.tr,
-                onPressed: () {
-                  onOtpSubmit();
-                },
+                onPressed: () => onOtpSubmit(),
               ),
             ],
           ),
