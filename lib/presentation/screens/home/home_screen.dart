@@ -7,6 +7,7 @@ import 'package:logic_app/presentation/screens/brand/brand_screen.dart';
 import 'package:logic_app/presentation/screens/fetching_items/fetching_items_screen.dart';
 import 'package:logic_app/presentation/screens/home/home_cubit.dart';
 import 'package:logic_app/presentation/screens/home/home_state.dart';
+import 'package:logic_app/presentation/screens/main_screen.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/carousel_slider_widget.dart';
@@ -100,6 +101,7 @@ class HomeScreenState extends State<HomeScreen>
                 RowViewMoreWidget(
                   title: 'browse_categories'.tr,
                   onTap: () {
+                    MainScreen.of(context)?.jumpToPage(1);
                     context.read<SettingCubit>().onPageChanged(1);
                   },
                   child: ListCategoryAndBrandWidget(

@@ -82,6 +82,7 @@ class _LogicAppState extends State<LogicApp> {
       builder: (context, state) {
         return MaterialApp(
           scaffoldMessengerKey: scaffoldMessengerKey,
+          navigatorKey: navigatorKey,
           localizationsDelegates: [
             LocaleDelegate(),
             GlobalMaterialLocalizations.delegate,
@@ -93,6 +94,7 @@ class _LogicAppState extends State<LogicApp> {
             Locale("km", 'KH'),
             Locale("zh")
           ],
+          initialRoute: '/',
           locale: Locale('en', 'US'),
           debugShowCheckedModeBanner: false,
           theme: AppTheme.darkTheme,

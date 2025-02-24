@@ -13,6 +13,9 @@ import 'package:logic_app/presentation/screens/setting/setting_state.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
 
 class MainScreen extends StatefulWidget {
+  static const routeName = '/';
+  static _MainScreenState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MainScreenState>();
   const MainScreen({
     super.key,
     this.initialPage = 0,
@@ -32,13 +35,21 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
   }
 
-  void _onTap(index) {
+  void jumpToPage(index) {
     _pageController.animateToPage(
       index,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
     context.read<SettingCubit>().onPageChanged(index);
+  }
+
+  @override
+  void didUpdateWidget(covariant MainScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialPage != oldWidget.initialPage) {
+      _pageController.jumpToPage(widget.initialPage);
+    }
   }
 
   @override
@@ -59,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           bottomNavigationBar: NavigationBar(
             backgroundColor: appWhite,
-            onDestinationSelected: _onTap,
+            onDestinationSelected: jumpToPage,
             indicatorColor: primary,
             surfaceTintColor: appWhite,
             selectedIndex: state.currentIndex,

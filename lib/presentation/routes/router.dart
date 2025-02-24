@@ -40,8 +40,10 @@ class AppNavigator {
 
   static Route<dynamic>? appRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/':
-        return MaterialPageRoute(builder: (_) => MainScreen());
+      case MainScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => MainScreen(),
+        );
       case ItemDetailScreen.routeName:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
