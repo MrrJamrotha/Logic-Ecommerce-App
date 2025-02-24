@@ -94,3 +94,4 @@ String maskText(String text) {
   if (text.length <= 2) return text; // No masking if the text is too short
   return text[0] + '*' * (text.length - 2) + text[text.length - 1];
 }
+

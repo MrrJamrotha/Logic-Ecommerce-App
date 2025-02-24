@@ -5,8 +5,10 @@ import 'package:logic_app/core/service/geolocator_service.dart';
 import 'package:logic_app/core/service/photo_manager_service.dart';
 import 'package:logic_app/core/service/secure_storage_service.dart';
 import 'package:logic_app/core/service/shared_preferences_service.dart';
+import 'package:logic_app/core/service/user_session_service.dart';
 import 'package:logic_app/data/remote/network/api_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:logic_app/data/repositories/auth/auth_repository_impl.dart';
 import 'package:logic_app/data/repositories/brand/brand_repository_impl.dart';
 import 'package:logic_app/data/repositories/category/category_repository_impl.dart';
 import 'package:logic_app/data/repositories/fetching_item/fetching_item_repository_impl.dart';
@@ -57,4 +59,9 @@ void setupInjector() {
 
   di.registerLazySingleton<ProductByBrandRepositoryImpl>(
       () => ProductByBrandRepositoryImpl());
+
+  di.registerLazySingleton<UserSessionService>(
+      () => UserSessionService.instance);
+
+  di.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl());
 }

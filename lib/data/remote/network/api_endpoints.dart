@@ -22,8 +22,8 @@ class ApiEndpoints {
   static final getItemDetail = '$baseUrl/get-item-detail';
 
   //Auth
-  static final login = '$baseUrl/login';
-  static final register = '$baseUrl/register';
+  static final generateOtpCode = '$baseUrl/generate-otp-code';
+  static final verifyOTP = '$baseUrl/verify-otp-code';
   static final forgotPassword = '$baseUrl/forgot-password';
   static final resetPassword = '$baseUrl/reset-password';
 

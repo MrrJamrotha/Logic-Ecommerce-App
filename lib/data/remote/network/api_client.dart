@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-// import 'dart:io';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:logic_app/core/common/base_response.dart';
+import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/error/error_handler.dart';
-import 'package:logic_app/core/error/error_messages.dart';
-import 'package:logic_app/core/error/exceptions.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/service/user_session_service.dart';
 import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/data/remote/network/api.dart';
 import 'package:http/http.dart' as http;
@@ -33,62 +31,14 @@ class ApiClient implements Api {
   }
 
   @override
-  Future<BaseResponse> login({Map<String, dynamic>? parameters}) async {
-    try {
-      final response = await _client.post(
-        Uri.parse(ApiEndpoints.login),
-        body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
-      );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
-      final body = jsonDecode(response.body);
-      return BaseResponse(
-        statusCode: response.statusCode,
-        status: body['status'],
-        message: body['message'],
-        data: body['records'],
-      );
-    } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
-    }
-  }
-
-  @override
-  Future<BaseResponse> register({Map<String, dynamic>? parameters}) async {
-    try {
-      final response = await _client.post(
-        Uri.parse(ApiEndpoints.register),
-        body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
-      );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
-      final body = jsonDecode(response.body);
-      return BaseResponse(
-        statusCode: response.statusCode,
-        status: body['status'],
-        message: body['message'],
-        data: body['records'],
-      );
-    } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
-    }
-  }
-
-  @override
   Future<BaseResponse> getUser({Map<String, dynamic>? parameters}) async {
     try {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getUserProfile),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException(ErrorMessages.serverError);
-      }
+
       final body = jsonDecode(response.body);
       return BaseResponse(
         statusCode: response.statusCode,
@@ -97,7 +47,7 @@ class ApiClient implements Api {
         data: body['records'],
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -107,11 +57,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.updateUserProfile),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
       return BaseResponse(
         statusCode: response.statusCode,
@@ -120,7 +68,7 @@ class ApiClient implements Api {
         data: body['records'],
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -130,11 +78,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getSlideShow),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
       return BaseResponse(
         statusCode: response.statusCode,
@@ -143,7 +89,7 @@ class ApiClient implements Api {
         data: body['records'],
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -153,11 +99,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getBrands),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
       return BaseResponse(
         statusCode: response.statusCode,
@@ -166,7 +110,7 @@ class ApiClient implements Api {
         data: body['records'],
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -178,11 +122,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getBrowseCategories),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
       return BaseResponse(
         statusCode: response.statusCode,
@@ -191,7 +133,7 @@ class ApiClient implements Api {
         data: body['records'],
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -203,11 +145,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getRecommendedForYou),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
 
       return BaseResponse(
@@ -222,7 +162,7 @@ class ApiClient implements Api {
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -234,11 +174,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getNewArrivals),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
 
       return BaseResponse(
@@ -253,7 +191,7 @@ class ApiClient implements Api {
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -265,11 +203,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductBastReview),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
       return BaseResponse(
         statusCode: response.statusCode,
@@ -283,7 +219,7 @@ class ApiClient implements Api {
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -295,11 +231,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getSpacialProduct),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
 
       return BaseResponse(
@@ -314,7 +248,7 @@ class ApiClient implements Api {
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -323,15 +257,12 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
-      print(jsonEncode(parameters));
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getRelatedProduct),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
 
       return BaseResponse(
@@ -343,7 +274,7 @@ class ApiClient implements Api {
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -355,11 +286,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getMerchntProfile),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
 
       return BaseResponse(
@@ -369,7 +298,7 @@ class ApiClient implements Api {
         data: body['record'],
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -381,11 +310,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByMerchnt),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
 
       return BaseResponse(
@@ -397,7 +324,7 @@ class ApiClient implements Api {
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -409,11 +336,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByBrand),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
 
       return BaseResponse(
@@ -427,7 +352,7 @@ class ApiClient implements Api {
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -439,11 +364,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByCategory),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
       return BaseResponse(
         statusCode: response.statusCode,
@@ -456,7 +379,7 @@ class ApiClient implements Api {
         currentPage: AppFormat.toInt(body['current_page'] ?? 1),
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
     }
   }
 
@@ -468,11 +391,9 @@ class ApiClient implements Api {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getItemDetail),
         body: jsonEncode(parameters),
-        headers: ApiInterceptor.modifyHeaders(),
+        headers: await ApiInterceptor.modifyHeaders(),
       );
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
+
       final body = jsonDecode(response.body);
       return BaseResponse(
         statusCode: response.statusCode,
@@ -481,7 +402,59 @@ class ApiClient implements Api {
         data: body['record'] ?? [],
       );
     } catch (exception) {
-      throw ErrorHandler.handleException(exception as Exception);
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> generateOtpCode({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.generateOtpCode),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['status'],
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> verifyOTP({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.verifyOTP),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+      if (response.statusCode != 200) {
+        throw ErrorHandler.handler(response.statusCode.toString()).failure;
+      }
+
+      final session = di.get<UserSessionService>();
+      await session.storeToken(body['token']);
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['record'],
+      );
+    } catch (exception) {
+      throw Exception(exception);
     }
   }
 }

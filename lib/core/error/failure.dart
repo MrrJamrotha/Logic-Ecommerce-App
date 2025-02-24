@@ -1,21 +1,6 @@
 abstract class Failure {
-  final String message;
+  final int message;
+  final int code;
 
-  const Failure(this.message);
-}
-
-class ServerFailure extends Failure {
-  const ServerFailure(super.message);
-}
-
-class CacheFailure extends Failure {
-  const CacheFailure(super.message);
-}
-
-class NetworkFailure extends Failure {
-  const NetworkFailure(super.message);
-}
-
-class GenericFailure extends Failure {
-  const GenericFailure(super.message);
+  Failure(this.code, this.message);
 }
