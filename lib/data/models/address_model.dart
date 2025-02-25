@@ -14,6 +14,7 @@ class AddressModel {
   final String notes;
   final String latitude;
   final String longitude;
+  final bool isDefault;
 
   AddressModel({
     required this.id,
@@ -29,6 +30,7 @@ class AddressModel {
     required this.notes,
     required this.latitude,
     required this.longitude,
+    required this.isDefault,
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class AddressModel {
       notes: AppFormat.toStr(json['notes']),
       latitude: AppFormat.toStr(json['latitude']),
       longitude: AppFormat.toStr(json['longitude']),
+      isDefault: json['is_default'] ?? false,
     );
   }
 }

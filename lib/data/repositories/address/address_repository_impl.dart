@@ -56,7 +56,7 @@ class AddressRepositoryImpl implements AddressRepository {
     Map<String, dynamic>? parameters,
   }) async {
     try {
-      final result = await _apiClient.deleteAddress();
+      final result = await _apiClient.deleteAddress(parameters: parameters);
       if (result.status != 'success') {
         return Result.left(Failure(result.message));
       }

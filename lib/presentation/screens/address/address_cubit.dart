@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/models/address_model.dart';
@@ -81,6 +82,28 @@ class AddressCubit extends Cubit<AddressState> {
         pagingController.itemList = records;
         emit(state.copyWith(records: records));
       }
+    } catch (error) {
+      addError(error);
+    }
+  }
+
+  Future<void> deleteAddress(String id) async {
+    try {
+      await repos.deleteAddress(parameters: {'id': id}).then((response) {
+        response.fold((failure) {
+          emit(state.copyWith(error: failure.toString()));
+          showMessage(message: failure.message, status: MessageStatus.warning);
+        }, (success) {
+          var records = state.records ?? [];
+          final index = records.indexWhere((item) => item.id == id);
+          if (index != -1) {
+            records.removeAt(index);
+            pagingController.itemList = records;
+            emit(state.copyWith(records: records));
+          }
+          showMessage(message: response.message ?? "");
+        });
+      });
     } catch (error) {
       addError(error);
     }

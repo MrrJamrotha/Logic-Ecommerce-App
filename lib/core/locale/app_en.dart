@@ -117,4 +117,6 @@ final Map<String, String> en = {
   'phone_number_length': 'Phone number must be at least 8 digits',
   'you_logout_success': 'You log out successfully',
   'logout_failed': 'Log out failed',
+  'delete': 'Delete',
+  'delete_address_content': 'Do you want to delete address',
 };
