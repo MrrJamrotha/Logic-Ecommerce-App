@@ -58,7 +58,7 @@ class OrderScreenState extends State<OrderScreen> {
           },
           builder: (BuildContext context, OrderState state) {
             if (state.isLoading) {
-              return Center(child: CircularProgressIndicator());
+              return centerLoading();
             }
 
             return buildBody(state);

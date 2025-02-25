@@ -43,7 +43,7 @@ class AddressScreenState extends State<AddressScreen> {
         },
         builder: (BuildContext context, AddressState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

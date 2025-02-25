@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/edit_profile/edit_profile_cubit.dart';
 import 'package:logic_app/presentation/screens/edit_profile/edit_profile_state.dart';
 
@@ -32,7 +33,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         },
         builder: (BuildContext context, EditProfileState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

@@ -94,7 +94,7 @@ class WriteReviewScreenState extends State<WriteReviewScreen> {
         },
         builder: (BuildContext context, WriteReviewState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

@@ -66,7 +66,7 @@ class ReviewProductScreenState extends State<ReviewProductScreen> {
         },
         builder: (BuildContext context, ReviewProductState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

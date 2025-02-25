@@ -160,16 +160,11 @@ class ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Account'.tr),
-      body: BlocConsumer<ProfileCubit, ProfileState>(
+      body: BlocBuilder<ProfileCubit, ProfileState>(
         bloc: screenCubit,
-        listener: (BuildContext context, ProfileState state) {
-          if (state.error != null) {
-            // TODO your code here
-          }
-        },
         builder: (BuildContext context, ProfileState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

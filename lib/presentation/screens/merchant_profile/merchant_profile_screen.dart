@@ -45,7 +45,7 @@ class MerchantProfileScreenState extends State<MerchantProfileScreen>
         bloc: screenCubit,
         builder: (BuildContext context, MerchantProfileState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

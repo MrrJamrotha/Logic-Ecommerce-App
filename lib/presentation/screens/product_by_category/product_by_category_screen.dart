@@ -65,7 +65,7 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
           bloc: screenCubit,
           builder: (context, state) {
             if (state.isLoading) {
-              return Center(child: CircularProgressIndicator.adaptive());
+              return centerLoading();
             }
             final brands = state.brands ?? [];
             final priceRange = state.rangeValues;
@@ -220,7 +220,7 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
         bloc: screenCubit,
         builder: (BuildContext context, ProductByCategoryState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator.adaptive());
+            return centerLoading();
           }
           return buildBody(state);
         },
@@ -255,12 +255,8 @@ class ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
                   isLoading: false,
                 );
               },
-              firstPageProgressIndicatorBuilder: (_) => Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
-              newPageProgressIndicatorBuilder: (_) => Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
+              firstPageProgressIndicatorBuilder: (_) => centerLoading(),
+              newPageProgressIndicatorBuilder: (_) => centerLoading(),
               noItemsFoundIndicatorBuilder: (_) => Center(
                 child: TextWidget(text: "not_found_product".tr),
               ),

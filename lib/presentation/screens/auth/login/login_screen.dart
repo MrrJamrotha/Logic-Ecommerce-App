@@ -85,7 +85,7 @@ class LoginScreenState extends State<LoginScreen> {
         bloc: screenCubit,
         builder: (BuildContext context, LoginState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

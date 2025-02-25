@@ -9,7 +9,6 @@ import 'package:logic_app/presentation/screens/item_detail/item_detail_screen.da
 import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_cubit.dart';
 import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_state.dart';
 import 'package:logic_app/presentation/widgets/product_card_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class PromotionProductTab extends StatefulWidget {
   const PromotionProductTab({super.key, required this.merchantId});
@@ -45,7 +44,7 @@ class _PromotionProductTabState extends State<PromotionProductTab> {
       bloc: screenCubit,
       builder: (context, state) {
         if (state.isLoadingProduct) {
-          return Center(child: CircularProgressIndicator());
+          return centerLoading();
         }
         return PagedMasonryGridView.count(
           padding: EdgeInsets.all(appPedding.scale),
@@ -68,13 +67,9 @@ class _PromotionProductTabState extends State<PromotionProductTab> {
                 isLoading: state.isLoadingProduct,
               );
             },
-            firstPageProgressIndicatorBuilder: (_) =>
-                Center(child: CircularProgressIndicator.adaptive()),
-            newPageProgressIndicatorBuilder: (_) =>
-                Center(child: CircularProgressIndicator.adaptive()),
-            noItemsFoundIndicatorBuilder: (_) => Center(
-              child: TextWidget(text: "not_found_product".tr),
-            ),
+            firstPageProgressIndicatorBuilder: (_) => centerLoading(),
+            newPageProgressIndicatorBuilder: (_) => centerLoading(),
+            noItemsFoundIndicatorBuilder: (_) => centerNotFoundProduct(),
           ),
         );
       },

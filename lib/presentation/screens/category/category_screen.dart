@@ -36,7 +36,7 @@ class CategoryScreenState extends State<CategoryScreen> {
         bloc: screenCubit,
         builder: (BuildContext context, CategoryState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

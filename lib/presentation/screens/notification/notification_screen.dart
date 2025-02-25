@@ -87,7 +87,7 @@ class NotificationScreenState extends State<NotificationScreen> {
         },
         builder: (BuildContext context, NotificationState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

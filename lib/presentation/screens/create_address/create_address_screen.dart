@@ -64,7 +64,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
         },
         builder: (BuildContext context, CreateAddressState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

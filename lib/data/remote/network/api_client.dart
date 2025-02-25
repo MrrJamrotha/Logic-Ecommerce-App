@@ -30,31 +30,11 @@ class ApiClient implements Api {
   }
 
   @override
-  Future<BaseResponse> getUser({Map<String, dynamic>? parameters}) async {
+  Future<BaseResponse> getUserProfile(
+      {Map<String, dynamic>? parameters}) async {
     try {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getUserProfile),
-        body: jsonEncode(parameters),
-        headers: await ApiInterceptor.modifyHeaders(),
-      );
-
-      final body = jsonDecode(response.body);
-      return BaseResponse(
-        statusCode: response.statusCode,
-        status: body['status'],
-        message: body['message'],
-        data: body['records'],
-      );
-    } catch (exception) {
-      throw Exception(exception);
-    }
-  }
-
-  @override
-  Future<BaseResponse> updateUser({Map<String, dynamic>? parameters}) async {
-    try {
-      final response = await _client.post(
-        Uri.parse(ApiEndpoints.updateUserProfile),
         body: jsonEncode(parameters),
         headers: await ApiInterceptor.modifyHeaders(),
       );

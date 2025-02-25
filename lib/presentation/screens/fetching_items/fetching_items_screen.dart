@@ -270,7 +270,7 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
         bloc: screenCubit,
         builder: (BuildContext context, FetchingItemsState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);
@@ -306,12 +306,8 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
                   isLoading: false,
                 );
               },
-              firstPageProgressIndicatorBuilder: (_) => Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
-              newPageProgressIndicatorBuilder: (_) => Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
+              firstPageProgressIndicatorBuilder: (_) => centerLoading(),
+              newPageProgressIndicatorBuilder: (_) => centerLoading(),
               noItemsFoundIndicatorBuilder: (_) => Center(
                 child: TextWidget(text: "not_found_product".tr),
               ),

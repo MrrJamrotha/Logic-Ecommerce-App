@@ -4,8 +4,7 @@ abstract class Api {
   Future<BaseResponse> generateOtpCode({Map<String, dynamic>? parameters});
   Future<BaseResponse> verifyOTP({Map<String, dynamic>? parameters});
 
-  Future<BaseResponse> getUser({Map<String, dynamic>? parameters});
-  Future<BaseResponse> updateUser({Map<String, dynamic>? parameters});
+  Future<BaseResponse> getUserProfile({Map<String, dynamic>? parameters});
 
   Future<BaseResponse> getSlideShow({Map<String, dynamic>? parameters});
   Future<BaseResponse> getBrowseCategories({Map<String, dynamic>? parameters});

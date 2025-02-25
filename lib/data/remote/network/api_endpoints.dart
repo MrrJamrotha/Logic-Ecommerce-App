@@ -14,12 +14,13 @@ class ApiEndpoints {
   static final getProductBastReview = '$baseUrl/get-product-bast-review';
   static final getSpacialProduct = '$baseUrl/get-product-spacial';
 
-  static final getMerchntProfile = '$baseUrl/get-merchant-profile';
-  static final getProductByMerchnt = '$baseUrl/get-product-by-merchant';
-
   static final getProductByCategory = '$baseUrl/get-product-by-category';
   static final getProductByBrand = '$baseUrl/get-product-by-brand';
   static final getItemDetail = '$baseUrl/get-item-detail';
+
+  //Merchant
+  static final getMerchntProfile = '$baseUrl/get-merchant-profile';
+  static final getProductByMerchnt = '$baseUrl/get-product-by-merchant';
 
   //Auth
   static final generateOtpCode = '$baseUrl/generate-otp-code';
@@ -28,7 +29,5 @@ class ApiEndpoints {
   static final resetPassword = '$baseUrl/reset-password';
 
   //User
-  static final getUserProfile = '$baseUrl/user/profile';
-  static final updateUserProfile = '$baseUrl/user/profile/update';
-  static final getUserDetails = '$baseUrl/user/details';
+  static final getUserProfile = '$baseUrl/profile/get-user-profile';
 }

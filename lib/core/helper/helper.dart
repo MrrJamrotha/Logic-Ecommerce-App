@@ -95,3 +95,10 @@ String maskText(String text) {
   return text[0] + '*' * (text.length - 2) + text[text.length - 1];
 }
 
+Widget centerLoading() {
+  return Center(child: CircularProgressIndicator.adaptive());
+}
+
+Widget centerNotFoundProduct() {
+  return Center(child: TextWidget(text: "not_found_product".tr));
+}

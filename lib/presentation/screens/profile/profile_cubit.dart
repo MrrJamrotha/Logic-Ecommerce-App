@@ -10,9 +10,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     final stableState = state;
     try {
       emit(state.copyWith(isLoading: true));
-
-      // TODO your code here
-
+      final auth = await session.getUser();
+      emit(state.copyWith(userModel: auth));
       emit(state.copyWith(isLoading: false));
     } catch (error) {
       emit(state.copyWith(error: error.toString()));

@@ -1,6 +1,7 @@
 // A screen that allows users to take a picture using a given camera.
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:logic_app/core/helper/helper.dart';
 
 class TakePictureScreen extends StatefulWidget {
   static const routeName = 'take_picture_screen';
@@ -53,8 +54,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             // If the Future is complete, display the preview.
             return CameraPreview(_controller);
           } else {
-            // Otherwise, display a loading indicator.
-            return const Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
         },
       ),

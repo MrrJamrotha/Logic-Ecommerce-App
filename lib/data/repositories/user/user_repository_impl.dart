@@ -8,26 +8,11 @@ import 'package:logic_app/data/repositories/user/user_repository.dart';
 class UserRepositoryImpl implements UserRepository {
   final _apiClient = di.get<ApiClient>();
   @override
-  Future<Result<UserModel, dynamic>> getUser({
+  Future<Result<UserModel, Failure>> getUserProfile({
     Map<String, dynamic>? parameters,
   }) async {
     try {
-      final result = await _apiClient.getUser(parameters: parameters);
-      if (result.statusCode != 200) {
-        return Result.left(Failure(result.message));
-      }
-      return Result.right(result.data, message: result.message);
-    } catch (error) {
-      return Result.left(Failure(error.toString()));
-    }
-  }
-
-  @override
-  Future<Result<UserModel, dynamic>> updateUser({
-    Map<String, dynamic>? parameters,
-  }) async {
-    try {
-      final result = await _apiClient.updateUser(parameters: parameters);
+      final result = await _apiClient.getUserProfile(parameters: parameters);
       if (result.statusCode != 200) {
         return Result.left(Failure(result.message));
       }

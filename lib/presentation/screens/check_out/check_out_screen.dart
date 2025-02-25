@@ -51,7 +51,7 @@ class CheckOutScreenState extends State<CheckOutScreen> {
         },
         builder: (BuildContext context, CheckOutState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);

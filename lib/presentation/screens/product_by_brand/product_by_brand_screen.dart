@@ -216,7 +216,7 @@ class ProductByBrandScreenState extends State<ProductByBrandScreen> {
         bloc: screenCubit,
         builder: (BuildContext context, ProductByBrandState state) {
           if (state.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return centerLoading();
           }
 
           return buildBody(state);
@@ -252,12 +252,8 @@ class ProductByBrandScreenState extends State<ProductByBrandScreen> {
                   isLoading: false,
                 );
               },
-              firstPageProgressIndicatorBuilder: (_) => Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
-              newPageProgressIndicatorBuilder: (_) => Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
+              firstPageProgressIndicatorBuilder: (_) => centerLoading(),
+              newPageProgressIndicatorBuilder: (_) => centerLoading(),
               noItemsFoundIndicatorBuilder: (_) => Center(
                 child: TextWidget(text: "not_found_product".tr),
               ),
