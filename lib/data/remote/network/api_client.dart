@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:logic_app/core/common/base_response.dart';
 import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/error_handler.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/service/user_session_service.dart';
 import 'package:logic_app/core/utils/app_format.dart';
@@ -441,10 +440,6 @@ class ApiClient implements Api {
         headers: await ApiInterceptor.modifyHeaders(),
       );
       final body = jsonDecode(response.body);
-      if (response.statusCode != 200) {
-        throw ErrorHandler.handler(response.statusCode.toString()).failure;
-      }
-
       final session = di.get<UserSessionService>();
       await session.storeToken(body['token']);
       return BaseResponse(

@@ -24,13 +24,45 @@ class Result<T, E> {
   });
 
   // ✅ For Success
-  factory Result.right(T success, {String? message}) {
-    return Result(success: success, message: message);
+  factory Result.right(
+    T success, {
+    String? message,
+    int lastPage = 1,
+    int currentPage = 1,
+    List<CategoryModel>? categories,
+    List<BrandModel>? brands,
+    PriceRangeModel? priceRangeModel,
+  }) {
+    return Result(
+      success: success,
+      message: message,
+      lastPage: lastPage,
+      currentPage: currentPage,
+      categories: categories,
+      brands: brands,
+      priceRangeModel: priceRangeModel,
+    );
   }
 
   // ❌ For Failure
-  factory Result.left(E failed, {String? message}) {
-    return Result(failed: failed, message: message);
+  factory Result.left(
+    E failed, {
+    String? message,
+    int lastPage = 1,
+    int currentPage = 1,
+    List<CategoryModel>? categories,
+    List<BrandModel>? brands,
+    PriceRangeModel? priceRangeModel,
+  }) {
+    return Result(
+      failed: failed,
+      message: message,
+      lastPage: lastPage,
+      currentPage: currentPage,
+      categories: categories,
+      brands: brands,
+      priceRangeModel: priceRangeModel,
+    );
   }
 
   // ✅ Utility methods for cleaner code

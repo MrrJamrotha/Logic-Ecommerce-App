@@ -1,6 +1,5 @@
 import 'package:logic_app/core/common/result.dart';
 import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/failure.dart';
 import 'package:logic_app/data/models/merchant_model.dart';
 import 'package:logic_app/data/models/product_model.dart';
 import 'package:logic_app/data/remote/network/api_client.dart';
@@ -21,15 +20,7 @@ class MerchantRepositoryImpl implements MerchantRepository {
       final record = MerchantModel.fromJson(result.data);
       return Result(success: record);
     } catch (error) {
-      if (error is ServerFailure) {
-        return Result(failed: "Server error: ${error.message}");
-      } else if (error is NetworkFailure) {
-        return Result(failed: "Network error: ${error.message}");
-      } else if (error is CacheFailure) {
-        return Result(failed: "Cache error: ${error.message}");
-      } else {
-        return Result(failed: "Unexpected error: ${error.toString()}");
-      }
+      return Result.left(error);
     }
   }
 
@@ -54,15 +45,7 @@ class MerchantRepositoryImpl implements MerchantRepository {
         currentPage: result.currentPage,
       );
     } catch (error) {
-      if (error is ServerFailure) {
-        return Result(failed: "Server error: ${error.message}");
-      } else if (error is NetworkFailure) {
-        return Result(failed: "Network error: ${error.message}");
-      } else if (error is CacheFailure) {
-        return Result(failed: "Cache error: ${error.message}");
-      } else {
-        return Result(failed: "Unexpected error: ${error.toString()}");
-      }
+      return Result.left(error);
     }
   }
 }

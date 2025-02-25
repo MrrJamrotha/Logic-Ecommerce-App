@@ -14,23 +14,15 @@ class BrandRepositoryImpl implements BrandRepository {
     try {
       final result = await _apiClient.getBrands(parameters: parameters);
       if (result.status != 'success') {
-        return Result(failed: result.message);
+        return Result.left(Failure(result.message));
       }
 
       final records = (result.data as List<dynamic>).map((item) {
         return BrandModel.fromJson(item as Map<String, dynamic>);
       }).toList();
-      return Result(success: records);
+      return Result.right(records, message: result.message);
     } catch (error) {
-      if (error is ServerFailure) {
-        return Result(failed: "Server error: ${error.message}");
-      } else if (error is NetworkFailure) {
-        return Result(failed: "Network error: ${error.message}");
-      } else if (error is CacheFailure) {
-        return Result(failed: "Cache error: ${error.message}");
-      } else {
-        return Result(failed: "Unexpected error: ${error.toString()}");
-      }
+      return Result.left(error);
     }
   }
 }

@@ -1,6 +1,4 @@
-abstract class Failure {
-  final int message;
-  final int code;
-
-  Failure(this.code, this.message);
+class Failure {
+  final String message;
+  const Failure(this.message);
 }

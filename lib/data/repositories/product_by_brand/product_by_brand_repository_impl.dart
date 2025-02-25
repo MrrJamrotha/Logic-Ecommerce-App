@@ -16,7 +16,7 @@ class ProductByBrandRepositoryImpl implements ProductByBrandRepository {
     try {
       final result = await _apiClient.getProductByBrand(parameters: parameters);
       if (result.status != 'success') {
-        return Result(failed: result.message);
+        return Result.left(Failure(result.message));
       }
       final records = (result.data as List<dynamic>).map((item) {
         return ProductModel.fromJson(item as Map<String, dynamic>);
@@ -26,23 +26,15 @@ class ProductByBrandRepositoryImpl implements ProductByBrandRepository {
       }).toList();
 
       final priceRangeModel = PriceRangeModel.fromJson(result.priceRange);
-      return Result(
-        success: records,
+      return Result.right(
+        records,
         categories: categories,
         priceRangeModel: priceRangeModel,
         lastPage: result.lastPage,
         currentPage: result.currentPage,
       );
     } catch (error) {
-      if (error is ServerFailure) {
-        return Result(failed: "Server error: ${error.message}");
-      } else if (error is NetworkFailure) {
-        return Result(failed: "Network error: ${error.message}");
-      } else if (error is CacheFailure) {
-        return Result(failed: "Cache error: ${error.message}");
-      } else {
-        return Result(failed: "Unexpected error: ${error.toString()}");
-      }
+      return Result.left(error);
     }
   }
 }

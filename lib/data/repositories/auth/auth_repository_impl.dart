@@ -1,6 +1,5 @@
 import 'package:logic_app/core/common/result.dart';
 import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/error_handler.dart';
 import 'package:logic_app/core/error/failure.dart';
 import 'package:logic_app/core/service/user_session_service.dart';
 import 'package:logic_app/data/models/user_model.dart';
@@ -17,9 +16,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final result = await _apiClient.generateOtpCode(parameters: parameters);
       if (result.status != 'success') {
-        return Result.left(
-          Failure(result.statusCode ?? -1, result.message),
-        );
+        return Result.left(Failure(result.message));
       }
       return Result.right(
         result.status,
@@ -37,8 +34,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final result = await _apiClient.verifyOTP(parameters: parameters);
 
-      if (result.statusCode != 200 || result.status == "failed") {
-        return Result.left(Failure(result.statusCode ?? 400, result.message));
+      if (result.status != 'success') {
+        return Result.left(Failure(result.message));
       }
 
       final record = UserModel.fromJson(result.data);
