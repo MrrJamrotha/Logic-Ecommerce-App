@@ -67,6 +67,7 @@ class OtpScreenState extends State<OtpScreen> {
         'phone_number': widget.parameters['phone_number'],
         'code': controller.text,
       });
+      LoadingOverlay.hide();
 
       if (result) {
         showMessage(
@@ -74,17 +75,13 @@ class OtpScreenState extends State<OtpScreen> {
           status: MessageStatus.success,
         );
         if (!mounted) return;
-        Navigator.of(context)
-          ..pop()
-          ..pop({'result': result});
+        Navigator.pop(context, {'result': result});
       } else {
         showMessage(
           message: screenCubit.state.message ?? "",
           status: MessageStatus.warning,
         );
       }
-
-      LoadingOverlay.hide();
     }
   }
 

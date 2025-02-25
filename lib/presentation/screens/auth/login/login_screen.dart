@@ -55,6 +55,10 @@ class LoginScreenState extends State<LoginScreen> {
           );
           Navigator.pushNamed(context, OtpScreen.routeName, arguments: {
             'phone_number': '${_dialCodeCtr.text}${_phoneNumberCtr.text}',
+          }).then((value) {
+            var data = value as Map;
+            if (!mounted) return;
+            Navigator.pop(context, data);
           });
         } else {
           showMessage(

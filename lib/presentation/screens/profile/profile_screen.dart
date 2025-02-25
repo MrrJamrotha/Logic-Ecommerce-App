@@ -182,7 +182,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildBody(ProfileState state) {
-    if (!state.isLogin && state.userModel == null) {
+    if (!state.isLogin) {
       return Padding(
         padding: EdgeInsets.all(appPedding.scale),
         child: Column(

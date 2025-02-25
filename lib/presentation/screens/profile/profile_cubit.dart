@@ -44,7 +44,12 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<bool> logout() async {
     try {
       await session.logout();
-      emit(state.copyWith(isLogin: false, userModel: null));
+      emit(state.copyWith(
+        isLogin: false,
+        userModel: null,
+        isLoading: false,
+      ));
+
       return true;
     } catch (error) {
       addError(error);
