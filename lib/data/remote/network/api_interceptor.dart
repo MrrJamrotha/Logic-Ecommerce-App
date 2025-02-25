@@ -6,7 +6,7 @@ class ApiInterceptor {
     final session = di.get<UserSessionService>();
 
     String? token = await session.getToken();
-
+    // print(token);
     Map<String, String> headers = {};
     headers['Content-Type'] = 'application/json';
     headers['Accept'] = 'application/json';

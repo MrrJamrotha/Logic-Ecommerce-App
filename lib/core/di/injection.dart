@@ -8,6 +8,7 @@ import 'package:logic_app/core/service/shared_preferences_service.dart';
 import 'package:logic_app/core/service/user_session_service.dart';
 import 'package:logic_app/data/remote/network/api_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:logic_app/data/repositories/address/address_repository_impl.dart';
 import 'package:logic_app/data/repositories/auth/auth_repository_impl.dart';
 import 'package:logic_app/data/repositories/brand/brand_repository_impl.dart';
 import 'package:logic_app/data/repositories/category/category_repository_impl.dart';
@@ -64,4 +65,6 @@ void setupInjector() {
       () => UserSessionService.instance);
 
   di.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl());
+  di.registerLazySingleton<AddressRepositoryImpl>(
+      () => AddressRepositoryImpl());
 }
