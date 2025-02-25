@@ -80,7 +80,13 @@ class AddressScreenState extends State<AddressScreen> {
             padding: EdgeInsets.only(bottom: appSpace.scale),
             child: BoxWidget(
               onTap: () {
-                Navigator.pushNamed(context, UpdateAddressScreen.routeName);
+                Navigator.pushNamed(context, UpdateAddressScreen.routeName,
+                    arguments: {'id': record.id}).then((response) {
+                  var data = response as Map;
+                  if (data['record'] != null) {
+                    screenCubit.updateAddress(data['record']);
+                  }
+                });
               },
               borderRadius: BorderRadius.circular(appRadius.scale),
               padding: EdgeInsets.all(appSpace.scale),

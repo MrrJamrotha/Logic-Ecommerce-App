@@ -75,7 +75,7 @@ class AddressRepositoryImpl implements AddressRepository {
     Map<String, dynamic>? parameters,
   }) async {
     try {
-      final result = await _apiClient.getAddressById();
+      final result = await _apiClient.getAddressById(parameters: parameters);
       if (result.status != 'success') {
         return Result.left(Failure(result.message));
       }
@@ -94,7 +94,7 @@ class AddressRepositoryImpl implements AddressRepository {
     Map<String, dynamic>? parameters,
   }) async {
     try {
-      final result = await _apiClient.updateAddress();
+      final result = await _apiClient.updateAddress(parameters: parameters);
       if (result.status != 'success') {
         return Result.left(Failure(result.message));
       }

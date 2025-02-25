@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logic_app/core/constants/app_colors.dart' show appWhite;
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -30,7 +31,6 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
   final screenCubit = CreateAddressCubit();
   final _controller = Completer<GoogleMapController>();
   final _formKey = GlobalKey<FormState>();
-  final _nikeNameCtr = TextEditingController();
   final _phoneCtr = TextEditingController();
   final _addressLine1Ctr = TextEditingController();
   final _addressLine2Ctr = TextEditingController();
@@ -74,7 +74,10 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
       }
       LoadingOverlay.hide();
       if (!mounted) return;
-      Navigator.pop(context, {'record': screenCubit.state.record});
+      Navigator.pop(context, {
+        'record': screenCubit.state.record,
+        'type': StateType.created,
+      });
     } catch (error) {
       LoadingOverlay.hide();
       throw Exception(error.toString());
@@ -178,7 +181,6 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
               onChanged: (newValue) {
                 setState(() {
                   _currentNickName = newValue!;
-                  _nikeNameCtr.text = _currentNickName;
                 });
               },
             ),

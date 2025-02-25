@@ -478,7 +478,6 @@ class ApiClient implements Api {
         data: body['record'] ?? "",
       );
     } catch (exception) {
-      print(exception);
       throw Exception(exception);
     }
   }

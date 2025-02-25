@@ -57,7 +57,7 @@ class AddressCubit extends Cubit<AddressState> {
     }
   }
 
-  Future<void> insertAddress(AddressModel record) async {
+  void insertAddress(AddressModel record) {
     try {
       var records = state.records ?? [];
       records = [...records, record];
@@ -67,6 +67,20 @@ class AddressCubit extends Cubit<AddressState> {
 
       // Emit the updated state
       emit(state.copyWith(records: records));
+    } catch (error) {
+      addError(error);
+    }
+  }
+
+  void updateAddress(AddressModel record) async {
+    try {
+      var records = state.records ?? [];
+      final index = records.indexWhere((item) => item.id == record.id);
+      if (index != -1) {
+        records[index] = record;
+        pagingController.itemList = records;
+        emit(state.copyWith(records: records));
+      }
     } catch (error) {
       addError(error);
     }

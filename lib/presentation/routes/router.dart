@@ -201,10 +201,10 @@ class AppNavigator {
       case UpdateAddressScreen.routeName:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            // final parameters = settings.arguments as Map<String, dynamic>;
+            final parameters = settings.arguments as Map<String, dynamic>;
             return UpdateAddressScreen(
               key: ValueKey(BrandScreen.routeName),
-              // parameters: parameters,
+              parameters: parameters,
             );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {

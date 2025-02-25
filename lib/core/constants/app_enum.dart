@@ -77,3 +77,8 @@ enum ListProductType {
   category,
   brand,
 }
+
+enum StateType {
+  created,
+  updated,
+}
