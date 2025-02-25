@@ -51,4 +51,39 @@ class AddressModel {
       isDefault: json['is_default'] ?? false,
     );
   }
+
+  // CopyWith method
+  AddressModel copyWith({
+    String? id,
+    String? type,
+    String? phoneNumber,
+    String? address,
+    String? address2,
+    String? city,
+    String? stateNo,
+    String? homeNo,
+    String? country,
+    String? postalCode,
+    String? notes,
+    String? latitude,
+    String? longitude,
+    bool? isDefault,
+  }) {
+    return AddressModel(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
+      address2: address2 ?? this.address2,
+      city: city ?? this.city,
+      stateNo: stateNo ?? this.stateNo,
+      homeNo: homeNo ?? this.homeNo,
+      country: country ?? this.country,
+      postalCode: postalCode ?? this.postalCode,
+      notes: notes ?? this.notes,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      isDefault: isDefault ?? this.isDefault,
+    );
+  }
 }

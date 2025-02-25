@@ -34,4 +34,5 @@ abstract class Api {
   Future<BaseResponse> createAddress({Map<String, dynamic>? parameters});
   Future<BaseResponse> updateAddress({Map<String, dynamic>? parameters});
   Future<BaseResponse> deleteAddress({Map<String, dynamic>? parameters});
+  Future<BaseResponse> setDefaultAddress({Map<String, dynamic>? parameters});
 }

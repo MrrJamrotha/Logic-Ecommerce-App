@@ -22,4 +22,8 @@ abstract class AddressRepository {
   Future<Result<AddressModel, Failure>> deleteAddress({
     Map<String, dynamic>? parameters,
   });
+
+  Future<Result<AddressModel, Failure>> setDefaultAddress({
+    Map<String, dynamic>? parameters,
+  });
 }

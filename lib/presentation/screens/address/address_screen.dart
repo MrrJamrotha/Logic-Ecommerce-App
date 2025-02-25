@@ -4,7 +4,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/helper/loading_overlay.dart';
@@ -17,7 +16,6 @@ import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/box_widget.dart';
 import 'package:logic_app/presentation/widgets/button_widget.dart';
 import 'package:logic_app/presentation/widgets/error_type_widget.dart';
-import 'package:logic_app/presentation/widgets/icon_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
 class AddressScreen extends StatefulWidget {
@@ -32,10 +30,8 @@ class AddressScreen extends StatefulWidget {
 class AddressScreenState extends State<AddressScreen>
     with TickerProviderStateMixin {
   final screenCubit = AddressCubit();
-  // late SlidableController _controller;
   @override
   void initState() {
-    // _controller = SlidableController(this);
     screenCubit.loadInitialData();
     super.initState();
   }
@@ -45,6 +41,16 @@ class AddressScreenState extends State<AddressScreen>
       Navigator.pop(context);
       LoadingOverlay.show(context);
       await screenCubit.deleteAddress(id);
+      LoadingOverlay.hide();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  void _setDefaultAddress(String id) async {
+    try {
+      LoadingOverlay.show(context);
+      await screenCubit.setDefaultAddress(id);
       LoadingOverlay.hide();
     } catch (e) {
       throw Exception(e);
@@ -83,7 +89,6 @@ class AddressScreenState extends State<AddressScreen>
   }
 
   void _handleUpdateOpen(BuildContext context, String id) {
-    // _controller.openEndActionPane();
     Navigator.pushNamed(context, UpdateAddressScreen.routeName,
         arguments: {'id': id}).then((response) {
       var data = response as Map;
@@ -94,7 +99,6 @@ class AddressScreenState extends State<AddressScreen>
   }
 
   void _handleDeleteOpen(BuildContext context, String id) {
-    // _controller.openEndActionPane();
     showDialogDeleteAddress(id);
   }
 
@@ -144,7 +148,6 @@ class AddressScreenState extends State<AddressScreen>
             padding: EdgeInsets.only(bottom: appSpace.scale),
             child: Slidable(
               key: ValueKey(index),
-              // controller: _controller,
               endActionPane: ActionPane(
                 motion: ScrollMotion(),
                 children: [
@@ -171,7 +174,7 @@ class AddressScreenState extends State<AddressScreen>
                 children: [
                   BoxWidget(
                     width: double.infinity,
-                    onTap: () {},
+                    onTap: () => _setDefaultAddress(record.id),
                     borderRadius: BorderRadius.circular(appRadius.scale),
                     padding: EdgeInsets.all(appSpace.scale),
                     child: Column(
@@ -196,6 +199,16 @@ class AddressScreenState extends State<AddressScreen>
                       ],
                     ),
                   ),
+                  if (record.isDefault)
+                    Positioned(
+                      top: 5.scale,
+                      right: 5.scale,
+                      child: Icon(
+                        Icons.check_circle,
+                        color: primary,
+                        size: 24.scale,
+                      ),
+                    )
                 ],
               ),
             ),

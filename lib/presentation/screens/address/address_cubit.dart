@@ -109,6 +109,31 @@ class AddressCubit extends Cubit<AddressState> {
     }
   }
 
+  Future<void> setDefaultAddress(String id) async {
+    try {
+      await repos.setDefaultAddress(parameters: {'id': id}).then((response) {
+        response.fold((failure) {
+          emit(state.copyWith(error: failure.toString()));
+          showMessage(message: failure.message, status: MessageStatus.warning);
+        }, (success) {
+          var records = state.records ?? [];
+
+          // Update the records: set selected address to true, others to false
+          records = records.map((item) {
+            return item.copyWith(isDefault: item.id == id);
+          }).toList();
+
+          pagingController.itemList = records;
+          emit(state.copyWith(records: records));
+
+          showMessage(message: response.message ?? "");
+        });
+      });
+    } catch (e) {
+      addError(e);
+    }
+  }
+
   @override
   Future<void> close() {
     pagingController.dispose();

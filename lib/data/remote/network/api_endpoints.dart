@@ -37,4 +37,5 @@ class ApiEndpoints {
   static final createAddress = '$baseUrl/address/create-address';
   static final updateAddress = '$baseUrl/address/update-address';
   static final deleteAddress = '$baseUrl/address/delete-address';
+  static final setDefaultAddress = '$baseUrl/address/set-default-address';
 }
