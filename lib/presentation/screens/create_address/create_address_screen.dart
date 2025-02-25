@@ -99,12 +99,22 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
           return buildBody(state);
         },
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(appPedding.scale),
-        child: ButtonWidget(
-          title: 'save'.tr,
-          onPressed: () => _createAddress(),
-        ),
+      bottomNavigationBar:
+          BlocSelector<CreateAddressCubit, CreateAddressState, bool>(
+        bloc: screenCubit,
+        selector: (state) {
+          return state.isLoading;
+        },
+        builder: (context, state) {
+          if (state) return SizedBox.shrink();
+          return Padding(
+            padding: EdgeInsets.all(appPedding.scale),
+            child: ButtonWidget(
+              title: 'save'.tr,
+              onPressed: () => _createAddress(),
+            ),
+          );
+        },
       ),
     );
   }

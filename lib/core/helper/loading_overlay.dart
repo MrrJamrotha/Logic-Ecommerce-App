@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/success/success_screen.dart';
 
@@ -16,7 +18,19 @@ class LoadingOverlay {
             color: Colors.black.withOpacity(0.5),
             dismissible: false,
           ),
-          centerLoading(),
+          Center(
+            child: Container(
+              alignment: Alignment.center,
+              width: 100.scale,
+              height: 100.scale,
+              padding: EdgeInsets.all(appPedding),
+              decoration: BoxDecoration(
+                color: appWhite,
+                borderRadius: BorderRadius.circular(appRadius.scale),
+              ),
+              child: centerLoading(),
+            ),
+          ),
         ],
       ),
     );

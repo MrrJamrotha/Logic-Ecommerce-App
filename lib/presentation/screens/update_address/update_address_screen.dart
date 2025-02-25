@@ -115,21 +115,27 @@ class UpdateAddressScreenState extends State<UpdateAddressScreen> {
           return buildBody(state);
         },
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(appPedding.scale),
-        child: ButtonWidget(
-          title: 'update'.tr,
-          onPressed: () => _updateAddress(),
-        ),
+      bottomNavigationBar:
+          BlocSelector<UpdateAddressCubit, UpdateAddressState, bool>(
+        bloc: screenCubit,
+        selector: (state) {
+          return state.isLoading;
+        },
+        builder: (context, state) {
+          if (state) SizedBox.shrink();
+          return Padding(
+            padding: EdgeInsets.all(appPedding.scale),
+            child: ButtonWidget(
+              title: 'update'.tr,
+              onPressed: () => _updateAddress(),
+            ),
+          );
+        },
       ),
     );
   }
 
   Widget buildBody(UpdateAddressState state) {
-    print(LatLng(
-      state.position?.latitude ?? 11.5564,
-      state.position?.longitude ?? 104.9282,
-    ));
     return SingleChildScrollView(
       padding: EdgeInsets.all(appPedding.scale),
       child: Form(

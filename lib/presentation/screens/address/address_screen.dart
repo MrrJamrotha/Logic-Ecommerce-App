@@ -32,10 +32,10 @@ class AddressScreen extends StatefulWidget {
 class AddressScreenState extends State<AddressScreen>
     with TickerProviderStateMixin {
   final screenCubit = AddressCubit();
-  late SlidableController _controller;
+  // late SlidableController _controller;
   @override
   void initState() {
-    _controller = SlidableController(this);
+    // _controller = SlidableController(this);
     screenCubit.loadInitialData();
     super.initState();
   }
@@ -83,7 +83,7 @@ class AddressScreenState extends State<AddressScreen>
   }
 
   void _handleUpdateOpen(BuildContext context, String id) {
-    _controller.openEndActionPane();
+    // _controller.openEndActionPane();
     Navigator.pushNamed(context, UpdateAddressScreen.routeName,
         arguments: {'id': id}).then((response) {
       var data = response as Map;
@@ -94,7 +94,7 @@ class AddressScreenState extends State<AddressScreen>
   }
 
   void _handleDeleteOpen(BuildContext context, String id) {
-    _controller.openEndActionPane();
+    // _controller.openEndActionPane();
     showDialogDeleteAddress(id);
   }
 
@@ -144,7 +144,7 @@ class AddressScreenState extends State<AddressScreen>
             padding: EdgeInsets.only(bottom: appSpace.scale),
             child: Slidable(
               key: ValueKey(index),
-              controller: _controller,
+              // controller: _controller,
               endActionPane: ActionPane(
                 motion: ScrollMotion(),
                 children: [
