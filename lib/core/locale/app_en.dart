@@ -115,4 +115,6 @@ final Map<String, String> en = {
   'sign_in': 'Sign in',
   'phone_number_required': 'Phone number required',
   'phone_number_length': 'Phone number must be at least 8 digits',
+  'you_logout_success': 'You log out successfully',
+  'logout_failed': 'Log out failed',
 };

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
+import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/helper/loading_overlay.dart';
+import 'package:logic_app/data/models/user_model.dart';
 import 'package:logic_app/presentation/screens/address/address_screen.dart';
+import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:logic_app/presentation/screens/cubit/currency_screen.dart';
 import 'package:logic_app/presentation/screens/edit_profile/edit_profile_screen.dart';
 import 'package:logic_app/presentation/screens/language/language_screen.dart';
@@ -116,10 +120,14 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   void _handleLogout() async {
     try {
-      LoadingOverlay.show(context);
-      await screenCubit.logout();
-      if (!mounted) return;
       Navigator.pop(context);
+      LoadingOverlay.show(context);
+      final result = await screenCubit.logout();
+      if (result) {
+        showMessage(message: 'you_logout_success'.tr);
+      } else {
+        showMessage(message: 'logout_failed'.tr, status: MessageStatus.warning);
+      }
       LoadingOverlay.hide();
     } catch (e) {
       LoadingOverlay.hide();
@@ -174,19 +182,47 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildBody(ProfileState state) {
+    if (!state.isLogin && state.userModel == null) {
+      return Padding(
+        padding: EdgeInsets.all(appPedding.scale),
+        child: Column(
+          spacing: appPedding.scale,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Image.asset(
+                loginPng,
+                width: 200.scale,
+                height: 200.scale,
+              ),
+            ),
+            ButtonWidget(
+              title: 'sign_in'.tr,
+              onPressed: () {
+                Navigator.pushNamed(context, LoginScreen.routeName)
+                    .then((value) {
+                  screenCubit.loadInitialData();
+                });
+              },
+            )
+          ],
+        ),
+      );
+    }
     return SingleChildScrollView(
       padding: EdgeInsets.all(appPedding.scale),
       child: Column(
         spacing: appPedding.scale,
         children: [
-          _buildBoxProfile(),
+          _buildBoxProfile(state.userModel),
           _buildListMenu(),
         ],
       ),
     );
   }
 
-  Row _buildBoxProfile() {
+  Row _buildBoxProfile(UserModel? user) {
     return Row(
       spacing: appSpace.scale,
       children: [
@@ -195,20 +231,19 @@ class ProfileScreenState extends State<ProfileScreen> {
           height: 120.scale,
           boxFit: BoxFit.cover,
           borderRadius: BorderRadius.circular(100.scale),
-          imageUrl:
-              'https://sm.ign.com/t/ign_nordic/feature/t/the-avatar/the-avatar-the-last-airbender-trailer-gets-a-lot-right-but-w_tkwa.1200.jpg',
-          blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+          imageUrl: user?.avatar ?? "",
+          blurHash: user?.avatarHash ?? "",
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 5.scale,
           children: [
             TextWidget(
-              text: 'Soeurn Rotha',
+              text: user?.username ?? "",
               fontSize: 18.scale,
             ),
             TextWidget(
-              text: '099 299 011',
+              text: user?.phoneNumber ?? "",
               fontSize: 16.scale,
               color: textColor,
             ),

@@ -16,7 +16,8 @@ class UserRepositoryImpl implements UserRepository {
       if (result.statusCode != 200) {
         return Result.left(Failure(result.message));
       }
-      return Result.right(result.data, message: result.message);
+      final record = UserModel.fromJson(result.data);
+      return Result.right(record, message: result.message);
     } catch (error) {
       return Result.left(Failure(error.toString()));
     }

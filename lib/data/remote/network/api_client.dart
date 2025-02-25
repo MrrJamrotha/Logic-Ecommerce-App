@@ -30,8 +30,9 @@ class ApiClient implements Api {
   }
 
   @override
-  Future<BaseResponse> getUserProfile(
-      {Map<String, dynamic>? parameters}) async {
+  Future<BaseResponse> getUserProfile({
+    Map<String, dynamic>? parameters,
+  }) async {
     try {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getUserProfile),
@@ -44,7 +45,7 @@ class ApiClient implements Api {
         statusCode: response.statusCode,
         status: body['status'],
         message: body['message'],
-        data: body['records'],
+        data: body['record'],
       );
     } catch (exception) {
       throw Exception(exception);
