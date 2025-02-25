@@ -14,7 +14,11 @@ class HomeCubit extends HydratedCubit<HomeState> {
     try {
       emit(state.copyWith(isLoadingSlideShow: true));
       await repos.getSlideShow(parameters: parameters).then((response) {
-        emit(state.copyWith(slideShowModels: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(slideShowModels: []));
+        }, (success) {
+          emit(state.copyWith(slideShowModels: success));
+        });
       });
       emit(state.copyWith(isLoadingSlideShow: false));
     } catch (e) {
@@ -27,7 +31,11 @@ class HomeCubit extends HydratedCubit<HomeState> {
     try {
       emit(state.copyWith(isLoadingCategory: true));
       await repos.getBrowseCategories().then((response) {
-        emit(state.copyWith(categoryModels: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(categoryModels: []));
+        }, (success) {
+          emit(state.copyWith(categoryModels: response.success));
+        });
       });
       emit(state.copyWith(isLoadingCategory: false));
     } catch (e) {
@@ -40,7 +48,11 @@ class HomeCubit extends HydratedCubit<HomeState> {
     try {
       emit(state.copyWith(isLoadingCategory: true));
       await repos.getBrands().then((response) {
-        emit(state.copyWith(brandModels: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(brandModels: []));
+        }, (success) {
+          emit(state.copyWith(brandModels: response.success));
+        });
       });
       emit(state.copyWith(isLoadingCategory: false));
     } catch (e) {
@@ -53,7 +65,11 @@ class HomeCubit extends HydratedCubit<HomeState> {
     try {
       emit(state.copyWith(isLoadingRecommend: true));
       await repos.getRecommendedForYou().then((response) {
-        emit(state.copyWith(recommendProducts: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(recommendProducts: []));
+        }, (success) {
+          emit(state.copyWith(recommendProducts: response.success));
+        });
       });
       emit(state.copyWith(isLoadingRecommend: false));
     } catch (e) {
@@ -66,7 +82,11 @@ class HomeCubit extends HydratedCubit<HomeState> {
     try {
       emit(state.copyWith(isLoadingNewArrival: true));
       await repos.getProductNewArrivals().then((response) {
-        emit(state.copyWith(newArrivals: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(newArrivals: []));
+        }, (success) {
+          emit(state.copyWith(newArrivals: success));
+        });
       });
       emit(state.copyWith(isLoadingNewArrival: false));
     } catch (e) {
@@ -79,7 +99,11 @@ class HomeCubit extends HydratedCubit<HomeState> {
     try {
       emit(state.copyWith(isLoadingBastReview: true));
       await repos.getProductBastReview().then((response) {
-        emit(state.copyWith(bastReviewProducts: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(bastReviewProducts: []));
+        }, (success) {
+          emit(state.copyWith(bastReviewProducts: success));
+        });
       });
       emit(state.copyWith(isLoadingBastReview: false));
     } catch (e) {
@@ -92,7 +116,11 @@ class HomeCubit extends HydratedCubit<HomeState> {
     try {
       emit(state.copyWith(isLoadingSpecialProducts: true));
       await repos.getSpacialProduct().then((response) {
-        emit(state.copyWith(specialProducts: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(specialProducts: []));
+        }, (success) {
+          emit(state.copyWith(specialProducts: success));
+        });
       });
       emit(state.copyWith(isLoadingSpecialProducts: false));
     } catch (e) {

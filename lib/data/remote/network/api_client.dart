@@ -441,7 +441,10 @@ class ApiClient implements Api {
       );
       final body = jsonDecode(response.body);
       final session = di.get<UserSessionService>();
-      await session.storeToken(body['token']);
+      if (body['token'] != null) {
+        await session.storeToken(body['token']);
+      }
+
       return BaseResponse(
         statusCode: response.statusCode,
         status: body['status'] ?? "",

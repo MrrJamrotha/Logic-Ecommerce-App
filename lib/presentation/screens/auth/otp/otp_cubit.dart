@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/repositories/auth/auth_repository_impl.dart';
@@ -10,18 +9,15 @@ class OtpCubit extends Cubit<OtpState> {
   final repos = di.get<AuthRepositoryImpl>();
 
   Future<bool> verifyOtp({Map<String, dynamic>? parameters}) async {
-    emit(state.copyWith(isLoading: true));
-    await repos.verifyOtp(parameters: parameters).then((response) {
-      response.fold((failure) {
-        final failure = response.failed;
+    try {
+      emit(state.copyWith(isLoading: true));
+      final response = await repos.verifyOtp(parameters: parameters);
+      final result = response.fold((failure) {
         emit(state.copyWith(
-          message: failure?.message,
+          message: failure.message,
           isLoading: false,
         ));
-        showMessage(
-          message: failure?.message ?? "",
-          status: MessageStatus.warning,
-        );
+
         return false;
       }, (success) {
         emit(state.copyWith(
@@ -29,14 +25,14 @@ class OtpCubit extends Cubit<OtpState> {
           message: response.message,
           isLoading: false,
         ));
-        showMessage(
-          message: response.message ?? "",
-          status: MessageStatus.success,
-        );
+
         return true;
       });
-    });
-    return false;
+      return result;
+    } catch (e) {
+      addError(e);
+      return false;
+    }
   }
 
   @override

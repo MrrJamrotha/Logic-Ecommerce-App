@@ -4,7 +4,6 @@ import 'dart:isolate';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/failure.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/models/country_model.dart';
 import 'package:logic_app/data/repositories/auth/auth_repository_impl.dart';
@@ -56,23 +55,24 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       emit(state.copyWith(isLoadingOverlay: true));
 
-      final response = await repos.generateOtpCode(parameters: parameters);
-
-      return response.fold(
-        (failure) {
-          // Handle failure (Left)
-          final failure = response.failed as Failure;
-          emit(state.copyWith(message: failure.message));
-          emit(state.copyWith(isLoadingOverlay: false));
+      final result =
+          await repos.generateOtpCode(parameters: parameters).then((response) {
+        return response.fold((failure) {
+          emit(state.copyWith(
+            isLoadingOverlay: false,
+            message: failure.message,
+          ));
           return false;
-        },
-        (success) {
-          // Handle success (Right)
-          emit(state.copyWith(message: response.message));
-          emit(state.copyWith(isLoadingOverlay: false));
+        }, (success) {
+          emit(state.copyWith(
+            message: response.message,
+            isLoadingOverlay: false,
+          ));
           return true;
-        },
-      );
+        });
+      });
+
+      return result;
     } catch (e) {
       addError(e);
       emit(state.copyWith(isLoadingOverlay: false));

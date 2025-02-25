@@ -12,7 +12,11 @@ class ItemDetailCubit extends Cubit<ItemDetailState> {
     try {
       emit(state.copyWith(isLoading: true));
       await repos.getItemDetail(parameters: parameters).then((response) {
-        emit(state.copyWith(itemDetailModel: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(itemDetailModel: null));
+        }, (success) {
+          emit(state.copyWith(itemDetailModel: response.success));
+        });
       });
       emit(state.copyWith(isLoading: false));
     } catch (error) {
@@ -27,7 +31,11 @@ class ItemDetailCubit extends Cubit<ItemDetailState> {
     try {
       emit(state.copyWith(isLoadingRelatedProduct: true));
       await repos.getRelatedProduct(parameters: parameters).then((response) {
-        emit(state.copyWith(relatedProducts: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(relatedProducts: []));
+        }, (success) {
+          emit(state.copyWith(relatedProducts: response.success));
+        });
       });
       emit(state.copyWith(isLoadingRelatedProduct: false));
     } catch (e) {

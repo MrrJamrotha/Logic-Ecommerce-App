@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logic_app/core/common/result.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/utils/app_format.dart';
@@ -72,7 +73,7 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
       if (pageKey == 1) {
         pagingController.refresh();
       }
-      dynamic response;
+      late Result response;
       switch (type) {
         case FetchingType.recommented:
           response = await repos.getRecommendedForYou(
@@ -105,28 +106,31 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
         case FetchingType.wishlist:
           break;
       }
+      response.fold((failure) {
+        emit(state.copyWith(error: failure.message));
+      }, (success) {
+        var records = response.success ?? [];
+        final isLastPage = response.currentPage >= response.lastPage;
+        if (isLastPage) {
+          pagingController.appendLastPage(records);
+        } else {
+          final nextPageKey = pageKey + 1;
+          pagingController.appendPage(records, nextPageKey);
+        }
 
-      var records = response.success ?? [];
-      final isLastPage = response.currentPage >= response.lastPage;
-      if (isLastPage) {
-        pagingController.appendLastPage(records);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(records, nextPageKey);
-      }
-
-      emit(state.copyWith(
-        records: response.success,
-        categories: response.categories,
-        brands: response.brands,
-        priceRangeModel: response.priceRangeModel,
-        rangeValues: RangeValues(
-          AppFormat.toDouble(response.priceRangeModel?.minPrice),
-          AppFormat.toDouble(response.priceRangeModel?.maxPrice),
-        ),
-        lastPage: response.lastPage,
-        currentPage: response.currentPage,
-      ));
+        emit(state.copyWith(
+          records: response.success,
+          categories: response.categories,
+          brands: response.brands,
+          priceRangeModel: response.priceRangeModel,
+          rangeValues: RangeValues(
+            AppFormat.toDouble(response.priceRangeModel?.minPrice),
+            AppFormat.toDouble(response.priceRangeModel?.maxPrice),
+          ),
+          lastPage: response.lastPage,
+          currentPage: response.currentPage,
+        ));
+      });
     } catch (error) {
       pagingController.error = error;
       emit(state.copyWith(error: error.toString()));
@@ -207,7 +211,7 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
     try {
       emit(state.copyWith(isLoading: true));
       pagingController.refresh();
-      dynamic response;
+      late Result response;
       switch (type) {
         case FetchingType.recommented:
           response = await repos.getRecommendedForYou(parameters: parameters);
@@ -231,20 +235,23 @@ class FetchingItemsCubit extends Cubit<FetchingItemsState> {
           break;
       }
 
-      emit(state.copyWith(
-        records: response.success,
-        categories: response.categories,
-        brands: response.brands,
-        priceRangeModel: response.priceRangeModel,
-        rangeValues: RangeValues(
-          AppFormat.toDouble(response.priceRangeModel?.minPrice),
-          AppFormat.toDouble(response.priceRangeModel?.maxPrice),
-        ),
-        lastPage: response.lastPage,
-        currentPage: response.currentPage,
-      ));
-
-      emit(state.copyWith(isLoading: false));
+      response.fold((failure) {
+        emit(state.copyWith(error: failure.message, isLoading: false));
+      }, (success) {
+        emit(state.copyWith(
+          records: response.success,
+          categories: response.categories,
+          brands: response.brands,
+          priceRangeModel: response.priceRangeModel,
+          rangeValues: RangeValues(
+            AppFormat.toDouble(response.priceRangeModel?.minPrice),
+            AppFormat.toDouble(response.priceRangeModel?.maxPrice),
+          ),
+          lastPage: response.lastPage,
+          currentPage: response.currentPage,
+          isLoading: false,
+        ));
+      });
     } catch (e) {
       emit(stableState.copyWith(isLoading: false));
       addError(e);

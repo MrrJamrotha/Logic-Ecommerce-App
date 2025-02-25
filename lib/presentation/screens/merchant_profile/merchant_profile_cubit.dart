@@ -20,7 +20,11 @@ class MerchantProfileCubit extends Cubit<MerchantProfileState> {
     try {
       emit(state.copyWith(isLoading: true));
       await repos.getMerchantProfile(parameters: parameters).then((response) {
-        emit(state.copyWith(record: response.success));
+        response.fold((failure) {
+          emit(state.copyWith(error: failure.toString()));
+        }, (success) {
+          emit(state.copyWith(record: response.success));
+        });
       });
       emit(state.copyWith(isLoading: false));
     } catch (error) {
@@ -55,21 +59,28 @@ class MerchantProfileCubit extends Cubit<MerchantProfileState> {
         ...?parameters,
       });
 
-      var records = response.success ?? [];
-      final isLastPage = response.currentPage >= response.lastPage;
-      if (isLastPage) {
-        pagingController.appendLastPage(records);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(records, nextPageKey);
-      }
+      response.fold((failure) {
+        emit(state.copyWith(
+          error: failure.toString(),
+          isLoadingProduct: false,
+        ));
+      }, (success) {
+        var records = response.success ?? [];
+        final isLastPage = response.currentPage >= response.lastPage;
+        if (isLastPage) {
+          pagingController.appendLastPage(records);
+        } else {
+          final nextPageKey = pageKey + 1;
+          pagingController.appendPage(records, nextPageKey);
+        }
 
-      emit(state.copyWith(
-        products: response.success,
-        lastPage: response.lastPage,
-        currentPage: response.currentPage,
-        isLoadingProduct: false,
-      ));
+        emit(state.copyWith(
+          products: response.success,
+          lastPage: response.lastPage,
+          currentPage: response.currentPage,
+          isLoadingProduct: false,
+        ));
+      });
     } catch (e, stackTrace) {
       addError(e, stackTrace);
     }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -68,10 +69,19 @@ class OtpScreenState extends State<OtpScreen> {
       });
 
       if (result) {
+        showMessage(
+          message: screenCubit.state.message ?? "",
+          status: MessageStatus.success,
+        );
         if (!mounted) return;
         Navigator.of(context)
           ..pop()
           ..pop({'result': result});
+      } else {
+        showMessage(
+          message: screenCubit.state.message ?? "",
+          status: MessageStatus.warning,
+        );
       }
 
       LoadingOverlay.hide();
