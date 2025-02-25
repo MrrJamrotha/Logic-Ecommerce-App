@@ -10,7 +10,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final _apiClient = di.get<ApiClient>();
   final _session = di.get<UserSessionService>();
   @override
-  Future<Result<String, dynamic>> generateOtpCode({
+  Future<Result<String, Failure>> generateOtpCode({
     Map<String, dynamic>? parameters,
   }) async {
     try {
@@ -23,12 +23,12 @@ class AuthRepositoryImpl implements AuthRepository {
         message: result.message,
       );
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 
   @override
-  Future<Result<UserModel, dynamic>> verifyOtp({
+  Future<Result<UserModel, Failure>> verifyOtp({
     Map<String, dynamic>? parameters,
   }) async {
     try {
@@ -40,10 +40,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final record = UserModel.fromJson(result.data);
       await _session.storeUser(record);
-
       return Result.right(record, message: result.message);
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/data/models/user_model.dart';
+import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:logic_app/presentation/screens/cart/cart_cubit.dart';
 import 'package:logic_app/presentation/screens/cart/cart_state.dart';
 import 'package:logic_app/presentation/screens/check_out/check_out_screen.dart';
@@ -24,11 +27,23 @@ class CartScreen extends StatefulWidget {
 
 class CartScreenState extends State<CartScreen> {
   final screenCubit = CartCubit();
-
+  UserModel? auth;
   @override
   void initState() {
     screenCubit.loadInitialData();
+
     super.initState();
+  }
+
+  showLogin() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
+      context: context,
+      builder: (context) {
+        return Container();
+      },
+    );
   }
 
   @override
@@ -45,34 +60,45 @@ class CartScreenState extends State<CartScreen> {
           return buildBody(state);
         },
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(appPedding.scale),
-        child: BoxWidget(
-          color: appWhite,
-          padding: EdgeInsets.all(appSpace.scale),
-          borderRadius: BorderRadius.circular(appRadius.scale),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            spacing: appSpace.scale,
-            children: [
-              _buildRow(
-                leftText: 'total_items'.tr,
-                rightText: '6',
+      bottomNavigationBar: BlocSelector<CartCubit, CartState, UserModel?>(
+        bloc: screenCubit,
+        selector: (state) {
+          return state.auth;
+        },
+        builder: (context, state) {
+          if (state == null) {
+            return SizedBox.shrink();
+          }
+          return Padding(
+            padding: EdgeInsets.all(appPedding.scale),
+            child: BoxWidget(
+              color: appWhite,
+              padding: EdgeInsets.all(appSpace.scale),
+              borderRadius: BorderRadius.circular(appRadius.scale),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: appSpace.scale,
+                children: [
+                  _buildRow(
+                    leftText: 'total_items'.tr,
+                    rightText: '6',
+                  ),
+                  _buildRow(
+                    leftText: 'total_amount'.tr,
+                    rightText: '3499.99\$',
+                    rightColor: primary,
+                  ),
+                  ButtonWidget(
+                    title: 'check_out'.tr,
+                    onPressed: () {
+                      Navigator.pushNamed(context, CheckOutScreen.routeName);
+                    },
+                  )
+                ],
               ),
-              _buildRow(
-                leftText: 'total_amount'.tr,
-                rightText: '3499.99\$',
-                rightColor: primary,
-              ),
-              ButtonWidget(
-                title: 'check_out'.tr,
-                onPressed: () {
-                  Navigator.pushNamed(context, CheckOutScreen.routeName);
-                },
-              )
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -100,8 +126,36 @@ class CartScreenState extends State<CartScreen> {
   }
 
   Widget buildBody(CartState state) {
+    if (state.auth == null) {
+      return Padding(
+        padding: EdgeInsets.all(appPedding.scale),
+        child: Column(
+          spacing: appPedding.scale,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Image.asset(
+                loginPng,
+                width: 200.scale,
+                height: 200.scale,
+              ),
+            ),
+            ButtonWidget(
+              title: 'sign_in'.tr,
+              onPressed: () {
+                Navigator.pushNamed(context, LoginScreen.routeName)
+                    .then((value) {
+                  screenCubit.loadInitialData();
+                });
+              },
+            )
+          ],
+        ),
+      );
+    }
     return ListView.builder(
-      itemCount: 10,
+      itemCount: 0,
       padding: EdgeInsets.all(appPedding.scale),
       itemBuilder: (context, index) {
         return Padding(

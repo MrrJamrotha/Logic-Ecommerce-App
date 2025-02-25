@@ -34,7 +34,7 @@ class ProductByBrandRepositoryImpl implements ProductByBrandRepository {
         currentPage: result.currentPage,
       );
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 }

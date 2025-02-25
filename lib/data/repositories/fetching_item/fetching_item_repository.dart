@@ -1,24 +1,25 @@
 import 'package:logic_app/core/common/result.dart';
+import 'package:logic_app/core/error/failure.dart';
 import 'package:logic_app/data/models/product_model.dart';
 
 abstract class FetchingItemRepository {
-  Future<Result<List<ProductModel>, dynamic>> getRecommendedForYou({
+  Future<Result<List<ProductModel>, Failure>> getRecommendedForYou({
     Map<String, dynamic>? parameters,
   });
 
-  Future<Result<List<ProductModel>, dynamic>> getBastSeller({
+  Future<Result<List<ProductModel>, Failure>> getBastSeller({
     Map<String, dynamic>? parameters,
   });
 
-  Future<Result<List<ProductModel>, dynamic>> getNewArrival({
+  Future<Result<List<ProductModel>, Failure>> getNewArrival({
     Map<String, dynamic>? parameters,
   });
 
-  Future<Result<List<ProductModel>, dynamic>> getSpacialProduct({
+  Future<Result<List<ProductModel>, Failure>> getSpacialProduct({
     Map<String, dynamic>? parameters,
   });
 
-  Future<Result<List<ProductModel>, dynamic>> getRelatedProduct({
+  Future<Result<List<ProductModel>, Failure>> getRelatedProduct({
     Map<String, dynamic>? parameters,
   });
 }

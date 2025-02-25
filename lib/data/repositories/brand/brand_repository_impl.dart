@@ -8,7 +8,7 @@ import 'package:logic_app/data/repositories/brand/brand_repository.dart';
 class BrandRepositoryImpl implements BrandRepository {
   final _apiClient = di<ApiClient>();
   @override
-  Future<Result<List<BrandModel>, dynamic>> getBrands({
+  Future<Result<List<BrandModel>, Failure>> getBrands({
     Map<String, dynamic>? parameters,
   }) async {
     try {
@@ -22,7 +22,7 @@ class BrandRepositoryImpl implements BrandRepository {
       }).toList();
       return Result.right(records, message: result.message);
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 }

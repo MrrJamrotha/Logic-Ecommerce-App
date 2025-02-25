@@ -8,7 +8,7 @@ import 'package:logic_app/data/repositories/category/category_repository.dart';
 class CategoryRepositoryImpl implements CategoryRepository {
   final _apiClient = di.get<ApiClient>();
   @override
-  Future<Result<List<CategoryModel>, dynamic>> getCategories({
+  Future<Result<List<CategoryModel>, Failure>> getCategories({
     Map<String, dynamic>? parameters,
   }) async {
     try {
@@ -22,7 +22,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
       }).toList();
       return Result.right(records, message: result.message);
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 }

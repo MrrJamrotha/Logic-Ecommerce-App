@@ -12,7 +12,7 @@ class FetchingItemRepositoryImpl implements FetchingItemRepository {
   final _apiClient = di.get<ApiClient>();
 
   @override
-  Future<Result<List<ProductModel>, dynamic>> getRecommendedForYou({
+  Future<Result<List<ProductModel>, Failure>> getRecommendedForYou({
     Map<String, dynamic>? parameters,
   }) async {
     try {
@@ -41,12 +41,12 @@ class FetchingItemRepositoryImpl implements FetchingItemRepository {
         currentPage: result.currentPage,
       );
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 
   @override
-  Future<Result<List<ProductModel>, dynamic>> getBastSeller({
+  Future<Result<List<ProductModel>, Failure>> getBastSeller({
     Map<String, dynamic>? parameters,
   }) async {
     try {
@@ -54,7 +54,7 @@ class FetchingItemRepositoryImpl implements FetchingItemRepository {
           await _apiClient.getProductBastReview(parameters: parameters);
 
       if (result.status != 'success') {
-        return Result(failed: result.message);
+        return Result.left(Failure(result.message));
       }
       final records = (result.data as List<dynamic>).map((item) {
         return ProductModel.fromJson(item as Map<String, dynamic>);
@@ -77,19 +77,19 @@ class FetchingItemRepositoryImpl implements FetchingItemRepository {
         currentPage: result.currentPage,
       );
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 
   @override
-  Future<Result<List<ProductModel>, dynamic>> getNewArrival({
+  Future<Result<List<ProductModel>, Failure>> getNewArrival({
     Map<String, dynamic>? parameters,
   }) async {
     try {
       final result =
           await _apiClient.getProductNewArrivals(parameters: parameters);
       if (result.status != 'success') {
-        return Result(failed: result.message);
+        return Result.left(Failure(result.message));
       }
       final records = (result.data as List<dynamic>).map((item) {
         return ProductModel.fromJson(item as Map<String, dynamic>);
@@ -111,18 +111,18 @@ class FetchingItemRepositoryImpl implements FetchingItemRepository {
         currentPage: result.currentPage,
       );
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 
   @override
-  Future<Result<List<ProductModel>, dynamic>> getSpacialProduct({
+  Future<Result<List<ProductModel>, Failure>> getSpacialProduct({
     Map<String, dynamic>? parameters,
   }) async {
     try {
       final result = await _apiClient.getSpacialProduct(parameters: parameters);
       if (result.status != 'success') {
-        return Result(failed: result.message);
+        return Result.left(Failure(result.message));
       }
       final records = (result.data as List<dynamic>).map((item) {
         return ProductModel.fromJson(item as Map<String, dynamic>);
@@ -144,18 +144,18 @@ class FetchingItemRepositoryImpl implements FetchingItemRepository {
         currentPage: result.currentPage,
       );
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 
   @override
-  Future<Result<List<ProductModel>, dynamic>> getRelatedProduct({
+  Future<Result<List<ProductModel>, Failure>> getRelatedProduct({
     Map<String, dynamic>? parameters,
   }) async {
     try {
       final result = await _apiClient.getRelatedProduct(parameters: parameters);
       if (result.status != 'success') {
-        return Result(failed: result.message);
+        return Result.left(Failure(result.message));
       }
       final records = (result.data as List<dynamic>).map((item) {
         return ProductModel.fromJson(item as Map<String, dynamic>);
@@ -177,7 +177,7 @@ class FetchingItemRepositoryImpl implements FetchingItemRepository {
         currentPage: result.currentPage,
       );
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 }

@@ -14,11 +14,11 @@ class UserRepositoryImpl implements UserRepository {
     try {
       final result = await _apiClient.getUser(parameters: parameters);
       if (result.statusCode != 200) {
-        return Result(failed: result.message);
+        return Result.left(Failure(result.message));
       }
-      return Result(success: result.data);
+      return Result.right(result.data, message: result.message);
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 
@@ -33,7 +33,7 @@ class UserRepositoryImpl implements UserRepository {
       }
       return Result.right(result.data, message: result.message);
     } catch (error) {
-      return Result.left(error);
+      return Result.left(Failure(error.toString()));
     }
   }
 }

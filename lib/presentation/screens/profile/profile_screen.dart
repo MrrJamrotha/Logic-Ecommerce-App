@@ -4,6 +4,7 @@ import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/helper/loading_overlay.dart';
 import 'package:logic_app/presentation/screens/address/address_screen.dart';
 import 'package:logic_app/presentation/screens/cubit/currency_screen.dart';
 import 'package:logic_app/presentation/screens/edit_profile/edit_profile_screen.dart';
@@ -113,6 +114,18 @@ class ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  void _handleLogout() async {
+    try {
+      LoadingOverlay.show(context);
+      await screenCubit.logout();
+      if (!mounted) return;
+      Navigator.pop(context);
+      LoadingOverlay.hide();
+    } catch (e) {
+      LoadingOverlay.hide();
+    }
+  }
+
   showDialogLogout() {
     showDialog(
       context: context,
@@ -131,9 +144,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => _handleLogout(),
               child: TextWidget(
                 text: 'ok'.tr,
                 color: appBlack,

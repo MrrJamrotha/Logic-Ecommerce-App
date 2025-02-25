@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/failure.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/repositories/auth/auth_repository_impl.dart';
 import 'package:logic_app/presentation/screens/auth/otp/otp_state.dart';
@@ -11,18 +10,16 @@ class OtpCubit extends Cubit<OtpState> {
   final repos = di.get<AuthRepositoryImpl>();
 
   Future<bool> verifyOtp({Map<String, dynamic>? parameters}) async {
-    try {
-      emit(state.copyWith(isLoading: true));
-      final response = await repos.verifyOtp(parameters: parameters);
-
+    emit(state.copyWith(isLoading: true));
+    await repos.verifyOtp(parameters: parameters).then((response) {
       response.fold((failure) {
-        final failure = response.failed as Failure;
+        final failure = response.failed;
         emit(state.copyWith(
-          message: failure.message,
+          message: failure?.message,
           isLoading: false,
         ));
         showMessage(
-          message: response.message ?? "",
+          message: failure?.message ?? "",
           status: MessageStatus.warning,
         );
         return false;
@@ -38,17 +35,8 @@ class OtpCubit extends Cubit<OtpState> {
         );
         return true;
       });
-    } catch (error) {
-      emit(
-        state.copyWith(
-          error: error.toString(),
-          isLoading: false,
-          message: error.toString(),
-        ),
-      );
-      return false;
-    }
-    return true;
+    });
+    return false;
   }
 
   @override

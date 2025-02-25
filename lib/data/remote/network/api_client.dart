@@ -444,9 +444,9 @@ class ApiClient implements Api {
       await session.storeToken(body['token']);
       return BaseResponse(
         statusCode: response.statusCode,
-        status: body['status'],
-        message: body['message'],
-        data: body['record'],
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? "",
       );
     } catch (exception) {
       throw Exception(exception);
