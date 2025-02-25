@@ -43,7 +43,7 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
 
   final List<String> _nickNames = [
     "home",
-    "office",
+    "work",
     "other",
   ];
   String _currentNickName = "home";
@@ -58,21 +58,23 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
       LoadingOverlay.show(context);
       if (_formKey.currentState!.validate()) {
         await screenCubit.createAddress(parameters: {
-          'type': _nikeNameCtr.text,
+          'type': _currentNickName,
           'phone_number': _phoneCtr.text,
-          'address': _addressLine1Ctr.text,
-          'address_2': _addressLine2Ctr.text,
-          'city': _cityCtr.text,
-          'state_no': _streetNoCtr.text,
-          'home_no': _homeNoCtr.text,
-          'country': _countryCtr.text,
-          'postal_code': _postalCodeCtr.text,
-          'notes': _noteCtr.text,
-          'latitude': screenCubit.state.position?.latitude,
-          'longitude': screenCubit.state.position?.longitude,
+          'address': _addressLine1Ctr.text.trim(),
+          'address_2': _addressLine2Ctr.text.trim(),
+          'city': _cityCtr.text.trim(),
+          'state_no': _streetNoCtr.text.trim(),
+          'home_no': _homeNoCtr.text.trim(),
+          'country': _countryCtr.text.trim(),
+          'postal_code': _postalCodeCtr.text.trim(),
+          'notes': _noteCtr.text.trim(),
+          'latitude': screenCubit.state.position?.latitude.toString(),
+          'longitude': screenCubit.state.position?.longitude.toString(),
         });
       }
       LoadingOverlay.hide();
+      if (!mounted) return;
+      Navigator.pop(context, {'record': screenCubit.state.record});
     } catch (error) {
       LoadingOverlay.hide();
       throw Exception(error.toString());

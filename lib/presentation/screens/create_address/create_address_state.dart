@@ -8,6 +8,7 @@ class CreateAddressState {
   final AddressModel? record;
   final String? address;
   final String? phoneNumber;
+  final String? message;
 
   const CreateAddressState({
     this.isLoading = false,
@@ -16,6 +17,7 @@ class CreateAddressState {
     this.record,
     this.address,
     this.phoneNumber,
+    this.message,
   });
 
   CreateAddressState copyWith({
@@ -25,6 +27,7 @@ class CreateAddressState {
     AddressModel? record,
     String? address,
     String? phoneNumber,
+    String? message,
   }) {
     return CreateAddressState(
       isLoading: isLoading ?? this.isLoading,
@@ -33,6 +36,7 @@ class CreateAddressState {
       record: record ?? this.record,
       address: address ?? this.address,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      message: message ?? this.message,
     );
   }
 }

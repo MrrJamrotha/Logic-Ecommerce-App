@@ -37,7 +37,7 @@ class AddressRepositoryImpl implements AddressRepository {
     Map<String, dynamic>? parameters,
   }) async {
     try {
-      final result = await _apiClient.createAddress();
+      final result = await _apiClient.createAddress(parameters: parameters);
       if (result.status != 'success') {
         return Result.left(Failure(result.message));
       }

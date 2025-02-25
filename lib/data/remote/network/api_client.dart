@@ -471,7 +471,6 @@ class ApiClient implements Api {
         headers: await ApiInterceptor.modifyHeaders(),
       );
       final body = jsonDecode(response.body);
-
       return BaseResponse(
         statusCode: response.statusCode,
         status: body['status'] ?? "",
@@ -479,6 +478,7 @@ class ApiClient implements Api {
         data: body['record'] ?? "",
       );
     } catch (exception) {
+      print(exception);
       throw Exception(exception);
     }
   }

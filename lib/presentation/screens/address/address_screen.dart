@@ -53,7 +53,13 @@ class AddressScreenState extends State<AddressScreen> {
         child: ButtonWidget(
           title: 'add_new_address'.tr,
           onPressed: () {
-            Navigator.pushNamed(context, CreateAddressScreen.routeName);
+            Navigator.pushNamed(context, CreateAddressScreen.routeName)
+                .then((value) {
+              var data = value as Map;
+              if (data['record'] != null) {
+                screenCubit.insertAddress(data['record']);
+              }
+            });
           },
         ),
       ),

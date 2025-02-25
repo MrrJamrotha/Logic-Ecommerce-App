@@ -41,7 +41,7 @@ class UpdateAddressScreenState extends State<UpdateAddressScreen> {
 
   final List<String> _nickNames = [
     "home",
-    "office",
+    "work",
     "other",
   ];
   String _currentNickName = "home";

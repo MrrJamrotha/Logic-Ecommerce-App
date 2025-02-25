@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/service/geocoding_service.dart';
@@ -42,9 +43,14 @@ class CreateAddressCubit extends Cubit<CreateAddressState> {
     try {
       await repos.createAddress(parameters: parameters).then((response) {
         response.fold((failure) {
-          emit(state.copyWith(error: failure.message));
+          emit(state.copyWith(message: failure.message));
+          showMessage(message: failure.message, status: MessageStatus.warning);
         }, (success) {
-          emit(state.copyWith(record: success));
+          emit(state.copyWith(
+            record: success,
+            message: response.message,
+          ));
+          showMessage(message: response.message ?? "");
         });
       });
     } catch (error) {

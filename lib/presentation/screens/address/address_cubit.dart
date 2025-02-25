@@ -57,6 +57,21 @@ class AddressCubit extends Cubit<AddressState> {
     }
   }
 
+  Future<void> insertAddress(AddressModel record) async {
+    try {
+      var records = state.records ?? [];
+      records = [...records, record];
+
+      // Update the PagingController with the new list
+      pagingController.itemList = records;
+
+      // Emit the updated state
+      emit(state.copyWith(records: records));
+    } catch (error) {
+      addError(error);
+    }
+  }
+
   @override
   Future<void> close() {
     pagingController.dispose();
