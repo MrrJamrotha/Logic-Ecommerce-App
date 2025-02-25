@@ -33,4 +33,8 @@ class ApiEndpoints {
 
   //Address
   static final getUserAddress = '$baseUrl/address/get-address-by-user';
+  static final getAddressById = '$baseUrl/address/get-address-by-id';
+  static final createAddress = '$baseUrl/address/create-address';
+  static final updateAddress = '$baseUrl/address/update-address';
+  static final deleteAddress = '$baseUrl/address/delete-address';
 }

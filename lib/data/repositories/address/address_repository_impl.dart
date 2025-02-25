@@ -31,4 +31,80 @@ class AddressRepositoryImpl implements AddressRepository {
       return Result.left(Failure(error.toString()));
     }
   }
+
+  @override
+  Future<Result<AddressModel, Failure>> createAddress({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result = await _apiClient.createAddress();
+      if (result.status != 'success') {
+        return Result.left(Failure(result.message));
+      }
+      var record = AddressModel.fromJson(result.data);
+      return Result.right(
+        record,
+        message: result.message,
+      );
+    } catch (error) {
+      return Result.left(Failure(error.toString()));
+    }
+  }
+
+  @override
+  Future<Result<AddressModel, Failure>> deleteAddress({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result = await _apiClient.deleteAddress();
+      if (result.status != 'success') {
+        return Result.left(Failure(result.message));
+      }
+      var record = AddressModel.fromJson(result.data);
+      return Result.right(
+        record,
+        message: result.message,
+      );
+    } catch (error) {
+      return Result.left(Failure(error.toString()));
+    }
+  }
+
+  @override
+  Future<Result<AddressModel, Failure>> getAddressById({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result = await _apiClient.getAddressById();
+      if (result.status != 'success') {
+        return Result.left(Failure(result.message));
+      }
+      var record = AddressModel.fromJson(result.data);
+      return Result.right(
+        record,
+        message: result.message,
+      );
+    } catch (error) {
+      return Result.left(Failure(error.toString()));
+    }
+  }
+
+  @override
+  Future<Result<AddressModel, Failure>> updateAddress({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result = await _apiClient.updateAddress();
+      if (result.status != 'success') {
+        return Result.left(Failure(result.message));
+      }
+      var record = AddressModel.fromJson(result.data);
+      return Result.right(
+        record,
+        message: result.message,
+      );
+    } catch (error) {
+      return Result.left(Failure(error.toString()));
+    }
+  }
 }

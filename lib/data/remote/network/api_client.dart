@@ -461,4 +461,90 @@ class ApiClient implements Api {
       throw Exception(exception);
     }
   }
+
+  @override
+  Future<BaseResponse> createAddress({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.createAddress),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> deleteAddress({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.deleteAddress),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getAddressById({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getAddressById),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> updateAddress({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.updateAddress),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
 }

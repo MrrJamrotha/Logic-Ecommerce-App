@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logic_app/core/constants/app_colors.dart' show appWhite;
+import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/constants/app_space.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/helper/loading_overlay.dart';
 import 'package:logic_app/presentation/screens/create_address/create_address_cubit.dart';
 import 'package:logic_app/presentation/screens/create_address/create_address_state.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
@@ -51,32 +53,53 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
     super.initState();
   }
 
+  Future<void> _createAddress() async {
+    try {
+      LoadingOverlay.show(context);
+      if (_formKey.currentState!.validate()) {
+        await screenCubit.createAddress(parameters: {
+          'type': _nikeNameCtr.text,
+          'phone_number': _phoneCtr.text,
+          'address': _addressLine1Ctr.text,
+          'address_2': _addressLine2Ctr.text,
+          'city': _cityCtr.text,
+          'state_no': _streetNoCtr.text,
+          'home_no': _homeNoCtr.text,
+          'country': _countryCtr.text,
+          'postal_code': _postalCodeCtr.text,
+          'notes': _noteCtr.text,
+          'latitude': screenCubit.state.position?.latitude,
+          'longitude': screenCubit.state.position?.longitude,
+        });
+      }
+      LoadingOverlay.hide();
+    } catch (error) {
+      LoadingOverlay.hide();
+      throw Exception(error.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'add_new_address'.tr),
-      body: BlocConsumer<CreateAddressCubit, CreateAddressState>(
+      body: BlocBuilder<CreateAddressCubit, CreateAddressState>(
         bloc: screenCubit,
-        listener: (BuildContext context, CreateAddressState state) {
-          if (state.error != null) {
-            // TODO your code here
-          }
-        },
         builder: (BuildContext context, CreateAddressState state) {
           if (state.isLoading) {
             return centerLoading();
           }
-
+          _addressLine1Ctr.text = state.address ?? "";
+          _phoneCtr.text = state.phoneNumber ?? "";
           return buildBody(state);
         },
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(appPedding.scale),
         child: ButtonWidget(
-            title: 'save'.tr,
-            onPressed: () {
-              //TODO
-            }),
+          title: 'save'.tr,
+          onPressed: () => _createAddress(),
+        ),
       ),
     );
   }
@@ -91,24 +114,49 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
           children: [
             SizedBox(
               height: 300.scale,
-              child: GoogleMap(
-                myLocationEnabled: false,
-                myLocationButtonEnabled: false,
-                mapType: MapType.normal,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    state.position?.latitude ?? 11.5564,
-                    state.position?.longitude ?? 104.9282,
+              child: Stack(
+                children: [
+                  GoogleMap(
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    mapType: MapType.normal,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        state.position?.latitude ?? 11.5564,
+                        state.position?.longitude ?? 104.9282,
+                      ),
+                      zoom: 15,
+                    ),
+                    onMapCreated: (controller) {
+                      _controller.complete(controller);
+                    },
+                    onCameraMove: (position) =>
+                        screenCubit.updatePosition(position),
+
+                    onCameraIdle: () {
+                      if (state.position != null) {
+                        screenCubit.getAddressFromCoordinates(
+                          state.position!.latitude,
+                          state.position!.longitude,
+                        );
+                      }
+                    },
+                    // ignore: prefer_collection_literals
+                    gestureRecognizers: Set()
+                      ..add(Factory<PanGestureRecognizer>(
+                          () => PanGestureRecognizer())),
                   ),
-                  zoom: 15,
-                ),
-                onMapCreated: (controller) {
-                  _controller.complete(controller);
-                },
-                // ignore: prefer_collection_literals
-                gestureRecognizers: Set()
-                  ..add(Factory<PanGestureRecognizer>(
-                      () => PanGestureRecognizer())),
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Image.asset(
+                        pinPng,
+                        width: 24.scale,
+                        height: 24.scale,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             DropdownButton<String>(
@@ -134,12 +182,19 @@ class CreateAddressScreenState extends State<CreateAddressScreen> {
             ),
             TextFormField(
               controller: _phoneCtr,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'phone_number_required'.tr;
+                }
+                return null;
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'phone_number'.tr,
               ),
             ),
             TextFormField(
+              readOnly: true,
               controller: _addressLine1Ctr,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),

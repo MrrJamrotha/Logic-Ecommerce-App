@@ -1,6 +1,7 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logic_app/core/service/database_service.dart';
+import 'package:logic_app/core/service/geocoding_service.dart';
 import 'package:logic_app/core/service/geolocator_service.dart';
 import 'package:logic_app/core/service/photo_manager_service.dart';
 import 'package:logic_app/core/service/secure_storage_service.dart';
@@ -67,4 +68,6 @@ void setupInjector() {
   di.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl());
   di.registerLazySingleton<AddressRepositoryImpl>(
       () => AddressRepositoryImpl());
+
+  di.registerLazySingleton<GeocodingService>(() => GeocodingService());
 }

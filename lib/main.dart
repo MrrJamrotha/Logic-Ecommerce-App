@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
@@ -45,8 +44,6 @@ void main() async {
 
   //initialize database sql
   di.get<DatabaseService>().database;
-
-  HttpOverrides.global = MyHttpOverrides();
 
   runApp(
     MultiBlocProvider(
@@ -104,14 +101,5 @@ class _LogicAppState extends State<LogicApp> {
         );
       },
     );
-  }
-}
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
   }
 }
