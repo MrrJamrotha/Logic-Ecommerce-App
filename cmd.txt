@@ -26,3 +26,10 @@ And if you have many different flavors available in your project, and wish to ge
 dart run flutter_native_splash:create --all-flavors
 # OR you can use the shorthand option
 dart run flutter_native_splash:create -A
+
+
+
+
+keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias foxtech-keystore
+
+keytool -list -v -keystore /Users/foxtech-mach/Projects/Logic-Ecommerce-App/android/app/upload-keystore.jks

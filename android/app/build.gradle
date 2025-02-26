@@ -38,13 +38,13 @@ android {
         debug {
             storeFile file("upload-keystore.jks") // Ensure correct path
             storePassword "foxtech"
-            keyAlias "upload-keystore"  // Make sure this matches the actual alias
+            keyAlias "foxtech-keystore"  // Make sure this matches the actual alias
             keyPassword "foxtech"
         }
         release {
             storeFile file("upload-keystore.jks") // Ensure correct relative path
             storePassword System.getenv("MYAPP_UPLOAD_STORE_PASSWORD") ?: "foxtech"
-            keyAlias System.getenv("MYAPP_UPLOAD_KEY_ALIAS") ?: "upload-keystore"
+            keyAlias System.getenv("MYAPP_UPLOAD_KEY_ALIAS") ?: "foxtech-keystore"
             keyPassword System.getenv("MYAPP_UPLOAD_KEY_PASSWORD") ?: "foxtech"
         }
     }

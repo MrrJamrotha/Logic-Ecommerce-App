@@ -43,9 +43,9 @@ class LoginScreenState extends State<LoginScreen> {
   void initState() {
     screenCubit.getCountries();
     _googleSignIn = GoogleSignIn(
-      // serverClientId: dotenv.env['GOOGLE_SERVER_CLIENT_ID'],
-      clientId: dotenv.env['GOOGLE_CLIENT_ID'],
-      // scopes: scopes,
+      serverClientId: dotenv.env['GOOGLE_CLIENT_ID'],
+      // clientId: dotenv.env['GOOGLE_CLIENT_ID'],
+      scopes: scopes,
     );
     super.initState();
   }
@@ -95,6 +95,9 @@ class LoginScreenState extends State<LoginScreen> {
       print('==============google============');
       var user = await _googleSignIn.signIn();
       print(user);
+
+      // await _googleSignIn.signOut();
+      // await _googleSignIn.disconnect();
     } catch (error) {
       print(error);
     }
