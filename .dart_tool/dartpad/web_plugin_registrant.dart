@@ -13,6 +13,7 @@ import 'package:flutter_native_splash/flutter_native_splash_web.dart';
 import 'package:flutter_secure_storage_web/flutter_secure_storage_web.dart';
 import 'package:geolocator_web/geolocator_web.dart';
 import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
+import 'package:google_sign_in_web/google_sign_in_web.dart';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:location_web/location_web.dart';
 import 'package:permission_handler_html/permission_handler_html.dart';
@@ -29,6 +30,7 @@ void registerPlugins([final Registrar? pluginRegistrar]) {
   FlutterSecureStorageWeb.registerWith(registrar);
   GeolocatorPlugin.registerWith(registrar);
   GoogleMapsPlugin.registerWith(registrar);
+  GoogleSignInPlugin.registerWith(registrar);
   ImagePickerPlugin.registerWith(registrar);
   LocationWebPlugin.registerWith(registrar);
   WebPermissionHandler.registerWith(registrar);

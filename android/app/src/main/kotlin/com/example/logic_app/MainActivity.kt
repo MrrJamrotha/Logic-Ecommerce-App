@@ -1,4 +1,4 @@
-package com.example.logic_app
+package com.foxtech.foxtech_shop
 
 import io.flutter.embedding.android.FlutterActivity
 

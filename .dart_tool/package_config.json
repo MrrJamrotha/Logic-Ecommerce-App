@@ -416,6 +416,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "google_identity_services_web",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/google_identity_services_web-0.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "google_maps",
       "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/google_maps-8.1.1",
       "packageUri": "lib/",
@@ -448,6 +454,36 @@
     {
       "name": "google_maps_flutter_web",
       "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.10",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "google_sign_in",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/google_sign_in-6.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "google_sign_in_android",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.35",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "google_sign_in_ios",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/google_sign_in_ios-5.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "google_sign_in_platform_interface",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/google_sign_in_platform_interface-2.4.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "google_sign_in_web",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/google_sign_in_web-0.12.4+3",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -1070,7 +1106,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-25T08:16:08.325045Z",
+  "generated": "2025-02-26T09:06:17.747063Z",
   "generator": "pub",
   "generatorVersion": "3.7.0",
   "flutterRoot": "file:///Users/foxtech-mach/development/flutter",
