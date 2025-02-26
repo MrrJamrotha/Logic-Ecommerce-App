@@ -27,6 +27,7 @@ class ApiEndpoints {
   static final verifyOTP = '$baseUrl/verify-otp-code';
   static final forgotPassword = '$baseUrl/forgot-password';
   static final resetPassword = '$baseUrl/reset-password';
+  static final loginWithGoogle = '$baseUrl/login-with-google';
 
   //User
   static final getUserProfile = '$baseUrl/profile/get-user-profile';

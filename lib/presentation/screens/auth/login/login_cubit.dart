@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:isolate';
 
@@ -58,6 +57,35 @@ class LoginCubit extends Cubit<LoginState> {
 
       final result =
           await repos.generateOtpCode(parameters: parameters).then((response) {
+        return response.fold((failure) {
+          emit(state.copyWith(
+            isLoadingOverlay: false,
+            message: failure.message,
+          ));
+          return false;
+        }, (success) {
+          emit(state.copyWith(
+            message: response.message,
+            isLoadingOverlay: false,
+          ));
+          return true;
+        });
+      });
+
+      return result;
+    } catch (e) {
+      addError(e);
+      emit(state.copyWith(isLoadingOverlay: false));
+      return false;
+    }
+  }
+
+  Future<bool> loginWithGoogle({Map<String, dynamic>? parameters}) async {
+    try {
+      emit(state.copyWith(isLoadingOverlay: true));
+
+      final result =
+          await repos.loginWithGoogle(parameters: parameters).then((response) {
         return response.fold((failure) {
           emit(state.copyWith(
             isLoadingOverlay: false,

@@ -10,4 +10,8 @@ abstract class AuthRepository {
   Future<Result<UserModel, Failure>> verifyOtp({
     Map<String, dynamic>? parameters,
   });
+
+  Future<Result<UserModel, Failure>> loginWithGoogle({
+    Map<String, dynamic>? parameters,
+  });
 }

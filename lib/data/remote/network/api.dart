@@ -4,6 +4,7 @@ abstract class Api {
   //Authentication
   Future<BaseResponse> generateOtpCode({Map<String, dynamic>? parameters});
   Future<BaseResponse> verifyOTP({Map<String, dynamic>? parameters});
+  Future<BaseResponse> loginWithGoogle({Map<String, dynamic>? parameters});
 
   //User
   Future<BaseResponse> getUserProfile({Map<String, dynamic>? parameters});

@@ -92,19 +92,9 @@ class LoginScreenState extends State<LoginScreen> {
 
   void _handleLoginWithGoogle() async {
     try {
-      await _googleSignIn.signIn().then((acc) async {
-        var auth = await acc!.authentication;
-        print(auth);
-        print(acc.id);
-        print(acc.email);
-        print(acc.displayName);
-        print(acc.photoUrl);
-
-        acc.authentication.then((GoogleSignInAuthentication auth) async {
-          print(auth.idToken);
-          print(auth.accessToken);
-        });
-      });
+      print('==============google============');
+      var user = await _googleSignIn.signIn();
+      print(user);
     } catch (error) {
       print(error);
     }
