@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
@@ -35,6 +36,7 @@ class ProfileScreen extends StatefulWidget {
 
 class ProfileScreenState extends State<ProfileScreen> {
   final screenCubit = ProfileCubit();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   final List listMenus = [
     {
@@ -122,7 +124,11 @@ class ProfileScreenState extends State<ProfileScreen> {
     try {
       Navigator.pop(context);
       LoadingOverlay.show(context);
+      String googleId = screenCubit.state.userModel?.googleId ?? "";
       final result = await screenCubit.logout();
+      if (googleId.isNotEmpty) {
+        await _googleSignIn.signOut();
+      }
       if (result) {
         showMessage(message: 'you_logout_success'.tr);
       } else {

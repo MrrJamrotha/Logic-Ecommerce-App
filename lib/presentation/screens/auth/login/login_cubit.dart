@@ -3,6 +3,7 @@ import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/models/country_model.dart';
@@ -87,12 +88,15 @@ class LoginCubit extends Cubit<LoginState> {
       final result =
           await repos.loginWithGoogle(parameters: parameters).then((response) {
         return response.fold((failure) {
+          showMessage(message: failure.message, status: MessageStatus.warning);
           emit(state.copyWith(
             isLoadingOverlay: false,
             message: failure.message,
           ));
           return false;
         }, (success) {
+          showMessage(message: response.message ?? "");
+
           emit(state.copyWith(
             message: response.message,
             isLoadingOverlay: false,

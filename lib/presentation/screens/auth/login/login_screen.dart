@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_enum.dart';
@@ -35,18 +34,12 @@ class LoginScreenState extends State<LoginScreen> {
   final _dialCodeCtr = TextEditingController(text: "+855");
   final _formKey = GlobalKey<FormState>();
 
-  List<String> scopes = <String>['email'];
-
   late GoogleSignIn _googleSignIn;
 
   @override
   void initState() {
     screenCubit.getCountries();
-    _googleSignIn = GoogleSignIn(
-      serverClientId: dotenv.env['GOOGLE_CLIENT_ID'],
-      // clientId: dotenv.env['GOOGLE_CLIENT_ID'],
-      scopes: scopes,
-    );
+    _googleSignIn = GoogleSignIn();
     super.initState();
   }
 
@@ -82,24 +75,31 @@ class LoginScreenState extends State<LoginScreen> {
         LoadingOverlay.hide();
       } catch (e) {
         LoadingOverlay.hide();
-        showMessage(
-          message: "Failed to generate OTP code. Please try again later.",
-          status: MessageStatus.error,
-        );
+        throw Exception(e.toString());
       }
     }
   }
 
   void _handleLoginWithGoogle() async {
     try {
-      print('==============google============');
       var user = await _googleSignIn.signIn();
-      print(user);
 
-      // await _googleSignIn.signOut();
-      // await _googleSignIn.disconnect();
+      if (!mounted) return;
+      LoadingOverlay.show(context);
+      final result = await screenCubit.loginWithGoogle(parameters: {
+        'email': user?.email ?? "",
+        'display_name': user?.displayName ?? "",
+        'google_id': user?.id.toString() ?? "",
+        'photo_url': user?.photoUrl ?? "",
+      });
+      LoadingOverlay.hide();
+      if (result) {
+        if (!mounted) return;
+        Navigator.pop(context, {'result': true});
+      }
     } catch (error) {
-      print(error);
+      LoadingOverlay.hide();
+      throw Exception(error.toString());
     }
   }
 
