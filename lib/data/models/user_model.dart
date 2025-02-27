@@ -9,6 +9,9 @@ class UserModel {
   final String sessionToken;
   final String avatarHash;
   final String phoneNumber;
+  final String locale;
+  final String currencyCode;
+
   UserModel({
     required this.id,
     required this.username,
@@ -18,6 +21,8 @@ class UserModel {
     required this.avatarHash,
     required this.phoneNumber,
     required this.googleId,
+    required this.locale,
+    required this.currencyCode,
   });
 
   Map<String, dynamic> toJson() {
@@ -30,6 +35,8 @@ class UserModel {
       'phone_number': phoneNumber,
       'google_id': googleId,
       'email': email,
+      'locale': locale,
+      'currency_code': currencyCode,
     };
   }
 
@@ -43,6 +50,8 @@ class UserModel {
       phoneNumber: AppFormat.toStr(map['phone_number']),
       googleId: AppFormat.toStr(map['google_id']),
       email: AppFormat.toStr(map['email']),
+      locale: AppFormat.toStr(map['locale']),
+      currencyCode: AppFormat.toStr(map['currency_code']),
     );
   }
 }

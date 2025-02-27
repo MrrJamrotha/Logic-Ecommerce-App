@@ -102,3 +102,16 @@ Widget centerLoading() {
 Widget centerNotFoundProduct() {
   return Center(child: TextWidget(text: "not_found_product".tr));
 }
+
+Locale getLocale(String code) {
+  switch (code) {
+    case 'en':
+      return Locale('en', 'US');
+    case 'km':
+      return Locale('km', 'KH');
+    case 'zh':
+      return Locale('zh');
+    default:
+      return Locale('en', 'US');
+  }
+}

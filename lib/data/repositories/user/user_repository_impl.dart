@@ -42,4 +42,39 @@ class UserRepositoryImpl implements UserRepository {
       return Result.left(Failure(error.toString()));
     }
   }
+
+  @override
+  Future<Result<UserModel, Failure>> changeCurrencyCode({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result =
+          await _apiClient.changeCurrencyCode(parameters: parameters);
+      if (result.statusCode != 200) {
+        return Result.left(Failure(result.message));
+      }
+      final record = UserModel.fromJson(result.data);
+      await _session.storeUser(record);
+      return Result.right(record, message: result.message);
+    } catch (error) {
+      return Result.left(Failure(error.toString()));
+    }
+  }
+
+  @override
+  Future<Result<UserModel, Failure>> changeLocale({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result = await _apiClient.changeLocale(parameters: parameters);
+      if (result.statusCode != 200) {
+        return Result.left(Failure(result.message));
+      }
+      final record = UserModel.fromJson(result.data);
+      await _session.storeUser(record);
+      return Result.right(record, message: result.message);
+    } catch (error) {
+      return Result.left(Failure(error.toString()));
+    }
+  }
 }

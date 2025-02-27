@@ -9,6 +9,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logic_app/core/constants/app_global_key.dart';
 import 'package:logic_app/core/di/injection.dart';
+import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/locale/locale_delegate.dart';
 import 'package:logic_app/core/service/database_service.dart';
 import 'package:logic_app/core/theme/app_theme.dart';
@@ -92,7 +93,7 @@ class _LogicAppState extends State<LogicApp> {
             Locale("zh")
           ],
           initialRoute: '/',
-          locale: Locale('en', 'US'),
+          locale: getLocale(state.localeCode ?? "en"),
           debugShowCheckedModeBanner: false,
           theme: AppTheme.darkTheme,
           themeMode: state.isDarkModeTheme ? ThemeMode.dark : ThemeMode.light,

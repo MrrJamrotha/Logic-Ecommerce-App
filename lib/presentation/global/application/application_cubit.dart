@@ -1,9 +1,14 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/locale/locale_manager.dart';
 import 'package:logic_app/presentation/global/application/application_state.dart';
 
 class ApplicationCubit extends HydratedCubit<ApplicationState> {
-  ApplicationCubit() : super(ApplicationState());
+  ApplicationCubit() : super(ApplicationState()) {
+    localeManager.setLocale(getLocale(state.localeCode ?? "en"));
+  }
+  final localeManager = di.get<LocaleManager>();
   // final _sharedPreferences = di.get<SharedPreferencesService>();
 
   Future<void> loadInitialData() async {
@@ -20,6 +25,15 @@ class ApplicationCubit extends HydratedCubit<ApplicationState> {
     try {
       // await _sharedPreferences.setBool(onBoradingKey, value);
       emit(state.copyWith(onBoarding: value));
+    } catch (e) {
+      addError(e);
+    }
+  }
+
+  Future<void> changeLocale(String localeCode) async {
+    try {
+      localeManager.setLocale(getLocale(localeCode));
+      emit(state.copyWith(localeCode: localeCode));
     } catch (e) {
       addError(e);
     }

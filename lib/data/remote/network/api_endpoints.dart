@@ -32,6 +32,8 @@ class ApiEndpoints {
   //User
   static final getUserProfile = '$baseUrl/profile/get-user-profile';
   static final updateUserProfile = '$baseUrl/profile/update-user-profile';
+  static final changeLocale = '$baseUrl/profile/change-locale';
+  static final changeCurrencyCode = '$baseUrl/profile/change-currency-code';
 
   //Address
   static final getUserAddress = '$baseUrl/address/get-address-by-user';

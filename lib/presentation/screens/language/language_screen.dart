@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/presentation/global/application/application_cubit.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
@@ -14,13 +16,24 @@ class LanguageScreen extends StatefulWidget {
 }
 
 class _LanguageScreenState extends State<LanguageScreen> {
-  String _selectedLanguage = 'en'; // Default language
+  final _selectedLanguage = ValueNotifier<String>("");
 
-  void _changeLanguage(String? langCode) {
+  @override
+  void initState() {
+    _initialLanguage();
+    super.initState();
+  }
+
+  _initialLanguage() {
+    var localeCode = context.read<ApplicationCubit>().state.localeCode;
+    _selectedLanguage.value = localeCode ?? "en";
+  }
+
+  void _changeLanguage(String? langCode) async {
     if (langCode != null) {
-      setState(() {
-        _selectedLanguage = langCode;
-      });
+      _selectedLanguage.value = langCode;
+
+      context.read<ApplicationCubit>().changeLocale(langCode);
     }
   }
 
@@ -28,41 +41,46 @@ class _LanguageScreenState extends State<LanguageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'language'.tr),
-      body: Column(
-        children: [
-          ListTile(
-            onTap: () {
-              _changeLanguage('km');
-            },
-            leading: Image.asset(
-              khmerImg,
-              width: 50.scale,
-              height: 50.scale,
-            ),
-            title: TextWidget(text: 'khmer'.tr),
-            trailing: Radio.adaptive(
-              value: 'km',
-              groupValue: _selectedLanguage,
-              onChanged: _changeLanguage,
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              _changeLanguage('en');
-            },
-            leading: Image.asset(
-              usaImg,
-              width: 50.scale,
-              height: 50.scale,
-            ),
-            title: TextWidget(text: 'english'.tr),
-            trailing: Radio.adaptive(
-              value: 'en',
-              groupValue: _selectedLanguage,
-              onChanged: _changeLanguage,
-            ),
-          ),
-        ],
+      body: ValueListenableBuilder(
+        valueListenable: _selectedLanguage,
+        builder: (context, selectedLanguage, child) {
+          return Column(
+            children: [
+              ListTile(
+                onTap: () {
+                  _changeLanguage('km');
+                },
+                leading: Image.asset( 
+                  khmerImg,
+                  width: 50.scale,
+                  height: 50.scale,
+                ),
+                title: TextWidget(text: 'khmer'.tr),
+                trailing: Radio<String>.adaptive(
+                  value: 'km',
+                  groupValue: _selectedLanguage.value,
+                  onChanged: _changeLanguage,
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  _changeLanguage('en');
+                },
+                leading: Image.asset(
+                  usaImg,
+                  width: 50.scale,
+                  height: 50.scale,
+                ),
+                title: TextWidget(text: 'english'.tr),
+                trailing: Radio<String>.adaptive(
+                  value: 'en',
+                  groupValue: _selectedLanguage.value,
+                  onChanged: _changeLanguage,
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

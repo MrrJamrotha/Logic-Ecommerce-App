@@ -1,5 +1,6 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logic_app/core/locale/locale_manager.dart';
 import 'package:logic_app/core/service/database_service.dart';
 import 'package:logic_app/core/service/geocoding_service.dart';
 import 'package:logic_app/core/service/geolocator_service.dart';
@@ -70,4 +71,6 @@ void setupInjector() {
       () => AddressRepositoryImpl());
 
   di.registerLazySingleton<GeocodingService>(() => GeocodingService());
+
+  di.registerLazySingleton<LocaleManager>(() => LocaleManager());
 }

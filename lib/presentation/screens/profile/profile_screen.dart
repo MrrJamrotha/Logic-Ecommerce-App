@@ -173,7 +173,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'Account'.tr),
+      appBar: AppbarWidget(title: 'account'.tr),
       body: BlocBuilder<ProfileCubit, ProfileState>(
         bloc: screenCubit,
         builder: (BuildContext context, ProfileState state) {
