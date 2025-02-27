@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -10,12 +9,10 @@ class AlbmusImageGrid extends StatelessWidget {
     super.key,
     this.scrollController,
     required this.records,
-    required this.cameras,
     this.onTap,
   });
   final ScrollController? scrollController;
   final List<AssetEntity> records;
-  final List<CameraDescription> cameras;
   final Function()? onTap;
 
   @override

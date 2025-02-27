@@ -119,4 +119,7 @@ final Map<String, String> en = {
   'logout_failed': 'Log out failed',
   'delete': 'Delete',
   'delete_address_content': 'Do you want to delete address',
+  'enter_username': 'Please enter username',
+  'username': 'Username',
+  'email': 'Email',
 };

@@ -269,7 +269,9 @@ class ProfileScreenState extends State<ProfileScreen> {
     return BoxWidget(
       borderRadius: BorderRadius.circular(appSpace.scale),
       padding: EdgeInsets.symmetric(
-          vertical: appSpace.scale, horizontal: appPedding.scale),
+        vertical: appSpace.scale,
+        horizontal: appPedding.scale,
+      ),
       child: ListView.separated(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),

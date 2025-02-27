@@ -1,5 +1,4 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
@@ -8,7 +7,6 @@ import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_cubit.dart';
 import 'package:logic_app/presentation/screens/chat_room/chat_room_state.dart';
-import 'package:logic_app/presentation/screens/chat_room/components/albmus_image_grid.dart';
 import 'package:logic_app/presentation/screens/chat_room/components/voice_message_bubble.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
@@ -24,7 +22,6 @@ class ChatRoomScreen extends StatefulWidget {
 class ChatRoomScreenState extends State<ChatRoomScreen>
     with SingleTickerProviderStateMixin {
   final screenCubit = ChatRoomCubit();
-  late List<CameraDescription> cameras;
 
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
@@ -60,13 +57,8 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
       curve: Curves.easeInOut,
     ));
 
-    initializedAvailableCameras();
     screenCubit.checkPermissions();
     super.initState();
-  }
-
-  void initializedAvailableCameras() async {
-    cameras = await availableCameras();
   }
 
   @override
@@ -387,7 +379,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
               child: BlocBuilder<ChatRoomCubit, ChatRoomState>(
                 bloc: screenCubit,
                 builder: (context, state) {
-                  final records = state.albumsFolders;
+                  // final records = state.albumsFolders;
 
                   return Column(
                     children: [
@@ -436,16 +428,16 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                           ),
                         ],
                       ),
-                      Expanded(
-                        child: AlbmusImageGrid(
-                          records: records,
-                          scrollController: scrollController,
-                          cameras: cameras,
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: AlbmusImageGrid(
+                      //     records: records,
+                      //     scrollController: scrollController,
+                      //     cameras: cameras,
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //     },
+                      //   ),
+                      // ),
                       ValueListenableBuilder(
                         valueListenable: _isVisible,
                         builder: (context, value, child) {

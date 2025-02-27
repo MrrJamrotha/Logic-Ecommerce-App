@@ -12,12 +12,6 @@
 @import audio_waveforms;
 #endif
 
-#if __has_include(<camera_avfoundation/CameraPlugin.h>)
-#import <camera_avfoundation/CameraPlugin.h>
-#else
-@import camera_avfoundation;
-#endif
-
 #if __has_include(<connectivity_plus/ConnectivityPlusPlugin.h>)
 #import <connectivity_plus/ConnectivityPlusPlugin.h>
 #else
@@ -136,7 +130,6 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [AudioWaveformsPlugin registerWithRegistrar:[registry registrarForPlugin:@"AudioWaveformsPlugin"]];
-  [CameraPlugin registerWithRegistrar:[registry registrarForPlugin:@"CameraPlugin"]];
   [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
   [FPPDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPDeviceInfoPlusPlugin"]];
   [FlutterNativeSplashPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterNativeSplashPlugin"]];
