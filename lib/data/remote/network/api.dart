@@ -8,6 +8,7 @@ abstract class Api {
 
   //User
   Future<BaseResponse> getUserProfile({Map<String, dynamic>? parameters});
+  Future<BaseResponse> updateUserProfile({Map<String, dynamic>? parameters});
 
   //Home
   Future<BaseResponse> getSlideShow({Map<String, dynamic>? parameters});

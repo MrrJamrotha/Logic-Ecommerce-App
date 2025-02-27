@@ -240,26 +240,35 @@ class ProfileScreenState extends State<ProfileScreen> {
           imageUrl: user?.avatar ?? "",
           blurHash: user?.avatarHash ?? "",
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 5.scale,
-          children: [
-            TextWidget(
-              text: user?.username ?? "",
-              fontSize: 18.scale,
-            ),
-            TextWidget(
-              text: user?.phoneNumber ?? "",
-              fontSize: 16.scale,
-              color: textColor,
-            ),
-            ButtonWidget(
-              title: 'edit_profile'.tr,
-              onPressed: () {
-                Navigator.pushNamed(context, EditProfileScreen.routeName);
-              },
-            )
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 5.scale,
+            children: [
+              TextWidget(
+                text: user?.username ?? "",
+                fontSize: 18.scale,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              TextWidget(
+                text: user?.phoneNumber ?? "",
+                fontSize: 16.scale,
+                color: textColor,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              ButtonWidget(
+                title: 'edit_profile'.tr,
+                onPressed: () {
+                  Navigator.pushNamed(context, EditProfileScreen.routeName)
+                      .then((value) {
+                    screenCubit.loadInitialData();
+                  });
+                },
+              )
+            ],
+          ),
         ),
       ],
     );

@@ -57,7 +57,15 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     try {
       if (_formKey.currentState!.validate()) {
         LoadingOverlay.show(context);
+        final result = await screenCubit.updateUserProfile(parameters: {
+          'username': _nameController.text.trim(),
+          'file': screenCubit.state.xFile,
+        });
         LoadingOverlay.hide();
+        if (result) {
+          if (!mounted) return;
+          Navigator.pop(context, {'result': result});
+        }
       }
     } catch (e) {
       LoadingOverlay.hide();

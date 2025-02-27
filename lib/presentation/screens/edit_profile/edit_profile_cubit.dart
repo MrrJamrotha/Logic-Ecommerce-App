@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logic_app/core/di/injection.dart';
+import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/data/repositories/user/user_repository_impl.dart';
 import 'package:logic_app/presentation/screens/edit_profile/edit_profile_state.dart';
 
@@ -35,5 +36,31 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     } catch (e) {
       addError(e);
     }
+  }
+
+  Future<bool> updateUserProfile({Map<String, dynamic>? parameters}) async {
+    try {
+      await repos.updateUserProfile(parameters: parameters).then((response) {
+        response.fold((failure) {
+          showMessage(message: failure.message);
+          emit(state.copyWith(error: failure.message));
+          return false;
+        }, (success) {
+          showMessage(message: response.message ?? "");
+          emit(state.copyWith(userModel: success));
+          return true;
+        });
+      });
+      return true;
+    } catch (e) {
+      addError(e);
+      return false;
+    }
+  }
+
+  @override
+  void addError(Object error, [StackTrace? stackTrace]) {
+    logger.e(error, stackTrace: stackTrace);
+    super.addError(error, stackTrace);
   }
 }

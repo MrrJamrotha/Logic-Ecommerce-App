@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logic_app/core/common/base_response.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/helper.dart';
@@ -585,6 +586,59 @@ class ApiClient implements Api {
       if (body['token'] != null) {
         await session.storeToken(body['token']);
       }
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> updateUserProfile({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      // final response = await _client.post(
+      //   Uri.parse(ApiEndpoints.updateUserProfile),
+      //   body: jsonEncode(parameters),
+      //   headers: await ApiInterceptor.modifyHeaders(),
+      // );
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse(ApiEndpoints.updateUserProfile),
+      );
+      // Add headers
+      final headers = await ApiInterceptor.modifyHeaders();
+      request.headers.addAll(headers);
+
+      // Add text fields
+      if (parameters != null) {
+        parameters.forEach((key, value) {
+          if (value is String) {
+            request.fields[key] = value;
+          }
+        });
+      }
+
+      // Attach file if available
+      if (parameters?['file'] != null) {
+        final file = parameters!['file'] as XFile;
+        request.files.add(await http.MultipartFile.fromPath(
+          'file', // API key for the file field (adjust if needed)
+          file.path,
+          filename: file.name,
+        ));
+      }
+
+      // Send request
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final body = jsonDecode(response.body);
 
       return BaseResponse(
         statusCode: response.statusCode,

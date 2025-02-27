@@ -31,6 +31,7 @@ class ApiEndpoints {
 
   //User
   static final getUserProfile = '$baseUrl/profile/get-user-profile';
+  static final updateUserProfile = '$baseUrl/profile/update-user-profile';
 
   //Address
   static final getUserAddress = '$baseUrl/address/get-address-by-user';
