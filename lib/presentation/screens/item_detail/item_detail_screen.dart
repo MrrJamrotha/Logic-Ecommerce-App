@@ -96,7 +96,7 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
               Positioned(
                 right: 5.scale,
                 top: 5.scale,
-                child: WishlistButtonWidget(),
+                child: WishlistButtonWidget(productId: itemDetail.id),
               )
             ],
           ),

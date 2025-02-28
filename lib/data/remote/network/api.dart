@@ -39,4 +39,9 @@ abstract class Api {
   Future<BaseResponse> updateAddress({Map<String, dynamic>? parameters});
   Future<BaseResponse> deleteAddress({Map<String, dynamic>? parameters});
   Future<BaseResponse> setDefaultAddress({Map<String, dynamic>? parameters});
+
+  //Wishlist
+  Future<BaseResponse> addToWishlist({Map<String, dynamic>? parameters});
+  Future<BaseResponse> removeFromWishlist({Map<String, dynamic>? parameters});
+  Future<BaseResponse> getMyWishlist({Map<String, dynamic>? parameters});
 }

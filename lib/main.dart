@@ -15,6 +15,7 @@ import 'package:logic_app/core/service/database_service.dart';
 import 'package:logic_app/core/theme/app_theme.dart';
 import 'package:logic_app/presentation/global/application/application_cubit.dart';
 import 'package:logic_app/presentation/global/application/application_state.dart';
+import 'package:logic_app/presentation/global/wishlist/wishlist_cubit.dart';
 import 'package:logic_app/presentation/routes/router.dart';
 import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
 import 'package:path_provider/path_provider.dart';
@@ -52,6 +53,7 @@ void main() async {
         BlocProvider(
           create: (context) => ApplicationCubit()..loadInitialData(),
         ),
+        BlocProvider(create: (context) => WishlistCubit()),
         BlocProvider(create: (context) => SettingCubit()),
       ],
       child: LogicApp(),

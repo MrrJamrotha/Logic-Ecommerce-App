@@ -22,6 +22,7 @@ class ProductModel {
   final String newPrice;
   final String discountType;
   final String discountValue;
+  final String wishlistId;
 
   ProductModel({
     required this.id,
@@ -45,6 +46,7 @@ class ProductModel {
     required this.newPrice,
     required this.discountType,
     required this.discountValue,
+    required this.wishlistId,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -70,6 +72,7 @@ class ProductModel {
       newPrice: AppFormat.toStr(json['new_price']),
       discountType: AppFormat.toStr(json['discount_type']),
       discountValue: AppFormat.toStr(json['discount_value']),
+      wishlistId: AppFormat.toStr(json['wishlist_id']),
     );
   }
 
@@ -96,6 +99,7 @@ class ProductModel {
       'new_price': newPrice,
       'discount_type': discountType,
       'discount_value': discountValue,
+      'wishlist_id': wishlistId,
     };
   }
 }

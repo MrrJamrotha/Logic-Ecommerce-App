@@ -24,6 +24,7 @@ class LanguageCubit extends Cubit<LanguageState> {
           emit(state.copyWith(errorMessage: failure.message));
           return false;
         }, (success) {
+          showMessage(message: response.message ?? "");
           emit(state.copyWith(record: success));
           return true;
         });

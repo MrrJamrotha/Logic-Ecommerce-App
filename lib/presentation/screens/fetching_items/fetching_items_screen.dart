@@ -383,4 +383,5 @@ class FetchingItemsScreenState extends State<FetchingItemsScreen> {
       ),
     );
   }
+
 }

@@ -136,9 +136,7 @@ class ProductCardWidget extends StatelessWidget {
           Positioned(
             top: -5.scale,
             right: -5.scale,
-            child: WishlistButtonWidget(
-              key: super.key,
-            ),
+            child: WishlistButtonWidget(key: super.key, productId: record.id),
           ),
           Positioned(
             right: -5.scale,

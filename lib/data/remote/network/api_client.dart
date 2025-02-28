@@ -347,7 +347,7 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
-         var params = await getParams();
+      var params = await getParams();
       final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByBrand),
@@ -377,7 +377,7 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
-         var params = await getParams();
+      var params = await getParams();
       final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByCategory),
@@ -406,7 +406,7 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
-          var params = await getParams();
+      var params = await getParams();
       final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getItemDetail),
@@ -720,6 +720,78 @@ class ApiClient implements Api {
     try {
       final response = await _client.post(
         Uri.parse(ApiEndpoints.changeLocale),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> addToWishlist({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.addToWishlist),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getMyWishlist({Map<String, dynamic>? parameters}) async {
+    try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getMyWishlist),
+        body: jsonEncode(mergedParams),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'],
+        message: body['message'],
+        data: body['records'],
+        categories: body['categories'] ?? [],
+        brands: body['brands'] ?? [],
+        priceRange: body['price_range'] ?? {},
+        lastPage: AppFormat.toInt(body['last_page'] ?? 1),
+        currentPage: AppFormat.toInt(body['current_page'] ?? 1),
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> removeFromWishlist({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.removeFromWishlist),
         body: jsonEncode(parameters),
         headers: await ApiInterceptor.modifyHeaders(),
       );

@@ -42,4 +42,9 @@ class ApiEndpoints {
   static final updateAddress = '$baseUrl/address/update-address';
   static final deleteAddress = '$baseUrl/address/delete-address';
   static final setDefaultAddress = '$baseUrl/address/set-default-address';
+
+  //Wishlist
+  static final getMyWishlist = '$baseUrl/wishlist/get-my-wishlist';
+  static final addToWishlist = '$baseUrl/wishlist/add-wishlist';
+  static final removeFromWishlist = '$baseUrl/wishlist/remove-wishlist';
 }

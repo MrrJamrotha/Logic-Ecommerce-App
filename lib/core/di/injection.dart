@@ -21,27 +21,16 @@ import 'package:logic_app/data/repositories/merchant/merchant_repository_impl.da
 import 'package:logic_app/data/repositories/product_by_brand/product_by_brand_repository_impl.dart';
 import 'package:logic_app/data/repositories/product_by_category/product_by_category_repository_impl.dart';
 import 'package:logic_app/data/repositories/user/user_repository_impl.dart';
+import 'package:logic_app/data/repositories/wishlist/wishlist_repository_impl.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 final di = GetIt.instance;
 void setupInjector() {
-  di.registerSingleton<DatabaseService>(DatabaseService.instance);
+  //API
   di.registerLazySingleton<http.Client>(() => http.Client());
   di.registerLazySingleton<ApiClient>(() => ApiClient(http.Client()));
-  di.registerLazySingleton<PhotoManagerService>(
-      () => PhotoManagerService.instance);
 
-  di.registerLazySingleton<BaseCacheManager>(() => DefaultCacheManager());
-
-  di.registerLazySingleton<SecureStorageService>(() => SecureStorageService());
-  di.registerLazySingleton<GeolocatorService>(() => GeolocatorService());
-  di.registerLazySingleton<SharedPreferencesService>(
-      () => SharedPreferencesService.instance);
-
-  di.registerSingleton<PusherChannelsFlutter>(
-      PusherChannelsFlutter.getInstance());
-
-  //repositories
+  //Repositories
   di.registerLazySingleton<UserRepositoryImpl>(() => UserRepositoryImpl());
   di.registerLazySingleton<HomeRepositoryImpl>(() => HomeRepositoryImpl());
   di.registerLazySingleton<CategoryRepositoryImpl>(
@@ -63,14 +52,28 @@ void setupInjector() {
   di.registerLazySingleton<ProductByBrandRepositoryImpl>(
       () => ProductByBrandRepositoryImpl());
 
-  di.registerLazySingleton<UserSessionService>(
-      () => UserSessionService.instance);
-
   di.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl());
   di.registerLazySingleton<AddressRepositoryImpl>(
       () => AddressRepositoryImpl());
 
-  di.registerLazySingleton<GeocodingService>(() => GeocodingService());
+  di.registerLazySingleton<WishlistRepositoryImpl>(
+      () => WishlistRepositoryImpl());
 
+  //Services
+  di.registerLazySingleton<GeocodingService>(() => GeocodingService());
+  di.registerSingleton<DatabaseService>(DatabaseService.instance);
   di.registerLazySingleton<LocaleManager>(() => LocaleManager());
+  di.registerLazySingleton<PhotoManagerService>(
+      () => PhotoManagerService.instance);
+  di.registerLazySingleton<UserSessionService>(
+      () => UserSessionService.instance);
+  di.registerLazySingleton<SharedPreferencesService>(
+      () => SharedPreferencesService.instance);
+
+  di.registerLazySingleton<BaseCacheManager>(() => DefaultCacheManager());
+
+  di.registerLazySingleton<SecureStorageService>(() => SecureStorageService());
+  di.registerLazySingleton<GeolocatorService>(() => GeolocatorService());
+  di.registerSingleton<PusherChannelsFlutter>(
+      PusherChannelsFlutter.getInstance());
 }
