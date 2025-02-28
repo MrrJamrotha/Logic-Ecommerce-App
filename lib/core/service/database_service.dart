@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:logic_app/core/helper/helper.dart';
+import 'package:foxShop/core/helper/helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

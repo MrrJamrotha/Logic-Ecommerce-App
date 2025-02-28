@@ -1,4 +1,4 @@
-name: logic_app
+name: foxShop
 description: "A new Flutter project."
 publish_to: "none"
 version: 0.1.0
@@ -27,7 +27,6 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_secure_storage: ^9.2.4
   flutter_slidable: ^4.0.0
-  flutter_staggered_grid_view: ^0.7.0
   flutter_svg: ^2.0.17
   geocoding: ^3.0.0
   geolocator: ^13.0.2

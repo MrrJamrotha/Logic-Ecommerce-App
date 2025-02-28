@@ -1,10 +1,10 @@
-import 'package:logic_app/core/common/result.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/failure.dart';
-import 'package:logic_app/core/service/user_session_service.dart';
-import 'package:logic_app/data/models/user_model.dart';
-import 'package:logic_app/data/remote/network/api_client.dart';
-import 'package:logic_app/data/repositories/auth/auth_repository.dart';
+import 'package:foxShop/core/common/result.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/error/failure.dart';
+import 'package:foxShop/core/service/user_session_service.dart';
+import 'package:foxShop/data/models/user_model.dart';
+import 'package:foxShop/data/remote/network/api_client.dart';
+import 'package:foxShop/data/repositories/auth/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final _apiClient = di.get<ApiClient>();

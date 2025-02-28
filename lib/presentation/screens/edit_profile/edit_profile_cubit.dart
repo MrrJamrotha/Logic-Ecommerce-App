@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/data/repositories/user/user_repository_impl.dart';
-import 'package:logic_app/presentation/screens/edit_profile/edit_profile_state.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/data/repositories/user/user_repository_impl.dart';
+import 'package:foxShop/presentation/screens/edit_profile/edit_profile_state.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
   EditProfileCubit() : super(EditProfileState(isLoading: true));

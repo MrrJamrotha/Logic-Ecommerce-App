@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/presentation/screens/notification/notification_state.dart';
+import 'package:foxShop/presentation/screens/notification/notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
   NotificationCubit() : super(NotificationState(isLoading: true));

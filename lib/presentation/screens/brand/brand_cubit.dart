@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/data/repositories/brand/brand_repository_impl.dart';
-import 'package:logic_app/presentation/screens/brand/brand_state.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/data/repositories/brand/brand_repository_impl.dart';
+import 'package:foxShop/presentation/screens/brand/brand_state.dart';
 
 class BrandCubit extends Cubit<BrandState> {
   BrandCubit() : super(BrandState(isLoading: true));

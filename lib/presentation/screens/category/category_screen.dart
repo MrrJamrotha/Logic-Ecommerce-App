@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:logic_app/core/constants/app_size_config.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/category/category_cubit.dart';
-import 'package:logic_app/presentation/screens/category/category_state.dart';
-import 'package:logic_app/presentation/screens/product_by_category/product_by_category_screen.dart';
-import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/card_category_widget.dart';
+import 'package:foxShop/core/constants/app_size_config.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/category/category_cubit.dart';
+import 'package:foxShop/presentation/screens/category/category_state.dart';
+import 'package:foxShop/presentation/screens/product_by_category/product_by_category_screen.dart';
+import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
+import 'package:foxShop/presentation/widgets/card_category_widget.dart';
 
 class CategoryScreen extends StatefulWidget {
   static const routeName = 'category_screen';

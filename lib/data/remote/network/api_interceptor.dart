@@ -1,5 +1,5 @@
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/service/user_session_service.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/service/user_session_service.dart';
 
 class ApiInterceptor {
   static Future<Map<String, String>> modifyHeaders() async {

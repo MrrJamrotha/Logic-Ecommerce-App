@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/locale/app_en.dart';
-import 'package:logic_app/core/locale/app_km.dart';
-import 'package:logic_app/core/locale/locale_manager.dart';
+import 'package:foxShop/core/locale/app_en.dart';
+import 'package:foxShop/core/locale/app_km.dart';
+import 'package:foxShop/core/locale/locale_manager.dart';
 
 class AppLocale {
   AppLocale(this.locale);

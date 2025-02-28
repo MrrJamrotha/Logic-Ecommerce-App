@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/widgets/render_asset_entity_image_widget.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/widgets/render_asset_entity_image_widget.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class AlbmusImageGrid extends StatelessWidget {

@@ -1,10 +1,10 @@
-import 'package:logic_app/core/common/result.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/failure.dart';
-import 'package:logic_app/data/models/item_detail_model.dart';
-import 'package:logic_app/data/models/product_model.dart';
-import 'package:logic_app/data/remote/network/api_client.dart';
-import 'package:logic_app/data/repositories/item_detail/item_detail_repository.dart';
+import 'package:foxShop/core/common/result.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/error/failure.dart';
+import 'package:foxShop/data/models/item_detail_model.dart';
+import 'package:foxShop/data/models/product_model.dart';
+import 'package:foxShop/data/remote/network/api_client.dart';
+import 'package:foxShop/data/repositories/item_detail/item_detail_repository.dart';
 
 class ItemDetailRepositoryImpl implements ItemDetailRepository {
   final _apiClient = di.get<ApiClient>();

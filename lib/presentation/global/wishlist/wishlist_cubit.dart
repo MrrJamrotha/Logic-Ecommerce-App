@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/service/user_session_service.dart';
-import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/data/repositories/wishlist/wishlist_repository_impl.dart';
-import 'package:logic_app/presentation/global/wishlist/wishlist_state.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/service/user_session_service.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/data/repositories/wishlist/wishlist_repository_impl.dart';
+import 'package:foxShop/presentation/global/wishlist/wishlist_state.dart';
 
 class WishlistCubit extends Cubit<WishlistState> {
   WishlistCubit({
@@ -24,6 +24,7 @@ class WishlistCubit extends Cubit<WishlistState> {
       var brands = (state.selectBrandIds?.toList() ?? []).isNotEmpty
           ? (state.selectBrandIds!.toList()..sort()).join(',')
           : brandId;
+      // print(pageKey);
       pagination(
         pageKey: pageKey,
         parameters: {
@@ -128,6 +129,7 @@ class WishlistCubit extends Cubit<WishlistState> {
   }) async {
     try {
       if (pageKey == 1) {
+        emit(state.copyWith(isLoading: true));
         pagingController.refresh();
       }
       await repos.getMyWishlist(parameters: parameters).then((response) {
@@ -137,13 +139,13 @@ class WishlistCubit extends Cubit<WishlistState> {
         }, (success) {
           var records = response.success ?? [];
           final isLastPage = response.currentPage >= response.lastPage;
+
           if (isLastPage) {
             pagingController.appendLastPage(records);
           } else {
             final nextPageKey = pageKey + 1;
             pagingController.appendPage(records, nextPageKey);
           }
-
           emit(state.copyWith(
             records: response.success,
             categories: response.categories,
@@ -157,6 +159,7 @@ class WishlistCubit extends Cubit<WishlistState> {
             currentPage: response.currentPage,
           ));
         });
+        emit(state.copyWith(isLoading: false));
       });
     } catch (e) {
       pagingController.error = e;
@@ -223,8 +226,8 @@ class WishlistCubit extends Cubit<WishlistState> {
           ? (state.selectBrandIds!.toList()..sort()).join(',')
           : '';
       emit(state.copyWith(selectCategoryId: ""));
-      await pagination(
-        pageKey: 1,
+
+      await filter(
         parameters: {
           'min_price': state.rangeValues?.start,
           'max_price': state.rangeValues?.end,
@@ -234,6 +237,41 @@ class WishlistCubit extends Cubit<WishlistState> {
         },
       );
     } catch (e) {
+      addError(e);
+    }
+  }
+
+  Future<void> filter({
+    int pageKey = 1,
+    Map<String, dynamic>? parameters,
+  }) async {
+    final stableState = state;
+    try {
+      emit(state.copyWith(isLoading: true));
+      pagingController.refresh();
+      var response = await repos.getMyWishlist(parameters: parameters);
+
+      response.fold((failure) {
+        showMessage(message: failure.message, status: MessageStatus.warning);
+        emit(state.copyWith(errorMessage: failure.message, isLoading: false));
+      }, (success) {
+        emit(state.copyWith(
+          records: success,
+          categories: response.categories,
+          brands: response.brands,
+          priceRangeModel: response.priceRangeModel,
+          rangeValues: RangeValues(
+            AppFormat.toDouble(response.priceRangeModel?.minPrice),
+            AppFormat.toDouble(response.priceRangeModel?.maxPrice),
+          ),
+          lastPage: response.lastPage,
+          currentPage: response.currentPage,
+          isLoading: false,
+        ));
+      });
+      emit(stableState.copyWith(isLoading: false));
+    } catch (e) {
+      emit(stableState.copyWith(isLoading: false));
       addError(e);
     }
   }

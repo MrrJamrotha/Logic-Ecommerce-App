@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/data/models/notification_model.dart';
-import 'package:logic_app/presentation/screens/notification/notification_cubit.dart';
-import 'package:logic_app/presentation/screens/notification/notification_state.dart';
-import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/data/models/notification_model.dart';
+import 'package:foxShop/presentation/screens/notification/notification_cubit.dart';
+import 'package:foxShop/presentation/screens/notification/notification_state.dart';
+import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
+import 'package:foxShop/presentation/widgets/catch_image_network_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});

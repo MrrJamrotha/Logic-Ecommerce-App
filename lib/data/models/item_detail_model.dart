@@ -1,8 +1,8 @@
-import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/data/models/item_detail_price_model.dart';
-import 'package:logic_app/data/models/merchant_model.dart';
-import 'package:logic_app/data/models/picture_model.dart';
-import 'package:logic_app/data/models/review_model.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/data/models/item_detail_price_model.dart';
+import 'package:foxShop/data/models/merchant_model.dart';
+import 'package:foxShop/data/models/picture_model.dart';
+import 'package:foxShop/data/models/review_model.dart';
 
 class ItemDetailModel {
   ItemDetailModel({

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:logger/web.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/constants/app_global_key.dart';
-import 'package:logic_app/core/constants/app_size_config.dart';
-import 'package:logic_app/core/locale/app_locale.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/constants/app_global_key.dart';
+import 'package:foxShop/core/constants/app_size_config.dart';
+import 'package:foxShop/core/locale/app_locale.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 import 'package:pinput/pinput.dart';
 
 extension Translation on String {

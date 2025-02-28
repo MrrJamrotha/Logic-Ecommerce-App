@@ -1,6 +1,6 @@
 {
-    "name": "logic_app",
-    "short_name": "logic_app",
+    "name": "foxShop",
+    "short_name": "foxShop",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

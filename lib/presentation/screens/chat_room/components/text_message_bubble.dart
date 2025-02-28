@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/constants/app_icons.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/chat_room/components/text_message_clipper.dart';
-import 'package:logic_app/presentation/widgets/icon_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/constants/app_icons.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/chat_room/components/text_message_clipper.dart';
+import 'package:foxShop/presentation/widgets/icon_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class TextMessageBubble extends StatelessWidget {
   const TextMessageBubble({

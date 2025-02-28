@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_icons.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/helper/loading_overlay.dart';
-import 'package:logic_app/presentation/global/wishlist/wishlist_cubit.dart';
-import 'package:logic_app/presentation/global/wishlist/wishlist_state.dart';
-import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
-import 'package:logic_app/presentation/widgets/icon_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_icons.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/helper/loading_overlay.dart';
+import 'package:foxShop/presentation/global/wishlist/wishlist_cubit.dart';
+import 'package:foxShop/presentation/global/wishlist/wishlist_state.dart';
+import 'package:foxShop/presentation/screens/auth/login/login_screen.dart';
+import 'package:foxShop/presentation/widgets/icon_widget.dart';
 
 class WishlistButtonWidget extends StatelessWidget {
   const WishlistButtonWidget({

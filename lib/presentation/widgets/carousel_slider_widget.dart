@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/widgets/catch_image_network_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CarouselSliderWidget extends StatefulWidget {

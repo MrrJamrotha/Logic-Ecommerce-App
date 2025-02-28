@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/data/models/product_model.dart';
-import 'package:logic_app/presentation/screens/item_detail/item_detail_screen.dart';
-import 'package:logic_app/presentation/widgets/product_card_widget.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/data/models/product_model.dart';
+import 'package:foxShop/presentation/screens/item_detail/item_detail_screen.dart';
+import 'package:foxShop/presentation/widgets/product_card_widget.dart';
 
 class ListProductHorizontalWidget extends StatelessWidget {
   const ListProductHorizontalWidget({

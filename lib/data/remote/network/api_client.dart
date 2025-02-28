@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:logic_app/core/common/base_response.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/service/user_session_service.dart';
-import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/data/remote/network/api.dart';
+import 'package:foxShop/core/common/base_response.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/service/user_session_service.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/data/remote/network/api.dart';
 import 'package:http/http.dart' as http;
-import 'package:logic_app/data/remote/network/api_endpoints.dart';
-import 'package:logic_app/data/remote/network/api_interceptor.dart';
+import 'package:foxShop/data/remote/network/api_endpoints.dart';
+import 'package:foxShop/data/remote/network/api_interceptor.dart';
 
 class ApiClient implements Api {
   final http.Client _client;

@@ -5,18 +5,17 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:logic_app/core/constants/app_colors.dart' show appWhite;
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/constants/app_images.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/helper/loading_overlay.dart';
-import 'package:logic_app/presentation/screens/create_address/create_address_cubit.dart';
-import 'package:logic_app/presentation/screens/create_address/create_address_state.dart';
-import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/button_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart'
-    show TextWidget;
+import 'package:foxShop/core/constants/app_colors.dart' show appWhite;
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/constants/app_images.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/helper/loading_overlay.dart';
+import 'package:foxShop/presentation/screens/create_address/create_address_cubit.dart';
+import 'package:foxShop/presentation/screens/create_address/create_address_state.dart';
+import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
+import 'package:foxShop/presentation/widgets/button_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart' show TextWidget;
 
 class CreateAddressScreen extends StatefulWidget {
   const CreateAddressScreen({super.key});

@@ -1,8 +1,8 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/data/repositories/home/home_repository_impl.dart';
-import 'package:logic_app/presentation/screens/home/home_state.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/data/repositories/home/home_repository_impl.dart';
+import 'package:foxShop/presentation/screens/home/home_state.dart';
 
 class HomeCubit extends HydratedCubit<HomeState> {
   HomeCubit() : super(HomeState(isLoading: true));

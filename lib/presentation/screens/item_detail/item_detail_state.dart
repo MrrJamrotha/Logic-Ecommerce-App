@@ -1,5 +1,5 @@
-import 'package:logic_app/data/models/item_detail_model.dart';
-import 'package:logic_app/data/models/product_model.dart';
+import 'package:foxShop/data/models/item_detail_model.dart';
+import 'package:foxShop/data/models/product_model.dart';
 
 class ItemDetailState {
   final bool isLoading;

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/service/secure_storage_service.dart';
-import 'package:logic_app/data/models/user_model.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/service/secure_storage_service.dart';
+import 'package:foxShop/data/models/user_model.dart';
 
 class UserSessionService {
   static final UserSessionService _instance = UserSessionService._internal();

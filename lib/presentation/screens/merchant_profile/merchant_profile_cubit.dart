@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/data/models/product_model.dart';
-import 'package:logic_app/data/repositories/merchant/merchant_repository_impl.dart';
-import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_state.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/data/models/product_model.dart';
+import 'package:foxShop/data/repositories/merchant/merchant_repository_impl.dart';
+import 'package:foxShop/presentation/screens/merchant_profile/merchant_profile_state.dart';
 
 class MerchantProfileCubit extends Cubit<MerchantProfileState> {
   MerchantProfileCubit() : super(MerchantProfileState(isLoading: true));

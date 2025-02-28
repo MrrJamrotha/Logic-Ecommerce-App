@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:logic_app/core/constants/app_size_config.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/brand/brand_cubit.dart';
-import 'package:logic_app/presentation/screens/brand/brand_state.dart';
-import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/card_brand_widget.dart';
+import 'package:foxShop/core/constants/app_size_config.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/brand/brand_cubit.dart';
+import 'package:foxShop/presentation/screens/brand/brand_state.dart';
+import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
+import 'package:foxShop/presentation/widgets/card_brand_widget.dart';
 
 class BrandScreen extends StatefulWidget {
   static const routeName = 'brand_screen';

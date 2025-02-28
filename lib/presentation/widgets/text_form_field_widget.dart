@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
   const TextFormFieldWidget({

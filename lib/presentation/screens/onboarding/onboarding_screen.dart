@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_size_config.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/global/application/application_cubit.dart';
-import 'package:logic_app/presentation/screens/onboarding/onboarding_cubit.dart';
-import 'package:logic_app/presentation/screens/onboarding/onboarding_state.dart';
-import 'package:logic_app/presentation/widgets/button_widget.dart';
-import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_size_config.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/global/application/application_cubit.dart';
+import 'package:foxShop/presentation/screens/onboarding/onboarding_cubit.dart';
+import 'package:foxShop/presentation/screens/onboarding/onboarding_state.dart';
+import 'package:foxShop/presentation/widgets/button_widget.dart';
+import 'package:foxShop/presentation/widgets/catch_image_network_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {

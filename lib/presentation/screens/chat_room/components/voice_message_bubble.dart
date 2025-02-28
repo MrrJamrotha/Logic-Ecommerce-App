@@ -4,16 +4,16 @@ import 'dart:io';
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/constants/app_icons.dart';
-import 'package:logic_app/core/constants/app_size_config.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/audio_processor.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/presentation/widgets/icon_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/constants/app_icons.dart';
+import 'package:foxShop/core/constants/app_size_config.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/audio_processor.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/presentation/widgets/icon_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 import 'package:path_provider/path_provider.dart';
 
 class VoiceMessageBubble extends StatefulWidget {

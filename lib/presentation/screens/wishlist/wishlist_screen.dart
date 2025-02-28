@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_size_config.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/presentation/global/wishlist/wishlist_cubit.dart';
-import 'package:logic_app/presentation/global/wishlist/wishlist_state.dart';
-import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/button_widget.dart';
-import 'package:logic_app/presentation/widgets/product_card_widget.dart';
-import 'package:logic_app/presentation/widgets/rating_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_size_config.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/presentation/global/wishlist/wishlist_cubit.dart';
+import 'package:foxShop/presentation/global/wishlist/wishlist_state.dart';
+import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
+import 'package:foxShop/presentation/widgets/button_widget.dart';
+import 'package:foxShop/presentation/widgets/product_card_widget.dart';
+import 'package:foxShop/presentation/widgets/rating_bar_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({super.key});
@@ -25,11 +25,6 @@ class WishlistScreen extends StatefulWidget {
 class _WishlistScreenState extends State<WishlistScreen> {
   List<int> ratings = [5, 4, 3, 2, 1];
   final screenCubit = WishlistCubit();
-  @override
-  void initState() {
-    screenCubit.getMyWishlist();
-    super.initState();
-  }
 
   showFilterModal() {
     showModalBottomSheet(
@@ -216,8 +211,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   ),
                   ButtonWidget(
                     title: 'show_results'.tr,
-                    onPressed: () {
-                      screenCubit.filterProducts();
+                    onPressed: () async {
+                      await screenCubit.filterProducts();
+                      if (!context.mounted) return;
                       Navigator.pop(context);
                     },
                   )
@@ -238,7 +234,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(
-        title: 'wishlist'.tr,
+        title: 'wishlists'.tr,
         isFilter: true,
         onTapFilter: () {
           showFilterModal();
@@ -279,7 +275,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
             builderDelegate: PagedChildBuilderDelegate<dynamic>(
               itemBuilder: (context, record, index) {
                 return ProductCardWidget(
-                  key: ValueKey(record.id),
+                  key: ValueKey(index),
                   record: record,
                   isLoading: false,
                 );

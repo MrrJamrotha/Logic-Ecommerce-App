@@ -1,4 +1,4 @@
-import 'package:logic_app/core/utils/app_format.dart';
+import 'package:foxShop/core/utils/app_format.dart';
 
 class ItemDetailPriceModel {
   ItemDetailPriceModel({

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_images.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/helper/loading_overlay.dart';
-import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
-import 'package:logic_app/presentation/widgets/button_widget.dart';
-import 'package:logic_app/presentation/widgets/lottie_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_images.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/helper/loading_overlay.dart';
+import 'package:foxShop/presentation/screens/setting/setting_cubit.dart';
+import 'package:foxShop/presentation/widgets/button_widget.dart';
+import 'package:foxShop/presentation/widgets/lottie_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class SuccessScreen extends StatefulWidget {
   const SuccessScreen({super.key});

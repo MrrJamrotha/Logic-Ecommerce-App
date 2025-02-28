@@ -1,5 +1,5 @@
-import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/data/models/picture_model.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/data/models/picture_model.dart';
 
 class ReviewModel {
   ReviewModel({

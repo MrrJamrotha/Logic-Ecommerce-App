@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/widgets/order_card_widget.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/widgets/order_card_widget.dart';
 
 class CompleteTabScreen extends StatefulWidget {
   const CompleteTabScreen({super.key});

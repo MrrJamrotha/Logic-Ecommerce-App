@@ -1,11 +1,11 @@
-import 'package:logic_app/core/common/result.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/failure.dart';
-import 'package:logic_app/data/models/brand_model.dart';
-import 'package:logic_app/data/models/price_range_model.dart';
-import 'package:logic_app/data/models/product_model.dart';
-import 'package:logic_app/data/remote/network/api_client.dart';
-import 'package:logic_app/data/repositories/product_by_category/product_by_category_repository.dart';
+import 'package:foxShop/core/common/result.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/error/failure.dart';
+import 'package:foxShop/data/models/brand_model.dart';
+import 'package:foxShop/data/models/price_range_model.dart';
+import 'package:foxShop/data/models/product_model.dart';
+import 'package:foxShop/data/remote/network/api_client.dart';
+import 'package:foxShop/data/repositories/product_by_category/product_by_category_repository.dart';
 
 class ProductByCategoryRepositoryImpl implements ProductByCategoryRepository {
   final _apiClient = di.get<ApiClient>();

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:logic_app/data/models/category_model.dart';
-import 'package:logic_app/data/models/price_range_model.dart';
-import 'package:logic_app/data/models/product_model.dart';
+import 'package:foxShop/data/models/category_model.dart';
+import 'package:foxShop/data/models/price_range_model.dart';
+import 'package:foxShop/data/models/product_model.dart';
 
 class ProductByBrandState extends Equatable {
   final bool isLoading;

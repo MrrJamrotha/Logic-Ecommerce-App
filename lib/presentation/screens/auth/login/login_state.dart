@@ -1,4 +1,4 @@
-import 'package:logic_app/data/models/country_model.dart';
+import 'package:foxShop/data/models/country_model.dart';
 
 class LoginState {
   final bool isLoading;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
 
 class TextMessageClipper extends CustomClipper<Path> {
   ///The values assigned to the clipper types [BubbleType.sendBubble] and

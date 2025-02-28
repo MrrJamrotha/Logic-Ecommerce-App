@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/data/repositories/item_detail/item_detail_repository_impl.dart';
-import 'package:logic_app/presentation/screens/item_detail/item_detail_state.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/data/repositories/item_detail/item_detail_repository_impl.dart';
+import 'package:foxShop/presentation/screens/item_detail/item_detail_state.dart';
 
 class ItemDetailCubit extends Cubit<ItemDetailState> {
   ItemDetailCubit() : super(ItemDetailState(isLoading: true));

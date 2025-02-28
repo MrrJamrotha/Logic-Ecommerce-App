@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/service/geocoding_service.dart';
-import 'package:logic_app/core/service/geolocator_service.dart';
-import 'package:logic_app/core/service/user_session_service.dart';
-import 'package:logic_app/data/repositories/address/address_repository_impl.dart';
-import 'package:logic_app/presentation/screens/create_address/create_address_state.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/service/geocoding_service.dart';
+import 'package:foxShop/core/service/geolocator_service.dart';
+import 'package:foxShop/core/service/user_session_service.dart';
+import 'package:foxShop/data/repositories/address/address_repository_impl.dart';
+import 'package:foxShop/presentation/screens/create_address/create_address_state.dart';
 
 class CreateAddressCubit extends Cubit<CreateAddressState> {
   CreateAddressCubit() : super(CreateAddressState(isLoading: true));

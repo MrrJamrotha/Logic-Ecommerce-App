@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logic_app/core/common/result.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/data/repositories/fetching_item/fetching_item_repository_impl.dart';
-import 'package:logic_app/presentation/screens/fetching_items/fetching_items_state.dart';
+import 'package:foxShop/core/common/result.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/data/repositories/fetching_item/fetching_item_repository_impl.dart';
+import 'package:foxShop/presentation/screens/fetching_items/fetching_items_state.dart';
 
 class FetchingItemsCubit extends Cubit<FetchingItemsState> {
   FetchingItemsCubit({

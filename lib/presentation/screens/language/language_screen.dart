@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/constants/app_images.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/helper/loading_overlay.dart';
-import 'package:logic_app/presentation/global/application/application_cubit.dart';
-import 'package:logic_app/presentation/screens/language/language_cubit.dart';
-import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_images.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/helper/loading_overlay.dart';
+import 'package:foxShop/presentation/global/application/application_cubit.dart';
+import 'package:foxShop/presentation/screens/language/language_cubit.dart';
+import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});

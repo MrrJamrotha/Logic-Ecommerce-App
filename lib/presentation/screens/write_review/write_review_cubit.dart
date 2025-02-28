@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/write_review/write_review_state.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/write_review/write_review_state.dart';
 
 class WriteReviewCubit extends Cubit<WriteReviewState> {
   WriteReviewCubit() : super(WriteReviewState(isLoading: true));

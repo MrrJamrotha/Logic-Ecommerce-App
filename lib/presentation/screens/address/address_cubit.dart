@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/data/models/address_model.dart';
-import 'package:logic_app/data/repositories/address/address_repository_impl.dart';
-import 'package:logic_app/presentation/screens/address/address_state.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/data/models/address_model.dart';
+import 'package:foxShop/data/repositories/address/address_repository_impl.dart';
+import 'package:foxShop/presentation/screens/address/address_state.dart';
 
 class AddressCubit extends Cubit<AddressState> {
   AddressCubit() : super(AddressState(isLoading: true)) {

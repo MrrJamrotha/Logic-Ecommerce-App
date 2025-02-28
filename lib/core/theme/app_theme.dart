@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/order_detail/order_detail_screen.dart';
-import 'package:logic_app/presentation/widgets/box_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/order_detail/order_detail_screen.dart';
+import 'package:foxShop/presentation/widgets/box_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class OrderCardWidget extends StatelessWidget {
   const OrderCardWidget({super.key, required this.orderStatus});

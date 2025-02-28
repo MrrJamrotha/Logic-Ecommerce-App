@@ -1,4 +1,4 @@
-import 'package:logic_app/data/models/address_model.dart';
+import 'package:foxShop/data/models/address_model.dart';
 
 class AddressState {
   final bool isLoading;

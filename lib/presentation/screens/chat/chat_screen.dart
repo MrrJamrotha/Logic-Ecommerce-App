@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/chat/chat_cubit.dart';
-import 'package:logic_app/presentation/screens/chat/chat_state.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/chat/chat_cubit.dart';
+import 'package:foxShop/presentation/screens/chat/chat_state.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});

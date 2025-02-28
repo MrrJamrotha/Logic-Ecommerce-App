@@ -1,5 +1,5 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:logic_app/data/models/address_model.dart';
+import 'package:foxShop/data/models/address_model.dart';
 
 class UpdateAddressState {
   final bool isLoading;

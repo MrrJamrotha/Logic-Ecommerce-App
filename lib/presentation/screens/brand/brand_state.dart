@@ -1,4 +1,4 @@
-import 'package:logic_app/data/models/brand_model.dart';
+import 'package:foxShop/data/models/brand_model.dart';
 
 class BrandState {
   final bool isLoading;

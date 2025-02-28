@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/contact_us/contact_us_cubit.dart';
-import 'package:logic_app/presentation/screens/contact_us/contact_us_state.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/contact_us/contact_us_cubit.dart';
+import 'package:foxShop/presentation/screens/contact_us/contact_us_state.dart';
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});

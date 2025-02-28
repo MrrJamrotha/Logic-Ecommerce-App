@@ -1,9 +1,9 @@
-import 'package:logic_app/core/common/result.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/failure.dart';
-import 'package:logic_app/data/models/address_model.dart';
-import 'package:logic_app/data/remote/network/api_client.dart';
-import 'package:logic_app/data/repositories/address/address_repository.dart';
+import 'package:foxShop/core/common/result.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/error/failure.dart';
+import 'package:foxShop/data/models/address_model.dart';
+import 'package:foxShop/data/remote/network/api_client.dart';
+import 'package:foxShop/data/repositories/address/address_repository.dart';
 
 class AddressRepositoryImpl implements AddressRepository {
   final _apiClient = di.get<ApiClient>();

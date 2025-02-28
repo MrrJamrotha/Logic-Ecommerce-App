@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:logic_app/data/models/user_model.dart';
+import 'package:foxShop/data/models/user_model.dart';
 
 class CurrencyState extends Equatable {
   final bool isLoading;
@@ -13,10 +13,9 @@ class CurrencyState extends Equatable {
   });
 
   CurrencyState copyWith({
-   
     String? error,
     UserModel? record,
-     bool? isLoading,
+    bool? isLoading,
   }) {
     return CurrencyState(
       isLoading: isLoading ?? this.isLoading,

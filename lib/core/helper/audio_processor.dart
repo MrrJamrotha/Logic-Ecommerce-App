@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:logic_app/core/di/injection.dart';
+import 'package:foxShop/core/di/injection.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AudioProcessor {

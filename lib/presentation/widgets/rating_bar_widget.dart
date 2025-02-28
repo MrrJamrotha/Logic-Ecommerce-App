@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
 
 class RatingBarWidget extends StatelessWidget {
   const RatingBarWidget({

@@ -1,6 +1,6 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/setting/setting_state.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/setting/setting_state.dart';
 
 class SettingCubit extends HydratedCubit<SettingState> {
   SettingCubit() : super(SettingState(isLoading: true));

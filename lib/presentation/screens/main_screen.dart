@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_icons.dart';
-import 'package:logic_app/core/constants/app_size_config.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/cart/cart_screen.dart';
-import 'package:logic_app/presentation/screens/category/category_screen.dart';
-import 'package:logic_app/presentation/screens/home/home_screen.dart';
-import 'package:logic_app/presentation/screens/profile/profile_screen.dart';
-import 'package:logic_app/presentation/screens/setting/setting_cubit.dart';
-import 'package:logic_app/presentation/screens/setting/setting_state.dart';
-import 'package:logic_app/presentation/widgets/icon_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_icons.dart';
+import 'package:foxShop/core/constants/app_size_config.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/cart/cart_screen.dart';
+import 'package:foxShop/presentation/screens/category/category_screen.dart';
+import 'package:foxShop/presentation/screens/home/home_screen.dart';
+import 'package:foxShop/presentation/screens/profile/profile_screen.dart';
+import 'package:foxShop/presentation/screens/setting/setting_cubit.dart';
+import 'package:foxShop/presentation/screens/setting/setting_state.dart';
+import 'package:foxShop/presentation/widgets/icon_widget.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/';

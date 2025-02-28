@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-import 'package:logic_app/data/models/category_model.dart';
+import 'package:foxShop/data/models/category_model.dart';
 
 class CategoryState extends Equatable {
   final bool isLoading;

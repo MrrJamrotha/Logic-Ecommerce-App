@@ -1,5 +1,5 @@
 import 'package:image_picker/image_picker.dart';
-import 'package:logic_app/data/models/user_model.dart';
+import 'package:foxShop/data/models/user_model.dart';
 
 class EditProfileState {
   final bool isLoading;

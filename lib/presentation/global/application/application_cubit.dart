@@ -1,9 +1,9 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/locale/locale_manager.dart';
-import 'package:logic_app/core/service/user_session_service.dart';
-import 'package:logic_app/presentation/global/application/application_state.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/locale/locale_manager.dart';
+import 'package:foxShop/core/service/user_session_service.dart';
+import 'package:foxShop/presentation/global/application/application_state.dart';
 
 class ApplicationCubit extends HydratedCubit<ApplicationState> {
   ApplicationCubit() : super(ApplicationState()) {

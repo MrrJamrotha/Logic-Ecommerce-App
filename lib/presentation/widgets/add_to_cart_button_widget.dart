@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_icons.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/widgets/icon_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_icons.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/widgets/icon_widget.dart';
 
 class AddToCartButtonWidget extends StatelessWidget {
   const AddToCartButtonWidget({super.key});

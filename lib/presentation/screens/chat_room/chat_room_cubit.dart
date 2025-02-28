@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/service/photo_manager_service.dart';
-import 'package:logic_app/presentation/screens/chat_room/chat_room_state.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/service/photo_manager_service.dart';
+import 'package:foxShop/presentation/screens/chat_room/chat_room_state.dart';
 
 class ChatRoomCubit extends Cubit<ChatRoomState> {
   ChatRoomCubit() : super(ChatRoomState(isLoading: true));

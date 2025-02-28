@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_enum.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_cubit.dart';
-import 'package:logic_app/presentation/screens/merchant_profile/merchant_profile_state.dart';
-import 'package:logic_app/presentation/screens/merchant_profile/tabs/bast_match_tab.dart';
-import 'package:logic_app/presentation/screens/merchant_profile/tabs/new_product_tab.dart';
-import 'package:logic_app/presentation/screens/merchant_profile/tabs/promotion_product_tab.dart';
-import 'package:logic_app/presentation/screens/merchant_profile/tabs/top_sale_tab.dart';
-import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
-import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
-import 'package:logic_app/presentation/widgets/error_type_widget.dart';
-import 'package:logic_app/presentation/widgets/header_delegate_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/presentation/screens/merchant_profile/merchant_profile_cubit.dart';
+import 'package:foxShop/presentation/screens/merchant_profile/merchant_profile_state.dart';
+import 'package:foxShop/presentation/screens/merchant_profile/tabs/bast_match_tab.dart';
+import 'package:foxShop/presentation/screens/merchant_profile/tabs/new_product_tab.dart';
+import 'package:foxShop/presentation/screens/merchant_profile/tabs/promotion_product_tab.dart';
+import 'package:foxShop/presentation/screens/merchant_profile/tabs/top_sale_tab.dart';
+import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
+import 'package:foxShop/presentation/widgets/catch_image_network_widget.dart';
+import 'package:foxShop/presentation/widgets/error_type_widget.dart';
+import 'package:foxShop/presentation/widgets/header_delegate_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class MerchantProfileScreen extends StatefulWidget {
   static const routeName = 'merchant_profile';

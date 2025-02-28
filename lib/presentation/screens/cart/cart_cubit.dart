@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/service/user_session_service.dart';
-import 'package:logic_app/presentation/screens/cart/cart_state.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/service/user_session_service.dart';
+import 'package:foxShop/presentation/screens/cart/cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartState(isLoading: true));

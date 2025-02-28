@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:logic_app/core/constants/app_colors.dart';
-import 'package:logic_app/core/constants/app_space.dart';
-import 'package:logic_app/core/helper/helper.dart';
-import 'package:logic_app/core/utils/app_format.dart';
-import 'package:logic_app/data/models/product_model.dart';
-import 'package:logic_app/presentation/widgets/add_to_cart_button_widget.dart';
-import 'package:logic_app/presentation/widgets/box_widget.dart';
-import 'package:logic_app/presentation/widgets/catch_image_network_widget.dart';
-import 'package:logic_app/presentation/widgets/text_widget.dart';
-import 'package:logic_app/presentation/widgets/wishlist_button_widget.dart';
+import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_space.dart';
+import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/data/models/product_model.dart';
+import 'package:foxShop/presentation/widgets/add_to_cart_button_widget.dart';
+import 'package:foxShop/presentation/widgets/box_widget.dart';
+import 'package:foxShop/presentation/widgets/catch_image_network_widget.dart';
+import 'package:foxShop/presentation/widgets/text_widget.dart';
+import 'package:foxShop/presentation/widgets/wishlist_button_widget.dart';
 
 class ProductCardWidget extends StatelessWidget {
   const ProductCardWidget({

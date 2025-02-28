@@ -1,10 +1,10 @@
-import 'package:logic_app/core/common/result.dart';
-import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/error/failure.dart';
-import 'package:logic_app/data/models/merchant_model.dart';
-import 'package:logic_app/data/models/product_model.dart';
-import 'package:logic_app/data/remote/network/api_client.dart';
-import 'package:logic_app/data/repositories/merchant/merchant_repository.dart';
+import 'package:foxShop/core/common/result.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/core/error/failure.dart';
+import 'package:foxShop/data/models/merchant_model.dart';
+import 'package:foxShop/data/models/product_model.dart';
+import 'package:foxShop/data/remote/network/api_client.dart';
+import 'package:foxShop/data/repositories/merchant/merchant_repository.dart';
 
 class MerchantRepositoryImpl implements MerchantRepository {
   final _apiClient = di.get<ApiClient>();

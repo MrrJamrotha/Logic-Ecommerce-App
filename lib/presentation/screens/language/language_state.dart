@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:logic_app/data/models/user_model.dart';
+import 'package:foxShop/data/models/user_model.dart';
 
 class LanguageState extends Equatable {
   final bool isLoading;

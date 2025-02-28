@@ -1,4 +1,4 @@
-import 'package:logic_app/core/common/base_response.dart';
+import 'package:foxShop/core/common/base_response.dart';
 
 abstract class Api {
   //Authentication
