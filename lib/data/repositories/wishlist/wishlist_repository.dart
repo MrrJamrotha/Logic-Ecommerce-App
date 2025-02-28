@@ -15,4 +15,8 @@ abstract class WishlistRepository {
   Future<Result<List<ProductModel>, Failure>> getMyWishlist({
     Map<String, dynamic>? parameters,
   });
+
+  Future<Result<List<WishlistModel>, Failure>> getWishlist({
+    Map<String, dynamic>? parameters,
+  });
 }

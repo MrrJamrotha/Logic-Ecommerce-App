@@ -53,7 +53,7 @@ void main() async {
         BlocProvider(
           create: (context) => ApplicationCubit()..loadInitialData(),
         ),
-        BlocProvider(create: (context) => WishlistCubit()),
+        BlocProvider(create: (context) => WishlistCubit()..getAuth()),
         BlocProvider(create: (context) => SettingCubit()),
       ],
       child: LogicApp(),

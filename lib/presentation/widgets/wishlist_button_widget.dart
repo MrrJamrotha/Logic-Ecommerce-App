@@ -3,24 +3,49 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_colors.dart';
 import 'package:logic_app/core/constants/app_icons.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/helper/loading_overlay.dart';
 import 'package:logic_app/presentation/global/wishlist/wishlist_cubit.dart';
+import 'package:logic_app/presentation/global/wishlist/wishlist_state.dart';
+import 'package:logic_app/presentation/screens/auth/login/login_screen.dart';
 import 'package:logic_app/presentation/widgets/icon_widget.dart';
 
-class WishlistButtonWidget extends StatefulWidget {
-  const WishlistButtonWidget({super.key, required this.productId});
+class WishlistButtonWidget extends StatelessWidget {
+  const WishlistButtonWidget({
+    super.key,
+    required this.productId,
+    this.variantId,
+  });
   final String productId;
-  @override
-  State<WishlistButtonWidget> createState() => _WishlistButtonWidgetState();
-}
+  final String? variantId;
 
-class _WishlistButtonWidgetState extends State<WishlistButtonWidget> {
-  Future<void> _toggleWishlist() async {
+  Future<void> _toggleWishlist(BuildContext context) async {
     try {
       bool isAuth = context.read<WishlistCubit>().state.isAuthenticated;
       if (isAuth) {
-        
+        var wishlists = context.read<WishlistCubit>().state.wishlists ?? [];
+        var indexWishlist =
+            wishlists.indexWhere((e) => e.productId == productId);
+        if (indexWishlist != -1) {
+          LoadingOverlay.show(context);
+          await context.read<WishlistCubit>().toggleWishlist(parameters: {
+            'id': wishlists[indexWishlist].id,
+            'product_id': productId,
+            'variant_id': variantId,
+          });
+          LoadingOverlay.hide();
+        } else {
+          LoadingOverlay.show(context);
+          await context.read<WishlistCubit>().toggleWishlist(parameters: {
+            'product_id': productId,
+            'variant_id': variantId,
+          });
+          LoadingOverlay.hide();
+        }
       } else {
-        //TODO :LOGIN
+        Navigator.pushNamed(context, LoginScreen.routeName).then((value) async {
+          if (!context.mounted) return;
+          await context.read<WishlistCubit>().getAuth();
+        });
       }
     } catch (e) {
       throw Exception(e);
@@ -29,24 +54,25 @@ class _WishlistButtonWidgetState extends State<WishlistButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      padding: EdgeInsets.all(5.scale),
-      constraints: BoxConstraints(),
-      // isSelected: isSelected,
-      style: IconButton.styleFrom(
-        backgroundColor: appWhite,
-      ),
-      onPressed: () => _toggleWishlist(),
-      selectedIcon: IconWidget(
-        assetName: heartSvg,
-        width: 18.scale,
-        height: 18.scale,
-      ),
-      icon: IconWidget(
-        assetName: wishlist,
-        width: 18.scale,
-        height: 18.scale,
-      ),
+    return BlocBuilder<WishlistCubit, WishlistState>(
+      builder: (context, state) {
+        var records = state.wishlists ?? [];
+        return IconButton(
+          padding: EdgeInsets.all(5.scale),
+          constraints: const BoxConstraints(),
+          style: IconButton.styleFrom(
+            backgroundColor: appWhite,
+          ),
+          onPressed: () => _toggleWishlist(context),
+          icon: IconWidget(
+            assetName: records.any((item) => item.productId == productId)
+                ? heartSvg
+                : wishlist,
+            width: 18.scale,
+            height: 18.scale,
+          ),
+        );
+      },
     );
   }
 }

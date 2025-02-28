@@ -4,6 +4,7 @@ import 'package:logic_app/data/models/brand_model.dart';
 import 'package:logic_app/data/models/category_model.dart';
 import 'package:logic_app/data/models/price_range_model.dart';
 import 'package:logic_app/data/models/product_model.dart';
+import 'package:logic_app/data/models/wishlist_model.dart';
 
 class WishlistState extends Equatable {
   final List<ProductModel>? records;
@@ -21,6 +22,7 @@ class WishlistState extends Equatable {
   final List<String>? selectBrandIds;
   final String? selectBrandId;
   final String? selectCategoryId;
+  final List<WishlistModel>? wishlists;
 
   const WishlistState({
     this.records,
@@ -38,6 +40,7 @@ class WishlistState extends Equatable {
     this.selectBrandIds,
     this.selectBrandId,
     this.selectCategoryId,
+    this.wishlists,
   });
 
   WishlistState copyWith({
@@ -56,6 +59,7 @@ class WishlistState extends Equatable {
     List<String>? selectBrandIds,
     String? selectBrandId,
     String? selectCategoryId,
+    List<WishlistModel>? wishlists,
   }) {
     return WishlistState(
       records: records ?? this.records,
@@ -73,6 +77,7 @@ class WishlistState extends Equatable {
       selectBrandIds: selectBrandIds ?? this.selectBrandIds,
       selectBrandId: selectBrandId ?? this.selectBrandId,
       selectCategoryId: selectCategoryId ?? this.selectCategoryId,
+      wishlists: wishlists ?? this.wishlists,
     );
   }
 
@@ -93,5 +98,6 @@ class WishlistState extends Equatable {
         selectBrandIds,
         selectBrandId,
         selectCategoryId,
+        wishlists,
       ];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:logic_app/core/constants/app_enum.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/service/user_session_service.dart';
@@ -13,7 +14,6 @@ class WishlistCubit extends Cubit<WishlistState> {
     String categoryId = "",
     String brandId = "",
   }) : super(WishlistState()) {
-    getAuth();
     pagingController.addPageRequestListener((pageKey) {
       var ratings = (state.selectedRatings?.keys.toList() ?? []).isNotEmpty
           ? (state.selectedRatings!.keys.toList()..sort()).join(',')
@@ -39,13 +39,73 @@ class WishlistCubit extends Cubit<WishlistState> {
   final pagingController = PagingController(firstPageKey: 1);
   final session = di.get<UserSessionService>();
   final repos = di.get<WishlistRepositoryImpl>();
+
   Future<void> getAuth() async {
     try {
       final auth = await session.user;
       if (auth != null) {
         emit(state.copyWith(isAuthenticated: true));
+        await getWishlist();
       } else {
         emit(state.copyWith(isAuthenticated: false));
+      }
+    } catch (e) {
+      addError(e);
+    }
+  }
+
+  Future<void> getWishlist() async {
+    try {
+      await repos.getWishlist().then((response) {
+        response.fold((failure) {
+          showMessage(message: failure.message);
+          emit(state.copyWith(errorMessage: failure.message));
+        }, (success) {
+          emit(state.copyWith(wishlists: response.success));
+        });
+      });
+    } catch (e) {
+      addError(e);
+    }
+  }
+
+  Future<void> toggleWishlist({Map<String, dynamic>? parameters}) async {
+    try {
+      var wishlists = List.from(state.wishlists ?? []);
+
+      // Check if the item is already in the wishlist
+      final exists = wishlists.any((item) => item.id == parameters?['id']);
+
+      if (exists) {
+        // Remove from wishlist
+        await repos.removeFromWishlist(parameters: parameters).then((response) {
+          response.fold((failure) {
+            showMessage(
+              message: failure.message,
+              status: MessageStatus.warning,
+            );
+            emit(state.copyWith(errorMessage: failure.message));
+          }, (success) {
+            wishlists.removeWhere((item) => item.id == parameters?['id']);
+            emit(state.copyWith(wishlists: List.from(wishlists)));
+            showMessage(message: response.message ?? "Removed from wishlist");
+          });
+        });
+      } else {
+        // Add to wishlist
+        await repos.addToWishList(parameters: parameters).then((response) {
+          response.fold((failure) {
+            showMessage(
+              message: failure.message,
+              status: MessageStatus.warning,
+            );
+            emit(state.copyWith(errorMessage: failure.message));
+          }, (success) {
+            wishlists.add(success);
+            emit(state.copyWith(wishlists: List.from(wishlists)));
+            showMessage(message: response.message ?? "Added to wishlist");
+          });
+        });
       }
     } catch (e) {
       addError(e);
@@ -198,6 +258,12 @@ class WishlistCubit extends Cubit<WishlistState> {
       'rating': '',
       'brand_id': '',
     });
+  }
+
+  @override
+  Future<void> close() {
+    pagingController.dispose();
+    return super.close();
   }
 
   @override

@@ -286,9 +286,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
               },
               firstPageProgressIndicatorBuilder: (_) => centerLoading(),
               newPageProgressIndicatorBuilder: (_) => centerLoading(),
-              noItemsFoundIndicatorBuilder: (_) => Center(
-                child: TextWidget(text: "not_found_product".tr),
-              ),
+              noItemsFoundIndicatorBuilder: (_) => centerNotFoundProduct(),
             ),
             crossAxisCount: countRow,
             crossAxisSpacing: appSpace.scale,

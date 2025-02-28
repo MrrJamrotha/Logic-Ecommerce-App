@@ -76,4 +76,23 @@ class WishlistRepositoryImpl implements WishlistRepository {
       return Result.left(Failure(error.toString()));
     }
   }
+
+  @override
+  Future<Result<List<WishlistModel>, Failure>> getWishlist({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final result = await _apiClient.getWishlist(parameters: parameters);
+      if (result.statusCode != 200) {
+        return Result.left(Failure(result.message));
+      }
+      List<WishlistModel> records = (result.data as List<dynamic>).map((item) {
+        return WishlistModel.fromJson(item as Map<String, dynamic>);
+      }).toList();
+
+      return Result.right(records, message: result.message);
+    } catch (error) {
+      return Result.left(Failure(error.toString()));
+    }
+  }
 }

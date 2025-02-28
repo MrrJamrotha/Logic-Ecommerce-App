@@ -807,4 +807,25 @@ class ApiClient implements Api {
       throw Exception(exception);
     }
   }
+
+  @override
+  Future<BaseResponse> getWishlist({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getWishlist),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['records'] ?? [],
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
 }

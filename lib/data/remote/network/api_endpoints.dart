@@ -47,4 +47,5 @@ class ApiEndpoints {
   static final getMyWishlist = '$baseUrl/wishlist/get-my-wishlist';
   static final addToWishlist = '$baseUrl/wishlist/add-wishlist';
   static final removeFromWishlist = '$baseUrl/wishlist/remove-wishlist';
+  static final getWishlist = '$baseUrl/wishlist/get-wishlist';
 }
