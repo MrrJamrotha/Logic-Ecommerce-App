@@ -4,6 +4,7 @@ import 'package:foxShop/core/constants/app_colors.dart';
 import 'package:foxShop/core/constants/app_enum.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/helper/loading_overlay.dart';
 import 'package:foxShop/data/models/user_model.dart';
 import 'package:foxShop/presentation/screens/auth/login/login_screen.dart';
 import 'package:foxShop/presentation/screens/cart/cart_cubit.dart';
@@ -74,7 +75,12 @@ class CartScreenState extends State<CartScreen> {
     );
   }
 
-  Padding _buildBottomNavigationBar(CartState state, BuildContext context) {
+  _buildBottomNavigationBar(CartState state, BuildContext context) {
+    var records = state.productCarts ?? [];
+
+    if (records.isEmpty) {
+      return SizedBox.shrink();
+    }
     return Padding(
       padding: EdgeInsets.all(appPedding.scale),
       child: BoxWidget(
@@ -126,6 +132,70 @@ class CartScreenState extends State<CartScreen> {
     );
   }
 
+  Future<void> _removeFromCart(String id) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog.adaptive(
+          backgroundColor: appWhite,
+          title: Text('remove_from_cart'.tr),
+          content: Text('are_you_sure_to_remove_this_item'.tr),
+          actions: [
+            TextButton(
+              child: TextWidget(text: 'cancel'.tr, color: appRedAccent),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: TextWidget(
+                text: 'ok'.tr,
+                color: appBlack,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                removeFromCart(id);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  removeFromCart(String id) async {
+    try {
+      LoadingOverlay.show(context);
+      await screenCubit.removeFromCart(parameters: {'id': id});
+      LoadingOverlay.hide();
+    } catch (e) {
+      LoadingOverlay.hide();
+      throw Exception(e);
+    }
+  }
+
+  Future<void> _incrementCart(String id, String quantity) async {
+    try {
+      LoadingOverlay.show(context);
+      // await screenCubit
+      //     .incrementCart(parameters: {'id': id, 'quantity': quantity});
+      LoadingOverlay.hide();
+    } catch (e) {
+      LoadingOverlay.hide();
+      throw Exception(e);
+    }
+  }
+
+  Future<void> _decrementCart(String id, String quantity) async {
+    try {
+      LoadingOverlay.show(context);
+      // await screenCubit
+      //     .incrementCart(parameters: {'id': id, 'quantity': quantity});
+      LoadingOverlay.hide();
+    } catch (e) {
+      LoadingOverlay.hide();
+      throw Exception(e);
+    }
+  }
+
   Widget _buildRow({
     required String leftText,
     required String rightText,
@@ -149,7 +219,8 @@ class CartScreenState extends State<CartScreen> {
   }
 
   Widget buildBody(CartState state) {
-    final records = state.productCarts ?? [];
+    var records = state.productCarts ?? [];
+
     if (records.isEmpty) {
       return ErrorTypeWidget(type: ErrorType.empty);
     }
@@ -158,7 +229,13 @@ class CartScreenState extends State<CartScreen> {
       padding: EdgeInsets.all(appPedding.scale),
       separatorBuilder: (context, index) => SizedBox(height: appSpace.scale),
       itemBuilder: (context, index) {
-        return CartWidget(key: ValueKey(index), record: records[index]);
+        return CartWidget(
+          key: ValueKey(index),
+          record: records[index],
+          removeFromCart: _removeFromCart,
+          incrementCart: _incrementCart,
+          decrementCart: _decrementCart,
+        );
       },
     );
   }

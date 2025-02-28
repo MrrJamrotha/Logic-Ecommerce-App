@@ -3,6 +3,8 @@ import 'package:foxShop/core/constants/app_enum.dart';
 import 'package:foxShop/core/di/injection.dart';
 import 'package:foxShop/core/helper/helper.dart';
 import 'package:foxShop/core/service/user_session_service.dart';
+import 'package:foxShop/data/models/cart_model.dart';
+import 'package:foxShop/data/models/product_cart_model.dart';
 import 'package:foxShop/data/repositories/cart/cart_repository_impl.dart';
 import 'package:foxShop/presentation/screens/cart/cart_state.dart';
 
@@ -49,7 +51,7 @@ class CartCubit extends Cubit<CartState> {
 
   Future<void> toggleCart({Map<String, dynamic>? parameters}) async {
     try {
-      var carts = List.from(state.carts ?? []);
+      List<CartModel> carts = state.carts ?? [];
 
       // Check if the item is already in the wishlist
       final exists = carts.any((item) => item.id == parameters?['id']);
@@ -65,7 +67,7 @@ class CartCubit extends Cubit<CartState> {
             emit(state.copyWith(error: failure.message));
           }, (success) {
             carts.removeWhere((item) => item.id == parameters?['id']);
-            emit(state.copyWith(carts: List.from(carts)));
+            emit(state.copyWith(carts: carts));
             showMessage(message: response.message ?? "Removed from cart");
           });
         });
@@ -85,6 +87,40 @@ class CartCubit extends Cubit<CartState> {
           });
         });
       }
+    } catch (error) {
+      addError(error);
+    }
+  }
+
+  Future<void> removeFromCart({Map<String, dynamic>? parameters}) async {
+    try {
+      List<CartModel> carts = state.carts ?? [];
+      List<ProductCartModel> productCarts = state.productCarts ?? [];
+
+      await repos.removeFromCart(parameters: parameters).then((response) {
+        response.fold((failure) {
+          showMessage(
+            message: failure.message,
+            status: MessageStatus.warning,
+          );
+          emit(state.copyWith(error: failure.message));
+        }, (success) {
+          carts.removeWhere((item) => item.id == parameters?['id']);
+          productCarts.removeWhere((item) => item.id == parameters?['id']);
+          emit(
+            state.copyWith(
+              carts: carts,
+              productCarts: productCarts,
+              subTotal: response.subTotal,
+              totalCart: response.totalCart,
+              totalCommission: response.totalCommission,
+              totalDiscount: response.totalDiscount,
+              totalAmount: response.totalAmount,
+            ),
+          );
+          showMessage(message: response.message ?? "Removed from cart");
+        });
+      });
     } catch (error) {
       addError(error);
     }
