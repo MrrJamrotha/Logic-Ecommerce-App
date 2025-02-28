@@ -2,7 +2,7 @@ import 'package:foxShop/core/common/result.dart';
 import 'package:foxShop/core/di/injection.dart';
 import 'package:foxShop/core/error/failure.dart';
 import 'package:foxShop/data/models/cart_model.dart';
-import 'package:foxShop/data/models/product_model.dart';
+import 'package:foxShop/data/models/product_cart_model.dart';
 import 'package:foxShop/data/remote/network/api_client.dart';
 import 'package:foxShop/data/repositories/cart/cart_repository.dart';
 
@@ -35,17 +35,17 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<Result<List<ProductModel>, Failure>> getCarts({
+  Future<Result<List<ProductCartModel>, Failure>> getCarts({
     Map<String, dynamic>? parameters,
   }) async {
     try {
-      final result = await _apiClient.addToCart(parameters: parameters);
+      final result = await _apiClient.getCarts(parameters: parameters);
       if (result.status != 'success') {
         return Result.left(Failure(result.message));
       }
-      List<ProductModel> records = [];
+      List<ProductCartModel> records = [];
       for (var item in result.data) {
-        records.add(ProductModel.fromJson(item));
+        records.add(ProductCartModel.fromJson(item));
       }
       return Result.right(
         records,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foxShop/core/constants/app_colors.dart';
-import 'package:foxShop/core/constants/app_images.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
 import 'package:foxShop/data/models/user_model.dart';
@@ -31,7 +30,7 @@ class CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     screenCubit.loadInitialData();
-
+    screenCubit.getCarts();
     super.initState();
   }
 
@@ -60,15 +59,9 @@ class CartScreenState extends State<CartScreen> {
           return buildBody(state);
         },
       ),
-      bottomNavigationBar: BlocSelector<CartCubit, CartState, UserModel?>(
+      bottomNavigationBar: BlocBuilder<CartCubit, CartState>(
         bloc: screenCubit,
-        selector: (state) {
-          return state.auth;
-        },
         builder: (context, state) {
-          // if (state == null) {
-          //   return SizedBox.shrink();
-          // }
           return Padding(
             padding: EdgeInsets.all(appPedding.scale),
             child: BoxWidget(
@@ -81,17 +74,24 @@ class CartScreenState extends State<CartScreen> {
                 children: [
                   _buildRow(
                     leftText: 'total_items'.tr,
-                    rightText: '6',
+                    rightText: state.totalCart ?? "0",
                   ),
                   _buildRow(
                     leftText: 'total_amount'.tr,
-                    rightText: '3499.99\$',
+                    rightText: state.totalAmount ?? "0",
                     rightColor: primary,
                   ),
                   ButtonWidget(
                     title: 'check_out'.tr,
                     onPressed: () {
-                      Navigator.pushNamed(context, CheckOutScreen.routeName);
+                      if (state.auth == null) {
+                        Navigator.pushNamed(context, LoginScreen.routeName)
+                            .then((value) {
+                          screenCubit.loadInitialData();
+                        });
+                      } else {
+                        Navigator.pushNamed(context, CheckOutScreen.routeName);
+                      }
                     },
                   )
                 ],
@@ -126,34 +126,6 @@ class CartScreenState extends State<CartScreen> {
   }
 
   Widget buildBody(CartState state) {
-    if (state.auth == null) {
-      return Padding(
-        padding: EdgeInsets.all(appPedding.scale),
-        child: Column(
-          spacing: appPedding.scale,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Image.asset(
-                loginPng,
-                width: 200.scale,
-                height: 200.scale,
-              ),
-            ),
-            ButtonWidget(
-              title: 'sign_in'.tr,
-              onPressed: () {
-                Navigator.pushNamed(context, LoginScreen.routeName)
-                    .then((value) {
-                  screenCubit.loadInitialData();
-                });
-              },
-            )
-          ],
-        ),
-      );
-    }
     return ListView.builder(
       itemCount: 0,
       padding: EdgeInsets.all(appPedding.scale),

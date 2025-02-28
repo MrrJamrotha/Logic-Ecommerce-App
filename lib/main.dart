@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:foxShop/presentation/screens/cart/cart_cubit.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:foxShop/core/constants/app_global_key.dart';
 import 'package:foxShop/core/di/injection.dart';
@@ -54,6 +55,7 @@ void main() async {
           create: (context) => ApplicationCubit()..loadInitialData(),
         ),
         BlocProvider(create: (context) => WishlistCubit()..getAuth()),
+        BlocProvider(create: (context) => CartCubit()..getCarts()),
         BlocProvider(create: (context) => SettingCubit()),
       ],
       child: LogicApp(),

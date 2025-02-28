@@ -832,9 +832,11 @@ class ApiClient implements Api {
   @override
   Future<BaseResponse> addToCart({Map<String, dynamic>? parameters}) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.addToCart),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
       final body = jsonDecode(response.body);
@@ -858,9 +860,11 @@ class ApiClient implements Api {
   @override
   Future<BaseResponse> getCarts({Map<String, dynamic>? parameters}) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getCarts),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
       final body = jsonDecode(response.body);
@@ -884,9 +888,11 @@ class ApiClient implements Api {
   @override
   Future<BaseResponse> removeAllCart({Map<String, dynamic>? parameters}) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.removeAllCart),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
       final body = jsonDecode(response.body);
@@ -912,9 +918,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.removeFromCart),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
       final body = jsonDecode(response.body);

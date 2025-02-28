@@ -143,6 +143,7 @@ class ProductCardWidget extends StatelessWidget {
             bottom: -5.scale,
             child: AddToCartButtonWidget(
               key: super.key,
+              productId: record.id
             ),
           ),
         ],

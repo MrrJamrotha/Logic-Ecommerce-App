@@ -4,6 +4,8 @@ import 'package:foxShop/core/constants/app_colors.dart';
 import 'package:foxShop/core/constants/app_icons.dart';
 import 'package:foxShop/core/constants/app_size_config.dart';
 import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/presentation/screens/cart/cart_cubit.dart';
 import 'package:foxShop/presentation/screens/cart/cart_screen.dart';
 import 'package:foxShop/presentation/screens/category/category_screen.dart';
 import 'package:foxShop/presentation/screens/home/home_screen.dart';
@@ -105,7 +107,11 @@ class _MainScreenState extends State<MainScreen> {
               ),
               NavigationDestination(
                 selectedIcon: Badge.count(
-                  count: 10, //TODO: next time
+                  isLabelVisible: AppFormat.toInt(
+                          context.watch<CartCubit>().state.totalCart) >
+                      0,
+                  count: AppFormat.toInt(
+                      context.watch<CartCubit>().state.totalCart),
                   child: IconWidget(
                     assetName: cartSvg,
                     width: 24.scale,
@@ -114,7 +120,11 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 icon: Badge.count(
-                  count: 10, //TODO: next time
+                  isLabelVisible: AppFormat.toInt(
+                          context.watch<CartCubit>().state.totalCart) >
+                      0,
+                  count: AppFormat.toInt(
+                      context.watch<CartCubit>().state.totalCart),
                   child: IconWidget(
                     assetName: cartSvg,
                     width: 24.scale,
