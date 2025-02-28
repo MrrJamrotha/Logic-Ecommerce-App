@@ -47,6 +47,49 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
+  Future<void> toggleCart({Map<String, dynamic>? parameters}) async {
+    try {
+      var carts = List.from(state.carts ?? []);
+
+      // Check if the item is already in the wishlist
+      final exists = carts.any((item) => item.id == parameters?['id']);
+
+      if (exists) {
+        // Remove from wishlist
+        await repos.removeFromCart(parameters: parameters).then((response) {
+          response.fold((failure) {
+            showMessage(
+              message: failure.message,
+              status: MessageStatus.warning,
+            );
+            emit(state.copyWith(error: failure.message));
+          }, (success) {
+            carts.removeWhere((item) => item.id == parameters?['id']);
+            emit(state.copyWith(carts: List.from(carts)));
+            showMessage(message: response.message ?? "Removed from cart");
+          });
+        });
+      } else {
+        // Add to wishlist
+        await repos.addToCart(parameters: parameters).then((response) {
+          response.fold((failure) {
+            showMessage(
+              message: failure.message,
+              status: MessageStatus.warning,
+            );
+            emit(state.copyWith(error: failure.message));
+          }, (success) {
+            carts.add(success);
+            emit(state.copyWith(carts: List.from(carts)));
+            showMessage(message: response.message ?? "Added to cart");
+          });
+        });
+      }
+    } catch (error) {
+      addError(error);
+    }
+  }
+
   @override
   void addError(Object error, [StackTrace? stackTrace]) {
     logger.e(error, stackTrace: stackTrace);

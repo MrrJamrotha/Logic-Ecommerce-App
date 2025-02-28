@@ -24,6 +24,7 @@ class ProductCartModel {
   final String totalDiscount;
   final String commissionAmount;
   final String totalAmount;
+  final bool isPromotion;
 
   ProductCartModel({
     required this.id,
@@ -49,6 +50,7 @@ class ProductCartModel {
     required this.totalDiscount,
     required this.commissionAmount,
     required this.totalAmount,
+    required this.isPromotion,
   });
 
   factory ProductCartModel.fromJson(Map<String, dynamic> json) {
@@ -76,6 +78,7 @@ class ProductCartModel {
       totalDiscount: AppFormat.toStr(json['total_discount']),
       commissionAmount: AppFormat.toStr(json['commission_amount']),
       totalAmount: AppFormat.toStr(json['total_amount']),
+      isPromotion: json['is_promotion'] ?? false,
     );
   }
 }

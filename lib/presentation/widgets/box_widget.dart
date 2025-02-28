@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foxShop/core/constants/app_colors.dart';
-import 'package:foxShop/core/helper/helper.dart';
 
 class BoxWidget extends StatelessWidget {
   const BoxWidget({
@@ -38,12 +37,11 @@ class BoxWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: color,
               borderRadius: borderRadius,
-              border: Border.all(color: textColor, width: 0.1.scale),
               boxShadow: [
                 BoxShadow(
-                  color: boxShadowColor,
-                  offset: Offset(0, 12.scale),
-                  blurRadius: 48.scale,
+                  color: Colors.black.withOpacity(0.08), // rgba(0, 0, 0, 0.08)
+                  offset: Offset(0, 4), // 0px 4px
+                  blurRadius: 12, // 12px
                 ),
               ],
             ),
