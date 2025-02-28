@@ -66,9 +66,9 @@ class CartScreenState extends State<CartScreen> {
           return state.auth;
         },
         builder: (context, state) {
-          if (state == null) {
-            return SizedBox.shrink();
-          }
+          // if (state == null) {
+          //   return SizedBox.shrink();
+          // }
           return Padding(
             padding: EdgeInsets.all(appPedding.scale),
             child: BoxWidget(

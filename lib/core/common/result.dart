@@ -11,6 +11,11 @@ class Result<T, E> {
   final List<BrandModel>? brands;
   final PriceRangeModel? priceRangeModel;
   final String? message;
+  String? subTotal;
+  String? totalCommission;
+  String? totalDiscount;
+  String? totalCart;
+  String? totalAmount;
 
   Result({
     this.success,
@@ -21,6 +26,11 @@ class Result<T, E> {
     this.brands,
     this.priceRangeModel,
     this.message,
+    this.subTotal,
+    this.totalCommission,
+    this.totalDiscount,
+    this.totalCart,
+    this.totalAmount,
   });
 
   // ✅ For Success
@@ -32,6 +42,11 @@ class Result<T, E> {
     List<CategoryModel>? categories,
     List<BrandModel>? brands,
     PriceRangeModel? priceRangeModel,
+    String? subTotal,
+    String? totalCommission,
+    String? totalDiscount,
+    String? totalCart,
+    String? totalAmount,
   }) {
     return Result(
       success: success,
@@ -41,6 +56,11 @@ class Result<T, E> {
       categories: categories,
       brands: brands,
       priceRangeModel: priceRangeModel,
+      subTotal: subTotal,
+      totalCommission: totalCommission,
+      totalDiscount: totalDiscount,
+      totalCart: totalCart,
+      totalAmount: totalAmount,
     );
   }
 
@@ -53,6 +73,11 @@ class Result<T, E> {
     List<CategoryModel>? categories,
     List<BrandModel>? brands,
     PriceRangeModel? priceRangeModel,
+    String? subTotal,
+    String? totalCommission,
+    String? totalDiscount,
+    String? totalCart,
+    String? totalAmount,
   }) {
     return Result(
       failed: failed,
@@ -62,6 +87,11 @@ class Result<T, E> {
       categories: categories,
       brands: brands,
       priceRangeModel: priceRangeModel,
+      subTotal: subTotal,
+      totalCommission: totalCommission,
+      totalDiscount: totalDiscount,
+      totalCart: totalCart,
+      totalAmount: totalAmount,
     );
   }
 

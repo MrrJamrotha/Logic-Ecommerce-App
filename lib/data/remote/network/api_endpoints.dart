@@ -48,4 +48,10 @@ class ApiEndpoints {
   static final addToWishlist = '$baseUrl/wishlist/add-wishlist';
   static final removeFromWishlist = '$baseUrl/wishlist/remove-wishlist';
   static final getWishlist = '$baseUrl/wishlist/get-wishlist';
+
+  //Cart
+  static final addToCart = '$baseUrl/cart/add-to-cart';
+  static final removeFromCart = '$baseUrl/cart/remove-from-cart';
+  static final getCarts = '$baseUrl/cart/get-cart';
+  static final removeAllCart = '$baseUrl/cart/remove-all-cart';
 }

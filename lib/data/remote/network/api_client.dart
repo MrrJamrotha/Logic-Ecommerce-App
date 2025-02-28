@@ -828,4 +828,110 @@ class ApiClient implements Api {
       throw Exception(exception);
     }
   }
+
+  @override
+  Future<BaseResponse> addToCart({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.addToCart),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? [],
+        subTotal: body['sub_total'] ?? "",
+        totalCommission: body['total_commission'] ?? "",
+        totalDiscount: body['total_discount'] ?? "",
+        totalCart: AppFormat.toStr(body['total_cart'] ?? 0),
+        totalAmount: body['total_amount'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getCarts({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getCarts),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['records'] ?? [],
+        subTotal: body['sub_total'] ?? "",
+        totalCommission: body['total_commission'] ?? "",
+        totalDiscount: body['total_discount'] ?? "",
+        totalCart: AppFormat.toStr(body['total_cart'] ?? 0),
+        totalAmount: body['total_amount'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> removeAllCart({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.removeAllCart),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? [],
+        subTotal: body['sub_total'] ?? "",
+        totalCommission: body['total_commission'] ?? "",
+        totalDiscount: body['total_discount'] ?? "",
+        totalCart: AppFormat.toStr(body['total_cart'] ?? 0),
+        totalAmount: body['total_amount'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> removeFromCart({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.removeFromCart),
+        body: jsonEncode(parameters),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? [],
+        subTotal: body['sub_total'] ?? "",
+        totalCommission: body['total_commission'] ?? "",
+        totalDiscount: body['total_discount'] ?? "",
+        totalCart: AppFormat.toStr(body['total_cart'] ?? 0),
+        totalAmount: body['total_amount'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
 }

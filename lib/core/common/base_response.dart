@@ -8,6 +8,11 @@ class BaseResponse<T> {
   T? categories;
   T? brands;
   T? priceRange;
+  String? subTotal;
+  String? totalCommission;
+  String? totalDiscount;
+  String? totalCart;
+  String? totalAmount;
 
   BaseResponse({
     required this.data,
@@ -19,5 +24,10 @@ class BaseResponse<T> {
     this.categories,
     this.brands,
     this.priceRange,
+    this.subTotal,
+    this.totalCommission,
+    this.totalDiscount,
+    this.totalCart,
+    this.totalAmount,
   });
 }
