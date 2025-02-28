@@ -36,10 +36,10 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("upload-keystore.jks") // Ensure correct path
-            storePassword "foxtech"
-            keyAlias "foxtech-keystore"  // Make sure this matches the actual alias
-            keyPassword "foxtech"
+            // storeFile file("upload-keystore.jks") // Ensure correct path
+            // storePassword "foxtech"
+            // keyAlias "foxtech-keystore"  // Make sure this matches the actual alias
+            // keyPassword "foxtech"
         }
         release {
             storeFile file("upload-keystore.jks") // Ensure correct relative path

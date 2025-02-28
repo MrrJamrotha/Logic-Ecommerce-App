@@ -6,6 +6,7 @@ class ApplicationState extends Equatable {
   final bool onBoarding;
   final bool isDarkModeTheme;
   final String? localeCode;
+  final String? currencyCode;
 
   const ApplicationState({
     this.isLoading = false,
@@ -13,6 +14,7 @@ class ApplicationState extends Equatable {
     this.onBoarding = false,
     this.isDarkModeTheme = false,
     this.localeCode = "en",
+    this.currencyCode = "USD",
   });
 
   ApplicationState copyWith({
@@ -21,6 +23,7 @@ class ApplicationState extends Equatable {
     bool? onBoarding,
     bool? isDarkModeTheme,
     String? localeCode,
+    String? currencyCode,
   }) {
     return ApplicationState(
       isLoading: isLoading ?? this.isLoading,
@@ -28,6 +31,7 @@ class ApplicationState extends Equatable {
       onBoarding: onBoarding ?? this.onBoarding,
       isDarkModeTheme: isDarkModeTheme ?? this.isDarkModeTheme,
       localeCode: localeCode ?? this.localeCode,
+      currencyCode : currencyCode ?? this.currencyCode,
     );
   }
 
@@ -38,6 +42,7 @@ class ApplicationState extends Equatable {
       'onBoarding': onBoarding,
       'isDarkModeTheme': isDarkModeTheme,
       'localeCode': localeCode,
+      'currencyCode' : currencyCode,
     };
   }
 
@@ -48,6 +53,7 @@ class ApplicationState extends Equatable {
       onBoarding: json['onBoarding'] ?? false,
       isDarkModeTheme: json['isDarkModeTheme'] ?? false,
       localeCode: json['localeCode'] ?? "en",
+      currencyCode : json['currencyCode'] ?? "USD",
     );
   }
 
@@ -58,5 +64,6 @@ class ApplicationState extends Equatable {
         onBoarding,
         isDarkModeTheme,
         localeCode,
+        currencyCode,
       ];
 }

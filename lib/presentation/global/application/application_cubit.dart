@@ -39,6 +39,14 @@ class ApplicationCubit extends HydratedCubit<ApplicationState> {
     }
   }
 
+  Future<void> changeCurrencyCode (String code) async{ 
+    try {
+      emit(state.copyWith(currencyCode: code));
+    } catch (e) {
+      addError(e);
+    }
+  }
+
   @override
   void addError(Object error, [StackTrace? stackTrace]) {
     logger.e(error, stackTrace: stackTrace);

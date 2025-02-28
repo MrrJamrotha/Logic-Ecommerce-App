@@ -4,7 +4,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logic_app/core/common/base_response.dart';
 import 'package:logic_app/core/di/injection.dart';
-import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/service/user_session_service.dart';
 import 'package:logic_app/core/utils/app_format.dart';
 import 'package:logic_app/data/remote/network/api.dart';
@@ -16,17 +15,29 @@ class ApiClient implements Api {
   final http.Client _client;
   ApiClient(this._client);
 
-  Future<String> getAppId() async {
+  final _session = di.get<UserSessionService>();
+
+  Future<Map<String, dynamic>> getParams() async {
     try {
+      var auth = await _session.getUser();
       final deviceInfoPlugin = DeviceInfoPlugin();
       final deviceInfo = await deviceInfoPlugin.deviceInfo;
       final allInfo = deviceInfo.data;
-      return Platform.isAndroid
-          ? allInfo['id']
-          : allInfo['identifierForVendor'];
+      String appId =
+          Platform.isAndroid ? allInfo['id'] : allInfo['identifierForVendor'];
+      String locale = "en";
+      String currencyCode = "USD";
+      if (auth != null) {
+        locale = auth.locale;
+        currencyCode = auth.currencyCode;
+      }
+      return {
+        'code': currencyCode,
+        'locale': locale,
+        'application_id': appId,
+      };
     } catch (e) {
-      logger.e(e);
-      return '';
+      throw Exception(e.toString());
     }
   }
 
@@ -35,9 +46,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getUserProfile),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -56,9 +69,11 @@ class ApiClient implements Api {
   @override
   Future<BaseResponse> getSlideShow({Map<String, dynamic>? parameters}) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getSlideShow),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -77,9 +92,11 @@ class ApiClient implements Api {
   @override
   Future<BaseResponse> getBrands({Map<String, dynamic>? parameters}) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getBrands),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -100,9 +117,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getBrowseCategories),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -123,9 +142,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getRecommendedForYou),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -152,9 +173,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getNewArrivals),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -181,9 +204,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductBastReview),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -209,9 +234,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getSpacialProduct),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -238,9 +265,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getRelatedProduct),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -264,9 +293,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getMerchntProfile),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -288,9 +319,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByMerchnt),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -314,9 +347,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+         var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByBrand),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -342,9 +377,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+         var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getProductByCategory),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -369,9 +406,11 @@ class ApiClient implements Api {
     Map<String, dynamic>? parameters,
   }) async {
     try {
+          var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
       final response = await _client.post(
         Uri.parse(ApiEndpoints.getItemDetail),
-        body: jsonEncode(parameters),
+        body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
 
@@ -422,9 +461,9 @@ class ApiClient implements Api {
         headers: await ApiInterceptor.modifyHeaders(),
       );
       final body = jsonDecode(response.body);
-      final session = di.get<UserSessionService>();
+
       if (body['token'] != null) {
-        await session.storeToken(body['token']);
+        await _session.storeToken(body['token']);
       }
 
       return BaseResponse(
@@ -582,9 +621,9 @@ class ApiClient implements Api {
         headers: await ApiInterceptor.modifyHeaders(),
       );
       final body = jsonDecode(response.body);
-      final session = di.get<UserSessionService>();
+
       if (body['token'] != null) {
-        await session.storeToken(body['token']);
+        await _session.storeToken(body['token']);
       }
 
       return BaseResponse(
