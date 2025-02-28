@@ -52,7 +52,7 @@ class CartCubit extends Cubit<CartState> {
   Future<void> toggleCart({Map<String, dynamic>? parameters}) async {
     try {
       List<CartModel> carts = state.carts ?? [];
-
+      List<ProductCartModel> productCarts = state.productCarts ?? [];
       // Check if the item is already in the wishlist
       final exists = carts.any((item) => item.id == parameters?['id']);
 
@@ -67,7 +67,9 @@ class CartCubit extends Cubit<CartState> {
             emit(state.copyWith(error: failure.message));
           }, (success) {
             carts.removeWhere((item) => item.id == parameters?['id']);
-            emit(state.copyWith(carts: carts));
+            productCarts = List.from(productCarts)
+              ..removeWhere((item) => item.id == parameters?['id']);
+            emit(state.copyWith(carts: carts,productCarts: productCarts));
             showMessage(message: response.message ?? "Removed from cart");
           });
         });
@@ -110,11 +112,7 @@ class CartCubit extends Cubit<CartState> {
           productCarts = List.from(productCarts)
             ..removeWhere((item) => item.id == parameters?['id']);
 
-          emit(state.copyWith(
-            carts: carts,
-            productCarts: productCarts,
-          ));
-
+          print('response.totalCart =${response.totalCart}');
           emit(
             state.copyWith(
               carts: carts,
