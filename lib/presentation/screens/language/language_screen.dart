@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logic_app/core/constants/app_images.dart';
 import 'package:logic_app/core/helper/helper.dart';
+import 'package:logic_app/core/helper/loading_overlay.dart';
 import 'package:logic_app/presentation/global/application/application_cubit.dart';
+import 'package:logic_app/presentation/screens/language/language_cubit.dart';
 import 'package:logic_app/presentation/widgets/app_bar_widget.dart';
 import 'package:logic_app/presentation/widgets/text_widget.dart';
 
@@ -17,7 +19,7 @@ class LanguageScreen extends StatefulWidget {
 
 class _LanguageScreenState extends State<LanguageScreen> {
   final _selectedLanguage = ValueNotifier<String>("");
-
+  final screenCubit = LanguageCubit();
   @override
   void initState() {
     _initialLanguage();
@@ -30,10 +32,17 @@ class _LanguageScreenState extends State<LanguageScreen> {
   }
 
   void _changeLanguage(String? langCode) async {
-    if (langCode != null) {
-      _selectedLanguage.value = langCode;
-
-      context.read<ApplicationCubit>().changeLocale(langCode);
+    try {
+      if (langCode != null) {
+        _selectedLanguage.value = langCode;
+        LoadingOverlay.show(context);
+        context.read<ApplicationCubit>().changeLocale(langCode);
+        await screenCubit.changeLocale(langCode);
+        LoadingOverlay.hide();
+      }
+    } catch (e) {
+      LoadingOverlay.hide();
+      throw Exception(e);
     }
   }
 
@@ -50,7 +59,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 onTap: () {
                   _changeLanguage('km');
                 },
-                leading: Image.asset( 
+                leading: Image.asset(
                   khmerImg,
                   width: 50.scale,
                   height: 50.scale,

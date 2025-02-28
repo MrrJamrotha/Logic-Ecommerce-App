@@ -1,10 +1,29 @@
-part of 'language_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:logic_app/data/models/user_model.dart';
 
-sealed class LanguageState extends Equatable {
-  const LanguageState();
+class LanguageState extends Equatable {
+  final bool isLoading;
+  final String? errorMessage;
+  final UserModel? record;
+
+  const LanguageState({
+    this.isLoading = false,
+    this.errorMessage,
+    this.record,
+  });
+
+  LanguageState copyWith({
+    bool? isLoading,
+    String? errorMessage,
+    UserModel? record,
+  }) {
+    return LanguageState(
+      isLoading: isLoading ?? this.isLoading,
+      errorMessage: errorMessage ?? this.errorMessage,
+      record: record ?? this.record,
+    );
+  }
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
-
-final class LanguageInitial extends LanguageState {}

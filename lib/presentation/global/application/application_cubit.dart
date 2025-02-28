@@ -2,6 +2,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logic_app/core/di/injection.dart';
 import 'package:logic_app/core/helper/helper.dart';
 import 'package:logic_app/core/locale/locale_manager.dart';
+import 'package:logic_app/core/service/user_session_service.dart';
 import 'package:logic_app/presentation/global/application/application_state.dart';
 
 class ApplicationCubit extends HydratedCubit<ApplicationState> {
@@ -9,21 +10,24 @@ class ApplicationCubit extends HydratedCubit<ApplicationState> {
     localeManager.setLocale(getLocale(state.localeCode ?? "en"));
   }
   final localeManager = di.get<LocaleManager>();
-  // final _sharedPreferences = di.get<SharedPreferencesService>();
+  final session = di.get<UserSessionService>();
 
   Future<void> loadInitialData() async {
-    // try {
-    //   final result = await _sharedPreferences.getBool(onBoradingKey) ?? false;
-    //   emit(state.copyWith(onBoarding: result));
-    // } catch (e) {
-    //   emit(state.copyWith(onBoarding: false));
-    //   addError(e);
-    // }
+    try {
+      final auth = await session.user;
+      if (auth != null) {
+        emit(state.copyWith(
+          localeCode: auth.locale,
+          currencyCode: auth.currencyCode,
+        ));
+      }
+    } catch (e) {
+      addError(e);
+    }
   }
 
   Future<void> setOnboarding(bool value) async {
     try {
-      // await _sharedPreferences.setBool(onBoradingKey, value);
       emit(state.copyWith(onBoarding: value));
     } catch (e) {
       addError(e);
@@ -39,7 +43,7 @@ class ApplicationCubit extends HydratedCubit<ApplicationState> {
     }
   }
 
-  Future<void> changeCurrencyCode (String code) async{ 
+  Future<void> changeCurrencyCode(String code) async {
     try {
       emit(state.copyWith(currencyCode: code));
     } catch (e) {
