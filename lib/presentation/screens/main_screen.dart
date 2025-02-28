@@ -57,6 +57,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     AppSizeConfig().init(context);
+    int count = AppFormat.toInt(context.watch<CartCubit>().state.totalCart);
     return BlocBuilder<SettingCubit, SettingState>(
       builder: (context, state) {
         return Scaffold(
@@ -107,11 +108,8 @@ class _MainScreenState extends State<MainScreen> {
               ),
               NavigationDestination(
                 selectedIcon: Badge.count(
-                  isLabelVisible: AppFormat.toInt(
-                          context.watch<CartCubit>().state.totalCart) >
-                      0,
-                  count: AppFormat.toInt(
-                      context.watch<CartCubit>().state.totalCart),
+                  isLabelVisible: count > 0,
+                  count: count,
                   child: IconWidget(
                     assetName: cartSvg,
                     width: 24.scale,
@@ -120,11 +118,8 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 icon: Badge.count(
-                  isLabelVisible: AppFormat.toInt(
-                          context.watch<CartCubit>().state.totalCart) >
-                      0,
-                  count: AppFormat.toInt(
-                      context.watch<CartCubit>().state.totalCart),
+                  isLabelVisible: count > 0,
+                  count: count,
                   child: IconWidget(
                     assetName: cartSvg,
                     width: 24.scale,

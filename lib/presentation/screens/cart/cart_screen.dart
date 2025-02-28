@@ -28,7 +28,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class CartScreenState extends State<CartScreen> {
-  final screenCubit = CartCubit();
+  // final screenCubit = CartCubit();
   UserModel? auth;
   @override
   void initState() {
@@ -37,7 +37,10 @@ class CartScreenState extends State<CartScreen> {
   }
 
   _initDatas() async {
-    Future.wait([screenCubit.loadInitialData(), screenCubit.getCarts()]);
+    Future.wait([
+      context.read<CartCubit>().loadInitialData(),
+      context.read<CartCubit>().getCarts(),
+    ]);
   }
 
   showLogin() {
@@ -56,8 +59,16 @@ class CartScreenState extends State<CartScreen> {
     return Scaffold(
       backgroundColor: appWhite,
       appBar: AppbarWidget(title: 'carts'.tr),
-      body: BlocBuilder<CartCubit, CartState>(
-        bloc: screenCubit,
+      body: BlocConsumer<CartCubit, CartState>(
+        listener: (context, state) {
+          if (state.error != null) {
+            showMessage(
+              message: state.error ?? "",
+              status: MessageStatus.error,
+            );
+          }
+        },
+        // bloc: screenCubit,
         builder: (BuildContext context, CartState state) {
           if (state.isLoading) {
             return centerLoading();
@@ -67,7 +78,9 @@ class CartScreenState extends State<CartScreen> {
         },
       ),
       bottomNavigationBar: BlocBuilder<CartCubit, CartState>(
-        bloc: screenCubit,
+        // bloc: screenCubit,
+        buildWhen: (previous, current) =>
+            previous.productCarts != current.productCarts,
         builder: (context, state) {
           return _buildBottomNavigationBar(state, context);
         },
@@ -119,7 +132,8 @@ class CartScreenState extends State<CartScreen> {
                 if (state.auth == null) {
                   Navigator.pushNamed(context, LoginScreen.routeName)
                       .then((value) {
-                    screenCubit.loadInitialData();
+                    if (!context.mounted) return;
+                    context.read<CartCubit>().loadInitialData();
                   });
                 } else {
                   Navigator.pushNamed(context, CheckOutScreen.routeName);
@@ -138,8 +152,8 @@ class CartScreenState extends State<CartScreen> {
       builder: (context) {
         return AlertDialog.adaptive(
           backgroundColor: appWhite,
-          title: Text('remove_from_cart'.tr),
-          content: Text('are_you_sure_to_remove_this_item'.tr),
+          title: TextWidget(text: 'remove_from_cart'.tr),
+          content: TextWidget(text: 'are_you_sure_to_remove_this_item'.tr),
           actions: [
             TextButton(
               child: TextWidget(text: 'cancel'.tr, color: appRedAccent),
@@ -164,7 +178,7 @@ class CartScreenState extends State<CartScreen> {
   removeFromCart(String id) async {
     try {
       LoadingOverlay.show(context);
-      await screenCubit.removeFromCart(parameters: {'id': id});
+      await context.read<CartCubit>().removeFromCart(parameters: {'id': id});
       LoadingOverlay.hide();
     } catch (e) {
       LoadingOverlay.hide();

@@ -105,8 +105,16 @@ class CartCubit extends Cubit<CartState> {
           );
           emit(state.copyWith(error: failure.message));
         }, (success) {
-          carts.removeWhere((item) => item.id == parameters?['id']);
-          productCarts.removeWhere((item) => item.id == parameters?['id']);
+          carts = List.from(carts)
+            ..removeWhere((item) => item.id == parameters?['id']);
+          productCarts = List.from(productCarts)
+            ..removeWhere((item) => item.id == parameters?['id']);
+
+          emit(state.copyWith(
+            carts: carts,
+            productCarts: productCarts,
+          ));
+
           emit(
             state.copyWith(
               carts: carts,
