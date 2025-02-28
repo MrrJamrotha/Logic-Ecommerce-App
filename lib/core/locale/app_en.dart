@@ -122,4 +122,5 @@ final Map<String, String> en = {
   'enter_username': 'Please enter username',
   'username': 'Username',
   'email': 'Email',
+  'total_commission': 'Total Commission',
 };

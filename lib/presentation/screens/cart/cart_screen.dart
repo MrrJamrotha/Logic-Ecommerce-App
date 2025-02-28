@@ -90,6 +90,19 @@ class CartScreenState extends State<CartScreen> {
               rightText: state.totalCart ?? "0",
             ),
             _buildRow(
+              leftText: 'subtotal'.tr,
+              rightText: state.subTotal ?? "0",
+            ),
+            _buildRow(
+              leftText: 'total_commission'.tr,
+              rightText: state.totalCommission ?? "0",
+            ),
+            _buildRow(
+              leftText: 'total_discount'.tr,
+              rightText: "-${state.totalDiscount}",
+              rightColor: appRedAccent,
+            ),
+            _buildRow(
               leftText: 'total_amount'.tr,
               rightText: state.totalAmount ?? "0",
               rightColor: primary,
