@@ -5,6 +5,7 @@ import 'package:foxShop/core/constants/app_enum.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
 import 'package:foxShop/core/helper/loading_overlay.dart';
+import 'package:foxShop/core/utils/app_format.dart';
 import 'package:foxShop/data/models/user_model.dart';
 import 'package:foxShop/presentation/screens/auth/login/login_screen.dart';
 import 'package:foxShop/presentation/screens/cart/cart_cubit.dart';
@@ -195,7 +196,7 @@ class CartScreenState extends State<CartScreen> {
       LoadingOverlay.show(context);
       await context.read<CartCubit>().incrementCart(parameters: {
         'id': id,
-        'quantity': quantity,
+        'quantity': AppFormat.toInt(quantity) + 1,
         'product_id': productId,
       });
       LoadingOverlay.hide();
@@ -205,12 +206,21 @@ class CartScreenState extends State<CartScreen> {
     }
   }
 
-  Future<void> _decrementCart(String id, String quantity) async {
+  Future<void> _decrementCart(
+    String id,
+    String productId,
+    String quantity,
+  ) async {
     try {
-      LoadingOverlay.show(context);
-      // await screenCubit
-      //     .incrementCart(parameters: {'id': id, 'quantity': quantity});
-      LoadingOverlay.hide();
+      if (AppFormat.toInt(quantity) > 1) {
+        LoadingOverlay.show(context);
+        await context.read<CartCubit>().decrementCart(parameters: {
+          'id': id,
+          'product_id': productId,
+          'quantity': AppFormat.toInt(quantity) - 1,
+        });
+        LoadingOverlay.hide();
+      }
     } catch (e) {
       LoadingOverlay.hide();
       throw Exception(e);

@@ -103,12 +103,10 @@ class CartCubit extends Cubit<CartState> {
           );
           emit(state.copyWith(error: failure.message));
         }, (success) {
-          productCarts = List.from(productCarts)
-            ..removeWhere((item) => item.id == parameters?['id']);
-
+          productCarts.removeWhere((item) => item.id == success.id);
           emit(
             state.copyWith(
-              productCarts: productCarts,
+              productCarts: List.from(productCarts),
               subTotal: response.subTotal,
               totalCart: response.totalCart,
               totalCommission: response.totalCommission,
@@ -116,7 +114,7 @@ class CartCubit extends Cubit<CartState> {
               totalAmount: response.totalAmount,
             ),
           );
-          showMessage(message: response.message ?? "Removed from cart");
+          // showMessage(message: response.message ?? "Removed from cart");
         });
       });
     } catch (error) {
@@ -124,28 +122,46 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  Future<void> incrementCart({Map<String, dynamic>? parameters}) async {
+  Future<void> updateCart({required Map<String, dynamic> parameters}) async {
     try {
       List<ProductCartModel> productCarts = state.productCarts ?? [];
-      await repos.addToCart(parameters: parameters).then((response) {
-        response.fold((failure) {
+
+      final response = await repos.addToCart(parameters: parameters);
+      response.fold(
+        (failure) {
           showMessage(
             message: failure.message,
             status: MessageStatus.warning,
           );
           emit(state.copyWith(error: failure.message));
-        }, (success) {
-          int index = productCarts.indexWhere((e) => e.id == parameters?['id']);
+        },
+        (success) {
+          int index = productCarts.indexWhere((e) => e.id == parameters['id']);
           if (index != -1) {
             productCarts[index] = success;
           }
-          emit(state.copyWith(productCarts: List.from(productCarts)));
-          showMessage(message: response.message ?? "Added to cart");
-        });
-      });
+          emit(state.copyWith(
+            productCarts: List.from(productCarts),
+            subTotal: response.subTotal,
+            totalCart: response.totalCart,
+            totalCommission: response.totalCommission,
+            totalDiscount: response.totalDiscount,
+            totalAmount: response.totalAmount,
+          ));
+          // showMessage(message: response.message ?? "Cart updated successfully");
+        },
+      );
     } catch (error) {
       addError(error);
     }
+  }
+
+  Future<void> incrementCart({required Map<String, dynamic> parameters}) async {
+    await updateCart(parameters: parameters);
+  }
+
+  Future<void> decrementCart({required Map<String, dynamic> parameters}) async {
+    await updateCart(parameters: parameters);
   }
 
   @override

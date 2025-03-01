@@ -925,8 +925,7 @@ class ApiClient implements Api {
         body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
-      final body = jsonDecode(response.body);
-
+      final body = jsonDecode(response.body); 
       return BaseResponse(
         statusCode: response.statusCode,
         status: body['status'] ?? "",
