@@ -1,7 +1,6 @@
 import 'package:foxShop/core/common/result.dart';
 import 'package:foxShop/core/di/injection.dart';
 import 'package:foxShop/core/error/failure.dart';
-import 'package:foxShop/data/models/cart_model.dart';
 import 'package:foxShop/data/models/product_cart_model.dart';
 import 'package:foxShop/data/remote/network/api_client.dart';
 import 'package:foxShop/data/repositories/cart/cart_repository.dart';
@@ -10,7 +9,7 @@ class CartRepositoryImpl implements CartRepository {
   final _apiClient = di.get<ApiClient>();
 
   @override
-  Future<Result<CartModel, Failure>> addToCart({
+  Future<Result<ProductCartModel, Failure>> addToCart({
     Map<String, dynamic>? parameters,
   }) async {
     try {
@@ -19,7 +18,7 @@ class CartRepositoryImpl implements CartRepository {
         return Result.left(Failure(result.message));
       }
 
-      final record = CartModel.fromJson(result.data);
+      final record = ProductCartModel.fromJson(result.data);
       return Result.right(
         record,
         message: result.message,
@@ -35,11 +34,11 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<Result<List<ProductCartModel>, Failure>> getCarts({
+  Future<Result<List<ProductCartModel>, Failure>> getProductCarts({
     Map<String, dynamic>? parameters,
   }) async {
     try {
-      final result = await _apiClient.getCarts(parameters: parameters);
+      final result = await _apiClient.getProductCarts(parameters: parameters);
       if (result.status != 'success') {
         return Result.left(Failure(result.message));
       }
@@ -86,7 +85,7 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<Result<CartModel, Failure>> removeFromCart({
+  Future<Result<ProductCartModel, Failure>> removeFromCart({
     Map<String, dynamic>? parameters,
   }) async {
     try {
@@ -95,7 +94,7 @@ class CartRepositoryImpl implements CartRepository {
         return Result.left(Failure(result.message));
       }
 
-      final record = CartModel.fromJson(result.data);
+      final record = ProductCartModel.fromJson(result.data);
       return Result.right(
         record,
         message: result.message,

@@ -55,7 +55,7 @@ void main() async {
           create: (context) => ApplicationCubit()..loadInitialData(),
         ),
         BlocProvider(create: (context) => WishlistCubit()..getAuth()),
-        BlocProvider(create: (context) => CartCubit()..getCarts()),
+        BlocProvider(create: (context) => CartCubit()..getProductCarts()),
         BlocProvider(create: (context) => SettingCubit()),
       ],
       child: LogicApp(),

@@ -47,6 +47,7 @@ abstract class Api {
   Future<BaseResponse> getWishlist({Map<String, dynamic>? parameters});
 
   //Cart
+  Future<BaseResponse> getProductCarts({Map<String, dynamic>? parameters});
   Future<BaseResponse> getCarts({Map<String, dynamic>? parameters});
   Future<BaseResponse> addToCart({Map<String, dynamic>? parameters});
   Future<BaseResponse> removeFromCart({Map<String, dynamic>? parameters});

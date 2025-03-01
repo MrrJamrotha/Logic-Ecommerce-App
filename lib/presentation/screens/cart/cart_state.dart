@@ -1,4 +1,3 @@
-import 'package:foxShop/data/models/cart_model.dart';
 import 'package:foxShop/data/models/product_cart_model.dart';
 import 'package:foxShop/data/models/user_model.dart';
 
@@ -12,13 +11,11 @@ class CartState {
   final String? totalCart;
   final String? totalAmount;
   final List<ProductCartModel>? productCarts;
-  final List<CartModel>? carts;
 
   const CartState({
     this.isLoading = false,
     this.error,
     this.auth,
-    this.carts,
     this.subTotal,
     this.totalCommission,
     this.totalDiscount,
@@ -37,7 +34,6 @@ class CartState {
     String? totalCart,
     String? totalAmount,
     List<ProductCartModel>? productCarts,
-    List<CartModel>? carts,
   }) {
     return CartState(
       isLoading: isLoading ?? this.isLoading,
@@ -49,7 +45,6 @@ class CartState {
       totalCart: totalCart ?? this.totalCart,
       totalAmount: totalAmount ?? this.totalAmount,
       productCarts: productCarts ?? this.productCarts,
-      carts: carts ?? this.carts,
     );
   }
 }

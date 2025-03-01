@@ -19,12 +19,12 @@ class AddToCartButtonWidget extends StatelessWidget {
 
   Future<void> _toggleCart(BuildContext context) async {
     try {
-      var carts = context.read<CartCubit>().state.carts ?? [];
-      var indexCart = carts.indexWhere((e) => e.productId == productId);
+      var productCarts = context.read<CartCubit>().state.productCarts ?? [];
+      var indexCart = productCarts.indexWhere((e) => e.productId == productId);
       if (indexCart != -1) {
         LoadingOverlay.show(context);
         await context.read<CartCubit>().toggleCart(parameters: {
-          'id': carts[indexCart].id,
+          'id': productCarts[indexCart].id,
         });
         LoadingOverlay.hide();
       } else {
@@ -45,7 +45,7 @@ class AddToCartButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
-        var records = state.carts ?? [];
+        var records = state.productCarts ?? [];
         return IconButton.outlined(
           padding: EdgeInsets.all(5.scale),
           constraints: BoxConstraints(),

@@ -39,7 +39,7 @@ class CartScreenState extends State<CartScreen> {
   _initDatas() async {
     Future.wait([
       context.read<CartCubit>().loadInitialData(),
-      context.read<CartCubit>().getCarts(),
+      context.read<CartCubit>().getProductCarts(),
     ]);
   }
 
@@ -146,7 +146,7 @@ class CartScreenState extends State<CartScreen> {
     );
   }
 
-  Future<void> _removeFromCart(String id) async {
+  Future<void> showDialogRemoveItemFromCart(String id) async {
     showDialog(
       context: context,
       builder: (context) {
@@ -166,7 +166,7 @@ class CartScreenState extends State<CartScreen> {
               ),
               onPressed: () {
                 Navigator.pop(context);
-                removeFromCart(id);
+                _removeFromCart(id);
               },
             ),
           ],
@@ -175,7 +175,7 @@ class CartScreenState extends State<CartScreen> {
     );
   }
 
-  removeFromCart(String id) async {
+  _removeFromCart(String id) async {
     try {
       LoadingOverlay.show(context);
       await context.read<CartCubit>().removeFromCart(parameters: {'id': id});
@@ -186,11 +186,18 @@ class CartScreenState extends State<CartScreen> {
     }
   }
 
-  Future<void> _incrementCart(String id, String quantity) async {
+  Future<void> _incrementCart(
+    String id,
+    String productId,
+    String quantity,
+  ) async {
     try {
       LoadingOverlay.show(context);
-      // await screenCubit
-      //     .incrementCart(parameters: {'id': id, 'quantity': quantity});
+      await context.read<CartCubit>().incrementCart(parameters: {
+        'id': id,
+        'quantity': quantity,
+        'product_id': productId,
+      });
       LoadingOverlay.hide();
     } catch (e) {
       LoadingOverlay.hide();
@@ -246,7 +253,7 @@ class CartScreenState extends State<CartScreen> {
         return CartWidget(
           key: ValueKey(index),
           record: records[index],
-          removeFromCart: _removeFromCart,
+          removeFromCart: showDialogRemoveItemFromCart,
           incrementCart: _incrementCart,
           decrementCart: _decrementCart,
         );

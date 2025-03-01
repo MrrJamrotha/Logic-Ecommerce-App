@@ -19,7 +19,7 @@ class CartWidget extends StatelessWidget {
   });
   final ProductCartModel record;
   final Function(String) removeFromCart;
-  final Function(String, String) incrementCart;
+  final Function(String, String, String) incrementCart;
   final Function(String, String) decrementCart;
 
   @override
@@ -185,7 +185,11 @@ class CartWidget extends StatelessWidget {
                     side: BorderSide(width: 0.1, color: textColor)),
                 padding: EdgeInsets.all(3.scale),
                 constraints: BoxConstraints(),
-                onPressed: () => incrementCart(record.id, record.quantity),
+                onPressed: () => incrementCart(
+                  record.id,
+                  record.productId,
+                  record.quantity,
+                ),
                 icon: IconWidget(
                   assetName: addSvg,
                   width: 24.scale,

@@ -281,6 +281,7 @@ class LoginScreenState extends State<LoginScreen> {
               ElevatedButton(
                 onPressed: () => _handleLoginWithGoogle(),
                 style: ElevatedButton.styleFrom(
+                  // ignore: deprecated_member_use
                   backgroundColor: backgroudButtonColor.withOpacity(0.1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(appRadius.scale),

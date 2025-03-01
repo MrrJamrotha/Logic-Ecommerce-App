@@ -454,6 +454,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                                         color: appWhite,
                                         boxShadow: [
                                           BoxShadow(
+                                            // ignore: deprecated_member_use
                                             color: appBlack.withOpacity(0.2),
                                             spreadRadius: 1.0,
                                             offset: Offset(1, 0),

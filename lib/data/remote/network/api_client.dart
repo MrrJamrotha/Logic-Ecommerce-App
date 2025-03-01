@@ -942,4 +942,34 @@ class ApiClient implements Api {
       throw Exception(exception);
     }
   }
+
+  @override
+  Future<BaseResponse> getProductCarts({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getProductCarts),
+        body: jsonEncode(mergedParams),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['records'] ?? [],
+        subTotal: body['subtotal'] ?? "",
+        totalCommission: body['total_commission'] ?? "",
+        totalDiscount: body['total_discount'] ?? "",
+        totalCart: AppFormat.toStr(body['total_cart'] ?? 0),
+        totalAmount: body['total_amount'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
 }
