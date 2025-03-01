@@ -925,7 +925,7 @@ class ApiClient implements Api {
         body: jsonEncode(mergedParams),
         headers: await ApiInterceptor.modifyHeaders(),
       );
-      final body = jsonDecode(response.body); 
+      final body = jsonDecode(response.body);
       return BaseResponse(
         statusCode: response.statusCode,
         status: body['status'] ?? "",
@@ -966,6 +966,60 @@ class ApiClient implements Api {
         totalDiscount: body['total_discount'] ?? "",
         totalCart: AppFormat.toStr(body['total_cart'] ?? 0),
         totalAmount: body['total_amount'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getPaymentMethod({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getPaymentMethod),
+        body: jsonEncode(mergedParams),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['records'] ?? [],
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> placeOrder({Map<String, dynamic>? parameters}) async {
+    // TODO: implement placeOrder
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<BaseResponse> getAddress({Map<String, dynamic>? parameters}) async {
+    try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getAddress),
+        body: jsonEncode(mergedParams),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['records'] ?? [],
       );
     } catch (exception) {
       throw Exception(exception);

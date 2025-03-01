@@ -55,4 +55,9 @@ class ApiEndpoints {
   static final getProductCarts = '$baseUrl/cart/get-product-cart';
   static final removeAllCart = '$baseUrl/cart/remove-all-cart';
   static final getCarts = '$baseUrl/cart/get-carts';
+
+  //Checkout
+  static final getPaymentMethod = '$baseUrl/check-out/get-payment-method';
+  static final getAddress = '$baseUrl/check-out/get-address';
+  static final placeOrder = '$baseUrl/check-out/create-checkout';
 }

@@ -52,4 +52,9 @@ abstract class Api {
   Future<BaseResponse> addToCart({Map<String, dynamic>? parameters});
   Future<BaseResponse> removeFromCart({Map<String, dynamic>? parameters});
   Future<BaseResponse> removeAllCart({Map<String, dynamic>? parameters});
+
+  //Checkout
+  Future<BaseResponse> getPaymentMethod({Map<String, dynamic>? parameters});
+  Future<BaseResponse> getAddress({Map<String, dynamic>? parameters});
+  Future<BaseResponse> placeOrder({Map<String, dynamic>? parameters});
 }

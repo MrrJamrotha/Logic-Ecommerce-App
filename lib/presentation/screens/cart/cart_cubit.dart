@@ -74,7 +74,7 @@ class CartCubit extends Cubit<CartState> {
               totalDiscount: response.totalDiscount,
               totalAmount: response.totalAmount,
             ));
-            showMessage(message: response.message ?? "Removed from cart");
+            // showMessage(message: response.message ?? "Removed from cart");
           });
         });
       } else {
@@ -96,7 +96,7 @@ class CartCubit extends Cubit<CartState> {
               totalDiscount: response.totalDiscount,
               totalAmount: response.totalAmount,
             ));
-            showMessage(message: response.message ?? "Added to cart");
+            // showMessage(message: response.message ?? "Added to cart");
           });
         });
       }

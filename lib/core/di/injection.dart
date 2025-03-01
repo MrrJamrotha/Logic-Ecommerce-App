@@ -1,5 +1,6 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:foxShop/data/repositories/cart/cart_repository_impl.dart';
+import 'package:foxShop/data/repositories/checkout/check_out_repository_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:foxShop/core/locale/locale_manager.dart';
 import 'package:foxShop/core/service/database_service.dart';
@@ -61,6 +62,8 @@ void setupInjector() {
       () => WishlistRepositoryImpl());
 
   di.registerLazySingleton<CartRepositoryImpl>(() => CartRepositoryImpl());
+  di.registerLazySingleton<CheckOutRepositoryImpl>(
+      () => CheckOutRepositoryImpl());
 
   //Services
   di.registerLazySingleton<GeocodingService>(() => GeocodingService());

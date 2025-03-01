@@ -20,7 +20,7 @@ class AddressCubit extends Cubit<AddressState> {
     final stableState = state;
     try {
       emit(state.copyWith(isLoading: true));
-      await paginationData();
+      await paginationData(pageKey: 1);
       emit(state.copyWith(isLoading: false));
     } catch (error) {
       emit(state.copyWith(error: error.toString()));
@@ -35,7 +35,8 @@ class AddressCubit extends Cubit<AddressState> {
       }
       await repos.getUserAddress().then((response) {
         response.fold((failure) {
-          emit(state.copyWith(error: failure.toString()));
+          emit(state.copyWith(error: failure.message));
+          showMessage(message: failure.message, status: MessageStatus.warning);
         }, (success) {
           var records = state.records ?? [];
           final isLastPage = response.currentPage >= response.lastPage;

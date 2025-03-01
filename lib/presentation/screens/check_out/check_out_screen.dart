@@ -4,6 +4,7 @@ import 'package:foxShop/core/constants/app_colors.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
 import 'package:foxShop/core/helper/loading_overlay.dart';
+import 'package:foxShop/data/models/product_cart_model.dart';
 import 'package:foxShop/presentation/screens/check_out/check_out_cubit.dart';
 import 'package:foxShop/presentation/screens/check_out/check_out_state.dart';
 import 'package:foxShop/presentation/widgets/aba_box_widget.dart';
@@ -42,13 +43,8 @@ class CheckOutScreenState extends State<CheckOutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'check_out'.tr),
-      body: BlocConsumer<CheckOutCubit, CheckOutState>(
+      body: BlocBuilder<CheckOutCubit, CheckOutState>(
         bloc: screenCubit,
-        listener: (BuildContext context, CheckOutState state) {
-          if (state.error != null) {
-            // TODO your code here
-          }
-        },
         builder: (BuildContext context, CheckOutState state) {
           if (state.isLoading) {
             return centerLoading();
@@ -61,6 +57,9 @@ class CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   Widget buildBody(CheckOutState state) {
+    final paymentMethods = state.paymentMethods ?? [];
+    final addresses = state.addresses ?? [];
+    final productCarts = state.productCarts ?? [];
     return SingleChildScrollView(
       padding: EdgeInsets.all(appPedding.scale),
       child: Column(
@@ -72,28 +71,47 @@ class CheckOutScreenState extends State<CheckOutScreen> {
             fontWeight: FontWeight.w600,
             fontSize: 16.scale,
           ),
-          BoxWidget(
-            borderRadius: BorderRadius.circular(appRadius.scale),
-            padding: EdgeInsets.all(appSpace.scale),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 5.scale,
-              children: [
-                TextWidget(
-                  text: 'Home',
-                  fontWeight: FontWeight.w600,
-                ),
-                TextWidget(
-                  text: '099 299 011',
-                  fontSize: 12.scale,
-                ),
-                TextWidget(
-                  text:
-                      "Lorem Ipsumis simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-                  fontSize: 12.scale,
-                ),
-              ],
-            ),
+          Column(
+            spacing: 10.scale,
+            children: List.generate(addresses.length, (index) {
+              return Stack(
+                children: [
+                  BoxWidget(
+                    width: double.infinity,
+                    borderRadius: BorderRadius.circular(appRadius.scale),
+                    padding: EdgeInsets.all(appSpace.scale),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 5.scale,
+                      children: [
+                        TextWidget(
+                          text: addresses[index].type,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        TextWidget(
+                          text: addresses[index].phoneNumber,
+                          fontSize: 12.scale,
+                        ),
+                        TextWidget(
+                          text: addresses[index].address,
+                          fontSize: 12.scale,
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (addresses[index].isDefault)
+                    Positioned(
+                      top: 5.scale,
+                      right: 5.scale,
+                      child: Icon(
+                        Icons.check_circle,
+                        color: primary,
+                        size: 24.scale,
+                      ),
+                    )
+                ],
+              );
+            }).toList(),
           ),
           ButtonWidget(
             title: 'add_new_address'.tr,
@@ -106,32 +124,35 @@ class CheckOutScreenState extends State<CheckOutScreen> {
             fontWeight: FontWeight.w600,
             fontSize: 16.scale,
           ),
-          _buildListProductSummary(),
-          _buildListProductSummary(),
+          Column(
+            spacing: 10.scale,
+            children: List.generate(productCarts.length, (index) {
+              return _buildListProductSummary(productCarts[index]);
+            }).toList(),
+          ),
           TextWidget(
             text: 'payment_methods'.tr,
             fontWeight: FontWeight.w600,
             fontSize: 16.scale,
           ),
-          AbaBoxWidget(
-            imgUrl:
-                'https://eliteextra.com/wp-content/uploads/2022/11/best-practices-for-managing-cash-on-delivery.jpg',
-            blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-            title: 'Casg on delivery',
-            subTitle: '',
-            value: 'cash_on_delivery',
-            groupValue: '',
-            onChanged: (p0) {},
-          ),
-          AbaBoxWidget(
-            imgUrl:
-                'https://devithuotkeo.com/static/image/portfolio/khqr/khqr-5.png',
-            blurHash: 'LGF5?xYk^6#M@-5c,1J5@[or[Q6.',
-            title: 'ABA',
-            subTitle: 'Scan to pay with any banking app',
-            value: 'aba',
-            groupValue: '',
-            onChanged: (p0) {},
+          Column(
+            spacing: 10.scale,
+            children: List.generate(paymentMethods.length, (index) {
+              return AbaBoxWidget(
+                onTap: () {
+                  screenCubit.selectPaymentMethod(paymentMethods[index].code);
+                },
+                imgUrl: paymentMethods[index].picture,
+                blurHash: paymentMethods[index].pictureHash,
+                title: paymentMethods[index].name,
+                subTitle: paymentMethods[index].description,
+                value: paymentMethods[index].code,
+                groupValue: state.selectPaymentMethodCode,
+                onChanged: (value) {
+                  screenCubit.selectPaymentMethod(value ?? "");
+                },
+              );
+            }).toList(),
           ),
           TextWidget(
             text: 'total_order'.tr,
@@ -145,13 +166,16 @@ class CheckOutScreenState extends State<CheckOutScreen> {
               spacing: appSpace.scale,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildRow(left: 'total_items'.tr, right: '6'),
-                _buildRow(left: 'subtotal'.tr, right: '3499.99\$'),
-                _buildRow(left: 'delivery_fee'.tr, right: '0\$'),
-                _buildRow(left: 'total_discount'.tr, right: '0\$'),
+                _buildRow(left: 'total_items'.tr, right: state.totalCart ?? ""),
+                _buildRow(left: 'subtotal'.tr, right: state.subTotal ?? ""),
+                // _buildRow(left: 'delivery_fee'.tr, right: '0\$'),
+                _buildRow(
+                  left: 'total_discount'.tr,
+                  right: state.totalDiscount ?? "",
+                ),
                 _buildRow(
                   left: 'total_amount'.tr,
-                  right: '3499.99\$',
+                  right: state.totalAmount ?? "",
                   color: primary,
                 ),
               ],
@@ -190,7 +214,7 @@ class CheckOutScreenState extends State<CheckOutScreen> {
     );
   }
 
-  BoxWidget _buildListProductSummary() {
+  BoxWidget _buildListProductSummary(ProductCartModel record) {
     return BoxWidget(
       padding: EdgeInsets.all(appSpace.scale),
       borderRadius: BorderRadius.circular(appRadius.scale),
@@ -204,9 +228,8 @@ class CheckOutScreenState extends State<CheckOutScreen> {
             boxFit: BoxFit.cover,
             width: 100.scale,
             height: 100.scale,
-            imageUrl:
-                'https://crdms.images.consumerreports.org/prod/products/cr/models/399694-smartphones-apple-iphone-11-10008711.png',
-            blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+            imageUrl: record.picture,
+            blurHash: record.pictureHash,
           ),
           Expanded(
             child: Column(
@@ -217,13 +240,13 @@ class CheckOutScreenState extends State<CheckOutScreen> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'IPhone 16 pro ',
+                        text: record.name,
                         style: TextStyle(
                           fontSize: 14.scale,
                         ),
                       ),
                       TextSpan(
-                        text: 'x 2',
+                        text: ' x ${record.quantity}',
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14.scale,
@@ -232,36 +255,40 @@ class CheckOutScreenState extends State<CheckOutScreen> {
                     ],
                   ),
                 ),
-                Text.rich(
-                  TextSpan(
-                    style: TextStyle(
-                      fontSize: 14.scale,
-                      color: textColor,
+                if (record.sizeId.isNotEmpty && record.colorId.isNotEmpty)
+                  Text.rich(
+                    TextSpan(
+                      style: TextStyle(
+                        fontSize: 14.scale,
+                        color: textColor,
+                      ),
+                      children: [
+                        if (record.colorId.isNotEmpty)
+                          TextSpan(text: record.colorName),
+                        if (record.colorId.isNotEmpty) TextSpan(text: ' | '),
+                        if (record.sizeId.isNotEmpty)
+                          TextSpan(text: record.sizeName),
+                      ],
                     ),
-                    children: [
-                      TextSpan(text: 'Blue'),
-                      TextSpan(text: ' | '),
-                      TextSpan(text: '128 GB'),
-                    ],
                   ),
-                ),
                 Text.rich(
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: '1299.99\$ ',
+                        text: record.subtotal,
                         style: TextStyle(
                           fontSize: 14.scale,
                           color: primary,
                         ),
                       ),
-                      TextSpan(
-                        text: '1399.99\$',
-                        style: TextStyle(
-                          fontSize: 12.scale,
-                          color: textColor,
+                      if (record.isPromotion)
+                        TextSpan(
+                          text: ' ${record.totalDiscount}',
+                          style: TextStyle(
+                            fontSize: 12.scale,
+                            color: textColor,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),
@@ -269,7 +296,7 @@ class CheckOutScreenState extends State<CheckOutScreen> {
             ),
           ),
           TextWidget(
-            text: '2599.99\$',
+            text: record.totalAmount,
             fontSize: 14.scale,
             color: primary,
             fontWeight: FontWeight.w600,
