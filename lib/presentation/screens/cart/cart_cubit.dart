@@ -66,7 +66,14 @@ class CartCubit extends Cubit<CartState> {
           }, (success) {
             productCarts = List.from(productCarts)
               ..removeWhere((item) => item.id == parameters?['id']);
-            emit(state.copyWith(productCarts: productCarts));
+            emit(state.copyWith(
+              productCarts: productCarts,
+              subTotal: response.subTotal,
+              totalCart: response.totalCart,
+              totalCommission: response.totalCommission,
+              totalDiscount: response.totalDiscount,
+              totalAmount: response.totalAmount,
+            ));
             showMessage(message: response.message ?? "Removed from cart");
           });
         });
@@ -81,7 +88,14 @@ class CartCubit extends Cubit<CartState> {
             emit(state.copyWith(error: failure.message));
           }, (success) {
             productCarts.add(success);
-            emit(state.copyWith(productCarts: List.from(productCarts)));
+            emit(state.copyWith(
+              productCarts: List.from(productCarts),
+              subTotal: response.subTotal,
+              totalCart: response.totalCart,
+              totalCommission: response.totalCommission,
+              totalDiscount: response.totalDiscount,
+              totalAmount: response.totalAmount,
+            ));
             showMessage(message: response.message ?? "Added to cart");
           });
         });
