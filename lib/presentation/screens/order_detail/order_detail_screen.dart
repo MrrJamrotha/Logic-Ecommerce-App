@@ -4,6 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/data/models/order_line_model.dart';
+import 'package:foxShop/presentation/widgets/error_type_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:foxShop/core/constants/app_colors.dart';
 import 'package:foxShop/core/constants/app_icons.dart';
@@ -20,10 +24,10 @@ import 'package:foxShop/presentation/widgets/icon_widget.dart';
 import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class OrderDetailScreen extends StatefulWidget {
-  const OrderDetailScreen({super.key});
+  const OrderDetailScreen({super.key, required this.parameters});
   static const routeName = 'order_detail';
   static const routePath = '/order_detail';
-
+  final Map<String, dynamic> parameters;
   @override
   OrderDetailScreenState createState() => OrderDetailScreenState();
 }
@@ -34,14 +38,9 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
       Completer<GoogleMapController>();
   @override
   void initState() {
-    screenCubit.loadInitialData();
+    screenCubit.loadInitialData(parameters: {'id': widget.parameters['id']});
     super.initState();
   }
-
-  // Future<void> _goToTheLake() async {
-  //   final GoogleMapController controller = await _controller.future;
-  //   await controller.animateCamera(CameraUpdate.newCameraPosition( ));
-  // }
 
   showModelProductWriteReview() {
     showModalBottomSheet(
@@ -89,13 +88,8 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'order_detail'.tr),
-      body: BlocConsumer<OrderDetailCubit, OrderDetailState>(
+      body: BlocBuilder<OrderDetailCubit, OrderDetailState>(
         bloc: screenCubit,
-        listener: (BuildContext context, OrderDetailState state) {
-          if (state.error != null) {
-            // TODO your code here
-          }
-        },
         builder: (BuildContext context, OrderDetailState state) {
           if (state.isLoading) {
             return centerLoading();
@@ -108,6 +102,10 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget buildBody(OrderDetailState state) {
+    final record = state.record;
+    if (record == null) {
+      return ErrorTypeWidget(type: ErrorType.notFound);
+    }
     return SingleChildScrollView(
       padding: EdgeInsets.all(appPedding.scale),
       child: Column(
@@ -119,7 +117,40 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
             fontSize: 14.scale,
             fontWeight: FontWeight.w600,
           ),
-          // OrderCardWidget(orderStatus: OrderStatus.completed),
+          BoxWidget(
+            onTap: () {
+              Navigator.pushNamed(context, OrderDetailScreen.routeName,
+                  arguments: {
+                    'id': record.id,
+                  });
+            },
+            borderRadius: BorderRadius.circular(appRadius.scale),
+            padding: EdgeInsets.all(10.scale),
+            child: Column(
+              spacing: appSpace.scale,
+              children: [
+                _buildRowOrder(
+                  left: 'status'.tr,
+                  right: record.orderStatus,
+                  isStatus: true,
+                ),
+                _buildRowOrder(
+                    left: record.documentCode, right: record.orderDate),
+                _buildRowOrder(
+                  left: 'payment_method'.tr,
+                  right: record.paymentMethodModel.name,
+                ),
+                _buildRowOrder(
+                    left: 'total_items'.tr, right: record.orderLineCount),
+                _buildRowOrder(
+                    left: 'delivery_fee'.tr, right: record.deliveryFee),
+                _buildRowOrder(
+                    left: 'total_discount'.tr, right: record.totalDiscount),
+                _buildRowOrder(
+                    left: 'total_amount'.tr, right: record.totalAmount),
+              ],
+            ),
+          ),
           TextWidget(
             text: 'address_information'.tr,
             fontSize: 14.scale,
@@ -133,21 +164,33 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
               children: [
                 _buildRow(
                   left: 'address'.tr,
-                  right:
-                      "Lorem Ipsumis simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+                  right: record.addressModel.address,
                 ),
-                _buildRow(left: 'phone_number'.tr, right: '099 299 020'),
-                _buildRow(left: 'phone_number'.tr, right: '099 299 020'),
-                _buildRow(left: 'home_no'.tr, right: '123'),
-                _buildRow(left: 'street_no'.tr, right: '123'),
-                _buildRow(left: 'postal_code'.tr, right: '123213'),
-                _buildRow(left: 'city'.tr, right: 'Pnhom penh'),
-                _buildRow(left: 'country'.tr, right: 'Cambodia'),
+                _buildRow(
+                  left: 'phone_number'.tr,
+                  right: record.addressModel.phoneNumber,
+                ),
+                _buildRow(
+                  left: 'home_no'.tr,
+                  right: record.addressModel.homeNo,
+                ),
+                _buildRow(
+                  left: 'street_no'.tr,
+                  right: record.addressModel.stateNo,
+                ),
+                _buildRow(
+                  left: 'postal_code'.tr,
+                  right: record.addressModel.postalCode,
+                ),
+                _buildRow(left: 'city'.tr, right: record.addressModel.city),
+                _buildRow(
+                  left: 'country'.tr,
+                  right: record.addressModel.country,
+                ),
                 _buildRow(
                   left: 'note'.tr,
                   leftColor: appYellow,
-                  right:
-                      "Lorem Ipsumis simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+                  right: record.addressModel.notes,
                   rightColor: textColor,
                 ),
                 SizedBox(
@@ -158,16 +201,22 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
                     zoomGesturesEnabled: false,
                     mapType: MapType.normal,
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(11.5564, 104.9282),
+                      target: LatLng(
+                        AppFormat.toDouble(record.addressModel.latitude),
+                        AppFormat.toDouble(record.addressModel.longitude),
+                      ),
                       zoom: 15,
                     ),
                     onMapCreated: (controller) {
                       _controller.complete(controller);
                     },
                     markers: {
-                      const Marker(
-                        markerId: MarkerId('Sydney'),
-                        position: LatLng(11.5564, 104.9282),
+                      Marker(
+                        markerId: MarkerId(record.addressModel.phoneNumber),
+                        position: LatLng(
+                          AppFormat.toDouble(record.addressModel.latitude),
+                          AppFormat.toDouble(record.addressModel.longitude),
+                        ),
                       )
                     },
                     // ignore: prefer_collection_literals
@@ -186,10 +235,10 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
           ),
           Column(
               children: List.generate(
-            2,
+            record.orderLines.length,
             (index) => Padding(
               padding: EdgeInsets.only(bottom: appSpace.scale),
-              child: _buildListProductSummary(),
+              child: _buildListProductSummary(record.orderLines[index]),
             ),
           )),
           ButtonWidget(
@@ -283,7 +332,7 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
     );
   }
 
-  BoxWidget _buildListProductSummary() {
+  _buildListProductSummary(OrderLineModel record) {
     return BoxWidget(
       padding: EdgeInsets.all(appSpace.scale),
       borderRadius: BorderRadius.circular(appRadius.scale),
@@ -297,9 +346,8 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
             boxFit: BoxFit.cover,
             width: 100.scale,
             height: 100.scale,
-            imageUrl:
-                'https://crdms.images.consumerreports.org/prod/products/cr/models/399694-smartphones-apple-iphone-11-10008711.png',
-            blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+            imageUrl: record.picture,
+            blurHash: record.pictureHash,
           ),
           Expanded(
             child: Column(
@@ -310,13 +358,13 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'IPhone 16 pro ',
+                        text: record.name,
                         style: TextStyle(
                           fontSize: 14.scale,
                         ),
                       ),
                       TextSpan(
-                        text: 'x 2',
+                        text: 'x ${record.quantity}',
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14.scale,
@@ -325,36 +373,40 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
                     ],
                   ),
                 ),
-                Text.rich(
-                  TextSpan(
-                    style: TextStyle(
-                      fontSize: 14.scale,
-                      color: textColor,
+                if (record.colorName.isNotEmpty && record.sizeName.isNotEmpty)
+                  Text.rich(
+                    TextSpan(
+                      style: TextStyle(
+                        fontSize: 14.scale,
+                        color: textColor,
+                      ),
+                      children: [
+                        if (record.colorName.isNotEmpty)
+                          TextSpan(text: record.colorName),
+                        if (record.colorName.isNotEmpty) TextSpan(text: ' | '),
+                        if (record.sizeName.isNotEmpty)
+                          TextSpan(text: record.sizeName),
+                      ],
                     ),
-                    children: [
-                      TextSpan(text: 'Blue'),
-                      TextSpan(text: ' | '),
-                      TextSpan(text: '128 GB'),
-                    ],
                   ),
-                ),
                 Text.rich(
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: '1299.99\$ ',
+                        text: '${record.totalAmount} ',
                         style: TextStyle(
                           fontSize: 14.scale,
                           color: primary,
                         ),
                       ),
-                      TextSpan(
-                        text: '1399.99\$',
-                        style: TextStyle(
-                          fontSize: 12.scale,
-                          color: textColor,
+                      if (record.isPromotion)
+                        TextSpan(
+                          text: record.totalDiscount,
+                          style: TextStyle(
+                            fontSize: 12.scale,
+                            color: textColor,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),
@@ -362,7 +414,7 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
             ),
           ),
           TextWidget(
-            text: '2599.99\$',
+            text: record.totalAmount,
             fontSize: 14.scale,
             color: primary,
             fontWeight: FontWeight.w600,
@@ -397,6 +449,46 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
             color: rightColor,
           ),
         ),
+      ],
+    );
+  }
+
+  Row _buildRowOrder({
+    required String left,
+    required String right,
+    bool isStatus = false,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextWidget(
+          text: left,
+          fontSize: 14.scale,
+          fontWeight: FontWeight.w600,
+        ),
+        if (!isStatus)
+          TextWidget(
+            text: right,
+            fontSize: 14.scale,
+            fontWeight: FontWeight.w600,
+          ),
+        if (isStatus)
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 10.scale,
+              vertical: 5.scale,
+            ),
+            decoration: BoxDecoration(
+              color: getOrderColorStatus(getEnumOrderStatus(right)),
+              borderRadius: BorderRadius.circular(appRadius.scale),
+            ),
+            child: TextWidget(
+              text: right,
+              fontSize: 14.scale,
+              fontWeight: FontWeight.w600,
+              color: appWhite,
+            ),
+          ),
       ],
     );
   }

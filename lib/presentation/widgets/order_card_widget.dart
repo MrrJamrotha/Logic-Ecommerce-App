@@ -21,7 +21,9 @@ class OrderCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BoxWidget(
       onTap: () {
-        Navigator.pushNamed(context, OrderDetailScreen.routeName);
+        Navigator.pushNamed(context, OrderDetailScreen.routeName, arguments: {
+          'id': record.id,
+        });
       },
       borderRadius: BorderRadius.circular(appRadius.scale),
       padding: EdgeInsets.all(10.scale),

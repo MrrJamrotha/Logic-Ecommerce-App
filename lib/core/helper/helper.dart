@@ -65,6 +65,19 @@ Color getOrderColorStatus(OrderStatus status) {
   }
 }
 
+getEnumOrderStatus(String status){
+  switch (status) {
+    case "Pending":
+      return OrderStatus.pending;
+    case "Processing":
+      return OrderStatus.processing;
+    case "Delivery":
+      return OrderStatus.delivery;
+    case "Completed":
+      return OrderStatus.completed;
+  }
+}
+
 final defaultPinTheme = PinTheme(
   width: 56.scale,
   height: 56.scale,

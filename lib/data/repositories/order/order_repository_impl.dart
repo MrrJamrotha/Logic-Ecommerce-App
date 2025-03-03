@@ -39,8 +39,9 @@ class OrderRepositoryImpl implements OrderRepository {
       if (result.status != 'success') {
         return Result.left(Failure(result.message));
       }
+      final record = OrderDetailModel.fromJson(result.data);
       return Result.right(
-        result.data,
+        record,
         message: result.message,
       );
     } catch (error) {
