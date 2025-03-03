@@ -21,6 +21,7 @@ class CheckOutCubit extends Cubit<CheckOutState> {
       emit(stableState.copyWith(isLoading: false));
     }
   }
+  
 
   Future<void> getAddress() async {
     await repos.getAddress().then((response) {

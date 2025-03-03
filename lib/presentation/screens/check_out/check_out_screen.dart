@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foxShop/core/constants/app_colors.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
 import 'package:foxShop/core/helper/loading_overlay.dart';
 import 'package:foxShop/data/models/product_cart_model.dart';
+import 'package:foxShop/presentation/screens/address/address_screen.dart';
 import 'package:foxShop/presentation/screens/check_out/check_out_cubit.dart';
 import 'package:foxShop/presentation/screens/check_out/check_out_state.dart';
 import 'package:foxShop/presentation/widgets/aba_box_widget.dart';
@@ -95,7 +97,14 @@ class CheckOutScreenState extends State<CheckOutScreen> {
           ButtonWidget(
             title: 'add_new_address'.tr,
             onPressed: () {
-              //TODO:
+              Navigator.pushNamed(context, AddressScreen.routeName, arguments: {
+                'state': StateType.updated,
+              }).then((value) {
+                var type = value as Map<String, dynamic>;
+                if (type['state'] == StateType.updated) {
+                  screenCubit.getAddress();
+                }
+              });
             },
           ),
           TextWidget(

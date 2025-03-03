@@ -46,6 +46,6 @@ double scale(double size) {
   return AppSizeConfig.shortDimension / AppSizeConfig.guidelineBaseWidth * size;
 }
 
-double scaleFontSize(double size, [double factor = 0.3]) {
+double scaleFontSize(double size, [double factor = 0.5]) {
   return size + (scale(size) - size) * factor;
 }

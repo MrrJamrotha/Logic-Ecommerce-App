@@ -19,9 +19,10 @@ import 'package:foxShop/presentation/widgets/error_type_widget.dart';
 import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class AddressScreen extends StatefulWidget {
-  const AddressScreen({super.key});
+  const AddressScreen({super.key, required this.parameters});
   static const routeName = 'address';
   static const routePath = '/address';
+  final Map<String, dynamic> parameters;
 
   @override
   AddressScreenState createState() => AddressScreenState();
@@ -105,7 +106,13 @@ class AddressScreenState extends State<AddressScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'address'.tr),
+      appBar: AppbarWidget(
+        title: 'address'.tr,
+        isBack: true,
+        onBackPress: () {
+          Navigator.pop(context, {'state': widget.parameters['state']});
+        },
+      ),
       body: BlocBuilder<AddressCubit, AddressState>(
         bloc: screenCubit,
         builder: (BuildContext context, AddressState state) {

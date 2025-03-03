@@ -100,7 +100,9 @@ class ProfileScreenState extends State<ProfileScreen> {
           Navigator.pushNamed(context, WishlistScreen.routeName);
           break;
         case AddressScreen.routeName:
-          Navigator.pushNamed(context, AddressScreen.routeName);
+          Navigator.pushNamed(context, AddressScreen.routeName, arguments: {
+            'state': StateType.created,
+          });
           break;
         case LanguageScreen.routeName:
           Navigator.pushNamed(context, LanguageScreen.routeName);
