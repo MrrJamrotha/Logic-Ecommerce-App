@@ -69,7 +69,7 @@ class _NewProductTabState extends State<NewProductTab> {
             },
             firstPageProgressIndicatorBuilder: (_) => centerLoading(),
             newPageProgressIndicatorBuilder: (_) => centerLoading(),
-            noItemsFoundIndicatorBuilder: (_) => centerNotFoundProduct(),
+            noItemsFoundIndicatorBuilder: (_) => centerText(),
           ),
         );
       },

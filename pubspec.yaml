@@ -58,6 +58,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   sms_autofill: ^2.4.1
   sqflite: ^2.4.1
+  typesense: ^0.5.2
 
 dev_dependencies:
   flutter_test:

@@ -57,4 +57,7 @@ abstract class Api {
   Future<BaseResponse> getPaymentMethod({Map<String, dynamic>? parameters});
   Future<BaseResponse> getAddress({Map<String, dynamic>? parameters});
   Future<BaseResponse> placeOrder({Map<String, dynamic>? parameters});
+
+  //Search
+  Future<BaseResponse> searchProducts({Map<String, dynamic>? parameters});
 }

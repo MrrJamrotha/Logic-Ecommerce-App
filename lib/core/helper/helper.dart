@@ -99,8 +99,8 @@ Widget centerLoading() {
   return Center(child: CircularProgressIndicator.adaptive());
 }
 
-Widget centerNotFoundProduct() {
-  return Center(child: TextWidget(text: "not_found_product".tr));
+Widget centerText({String message = "not_found_product"}) {
+  return Center(child: TextWidget(text: message.tr));
 }
 
 Locale getLocale(String code) {

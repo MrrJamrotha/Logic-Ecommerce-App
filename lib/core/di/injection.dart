@@ -1,6 +1,8 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:foxShop/data/remote/search/typesense_client.dart';
 import 'package:foxShop/data/repositories/cart/cart_repository_impl.dart';
 import 'package:foxShop/data/repositories/checkout/check_out_repository_impl.dart';
+import 'package:foxShop/data/repositories/search/search_repository_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:foxShop/core/locale/locale_manager.dart';
 import 'package:foxShop/core/service/database_service.dart';
@@ -31,6 +33,8 @@ void setupInjector() {
   //API
   di.registerLazySingleton<http.Client>(() => http.Client());
   di.registerLazySingleton<ApiClient>(() => ApiClient(http.Client()));
+
+  di.registerLazySingleton<TypesenseClient>(() => TypesenseClient());
 
   //Repositories
   di.registerLazySingleton<UserRepositoryImpl>(() => UserRepositoryImpl());
@@ -64,6 +68,8 @@ void setupInjector() {
   di.registerLazySingleton<CartRepositoryImpl>(() => CartRepositoryImpl());
   di.registerLazySingleton<CheckOutRepositoryImpl>(
       () => CheckOutRepositoryImpl());
+
+  di.registerLazySingleton<SearchRepositoryImpl>(() => SearchRepositoryImpl());
 
   //Services
   di.registerLazySingleton<GeocodingService>(() => GeocodingService());

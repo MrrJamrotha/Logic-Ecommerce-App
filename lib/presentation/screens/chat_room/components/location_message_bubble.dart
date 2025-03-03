@@ -44,6 +44,7 @@ class LocationMessageBubble extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color:
+            // ignore: deprecated_member_use
             type == BubbleType.sendBubble ? primary : appGrey.withOpacity(0.2),
       ),
       child: Stack(

@@ -26,6 +26,7 @@ class PictureMessageBubble extends StatelessWidget {
       padding: EdgeInsets.all(5.scale),
       decoration: BoxDecoration(
         color:
+         // ignore: deprecated_member_use
             type == BubbleType.sendBubble ? primary : appGrey.withOpacity(0.2),
         borderRadius: BorderRadius.circular(5),
       ),

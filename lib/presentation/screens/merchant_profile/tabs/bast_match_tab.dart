@@ -69,7 +69,7 @@ class _BastMatchTabState extends State<BastMatchTab> {
             },
             firstPageProgressIndicatorBuilder: (_) => centerLoading(),
             newPageProgressIndicatorBuilder: (_) => centerLoading(),
-            noItemsFoundIndicatorBuilder: (_) => centerNotFoundProduct(),
+            noItemsFoundIndicatorBuilder: (_) => centerText(),
           ),
         );
       },

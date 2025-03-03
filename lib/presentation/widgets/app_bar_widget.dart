@@ -18,12 +18,14 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.isNotification = true,
     this.isFilter = false,
     this.onTapFilter,
+    this.onSearchPress,
   });
   final bool isSearch;
   final String title;
   final bool isBack;
 
   final Function()? onBackPress;
+  final Function()? onSearchPress;
   final PreferredSizeWidget? bottom;
   final bool isBottom;
   final bool isNotification;
@@ -55,9 +57,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         if (isSearch)
           IconButton(
-            onPressed: () {
-              //TODO:
-            },
+            onPressed: onSearchPress,
             icon: IconWidget(
               assetName: searchSvg,
               width: 24.scale,

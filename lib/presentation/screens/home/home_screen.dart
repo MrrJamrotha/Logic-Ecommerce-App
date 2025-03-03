@@ -9,6 +9,7 @@ import 'package:foxShop/presentation/screens/home/home_cubit.dart';
 import 'package:foxShop/presentation/screens/home/home_state.dart';
 import 'package:foxShop/presentation/screens/main_screen.dart';
 import 'package:foxShop/presentation/screens/setting/setting_cubit.dart';
+import 'package:foxShop/presentation/screens/typesense_search_delegate/typesense_search_delegate.dart';
 import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
 import 'package:foxShop/presentation/widgets/carousel_slider_widget.dart';
 import 'package:foxShop/presentation/widgets/list_category_and_brand_widget.dart';
@@ -63,6 +64,10 @@ class HomeScreenState extends State<HomeScreen>
     return Scaffold(
       appBar: AppbarWidget(
         title: 'home'.tr,
+        isSearch: true,
+        onSearchPress: () {
+          showSearch(context: context, delegate: TypesenseSearchDelegate());
+        },
       ),
       body: buildBody(),
     );

@@ -986,6 +986,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "typesense",
+      "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/typesense-0.5.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
       "name": "universal_io",
       "rootUri": "file:///Users/foxtech-mach/.pub-cache/hosted/pub.dev/universal_io-2.2.2",
       "packageUri": "lib/",
@@ -1076,7 +1082,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-28T07:11:22.111794Z",
+  "generated": "2025-03-03T02:28:20.560009Z",
   "generator": "pub",
   "generatorVersion": "3.7.0",
   "flutterRoot": "file:///Users/foxtech-mach/development/flutter",

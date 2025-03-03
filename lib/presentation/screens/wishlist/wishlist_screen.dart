@@ -282,7 +282,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
               },
               firstPageProgressIndicatorBuilder: (_) => centerLoading(),
               newPageProgressIndicatorBuilder: (_) => centerLoading(),
-              noItemsFoundIndicatorBuilder: (_) => centerNotFoundProduct(),
+              noItemsFoundIndicatorBuilder: (_) => centerText(),
             ),
             crossAxisCount: countRow,
             crossAxisSpacing: appSpace.scale,

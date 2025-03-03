@@ -29,6 +29,7 @@ class TextMessageBubble extends StatelessWidget {
       child: PhysicalShape(
         clipper: TextMessageClipper(type: type),
         color:
+         // ignore: deprecated_member_use
             type == BubbleType.sendBubble ? primary : appGrey.withOpacity(0.3),
         shadowColor: Colors.grey.shade200,
         child: Padding(
