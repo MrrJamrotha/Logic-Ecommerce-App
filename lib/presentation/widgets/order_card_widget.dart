@@ -3,13 +3,19 @@ import 'package:foxShop/core/constants/app_colors.dart';
 import 'package:foxShop/core/constants/app_enum.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/data/models/order_model.dart';
 import 'package:foxShop/presentation/screens/order_detail/order_detail_screen.dart';
 import 'package:foxShop/presentation/widgets/box_widget.dart';
 import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class OrderCardWidget extends StatelessWidget {
-  const OrderCardWidget({super.key, required this.orderStatus});
+  const OrderCardWidget({
+    super.key,
+    required this.orderStatus,
+    required this.record,
+  });
   final OrderStatus orderStatus;
+  final OrderModel record;
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +28,20 @@ class OrderCardWidget extends StatelessWidget {
       child: Column(
         spacing: appSpace.scale,
         children: [
-          _buildRow(left: 'status'.tr, right: 'pending'.tr, isStatus: true),
-          _buildRow(left: '123CTF-0001', right: '01-Jun-2025'),
-          _buildRow(left: 'payment_method'.tr, right: 'Cash on delivery'),
-          _buildRow(left: 'total_items'.tr, right: '10'),
-          _buildRow(left: 'delivery_fee'.tr, right: '0\$'),
-          _buildRow(left: 'total_discount'.tr, right: '0\$'),
-          _buildRow(left: 'total_amount'.tr, right: '10.00\$'),
+          _buildRow(
+            left: 'status'.tr,
+            right: record.orderStatus,
+            isStatus: true,
+          ),
+          _buildRow(left: record.documentCode, right: record.orderDate),
+          _buildRow(
+            left: 'payment_method'.tr,
+            right: record.paymentMethodModel.name,
+          ),
+          _buildRow(left: 'total_items'.tr, right: record.orderLinesCount),
+          _buildRow(left: 'delivery_fee'.tr, right: record.deliveryFee),
+          _buildRow(left: 'total_discount'.tr, right: record.totalDiscount),
+          _buildRow(left: 'total_amount'.tr, right: record.totalAmount),
         ],
       ),
     );

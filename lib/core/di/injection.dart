@@ -2,6 +2,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:foxShop/data/remote/search/typesense_client.dart';
 import 'package:foxShop/data/repositories/cart/cart_repository_impl.dart';
 import 'package:foxShop/data/repositories/checkout/check_out_repository_impl.dart';
+import 'package:foxShop/data/repositories/order/order_repository_impl.dart';
 import 'package:foxShop/data/repositories/search/search_repository_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:foxShop/core/locale/locale_manager.dart';
@@ -70,6 +71,7 @@ void setupInjector() {
       () => CheckOutRepositoryImpl());
 
   di.registerLazySingleton<SearchRepositoryImpl>(() => SearchRepositoryImpl());
+  di.registerLazySingleton<OrderRepositoryImpl>(() => OrderRepositoryImpl());
 
   //Services
   di.registerLazySingleton<GeocodingService>(() => GeocodingService());

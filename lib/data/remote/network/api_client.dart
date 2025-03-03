@@ -1072,4 +1072,54 @@ class ApiClient implements Api {
       throw Exception(exception);
     }
   }
+
+  @override
+  Future<BaseResponse> getMyOrder({Map<String, dynamic>? parameters}) async {
+    try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getMyOrder),
+        body: jsonEncode(mergedParams),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['records'] ?? [],
+        lastPage: AppFormat.toInt(body['last_page'] ?? 1),
+        currentPage: AppFormat.toInt(body['current_page'] ?? 1),
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
+
+  @override
+  Future<BaseResponse> getOrderDetail({
+    Map<String, dynamic>? parameters,
+  }) async {
+    try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.getOrderDetail),
+        body: jsonEncode(mergedParams),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['record'] ?? [],
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
 }

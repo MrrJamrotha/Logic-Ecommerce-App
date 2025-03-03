@@ -61,5 +61,10 @@ class ApiEndpoints {
   static final getAddress = '$baseUrl/check-out/get-address';
   static final placeOrder = '$baseUrl/check-out/create-checkout';
 
+  //Search
   static final searchProduct = '$baseUrl/search-product';
+
+  //Order
+  static final getMyOrder = '$baseUrl/order/get-my-orders';
+  static final getOrderDetail = '$baseUrl/order/get-order-detail';
 }

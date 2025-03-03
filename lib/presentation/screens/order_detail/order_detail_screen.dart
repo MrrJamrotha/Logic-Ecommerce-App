@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:foxShop/core/constants/app_colors.dart';
-import 'package:foxShop/core/constants/app_enum.dart';
 import 'package:foxShop/core/constants/app_icons.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
@@ -18,7 +17,6 @@ import 'package:foxShop/presentation/widgets/box_widget.dart';
 import 'package:foxShop/presentation/widgets/button_widget.dart';
 import 'package:foxShop/presentation/widgets/catch_image_network_widget.dart';
 import 'package:foxShop/presentation/widgets/icon_widget.dart';
-import 'package:foxShop/presentation/widgets/order_card_widget.dart';
 import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class OrderDetailScreen extends StatefulWidget {
@@ -121,7 +119,7 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
             fontSize: 14.scale,
             fontWeight: FontWeight.w600,
           ),
-          OrderCardWidget(orderStatus: OrderStatus.completed),
+          // OrderCardWidget(orderStatus: OrderStatus.completed),
           TextWidget(
             text: 'address_information'.tr,
             fontSize: 14.scale,

@@ -60,4 +60,8 @@ abstract class Api {
 
   //Search
   Future<BaseResponse> searchProducts({Map<String, dynamic>? parameters});
+
+  //Order
+  Future<BaseResponse> getMyOrder({Map<String, dynamic>? parameters});
+  Future<BaseResponse> getOrderDetail({Map<String, dynamic>? parameters});
 }
