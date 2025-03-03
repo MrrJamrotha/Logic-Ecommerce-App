@@ -21,7 +21,6 @@ class CheckOutCubit extends Cubit<CheckOutState> {
       emit(stableState.copyWith(isLoading: false));
     }
   }
-  
 
   Future<void> getAddress() async {
     await repos.getAddress().then((response) {
@@ -93,6 +92,25 @@ class CheckOutCubit extends Cubit<CheckOutState> {
       });
     } catch (e) {
       addError(e);
+    }
+  }
+
+  Future<bool> placeOrder({Map<String, dynamic>? parameters}) async {
+    try {
+      final response = await repos.placeOrder(parameters: parameters);
+      bool isSuccess = false;
+      response.fold((failure) {
+        emit(state.copyWith(error: failure.toString()));
+        showMessage(message: failure.message, status: MessageStatus.warning);
+        isSuccess = false;
+      }, (success) {
+        showMessage(message: response.message ?? "");
+        isSuccess = true;
+      });
+      return isSuccess;
+    } catch (e) {
+      addError(e);
+      return false;
     }
   }
 

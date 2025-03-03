@@ -178,6 +178,18 @@ class CartCubit extends Cubit<CartState> {
     await updateCart(parameters: parameters);
   }
 
+  void clearCarts() async {
+    emit(
+      state.copyWith(
+          productCarts: [],
+          subTotal: "0",
+          totalCart: "0",
+          totalCommission: "0",
+          totalDiscount: "0",
+          totalAmount: ""),
+    );
+  }
+
   @override
   void addError(Object error, [StackTrace? stackTrace]) {
     logger.e(error, stackTrace: stackTrace);

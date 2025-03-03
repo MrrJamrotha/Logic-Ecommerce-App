@@ -999,8 +999,25 @@ class ApiClient implements Api {
 
   @override
   Future<BaseResponse> placeOrder({Map<String, dynamic>? parameters}) async {
-    // TODO: implement placeOrder
-    throw UnimplementedError();
+    try {
+      var params = await getParams();
+      final mergedParams = {...?parameters, ...params};
+      final response = await _client.post(
+        Uri.parse(ApiEndpoints.placeOrder),
+        body: jsonEncode(mergedParams),
+        headers: await ApiInterceptor.modifyHeaders(),
+      );
+      final body = jsonDecode(response.body);
+
+      return BaseResponse(
+        statusCode: response.statusCode,
+        status: body['status'] ?? "",
+        message: body['message'] ?? "",
+        data: body['records'] ?? "",
+      );
+    } catch (exception) {
+      throw Exception(exception);
+    }
   }
 
   @override

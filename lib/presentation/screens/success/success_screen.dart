@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foxShop/core/constants/app_colors.dart';
 import 'package:foxShop/core/constants/app_images.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
 import 'package:foxShop/core/helper/loading_overlay.dart';
+import 'package:foxShop/presentation/screens/cart/cart_cubit.dart';
 import 'package:foxShop/presentation/screens/setting/setting_cubit.dart';
 import 'package:foxShop/presentation/widgets/button_widget.dart';
 import 'package:foxShop/presentation/widgets/lottie_widget.dart';
@@ -43,11 +43,6 @@ class _SuccessScreenState extends State<SuccessScreen> {
                 text: 'pay_success'.tr,
                 fontSize: 20.scale,
               ),
-              TextWidget(
-                text: '3489.99\$'.tr,
-                fontSize: 20.scale,
-                color: primary,
-              ),
               ButtonWidget(
                 title: 'continue_shopping'.tr,
                 onPressed: () {
@@ -57,6 +52,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                     '/',
                     (Route<dynamic> route) => false,
                   );
+                  context.read<CartCubit>().clearCarts();
                   LoadingOverlay.hide();
                 },
               )

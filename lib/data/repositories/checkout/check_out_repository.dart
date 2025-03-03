@@ -20,4 +20,8 @@ abstract class CheckOutRepository {
   Future<Result<AddressModel, Failure>> setDefaultAddress({
     Map<String, dynamic>? parameters,
   });
+
+  Future<Result<dynamic, Failure>> placeOrder({
+    Map<String, dynamic>? parameters,
+  });
 }

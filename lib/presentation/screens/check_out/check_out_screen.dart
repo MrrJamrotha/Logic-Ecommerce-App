@@ -36,10 +36,20 @@ class CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   Future<void> _placeOrder() async {
-    LoadingOverlay.showPlaceOrderSuccess(context);
-    // Future.delayed(Duration(seconds: 3), () {
-    //   LoadingOverlay.hide(); // Hide loading overlay
-    // });
+    try {
+      LoadingOverlay.show(context);
+      final result = await screenCubit.placeOrder(parameters: {
+        'payment_method_id': screenCubit.state.selectPaymentMethodCode,
+      });
+      LoadingOverlay.hide();
+      if (result) {
+        if (!mounted) return;
+        LoadingOverlay.showPlaceOrderSuccess(context);
+      }
+    } catch (e) {
+      LoadingOverlay.hide();
+      throw Exception(e);
+    }
   }
 
   void _setDefaultAddress(String id) async {
@@ -128,13 +138,13 @@ class CheckOutScreenState extends State<CheckOutScreen> {
             children: List.generate(paymentMethods.length, (index) {
               return AbaBoxWidget(
                 onTap: () {
-                  screenCubit.selectPaymentMethod(paymentMethods[index].code);
+                  screenCubit.selectPaymentMethod(paymentMethods[index].id);
                 },
                 imgUrl: paymentMethods[index].picture,
                 blurHash: paymentMethods[index].pictureHash,
                 title: paymentMethods[index].name,
                 subTitle: paymentMethods[index].description,
-                value: paymentMethods[index].code,
+                value: paymentMethods[index].id,
                 groupValue: state.selectPaymentMethodCode,
                 onChanged: (value) {
                   screenCubit.selectPaymentMethod(value ?? "");
@@ -171,9 +181,7 @@ class CheckOutScreenState extends State<CheckOutScreen> {
           ),
           ButtonWidget(
             title: 'place_order'.tr,
-            onPressed: () {
-              _placeOrder();
-            },
+            onPressed: () => _placeOrder(),
           ),
         ],
       ),
