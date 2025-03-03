@@ -35,7 +35,10 @@ class SearchCubit extends Cubit<SearchState> {
         emit(state.copyWith(isLoading: true));
         pagingProductController.refresh();
       }
-      await repos.searchProduct(parameters: parameters).then((response) {
+      await repos.searchProduct(parameters: {
+        ...?parameters,
+        'page': pageKey,
+      }).then((response) {
         response.fold((failure) {
           emit(state.copyWith(error: failure.message));
         }, (success) {
