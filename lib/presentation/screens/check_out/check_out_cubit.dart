@@ -71,6 +71,30 @@ class CheckOutCubit extends Cubit<CheckOutState> {
     });
   }
 
+  Future<void> setDefaultAddress(String id) async {
+    try {
+      await repos.setDefaultAddress(parameters: {'id': id}).then((response) {
+        response.fold((failure) {
+          emit(state.copyWith(error: failure.toString()));
+          showMessage(message: failure.message, status: MessageStatus.warning);
+        }, (success) {
+          var records = state.addresses ?? [];
+
+          // Update the records: set selected address to true, others to false
+          records = records.map((item) {
+            return item.copyWith(isDefault: item.id == id);
+          }).toList();
+
+          emit(state.copyWith(addresses: records));
+
+          showMessage(message: response.message ?? "");
+        });
+      });
+    } catch (e) {
+      addError(e);
+    }
+  }
+
   void selectPaymentMethod(String code) {
     emit(state.copyWith(selectPaymentMethodCode: code));
   }

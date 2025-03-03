@@ -9,6 +9,7 @@ import 'package:foxShop/presentation/screens/check_out/check_out_cubit.dart';
 import 'package:foxShop/presentation/screens/check_out/check_out_state.dart';
 import 'package:foxShop/presentation/widgets/aba_box_widget.dart';
 import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
+import 'package:foxShop/presentation/widgets/box_address_widget.dart';
 import 'package:foxShop/presentation/widgets/box_widget.dart';
 import 'package:foxShop/presentation/widgets/button_widget.dart';
 import 'package:foxShop/presentation/widgets/catch_image_network_widget.dart';
@@ -37,6 +38,16 @@ class CheckOutScreenState extends State<CheckOutScreen> {
     // Future.delayed(Duration(seconds: 3), () {
     //   LoadingOverlay.hide(); // Hide loading overlay
     // });
+  }
+
+  void _setDefaultAddress(String id) async {
+    try {
+      LoadingOverlay.show(context);
+      await screenCubit.setDefaultAddress(id);
+      LoadingOverlay.hide();
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
@@ -74,42 +85,10 @@ class CheckOutScreenState extends State<CheckOutScreen> {
           Column(
             spacing: 10.scale,
             children: List.generate(addresses.length, (index) {
-              return Stack(
-                children: [
-                  BoxWidget(
-                    width: double.infinity,
-                    borderRadius: BorderRadius.circular(appRadius.scale),
-                    padding: EdgeInsets.all(appSpace.scale),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 5.scale,
-                      children: [
-                        TextWidget(
-                          text: addresses[index].type,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        TextWidget(
-                          text: addresses[index].phoneNumber,
-                          fontSize: 12.scale,
-                        ),
-                        TextWidget(
-                          text: addresses[index].address,
-                          fontSize: 12.scale,
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (addresses[index].isDefault)
-                    Positioned(
-                      top: 5.scale,
-                      right: 5.scale,
-                      child: Icon(
-                        Icons.check_circle,
-                        color: primary,
-                        size: 24.scale,
-                      ),
-                    )
-                ],
+              final record = addresses[index];
+              return BoxAddressWidget(
+                record: record,
+                onTap: () => _setDefaultAddress(record.id),
               );
             }).toList(),
           ),

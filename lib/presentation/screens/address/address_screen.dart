@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:foxShop/presentation/widgets/box_address_widget.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:foxShop/core/constants/app_colors.dart';
 import 'package:foxShop/core/constants/app_enum.dart';
@@ -13,7 +14,6 @@ import 'package:foxShop/presentation/screens/address/address_state.dart';
 import 'package:foxShop/presentation/screens/create_address/create_address_screen.dart';
 import 'package:foxShop/presentation/screens/update_address/update_address_screen.dart';
 import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
-import 'package:foxShop/presentation/widgets/box_widget.dart';
 import 'package:foxShop/presentation/widgets/button_widget.dart';
 import 'package:foxShop/presentation/widgets/error_type_widget.dart';
 import 'package:foxShop/presentation/widgets/text_widget.dart';
@@ -170,46 +170,9 @@ class AddressScreenState extends State<AddressScreen>
                   ),
                 ],
               ),
-              child: Stack(
-                children: [
-                  BoxWidget(
-                    width: double.infinity,
-                    onTap: () => _setDefaultAddress(record.id),
-                    borderRadius: BorderRadius.circular(appRadius.scale),
-                    padding: EdgeInsets.all(appSpace.scale),
-                    child: Column(
-                      spacing: 5.scale,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextWidget(
-                          text: record.type,
-                          fontSize: 14.scale,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        TextWidget(
-                          text: record.phoneNumber,
-                          fontSize: 12.scale,
-                          color: textColor,
-                        ),
-                        TextWidget(
-                          text: record.address,
-                          fontSize: 12,
-                          color: textColor,
-                        )
-                      ],
-                    ),
-                  ),
-                  if (record.isDefault)
-                    Positioned(
-                      top: 5.scale,
-                      right: 5.scale,
-                      child: Icon(
-                        Icons.check_circle,
-                        color: primary,
-                        size: 24.scale,
-                      ),
-                    )
-                ],
+              child: BoxAddressWidget(
+                record: record,
+                onTap: () => _setDefaultAddress(record.id),
               ),
             ),
           );

@@ -77,4 +77,22 @@ class CheckOutRepositoryImpl implements CheckOutRepository {
       return Result.left(Failure(error.toString()));
     }
   }
+
+  @override
+  Future<Result<AddressModel, Failure>> setDefaultAddress(
+      {Map<String, dynamic>? parameters}) async {
+    try {
+      final result = await _apiClient.setDefaultAddress(parameters: parameters);
+      if (result.status != 'success') {
+        return Result.left(Failure(result.message));
+      }
+      var record = AddressModel.fromJson(result.data);
+      return Result.right(
+        record,
+        message: result.message,
+      );
+    } catch (error) {
+      return Result.left(Failure(error.toString()));
+    }
+  }
 }

@@ -16,4 +16,8 @@ abstract class CheckOutRepository {
   Future<Result<List<ProductCartModel>, Failure>> getProductCarts({
     Map<String, dynamic>? parameters,
   });
+
+  Future<Result<AddressModel, Failure>> setDefaultAddress({
+    Map<String, dynamic>? parameters,
+  });
 }
