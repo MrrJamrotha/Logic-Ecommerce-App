@@ -64,4 +64,7 @@ abstract class Api {
   //Order
   Future<BaseResponse> getMyOrder({Map<String, dynamic>? parameters});
   Future<BaseResponse> getOrderDetail({Map<String, dynamic>? parameters});
+
+  //Write review
+  Future<BaseResponse> writeReview({Map<String, dynamic>? parameters});
 }

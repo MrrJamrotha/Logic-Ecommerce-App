@@ -7,6 +7,7 @@ import 'package:foxShop/core/constants/app_colors.dart';
 import 'package:foxShop/core/constants/app_icons.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/helper/loading_overlay.dart';
 import 'package:foxShop/presentation/screens/write_review/write_review_cubit.dart';
 import 'package:foxShop/presentation/screens/write_review/write_review_state.dart';
 import 'package:foxShop/presentation/widgets/app_bar_widget.dart';
@@ -15,9 +16,10 @@ import 'package:foxShop/presentation/widgets/icon_widget.dart';
 import 'package:foxShop/presentation/widgets/text_widget.dart';
 
 class WriteReviewScreen extends StatefulWidget {
-  const WriteReviewScreen({super.key});
+  const WriteReviewScreen({super.key, required this.parameters});
   static const routeName = 'write_review';
   static const routePath = '/write_review';
+  final Map<String, dynamic> parameters;
 
   @override
   WriteReviewScreenState createState() => WriteReviewScreenState();
@@ -29,15 +31,24 @@ class WriteReviewScreenState extends State<WriteReviewScreen> {
   final _commentCtr = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    screenCubit.loadInitialData();
-    super.initState();
-  }
-
   Future<void> uploadReview() async {
     if (_formKey.currentState!.validate()) {
-      //TODO: check
+      try {
+        LoadingOverlay.show(context);
+        final result = await screenCubit.uploadReview(parameters: {
+          'product_id': widget.parameters['product_id'],
+          'comment': _commentCtr.text.trim(),
+          'total_star': _rating.value.toString(),
+        });
+        LoadingOverlay.hide();
+        if (result) {
+          if (!mounted) return;
+          Navigator.pop(context);
+        }
+      } catch (e) {
+        LoadingOverlay.hide();
+        throw Exception(e);
+      }
     }
   }
 

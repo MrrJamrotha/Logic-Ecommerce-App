@@ -145,18 +145,18 @@ class ReviewProductScreenState extends State<ReviewProductScreen> {
             ),
           ),
         ),
-        SliverPadding(
-          padding: EdgeInsets.all(appPedding.scale),
-          sliver: SliverList.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(bottom: appSpace.scale),
-                child: CardUserReview(pictures: []),
-              );
-            },
-          ),
-        )
+        // SliverPadding(
+        //   padding: EdgeInsets.all(appPedding.scale),
+        //   sliver: SliverList.builder(
+        //     itemCount: 10,
+        //     itemBuilder: (context, index) {
+        //       return Padding(
+        //         padding: EdgeInsets.only(bottom: appSpace.scale),
+        //         child: CardUserReview(pictures: []),
+        //       );
+        //     },
+        //   ),
+        // )
       ],
     );
   }

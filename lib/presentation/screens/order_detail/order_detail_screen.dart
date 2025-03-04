@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foxShop/core/constants/app_enum.dart';
 import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/data/models/order_detail_model.dart';
 import 'package:foxShop/data/models/order_line_model.dart';
 import 'package:foxShop/presentation/widgets/error_type_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -42,7 +43,8 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
     super.initState();
   }
 
-  showModelProductWriteReview() {
+  showModelProductWriteReview(OrderDetailModel? record) {
+    final records = record?.orderLines ?? [];
     showModalBottomSheet(
       backgroundColor: appWhite,
       isScrollControlled: true,
@@ -66,14 +68,15 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
                   fontSize: 18.scale,
                 ),
                 Divider(),
-                ListView.builder(
+                ListView.separated(
                   shrinkWrap: true,
-                  itemCount: 2,
+                  itemCount: records.length,
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: appSpace.scale,
+                  ),
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: appSpace.scale),
-                      child: _buildListWriteReview(),
-                    );
+                    final line = records[index];
+                    return _buildListWriteReview(line);
                   },
                 ),
               ],
@@ -245,7 +248,7 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
             width: double.infinity,
             title: 'write_reviw'.tr,
             onPressed: () {
-              showModelProductWriteReview();
+              showModelProductWriteReview(record);
             },
           )
         ],
@@ -253,11 +256,13 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
     );
   }
 
-  BoxWidget _buildListWriteReview() {
+  BoxWidget _buildListWriteReview(OrderLineModel line) {
     return BoxWidget(
       onTap: () {
-        Navigator.pushNamed(context, WriteReviewScreen.routeName);
         Navigator.pop(context);
+        Navigator.pushNamed(context, WriteReviewScreen.routeName, arguments: {
+          'product_id': line.productId,
+        });
       },
       padding: EdgeInsets.all(appSpace.scale),
       borderRadius: BorderRadius.circular(appRadius.scale),
@@ -266,21 +271,21 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
+            spacing: appSpace.scale,
             children: [
               CatchImageNetworkWidget(
                 borderRadius: BorderRadius.circular(appRadius.scale),
                 boxFit: BoxFit.cover,
-                width: 100.scale,
-                height: 100.scale,
-                imageUrl:
-                    'https://crdms.images.consumerreports.org/prod/products/cr/models/399694-smartphones-apple-iphone-11-10008711.png',
-                blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                width: 80.scale,
+                height: 80.scale,
+                imageUrl: line.picture,
+                blurHash: line.pictureHash,
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: 5.scale,
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -288,13 +293,13 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: 'IPhone 16 pro ',
+                          text: '${line.name} ',
                           style: TextStyle(
                             fontSize: 14.scale,
                           ),
                         ),
                         TextSpan(
-                          text: 'x 2',
+                          text: 'x ${line.quantity}',
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 14.scale,
@@ -303,19 +308,22 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
                       ],
                     ),
                   ),
-                  Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontSize: 14.scale,
-                        color: textColor,
+                  if (line.sizeName.isNotEmpty && line.colorName.isNotEmpty)
+                    Text.rich(
+                      TextSpan(
+                        style: TextStyle(
+                          fontSize: 14.scale,
+                          color: textColor,
+                        ),
+                        children: [
+                          if (line.colorName.isNotEmpty)
+                            TextSpan(text: line.colorName),
+                          if (line.colorName.isNotEmpty) TextSpan(text: ' | '),
+                          if (line.sizeName.isNotEmpty)
+                            TextSpan(text: line.sizeName),
+                        ],
                       ),
-                      children: [
-                        TextSpan(text: 'Blue'),
-                        TextSpan(text: ' | '),
-                        TextSpan(text: '128 GB'),
-                      ],
                     ),
-                  ),
                 ],
               ),
             ],
@@ -344,8 +352,8 @@ class OrderDetailScreenState extends State<OrderDetailScreen> {
           CatchImageNetworkWidget(
             borderRadius: BorderRadius.circular(appRadius.scale),
             boxFit: BoxFit.cover,
-            width: 100.scale,
-            height: 100.scale,
+            width: 80.scale,
+            height: 80.scale,
             imageUrl: record.picture,
             blurHash: record.pictureHash,
           ),

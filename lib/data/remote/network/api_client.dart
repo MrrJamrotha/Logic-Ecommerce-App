@@ -1122,4 +1122,49 @@ class ApiClient implements Api {
       throw Exception(exception);
     }
   }
+
+  @override
+  Future<BaseResponse> writeReview({Map<String, dynamic>? parameters}) async {
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse(ApiEndpoints.writeReview),
+    );
+
+    // Add headers
+    final headers = await ApiInterceptor.modifyHeaders();
+    request.headers.addAll(headers);
+
+    // Add text fields
+    if (parameters != null) {
+      parameters.forEach((key, value) {
+        if (value is String) {
+          request.fields[key] = value;
+        }
+      });
+    }
+
+    // Handle multiple files
+    if (parameters?['xFiles'] != null) {
+      final files = parameters!['xFiles'] as List<XFile>;
+      for (var file in files) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'files[]', // Use 'files[]' to match your API key for multiple files
+          file.path,
+          filename: file.name,
+        ));
+      }
+    }
+
+    // Send request
+    final streamedResponse = await request.send();
+    final response = await http.Response.fromStream(streamedResponse);
+    final body = jsonDecode(response.body);
+
+    return BaseResponse(
+      statusCode: response.statusCode,
+      status: body['status'] ?? "",
+      message: body['message'] ?? "",
+      data: body['record'] ?? "",
+    );
+  }
 }

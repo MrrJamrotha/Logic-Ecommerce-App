@@ -271,10 +271,10 @@ class AppNavigator {
       case WriteReviewScreen.routeName:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            // final parameters = settings.arguments as Map<String, dynamic>;
+            final parameters = settings.arguments as Map<String, dynamic>;
             return WriteReviewScreen(
               key: ValueKey(WriteReviewScreen.routeName),
-              // parameters: parameters,
+              parameters: parameters,
             );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {

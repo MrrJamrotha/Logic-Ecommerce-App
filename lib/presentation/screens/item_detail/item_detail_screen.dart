@@ -263,8 +263,8 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                     child: Column(
                       children: List.generate(
                         itemDetail.reviews.length,
-                        (index) => CardUserReview(
-                            pictures: itemDetail.reviews[index].pictures),
+                        (index) =>
+                            CardUserReview(record: itemDetail.reviews[index]),
                       ),
                     ),
                   ),

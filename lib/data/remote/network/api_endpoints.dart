@@ -67,4 +67,7 @@ class ApiEndpoints {
   //Order
   static final getMyOrder = '$baseUrl/order/get-my-orders';
   static final getOrderDetail = '$baseUrl/order/get-order-detail';
+
+  //Write review
+  static final writeReview = '$baseUrl/review-product/create-review-product';
 }

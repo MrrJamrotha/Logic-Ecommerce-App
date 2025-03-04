@@ -1,24 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/di/injection.dart';
+import 'package:foxShop/data/repositories/write_review/write_review_repository_impl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:foxShop/core/helper/helper.dart';
 import 'package:foxShop/presentation/screens/write_review/write_review_state.dart';
 
 class WriteReviewCubit extends Cubit<WriteReviewState> {
-  WriteReviewCubit() : super(WriteReviewState(isLoading: true));
+  WriteReviewCubit() : super(WriteReviewState(isLoading: false));
   final ImagePicker _imagePicker = ImagePicker();
-  Future<void> loadInitialData() async {
-    final stableState = state;
-    try {
-      emit(state.copyWith(isLoading: true));
-
-      // TODO your code here
-
-      emit(state.copyWith(isLoading: false));
-    } catch (error) {
-      emit(state.copyWith(error: error.toString()));
-      emit(stableState.copyWith(isLoading: false));
-    }
-  }
+  final repos = di.get<WriteReviewRepositoryImpl>();
 
   void selectCamera() async {
     try {
@@ -59,6 +50,30 @@ class WriteReviewCubit extends Cubit<WriteReviewState> {
       emit(state.copyWith(xFiles: updatedList));
     } catch (e) {
       addError(e);
+    }
+  }
+
+  Future<bool> uploadReview({Map<String, dynamic>? parameters}) async {
+    try {
+      bool isSuccess = false;
+
+      await repos.writeReview(parameters: {
+        ...?parameters,
+        'xFiles': state.xFiles,
+      }).then((response) {
+        response.fold((failure) {
+          isSuccess = false;
+          showMessage(message: failure.message, status: MessageStatus.warning);
+          emit(state.copyWith(error: failure.message));
+        }, (success) {
+          isSuccess = true;
+          showMessage(message: response.message ?? "");
+        });
+      });
+      return isSuccess;
+    } catch (error) {
+      addError(error);
+      return false;
     }
   }
 }

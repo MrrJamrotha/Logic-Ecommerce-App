@@ -11,6 +11,7 @@ class ReviewModel {
     required this.avatarHash,
     required this.phoneNumber,
     required this.pictures,
+    required this.date,
   });
 
   final String id;
@@ -21,6 +22,7 @@ class ReviewModel {
   final dynamic avatarHash;
   final String phoneNumber;
   final List<PictureModel> pictures;
+  final String date;
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
     return ReviewModel(
@@ -31,13 +33,11 @@ class ReviewModel {
       avatar: json["avatar"],
       avatarHash: json["avatar_hash"],
       phoneNumber: json["phone_number"] ?? "",
-      pictures: json["pictures"] == null
-          ? []
-          : List<PictureModel>.from(
-              json["pictures"]!.map(
-                (x) => PictureModel.fromJson(x),
-              ),
-            ),
+      pictures: (json["pictures"] as List<dynamic>?)
+              ?.map((item) => PictureModel.fromJson(item))
+              .toList() ??
+          [],
+      date: json["date"] ?? "",
     );
   }
 
