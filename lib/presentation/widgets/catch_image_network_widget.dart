@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:foxShop/core/constants/app_images.dart';
 import 'package:foxShop/core/di/injection.dart';
 
 class CatchImageNetworkWidget extends StatelessWidget {
@@ -50,7 +51,19 @@ class CatchImageNetworkWidget extends StatelessWidget {
         return BlurHash(key: super.key, hash: blurHash);
       },
       errorWidget: (context, url, error) {
-        return Text('Error loading image');
+        return Container(
+          key: super.key,
+          width: height,
+          height: width,
+          decoration: BoxDecoration(
+            borderRadius: borderRadius,
+            image: DecorationImage(
+              image: AssetImage(noImg),
+              fit: boxFit,
+              filterQuality: FilterQuality.high,
+            ),
+          ),
+        );
       },
     );
   }
