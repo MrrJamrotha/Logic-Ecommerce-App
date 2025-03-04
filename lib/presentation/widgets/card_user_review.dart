@@ -4,6 +4,7 @@ import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
 import 'package:foxShop/core/utils/app_format.dart';
 import 'package:foxShop/data/models/review_model.dart';
+import 'package:foxShop/presentation/screens/photo_gallery/photo_gallery_screen.dart';
 import 'package:foxShop/presentation/widgets/box_widget.dart';
 import 'package:foxShop/presentation/widgets/catch_image_network_widget.dart';
 import 'package:foxShop/presentation/widgets/rating_bar_widget.dart';
@@ -21,6 +22,7 @@ class CardUserReview extends StatelessWidget {
       borderRadius: BorderRadius.circular(appRadius.scale),
       padding: EdgeInsets.all(appSpace.scale),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,6 +58,7 @@ class CardUserReview extends StatelessWidget {
             ],
           ),
           TextWidget(
+            textAlign: TextAlign.left,
             text: record.comment,
             fontSize: 12.scale,
             color: textColor,
@@ -63,16 +66,25 @@ class CardUserReview extends StatelessWidget {
           if (record.pictures.isNotEmpty)
             SizedBox(
               height: 120.scale,
-              child: ListView.builder(
+              child: ListView.separated(
                 padding: EdgeInsets.symmetric(
                   vertical: appPedding.scale,
                 ),
                 scrollDirection: Axis.horizontal,
                 itemCount: record.pictures.length,
+                separatorBuilder: (context, index) => SizedBox(
+                  width: appSpace.scale,
+                ),
                 itemBuilder: (context, index) {
                   final pictures = record.pictures[index];
-                  return Padding(
-                    padding: EdgeInsets.only(right: appSpace.scale),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, PhotoGalleryScreen.routeName,
+                          arguments: {
+                            'pictures': record.pictures,
+                            'initialIndex': index,
+                          });
+                    },
                     child: CatchImageNetworkWidget(
                       borderRadius: BorderRadius.circular(appRadius.scale),
                       width: 70.scale,

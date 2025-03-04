@@ -15,6 +15,7 @@ import 'package:foxShop/presentation/screens/merchant_profile/merchant_profile_s
 import 'package:foxShop/presentation/screens/notification/notification_screen.dart';
 import 'package:foxShop/presentation/screens/order/order_screen.dart';
 import 'package:foxShop/presentation/screens/order_detail/order_detail_screen.dart';
+import 'package:foxShop/presentation/screens/photo_gallery/photo_gallery_screen.dart';
 import 'package:foxShop/presentation/screens/product_by_brand/product_by_brand_screen.dart';
 import 'package:foxShop/presentation/screens/product_by_category/product_by_category_screen.dart';
 import 'package:foxShop/presentation/screens/review_product/review_product_screen.dart';
@@ -275,6 +276,21 @@ class AppNavigator {
             return WriteReviewScreen(
               key: ValueKey(WriteReviewScreen.routeName),
               parameters: parameters,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return _st(animation, child);
+          },
+        );
+
+      case PhotoGalleryScreen.routeName:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            final parameters = settings.arguments as Map<String, dynamic>;
+            return PhotoGalleryScreen(
+              key: ValueKey(PhotoGalleryScreen.routeName),
+              pictures: parameters['pictures'],
+              initialIndex: parameters['initialIndex'],
             );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
