@@ -126,5 +126,7 @@ final Map<String, String> en = {
   'remove_from_cart': 'Remove from cart',
   'are_you_sure_to_remove_this_item': 'Are you sure to remove this item',
   'no_suggestions': 'No suggestions.',
-  'preview_image': 'Preview image'
+  'preview_image': 'Preview image',
+  'add_to_cart_success': 'Add to cart successfuly',
+  'update_cart_success': 'Update cart successfuly',
 };

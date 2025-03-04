@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foxShop/core/constants/app_colors.dart';
 import 'package:foxShop/core/constants/app_enum.dart';
+import 'package:foxShop/core/constants/app_icons.dart';
 import 'package:foxShop/core/constants/app_space.dart';
 import 'package:foxShop/core/helper/helper.dart';
+import 'package:foxShop/core/helper/loading_overlay.dart';
 import 'package:foxShop/core/utils/app_format.dart';
+import 'package:foxShop/presentation/screens/cart/cart_cubit.dart';
 import 'package:foxShop/presentation/screens/fetching_items/fetching_items_screen.dart';
 import 'package:foxShop/presentation/screens/item_detail/item_detail_cubit.dart';
 import 'package:foxShop/presentation/screens/item_detail/item_detail_state.dart';
@@ -16,6 +19,7 @@ import 'package:foxShop/presentation/widgets/card_user_review.dart';
 import 'package:foxShop/presentation/widgets/carousel_slider_widget.dart';
 import 'package:foxShop/presentation/widgets/catch_image_network_widget.dart';
 import 'package:foxShop/presentation/widgets/error_type_widget.dart';
+import 'package:foxShop/presentation/widgets/icon_widget.dart';
 import 'package:foxShop/presentation/widgets/list_product_horizontal_widget.dart';
 import 'package:foxShop/presentation/widgets/rating_bar_widget.dart';
 import 'package:foxShop/presentation/widgets/row_view_more_widget.dart';
@@ -32,7 +36,7 @@ class ItemDetailScreen extends StatefulWidget {
 
 class ItemDetailScreenState extends State<ItemDetailScreen> {
   final screenCubit = ItemDetailCubit();
-
+  final _quantity = ValueNotifier(1);
   @override
   void initState() {
     screenCubit.loadInitialData(parameters: {
@@ -43,7 +47,43 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
       'category_id': widget.parameters['category_id'],
       'brand_id': widget.parameters['brand_id'],
     });
+
+    var products = context.read<CartCubit>().state.productCarts ?? [];
+    var index = products
+        .indexWhere((e) => e.productId == widget.parameters['product_id']);
+    if (index != -1) {
+      _quantity.value = AppFormat.toInt(products[index].quantity);
+    }
+
     super.initState();
+  }
+
+  void _handleQuantityChange() async {
+    try {
+      LoadingOverlay.show(context);
+      var products = context.read<CartCubit>().state.productCarts ?? [];
+      var index = products
+          .indexWhere((e) => e.productId == widget.parameters['product_id']);
+      if (index != -1) {
+        await context.read<CartCubit>().updateCart(parameters: {
+          'id': products[index].id,
+          'quantity': _quantity.value.toString(),
+          'product_id': widget.parameters['product_id'],
+        });
+        showMessage(message: 'update_cart_success'.tr);
+      } else {
+        await context.read<CartCubit>().toggleCart(parameters: {
+          'quantity': _quantity.value.toString(),
+          'product_id': widget.parameters['product_id'],
+        });
+        showMessage(message: 'add_to_cart_success'.tr);
+      }
+
+      LoadingOverlay.hide();
+    } catch (e) {
+      LoadingOverlay.hide();
+      throw Exception(e);
+    }
   }
 
   @override
@@ -174,11 +214,46 @@ class ItemDetailScreenState extends State<ItemDetailScreen> {
                     ),
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        if (_quantity.value > 1) {
+                          _quantity.value--;
+                        }
+                      },
+                      icon: IconWidget(
+                        assetName: removeSvg,
+                        width: 24.scale,
+                        height: 24.scale,
+                      ),
+                    ),
+                    ValueListenableBuilder(
+                      valueListenable: _quantity,
+                      builder: (context, value, child) {
+                        return TextWidget(
+                          text: value.toString(),
+                          fontSize: 18.scale,
+                          fontWeight: FontWeight.w700,
+                        );
+                      },
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        _quantity.value++;
+                      },
+                      icon: IconWidget(
+                        assetName: addSvg,
+                        width: 24.scale,
+                        height: 24.scale,
+                      ),
+                    ),
+                  ],
+                ),
                 ButtonWidget(
                   title: 'add_to_cart'.tr,
-                  onPressed: () {
-                    // TODO your code here
-                  },
+                  onPressed: () => _handleQuantityChange(),
                 ),
                 ExpansionTile(
                   tilePadding: EdgeInsets.zero,
